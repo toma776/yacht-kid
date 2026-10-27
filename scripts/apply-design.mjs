@@ -314,6 +314,22 @@ const businessForm = await upsert('formulare', 'formular:comercial', {
     ]}
 });
 
+// Capitolele din „De ce”: paragrafele site-ului vechi, fiecare cu titlu (titlurile EN = AI) și o fotografie de la parter
+const shop = async (file, alt) => `<figure><img data-media="${await mediaId(`2025/03/${file}`)}" alt="${alt}"></figure>`;
+const CH_IMG = [
+  await shop('spatii_comerciale_0703_2.jpg', 'Curtea interioară YACHT KID, cu spațiile comerciale la parter'),
+  await shop('spatii_comerciale_0703_24.jpg', 'Clinica AMCOR – Complete Dentistry, deschisă la parterul YACHT KID'),
+  await shop('spatii_comerciale_0703_8.jpg', 'Salonul MOB – Ministry of Beauty, la parterul YACHT KID')
+];
+const para = html => html.match(/<p>[\s\S]*?<\/p>/g);
+const [whyRo, whyEn] = [para(WHY.ro), para(WHY.en)];
+const CHAPTERS = {
+  ro: `<blockquote><p>${whyRo[3].replace(/<\/?p>/g, '')}</p></blockquote>` +
+    `<h3>Locație și oportunitate</h3>${whyRo[0]}${CH_IMG[0]}<h3>Investiție sigură și rentabilă</h3>${whyRo[1]}${CH_IMG[1]}<h3>Pentru orice tip de afacere</h3>${whyRo[2]}${CH_IMG[2]}`,
+  en: `<blockquote><p>${whyEn[3].replace(/<\/?p>/g, '')}</p></blockquote>` +
+    `<h3>Location and opportunity</h3>${whyEn[0]}${CH_IMG[0]}<h3>A safe, profitable investment</h3>${whyEn[1]}${CH_IMG[1]}<h3>Room for every kind of business</h3>${whyEn[2]}${CH_IMG[2]}`
+};
+
 const COMMERCIAL = [
   {key: 'comercial-hero', kind: 'hero', base: {video: lifestyleVideo, video_start: 0},
     ro: {eyebrow: 'Spații comerciale', heading: 'Afacerea ta, în nordul Bucureștiului',
@@ -321,9 +337,13 @@ const COMMERCIAL = [
       buttons: [btn('Solicită ofertă', '#contact'), btn('Video de prezentare', '#video')]},
     en: {eyebrow: 'Commercial spaces', buttons: [btn('Get offer', '#contact'), btn('Presentation video', '#video')]},
     ai: {heading: 'Your business in northern Bucharest', text: '<p>Flexible, visible spaces in a thriving community.</p>'}},
-  {key: 'comercial-avantaje', kind: 'avantaje', anchor: 'de-ce', links: {features: benefits},
-    ro: {eyebrow: 'Spații comerciale', heading: 'De ce să alegi comunitatea Yacht Kid?', text: WHY.ro},
-    en: {eyebrow: 'Commercial spaces', heading: 'Why Choose YACHT KID Community?', text: WHY.en}},
+  // „De ce”: textul lung, în capitole cu acordeon și fotografie (ca Despre pe homepage); fraza de final e citatul
+  {key: 'comercial-de-ce', kind: 'text', anchor: 'de-ce',
+    ro: {eyebrow: 'Spații comerciale', heading: 'De ce să alegi comunitatea Yacht Kid?', text: CHAPTERS.ro},
+    en: {eyebrow: 'Commercial spaces', heading: 'Why Choose YACHT KID Community?', text: CHAPTERS.en}},
+  {key: 'comercial-avantaje', kind: 'avantaje', anchor: 'avantaje', links: {features: benefits},
+    ro: {eyebrow: 'Avantaje', heading: 'Ce câștigă afacerea ta', text: null}, en: {text: null},
+    ai: {eyebrow: 'Advantages', heading: 'What your business gains'}},
   {key: 'comercial-fisa', kind: 'fisa-tehnica', anchor: 'caracteristici', base: {unit_type: U.comercial},
     ro: {eyebrow: 'Spații comerciale', heading: 'Caracteristici'}, en: {eyebrow: 'Commercial spaces', heading: 'Features'}},
   {key: 'comercial-branduri', kind: 'afaceri', anchor: 'branduri', base: {business_filter: 'toate'},
