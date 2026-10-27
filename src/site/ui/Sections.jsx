@@ -39,7 +39,7 @@ async function Hero({ctx, s, values, next}) {
   return (
     <section className="hero on-dark" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden="true">
-        {video ? <video autoPlay muted loop playsInline preload="metadata" poster={bg.poster ?? ctx.media(s.image)} data-hero-video><source src={bg.src} type="video/mp4"/></video>
+        {video ? <video autoPlay muted loop playsInline preload="metadata" poster={bg.poster ?? ctx.media(s.image)} data-hero-video><source src={s.video_start ? `${bg.src}#t=${s.video_start}` : bg.src} type="video/mp4"/></video>
           : s.image && <img src={ctx.media(s.image)} alt=""/>}
       </div>
       <div className="hero-inner wrap">

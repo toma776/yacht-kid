@@ -149,3 +149,13 @@ test('fiecare tip din documentul de entități există în registru', () => {
   assert.ok(declared.length >= 15);
   for (const k of declared) assert.ok(entity(k), `${k} e în docs/01-entitati.md, dar nu în registru`);
 });
+
+test('migrarea pe o bază veche: o coloană nouă cu index se adaugă înainte de index', () => {
+  const db = new DatabaseSync(':memory:');
+  migrate(db);
+  // Baza „de ieri”: fără logo-ul premiilor (coloană nouă în registru, cu index)
+  db.exec('DROP INDEX "ix_awards_logo_id"; ALTER TABLE awards DROP COLUMN logo_id');
+  assert.doesNotThrow(() => migrate(db));
+  assert.ok(db.prepare('PRAGMA table_info(awards)').all().some(c => c.name === 'logo_id'));
+  assert.ok(db.prepare(`SELECT 1 FROM sqlite_master WHERE name = 'ix_awards_logo_id'`).get());
+});

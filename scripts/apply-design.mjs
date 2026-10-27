@@ -270,9 +270,10 @@ const benefits = [];
 for (const [i, [[tRo, xRo], [tEn, xEn]]] of BENEFITS.entries())
   benefits.push(await upsert('avantaje', `avantaj:comercial-${i + 1}`, {base: {group: 'avantaje'}, status: 'published',
     tr: {ro: {title: tRo, text: xRo}, en: {title: tEn, text: xEn}}}));
+// Introducerea lungă de pe site-ul vechi nu încape în hero (standardul: titlu 3 rânduri, subtitlu 2): deschide „De ce”
 const WHY = {
-  ro: '<p>Bucură-te de o investiție imobiliară sigură și rentabilă, într-o comunitate selectă, care îți garantează un randament atractiv și un venit pasiv stabil. Cu un design inovator, spații modernizate și o locație de excepție, YACHT KID este alegerea perfectă pentru cei care vor să își diversifice portofoliul și să își dezvolte afacerea într-un mediu exclusivist.</p><p>Indiferent dacă vrei să deschizi un magazin de lux, un showroom modern, un spațiu dedicat serviciilor premium, sau să faci o investiție sigură, aici găsești cadrul ideal pentru succes.</p><p>Alege un spațiu care îți crește afacerea și îți maximizează investiția. Alege YACHT KID.</p>',
-  en: '<p>Join an exclusive community that guarantees attractive returns and stable passive income. With innovative design, modernized spaces, and a premium location, YACHT KID is the ideal choice for those looking to diversify their portfolio and expand their business in a high-end environment.</p><p>Whether you’re planning to open a luxury boutique, an exclusive showroom, a premium service space, or secure a profitable investment, this is the perfect setting for success.</p><p>Choose a space that accelerates your business growth and maximizes your investment. Choose YACHT KID.</p>'
+  ro: '<p>Descoperă colecția de spații comerciale YACHT KID, proiectate pentru a-ți oferi flexibilitate maximă și adaptabilitate perfectă la nevoile afacerii tale. Fie că ești antreprenor în căutarea unui spațiu ideal sau investitor în căutarea unei oportunități sigure și profitabile, comunitatea YACHT KID îți oferă acces la una dintre cele mai dinamice și prospere zone ale capitalei.</p><p>Bucură-te de o investiție imobiliară sigură și rentabilă, într-o comunitate selectă, care îți garantează un randament atractiv și un venit pasiv stabil. Cu un design inovator, spații modernizate și o locație de excepție, YACHT KID este alegerea perfectă pentru cei care vor să își diversifice portofoliul și să își dezvolte afacerea într-un mediu exclusivist.</p><p>Indiferent dacă vrei să deschizi un magazin de lux, un showroom modern, un spațiu dedicat serviciilor premium, sau să faci o investiție sigură, aici găsești cadrul ideal pentru succes.</p><p>Alege un spațiu care îți crește afacerea și îți maximizează investiția. Alege YACHT KID.</p>',
+  en: '<p>Discover the YACHT KID collection of commercial spaces, designed for maximum flexibility and seamless adaptability to your business needs. Whether you’re an entrepreneur searching for the perfect space or an investor looking for a secure and profitable opportunity, the YACHT KID Community offers access to one of the most dynamic and thriving areas in the capital.</p><p>Join an exclusive community that guarantees attractive returns and stable passive income. With innovative design, modernized spaces, and a premium location, YACHT KID is the ideal choice for those looking to diversify their portfolio and expand their business in a high-end environment.</p><p>Whether you’re planning to open a luxury boutique, an exclusive showroom, a premium service space, or secure a profitable investment, this is the perfect setting for success.</p><p>Choose a space that accelerates your business growth and maximizes your investment. Choose YACHT KID.</p>'
 };
 // Formularul pentru afaceri (nu pentru cei care caută un apartament): firmă, domeniu, suprafață, scop.
 // Structura e una; etichetele EN sunt traduse de AI (de verificat), ca restul textelor noi.
@@ -309,13 +310,12 @@ const businessForm = await upsert('formulare', 'formular:comercial', {
 });
 
 const COMMERCIAL = [
-  {key: 'comercial-hero', kind: 'hero', base: {video: lifestyleVideo},
-    ro: {eyebrow: 'Spații comerciale', heading: 'Extinde-ți afacerea într-o locație de top din nordul Bucureștiului!',
-      text: '<p>Descoperă colecția de spații comerciale YACHT KID, proiectate pentru a-ți oferi flexibilitate maximă și adaptabilitate perfectă la nevoile afacerii tale. Fie că ești antreprenor în căutarea unui spațiu ideal sau investitor în căutarea unei oportunități sigure și profitabile, comunitatea YACHT KID îți oferă acces la una dintre cele mai dinamice și prospere zone ale capitalei.</p>',
+  {key: 'comercial-hero', kind: 'hero', base: {video: lifestyleVideo, video_start: 0},
+    ro: {eyebrow: 'Spații comerciale', heading: 'Afacerea ta, în nordul Bucureștiului',
+      text: '<p>Spații flexibile, vizibile, într-o comunitate prosperă.</p>',
       buttons: [btn('Solicită ofertă', '#contact'), btn('Video de prezentare', '#video')]},
-    en: {eyebrow: 'Commercial spaces', heading: 'Expand Your Business in a Top Northern Bucharest Location!',
-      text: '<p>Discover the YACHT KID collection of commercial spaces, designed for maximum flexibility and seamless adaptability to your business needs. Whether you’re an entrepreneur searching for the perfect space or an investor looking for a secure and profitable opportunity, the YACHT KID Community offers access to one of the most dynamic and thriving areas in the capital.</p>',
-      buttons: [btn('Get offer', '#contact'), btn('Presentation video', '#video')]}},
+    en: {eyebrow: 'Commercial spaces', buttons: [btn('Get offer', '#contact'), btn('Presentation video', '#video')]},
+    ai: {heading: 'Your business in northern Bucharest', text: '<p>Flexible, visible spaces in a thriving community.</p>'}},
   {key: 'comercial-avantaje', kind: 'avantaje', anchor: 'de-ce', links: {features: benefits},
     ro: {eyebrow: 'Spații comerciale', heading: 'De ce să alegi comunitatea Yacht Kid?', text: WHY.ro},
     en: {eyebrow: 'Commercial spaces', heading: 'Why Choose YACHT KID Community?', text: WHY.en}},
@@ -330,9 +330,26 @@ const COMMERCIAL = [
 ];
 const commercialIds = [];
 for (const s of COMMERCIAL)
-  commercialIds.push(await upsert('sectiuni', `sectiune:${s.key}`, {base: {kind: s.kind, anchor: s.anchor ?? null, ...(s.base ?? {})}, tr: {ro: s.ro, en: s.en}, links: s.links}));
+  commercialIds.push(await upsert('sectiuni', `sectiune:${s.key}`, {base: {kind: s.kind, anchor: s.anchor ?? null, ...(s.base ?? {})}, tr: {ro: s.ro, en: s.en}, links: s.links, ai: s.ai ?? {}}));
 // Descrierea rămâne textul „De ce” (importul lipise acolo și două texte de avantaje, fără titluri)
 await saveEntity(db, 'locuinte', U.comercial, {links: {sections: commercialIds}, tr: {ro: {description: WHY.ro}, en: {description: WHY.en}}}, {user: USER});
+
+// ---------- 7c. Hero-ul standard pe Tehnologie și Comunitate (ca pe homepage: un ecran, titlu 3 rânduri, subtitlu 2).
+// Restul conținutului acestor pagini nu e încă importat; hero-ul e prima lor secțiune. EN = traducere AI.
+const PAGE_HEROES = [
+  {page: P.tehnologie, key: 'tehnologie-hero', video: await mediaId('2024/11/Prezentare-Yacht-KID.mp4'), start: 0,
+    ro: {eyebrow: 'Tehnologie', heading: 'Siguranță construită în structură', text: '<p>Rezistă unei accelerații cu 50% peste cutremurul din ’77.</p>'},
+    en: {eyebrow: 'Technology'}, ai: {heading: 'Safety built into the structure', text: '<p>Withstands 50% more acceleration than the 1977 earthquake.</p>'}},
+  {page: P.comunitate, key: 'comunitate-hero', video: lifestyleVideo, start: 64,
+    ro: {eyebrow: 'Comunitate', heading: 'Bine ai venit în comunitatea YACHT KID', text: '<p>Descoperă stilul de viață visat, chiar la tine acasă.</p>'},
+    en: {eyebrow: 'Community'}, ai: {heading: 'Welcome to the YACHT KID community', text: '<p>Discover the lifestyle you dreamed of, right at home.</p>'}}
+];
+for (const h of PAGE_HEROES) {
+  const id = await upsert('sectiuni', `sectiune:${h.key}`, {base: {kind: 'hero', anchor: null, video: h.video, video_start: h.start},
+    tr: {ro: {...h.ro, buttons: [btn('Solicită ofertă', ref('pagini', P.contact)), btn('Video de prezentare', '#video')]},
+      en: {...h.en, buttons: [btn('Get offer', ref('pagini', P.contact)), btn('Presentation video', '#video')]}}, ai: h.ai});
+  await saveEntity(db, 'pagini', h.page, {links: {sections: [id]}}, {user: USER});
+}
 
 // ---------- 8. Traducerile AI: proveniența devine „inferred”, de verificat de un om (§1.5)
 await db.execute({sql: `UPDATE provenance SET certainty = 'inferred', method = 'ai-translation', verified_at = NULL, verified_by = NULL

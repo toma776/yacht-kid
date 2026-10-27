@@ -187,20 +187,28 @@ const alterFor = (table, fields, have) => (have.size ? fields.filter(f => !have.
 export const missingColumns = db => migrationTargets()
   .flatMap(([t, fields]) => alterFor(t, fields, new Set(db.prepare(`PRAGMA table_info(${q(t)})`).all().map(c => c.name))));
 
+// Ordinea contează pe o bază existentă: tabelele, apoi coloanele noi (ALTER), abia apoi indexurile —
+// un index pe o coloană adăugată acum în registru ar eșua înainte ca ALTER-ul să o creeze
+const isIndex = s => /^CREATE (UNIQUE )?INDEX/i.test(s.trim());
+
 export function migrate(db) {
   db.exec('PRAGMA foreign_keys = ON');
-  for (const s of schemaStatements()) db.exec(s);
+  const all = schemaStatements();
+  for (const s of all.filter(s => !isIndex(s))) db.exec(s);
   for (const s of missingColumns(db)) db.exec(s);
+  for (const s of all.filter(isIndex)) db.exec(s);
 }
 
 // Aceeași migrare pe clientul libSQL (local: fișier; producție: Turso)
 export async function migrateClient(client) {
-  await client.batch(schemaStatements(), 'write');
+  const all = schemaStatements();
+  await client.batch(all.filter(s => !isIndex(s)), 'write');
   const alters = [];
   for (const [t, fields] of migrationTargets()) {
     const {rows} = await client.execute(`PRAGMA table_info(${q(t)})`);
     alters.push(...alterFor(t, fields, new Set(rows.map(r => r.name))));
   }
   if (alters.length) await client.batch(alters, 'write');
+  await client.batch(all.filter(isIndex), 'write');
   return alters;
 }

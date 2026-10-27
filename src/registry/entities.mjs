@@ -11,6 +11,8 @@
 import {localPath} from './langs.mjs';
 
 const T = {translatable: true};
+// Hero-ul standard: titlul încape în 3 rânduri, subtitlul în 2 (măsurat pe homepage, 39 și 63 de caractere)
+export const HERO_LIMITS = {heading: 42, text: 65};
 const SEO = [
   {key: 'seo_title', label: 'Titlu SEO', type: 'text', max: 70, ...T},
   {key: 'seo_description', label: 'Descriere SEO', type: 'textarea', max: 170, ...T}
@@ -118,7 +120,8 @@ export const ENTITIES = [
       {key: 'distinction', label: 'Distincția', type: 'text', required: true, ...T, help: 'De exemplu „Excellent Architecture”, „Honorable Mention”.'},
       {key: 'category_name', label: 'Categoria din competiție', type: 'text', ...T},
       {key: 'url', label: 'Pagina oficială', type: 'url'},
-      {key: 'badge', label: 'Insigna', type: 'image'},
+      {key: 'badge', label: 'Insigna', type: 'image', help: 'Sigiliul primit de proiect („Winner 2025”), de la organizator.'},
+      {key: 'logo', label: 'Logo-ul competiției', type: 'image', help: 'Marca oficială a competiției, pentru banda de premii; se afișează monocrom.'},
       {key: 'organizer', label: 'Organizator', type: 'ref', target: 'parteneri', rel: 'e organizat de', inverseLabel: 'Premii organizate',
        only: p => hasRole(p, 'organizator')}
     ],
@@ -318,8 +321,26 @@ export const ENTITIES = [
       {key: 'post_category', label: 'Din categoria', type: 'ref', target: 'categorii', kinds: ['articole'],
        rel: 'listează articolele din', inverseLabel: 'Secțiuni'},
       {key: 'limit', label: 'Câte', type: 'int', kinds: ['articole', 'premii', 'afaceri']},
-      {key: 'form', label: 'Formular', type: 'ref', target: 'formulare', kinds: ['formular', 'cta'], rel: 'conține formularul', inverseLabel: 'Secțiuni'}
-    ]
+      {key: 'form', label: 'Formular', type: 'ref', target: 'formulare', kinds: ['formular', 'cta'], rel: 'conține formularul', inverseLabel: 'Secțiuni'},
+      {key: 'video_start', label: 'Video: pornește de la (secunde)', type: 'int', min: 0, kinds: ['hero'],
+       help: 'Același video poate deschide pagini diferite din momente diferite.'}
+    ],
+    // Standardul hero-ului (homepage, Tehnologie, Comunitate, Spații comerciale): un ecran, titlul în cel mult 3 rânduri,
+    // subtitlul în cel mult 2. Textele mai lungi întind hero-ul peste ecran, deci se opresc aici.
+    // Se refuză doar limba salvată acum; o altă limbă prea lungă e doar avertisment (nu blochează o corectură în RO)
+    validate(rec, {tr, changed} = {}) {
+      if (rec.kind !== 'hero') return [];
+      const plain = h => (h ?? '').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+      const errors = [];
+      for (const [lang, t] of Object.entries(tr ?? {})) {
+        const level = !changed || changed.includes(lang) ? 'error' : 'warning';
+        if (plain(t.heading).length > HERO_LIMITS.heading)
+          errors.push({field: 'heading', lang, level, message: `Titlul hero-ului (${lang}) are cel mult ${HERO_LIMITS.heading} de caractere (3 rânduri).`});
+        if (plain(t.text).length > HERO_LIMITS.text)
+          errors.push({field: 'text', lang, level, message: `Subtitlul hero-ului (${lang}) are cel mult ${HERO_LIMITS.text} de caractere (2 rânduri); restul textului merge în secțiunea următoare.`});
+      }
+      return errors;
+    }
   },
 
   // ───────────── Site ─────────────

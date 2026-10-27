@@ -137,7 +137,7 @@ export async function saveEntity(db, key, id, {base = {}, tr = {}, links = {}, s
     const afterTr = Object.fromEntries(LANGS.map(l => [l, before.tr[l] || trSet[l] ? {...(before.tr[l] ?? {}), ...(trSet[l] ?? {})} : null]).filter(([, v]) => v));
     const rec = view(key, afterBase, afterTr[DEFAULT_LANG]);
     const trViews = Object.fromEntries(Object.entries(afterTr).map(([l, t]) => [l, view(key, afterBase, t)]));
-    const checks = [...(e.validate?.(rec, {tr: trViews}) ?? [])];
+    const checks = [...(e.validate?.(rec, {tr: trViews, changed: Object.keys(trSet)}) ?? [])];
     const publishing = !hasStatus(key) || afterBase.status === 'published';
     if (publishing) checks.push(...required(key, afterBase, afterTr));
     const errors = checks.filter(c => c.level !== 'warning');

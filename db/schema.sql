@@ -208,6 +208,7 @@ CREATE TABLE IF NOT EXISTS "awards" (
   "result" TEXT CHECK ("result" IS NULL OR "result" IN ('castigator', 'distinctie', 'mentiune', 'lista-scurta')),
   "url" TEXT,
   "badge_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
+  "logo_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   "organizer_id" INTEGER REFERENCES "partners"(id) ON DELETE SET NULL,
   search TEXT,
   created_at TEXT NOT NULL,
@@ -217,6 +218,8 @@ CREATE TABLE IF NOT EXISTS "awards" (
 );
 
 CREATE INDEX IF NOT EXISTS "ix_awards_badge_id" ON "awards"("badge_id");
+
+CREATE INDEX IF NOT EXISTS "ix_awards_logo_id" ON "awards"("logo_id");
 
 CREATE INDEX IF NOT EXISTS "ix_awards_organizer_id" ON "awards"("organizer_id");
 
@@ -392,6 +395,7 @@ CREATE TABLE IF NOT EXISTS "sections" (
   "post_category_id" INTEGER REFERENCES "categories"(id) ON DELETE SET NULL,
   "limit" INTEGER,
   "form_id" INTEGER REFERENCES "forms"(id) ON DELETE SET NULL,
+  "video_start" INTEGER,
   search TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,

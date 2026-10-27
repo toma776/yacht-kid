@@ -34,6 +34,12 @@ async function resolve(pathname) {
     const file = join(DESIGN, decodeURIComponent(pathname.slice('/design/'.length)), pathname.endsWith('/') ? 'index.html' : '');
     return file.startsWith(DESIGN) && await isFile(file) ? {file} : null;
   }
+  // Fișierele media adăugate în Brain (reference/snapshot/media/brain/…), pentru prototipuri
+  if (pathname.startsWith('/media-store/')) {
+    const root = join(SNAPSHOT, 'media');
+    const file = join(root, decodeURIComponent(pathname.slice('/media-store/'.length)));
+    return file.startsWith(root) && await isFile(file) ? {file} : null;
+  }
   if (/^\/wp-(content|includes)\//.test(pathname)) {
     const {media, asset} = localFile(pathname);
     for (const f of [media, asset]) if (f && await isFile(f)) return {file: f};
