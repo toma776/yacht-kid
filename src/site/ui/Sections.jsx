@@ -83,7 +83,7 @@ async function Facts({ctx, s, values}) {
 }
 
 // Despre: textul are un citat (blockquote) și capitole (h3 + paragrafe + o figură cu legenda „Cifră — explicație”)
-async function Chapters({ctx, s, values, html}) {
+async function Chapters({ctx, s, values, html, run = 0}) {
   const quote = html.match(/<blockquote>([\s\S]*?)<\/blockquote>/)?.[1];
   const parts = html.split(/<h3>/).slice(1).map(p => {
     const title = strip(p.slice(0, p.indexOf('</h3>')));
@@ -93,7 +93,7 @@ async function Chapters({ctx, s, values, html}) {
   });
   const [b1] = await buttons(ctx, s, values);
   return (
-    <section className="about floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+    <section className={`about floor ${run % 2 ? "bg-paper slab" : run ? "bg-porcelain slab" : "bg-porcelain"}`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
         <div className="about-head">
           <div className="about-intro"><Head s={s} values={values} id={`t-${s.id}`}/></div>
@@ -128,9 +128,10 @@ async function Chapters({ctx, s, values, html}) {
   );
 }
 
-async function Text({ctx, s, values}) {
+// run = câte secțiuni text au fost imediat înainte: capitolele consecutive (Tehnologie) alternează fundalul, ca plăci
+async function Text({ctx, s, values, run}) {
   const html = await rich(ctx, s.text, values);
-  if (/<h3>/.test(html) && /<figure>/.test(html)) return Chapters({ctx, s, values, html});
+  if (/<h3>/.test(html) && /<figure>/.test(html)) return Chapters({ctx, s, values, html, run});
   // Un paragraf care e doar adresa (din jetonul {adresa}) devine eticheta cu pictogramă; o figură din text devine
   // imaginea din dreapta (așa, harta poate fi alta pe fiecare limbă)
   const address = values.adresa && html.includes(`<p>${values.adresa}</p>`);
@@ -447,6 +448,9 @@ async function Testimonials({ctx, s, values}) {
     ctx.query('testimoniale', {fields: ['featured'], where: 'e.featured = 1', order: 'e.id'}));
   const [b1] = await buttons(ctx, s, values);
   const text = t => (t.quote_lang === ctx.lang ? t.quote : t.quote_translated || t.quote) ?? '';
+  // Un citat lung se arată tăiat (6 rânduri); „Citește tot” îl desfășoară, fără JavaScript
+  const LONG = 240;
+  const more = ctx.lang === 'en' ? 'Read more' : 'Citește tot';
   return (
     <section className="testimonials floor bg-navy on-dark slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
@@ -457,11 +461,56 @@ async function Testimonials({ctx, s, values}) {
         <ul className="quote-grid">
           {list.filter(t => text(t)).map((t, i) => (
             <li key={t.id} className="quote-card reveal" style={{'--d': `${(i % 3) * 80}ms`}}>
-              <blockquote><p>{text(t)}</p></blockquote>
+              <blockquote className={text(t).length > LONG ? 'is-long' : undefined}>
+                <p>{text(t)}</p>
+                {text(t).length > LONG && <details className="quote-more"><summary>{more}</summary><p>{text(t)}</p></details>}
+              </blockquote>
               <p className="quote-author"><b>{t.author}</b>{t.role && <span>{t.role}</span>}</p>
             </li>
           ))}
         </ul>
+      </div>
+    </section>
+  );
+}
+
+// Tehnologiile: titlul și textul secțiunii (primul paragraf ca lead, o listă ca repere), cardurile din `tehnologii`
+// (pictogramă, titlu, rezumat), apoi furnizorii cu logo (parteneri cu rolul „furnizor”)
+async function Technologies({ctx, s, values}) {
+  const techs = await ctx.links('sectiuni.technologies', s.id);
+  const html = await rich(ctx, s.text, values);
+  const lead = html.match(/<p>[\s\S]*?<\/p>/)?.[0];
+  const points = [...(html.match(/<ul>([\s\S]*?)<\/ul>/)?.[1] ?? '').matchAll(/<li>([\s\S]*?)<\/li>/g)].map(m => strip(m[1]));
+  const suppliers = await ctx.within(`Furnizori (${s.id})`, 'partenerii furnizori cu logo', () =>
+    ctx.query('parteneri', {scope: `sectiuni:${s.id}`, where: `e.logo_id IS NOT NULL AND e.roles LIKE '%furnizor%'`, order: 'e.name COLLATE NOCASE'}));
+  const L = values.__labels ?? {};
+  return (
+    <section className="tech floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap">
+        <div className="section-head section-head--split">
+          <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
+          <div className="tech-copy reveal" style={{'--d': '160ms'}}>
+            {lead && <p className="lead">{strip(lead)}</p>}
+            {points.length > 0 && <ul className="tech-points">{points.map(p => <li key={p}><Icon id="shield" className="icon"/>{p}</li>)}</ul>}
+          </div>
+        </div>
+        <ul className="tech-grid">
+          {techs.map((t, i) => (
+            <li key={t.id} className="tech-card reveal" style={{'--d': `${(i % 3) * 80}ms`}}>
+              {t.image && <span className="tech-icon"><img src={ctx.media(t.image)} alt="" loading="lazy"/></span>}
+              <h3 className="h3">{t.title}</h3>
+              {t.summary && <p>{t.summary}</p>}
+            </li>
+          ))}
+        </ul>
+        {suppliers.length > 0 && (
+          <div className="suppliers reveal">
+            <p className="eyebrow">{L['furnizori'] ?? 'Furnizori și parteneri'}</p>
+            <ul className="supplier-list">
+              {suppliers.map(p => <li key={p.id}>{p.url ? <a href={p.url} target="_blank" rel="noopener"><img src={ctx.media(p.logo)} alt={p.name} loading="lazy"/></a> : <img src={ctx.media(p.logo)} alt={p.name} loading="lazy"/>}</li>)}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -502,16 +551,18 @@ async function Posts({ctx, s, values, first}) {
 }
 
 const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-locuinte': Collection, galerie: Gallery, cta: Cta, formular: ContactForm, articole: Posts,
-  'fisa-tehnica': UnitSpec, afaceri: Businesses, premii: Awards, testimoniale: Testimonials};
+  'fisa-tehnica': UnitSpec, afaceri: Businesses, premii: Awards, testimoniale: Testimonials, tehnologii: Technologies};
 
 export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) {
   const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId));
   const v = {...values, __labels: chrome.labels};
   const out = [];
+  let run = 0;
   for (const [i, s] of sections.entries()) {
+    run = i && sections[i - 1].kind === 'text' && s.kind === 'text' ? run + 1 : 0;
     const C = KINDS[s.kind];
     if (!C) continue;
-    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} next={sections[i + 1]?.anchor || null}/>);
+    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} run={run} next={sections[i + 1]?.anchor || null}/>);
   }
   return out;
 }

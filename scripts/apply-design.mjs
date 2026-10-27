@@ -55,7 +55,7 @@ const pool = await ensureMedia('2024/10/YachtKID-Exterior-v12313.jpg', 'Piscina 
 // ---------- 2. ID-urile din Brain pe care le folosește designul
 const P = {
   home: await idBySlug('pages', ''), blog: await idBySlug('pages', 'blog'), contact: await idBySlug('pages', 'contact'),
-  tehnologie: await idBySlug('pages', 'tehnologie'), comunitate: await idBySlug('pages', 'comunitate'), testimoniale: await idBySlug('pages', 'testimoniale'),
+  tehnologie: await idBySlug('pages', 'tehnologie'), comunitate: await idBySlug('pages', 'comunitate'),
   vizionare: await idBySlug('pages', 'programeaza-o-vizionare'), privacy: await idBySlug('pages', 'politica-de-confidentialitate'),
   cookies: await idBySlug('pages', 'politica-cookies'), terms: await idBySlug('pages', 'termeni-si-conditii')
 };
@@ -140,7 +140,7 @@ const MENU = {
         {label: 'Apartamente 4 camere', to: ref('locuinte', U.ap4)}, {label: 'Apartamente tip duplex', to: ref('locuinte', U.duplex)}, {label: 'Spații comerciale', to: ref('locuinte', U.comercial)}]},
       {label: 'Proiectul', children: [
         {label: 'Despre noi', to: ref('pagini', P.home, '#despre')}, {label: 'Tehnologie', to: ref('pagini', P.tehnologie)}, {label: 'Premii', to: ref('categorii', premii)},
-        {label: 'Comunitate', to: ref('pagini', P.comunitate)}, {label: 'Testimoniale', to: ref('pagini', P.testimoniale), mobile: true}, {label: 'Blog', to: ref('pagini', P.blog)}, {label: 'Contact', to: ref('pagini', P.contact)}]},
+        {label: 'Comunitate', to: ref('pagini', P.comunitate)}, {label: 'Blog', to: ref('pagini', P.blog)}, {label: 'Contact', to: ref('pagini', P.contact)}]},
       {label: 'Informații legale', legal: true, children: [
         {label: 'Politica de confidențialitate', to: ref('pagini', P.privacy)}, {label: 'Politica de cookie-uri', to: ref('pagini', P.cookies)}, {label: 'Termeni și condiții', to: ref('pagini', P.terms)},
         {label: 'ANPC', to: 'https://anpc.ro'}, {label: 'Soluționarea alternativă a litigiilor', to: 'https://anpc.ro/ce-este-sal/'},
@@ -171,7 +171,7 @@ const MENU = {
         {label: '3 Bedroom Apartments', to: ref('locuinte', U.ap4)}, {label: 'Duplex apartments', to: ref('locuinte', U.duplex)}, {label: 'Commercial spaces', to: ref('locuinte', U.comercial)}]},
       {label: 'The project', children: [
         {label: 'About us', to: ref('pagini', P.home, '#despre')}, {label: 'Technology', to: ref('pagini', P.tehnologie)}, {label: 'Awards', to: ref('categorii', premii)},
-        {label: 'Community', to: ref('pagini', P.comunitate)}, {label: 'Testimonials', to: ref('pagini', P.testimoniale), mobile: true}, {label: 'Blog', to: ref('pagini', P.blog)}, {label: 'Contact', to: ref('pagini', P.contact)}]},
+        {label: 'Community', to: ref('pagini', P.comunitate)}, {label: 'Blog', to: ref('pagini', P.blog)}, {label: 'Contact', to: ref('pagini', P.contact)}]},
       {label: 'Legal information', legal: true, children: [
         {label: 'Privacy policy', to: ref('pagini', P.privacy)}, {label: 'Cookie policy', to: ref('pagini', P.cookies)}, {label: 'Terms and conditions', to: ref('pagini', P.terms)},
         {label: 'ANPC', to: 'https://anpc.ro'}, {label: 'Alternative dispute resolution', to: 'https://anpc.ro/ce-este-sal/'},
@@ -409,8 +409,8 @@ const COMMUNITY = [
   {key: 'comunitate-galerie', kind: 'galerie', anchor: 'galerie', links: {gallery: communityGallery},
     ro: {eyebrow: 'Galerie', heading: 'Apartamente finalizate, gata de mutare'}, en: {eyebrow: 'Gallery'}, ai: {heading: 'Finished apartments, ready to move in'}},
   {key: 'comunitate-testimoniale', kind: 'testimoniale', anchor: 'testimoniale', links: {testimonials: residents},
-    ro: {eyebrow: 'Testimoniale', heading: 'Alege o comunitate care spune o poveste', buttons: [btn('Toate testimonialele', ref('pagini', P.testimoniale))]},
-    en: {eyebrow: 'Testimonials', heading: 'Choose a community that tells a story', buttons: [btn('All testimonials', ref('pagini', P.testimoniale))]}},
+    ro: {eyebrow: 'Testimoniale', heading: 'Alege o comunitate care spune o poveste', buttons: []},
+    en: {eyebrow: 'Testimonials', heading: 'Choose a community that tells a story', buttons: []}},
   {key: 'comunitate-vizionare', kind: 'cta', anchor: 'vizionare', base: {image: await mediaId('2024/11/yacht-kid-comunitate-edit-45-1.jpg')},
     ro: {eyebrow: 'Vizionare', heading: 'Descoperă stilul de viață visat în comunitatea YACHT KID.', buttons: [btn('Programează vizionare', ref('pagini', P.vizionare))]},
     en: {eyebrow: 'Viewing', heading: 'Discover your dream lifestyle at YACHT KID COMMUNITY', buttons: [btn('Schedule a viewing', ref('pagini', P.vizionare))]}}

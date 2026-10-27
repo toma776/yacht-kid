@@ -210,8 +210,8 @@ function init(signal) {
 
   // ---------- Capitolele din Despre: unul deschis, cu fotografia lui; se schimbă singure cât timp secțiunea e pe
   // ecran, se opresc la hover/focus și de tot după primul click
-  const chapters = document.querySelector('[data-chapters]');
-  if (chapters) {
+  // (pot fi mai multe pe pagină: Tehnologie are trei)
+  document.querySelectorAll('[data-chapters]').forEach(chapters => {
     const items = [...chapters.querySelectorAll('[data-chapter]')];
     const figures = [...chapters.querySelectorAll('[data-figure]')];
     const STEP = 8000;
@@ -244,7 +244,7 @@ function init(signal) {
     cleanups.push(() => { cio.disconnect(); clearTimeout(timer); });
     show(0);
     if (auto) restartBar();
-  }
+  });
 
   // ---------- „Sus” din subsol
   document.querySelectorAll('[data-to-top]').forEach(a => on(a, 'click', e => { e.preventDefault(); scrollTo({top: 0, behavior: reduced ? 'auto' : 'smooth'}); }));

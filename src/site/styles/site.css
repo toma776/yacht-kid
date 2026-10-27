@@ -723,12 +723,50 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 
 /* Testimonialele, pe banda navy: citatul, apoi autorul și cine este */
 .testimonials .link-arrow { color: #fff; }
-.quote-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); margin-top: var(--stack-5); }
-.quote-card { display: grid; grid-template-rows: 1fr auto; gap: 28px; padding: clamp(24px, 2.6vw, 40px); border: 1px solid rgb(255 255 255 / .16); border-radius: var(--r-l) var(--r-l) var(--r-l) var(--r-band); background: rgb(255 255 255 / .04); }
-.quote-card blockquote { position: relative; margin: 0; padding-top: 44px; }
-.quote-card blockquote::before { content: '\201C'; position: absolute; top: -18px; left: -4px; font-size: 5rem; line-height: 1; font-weight: 700; color: var(--coral); }
-.quote-card blockquote p { font-size: clamp(1rem, .95rem + .25vw, 1.125rem); line-height: 1.6; color: #e6eaf5; }
-.quote-author { display: grid; gap: 2px; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / .16); font-size: var(--fs-small); }
+/* Carduri compacte, în coloane tip „zidărie”: fiecare card are înălțimea citatului, fără goluri între rânduri */
+.quote-grid { columns: 4 240px; column-gap: 14px; margin-top: var(--stack-4); }
+.quote-card { break-inside: avoid; display: grid; gap: 14px; margin-bottom: 14px; padding: 18px 20px 16px; border: 1px solid rgb(255 255 255 / .14); border-radius: var(--r-m) var(--r-m) var(--r-m) var(--r-l); background: rgb(255 255 255 / .04); }
+.quote-card blockquote { margin: 0; }
+.quote-card blockquote::before { content: '\201C'; display: block; height: 18px; font-size: 2.25rem; line-height: 1; font-weight: 700; color: var(--coral); }
+.quote-card blockquote p { font-size: .9375rem; line-height: 1.55; color: #e6eaf5; }
+/* Citatul lung: tăiat la 6 rânduri; deschis, se arată întreg */
+.quote-card blockquote.is-long > p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
+.quote-card blockquote:has(.quote-more[open]) > p { display: none; }
+.quote-more summary { margin-top: 8px; cursor: pointer; font-size: .8125rem; font-weight: 600; letter-spacing: .03em; color: var(--coral-light); list-style: none; }
+.quote-more summary::-webkit-details-marker { display: none; }
+.quote-more[open] summary { order: 2; }
+.quote-more[open] { display: flex; flex-direction: column; }
+.quote-more[open] summary { margin-top: 10px; }
+.quote-author { display: grid; gap: 1px; padding-top: 12px; border-top: 1px solid rgb(255 255 255 / .14); font-size: .8125rem; line-height: 1.4; }
 .quote-author b { color: #fff; font-weight: 700; letter-spacing: .02em; }
 .quote-author span { color: var(--on-plinth-2); }
-@media (max-width: 1000px) { .quote-grid { grid-template-columns: 1fr; } }
+
+/* Tehnologie: repere, cardurile tehnologiilor (pictogramă, titlu, rezumat) și banda furnizorilor */
+.tech-copy { display: grid; gap: 22px; max-width: 60ch; }
+.tech-points { display: grid; gap: 10px; }
+.tech-points li { display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--navy); }
+.tech-points .icon { width: 22px; height: 22px; color: var(--coral-ink); flex: none; }
+.tech-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: var(--stack-5); border: 1px solid var(--line); border-radius: var(--r-l) var(--r-l) var(--r-band) var(--r-l); overflow: hidden; background: var(--porcelain); }
+.tech-card { display: grid; align-content: start; gap: 12px; padding: clamp(22px, 2.4vw, 36px); }
+.tech-card:not(:nth-child(3n+1)) { border-left: 1px solid var(--line); }
+.tech-card:nth-child(n+4) { border-top: 1px solid var(--line); }
+.tech-card .h3 { font-size: 1.0625rem; line-height: 1.35; }
+.tech-card p { font-size: var(--fs-small); line-height: 1.6; color: var(--ink-2); }
+.tech-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--paper); }
+.tech-icon img { width: 30px; height: 30px; object-fit: contain; }
+.suppliers { display: grid; gap: 18px; margin-top: var(--stack-5); padding-top: var(--stack-4); border-top: 1px solid var(--line); }
+.supplier-list { display: flex; flex-wrap: wrap; align-items: center; gap: 18px clamp(24px, 3.4vw, 52px); }
+.supplier-list img { display: block; height: 34px; width: auto; max-width: 132px; object-fit: contain; filter: grayscale(1); mix-blend-mode: multiply; opacity: .72; transition: opacity var(--t) var(--ease), filter var(--t) var(--ease); }
+.supplier-list a:hover img, .supplier-list img:hover { filter: none; opacity: 1; }
+@media (max-width: 1000px) {
+  .tech-grid { grid-template-columns: 1fr 1fr; }
+  .tech-card:not(:nth-child(3n+1)) { border-left: 0; }
+  .tech-card:nth-child(even) { border-left: 1px solid var(--line); }
+  .tech-card:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+@media (max-width: 640px) {
+  .tech-grid { grid-template-columns: 1fr; }
+  .tech-card:nth-child(even) { border-left: 0; }
+  .tech-card:nth-child(n+2) { border-top: 1px solid var(--line); }
+  .supplier-list img { height: 28px; }
+}
