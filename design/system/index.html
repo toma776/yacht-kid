@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strata · Design system YACHT KID</title>
+<link rel="stylesheet" href="../system.css">
+<style>
+  .doc-hero { padding: clamp(80px, 10vw, 160px) 0 var(--stack-6); }
+  .doc-hero .display { max-width: 12ch; margin-top: var(--stack-3); }
+  .doc-section { padding: var(--stack-6) 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 260px 1fr; gap: var(--stack-5); }
+  .doc-section > header { display: grid; gap: 12px; align-content: start; }
+  .doc-section > header p { color: var(--ink-3); font-size: var(--fs-small); line-height: 1.55; }
+  .doc-section > *, .type-row > * { min-width: 0; overflow-wrap: anywhere; }
+  @media (max-width: 900px) { .doc-section { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .type-row { grid-template-columns: 1fr; gap: 8px; } }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
+  .swatch { border-radius: var(--r-m); overflow: hidden; border: 1px solid var(--line); background: var(--paper); }
+  .swatch i { display: block; height: 110px; }
+  .swatch div { padding: 14px 16px; display: grid; gap: 2px; font-size: .8125rem; }
+  .swatch b { font-weight: 600; font-size: .875rem; }
+  .swatch code { color: var(--ink-3); }
+  .type-row { display: grid; grid-template-columns: 140px 1fr; gap: 24px; align-items: baseline; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .type-row code { font-size: .75rem; color: var(--ink-3); }
+  .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .radii { display: flex; flex-wrap: wrap; gap: 20px; }
+  .radii div { width: 180px; height: 120px; background: var(--shell); display: grid; place-items: end start; padding: 14px; font-size: .75rem; color: var(--ink-3); }
+  .panel-dark { background: var(--plinth); border-radius: var(--r-l); padding: 40px; }
+  .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+  .principles li { padding: 28px 28px 28px 0; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
+  .principles li p { color: var(--ink-2); font-size: var(--fs-small); line-height: 1.6; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="doc-hero">
+    <p class="eyebrow">YACHT KID · Design system</p>
+    <h1 class="display">Strata</h1>
+    <p class="lead" style="max-width:52ch;margin-top:24px">Un sistem vizual care pornește din fațada ansamblului: benzi albe continue, colțuri cu rază mare, sticlă între benzi, o bază grea și închisă. Pagina se citește ca o clădire: secțiuni-etaj, linii-rost, un soclu la final.</p>
+  </section>
+
+  <section class="doc-section">
+    <header><h2 class="h3">Principii</h2></header>
+    <ul class="principles">
+      <li><h3 class="h3">Benzi, nu blocuri</h3><p>Secțiunile sunt etaje orizontale. Una nouă urcă peste cea de dinainte, cu capetele rotunjite ca placa unui balcon.</p></li>
+      <li><h3 class="h3">Aer</h3><p>Spațiul gol e material de construcție. Între secțiuni, între 104 și 200 px; textul nu trece de 60 de caractere pe rând.</p></li>
+      <li><h3 class="h3">Rosturi fine</h3><p>Liniile de 1 px despart conținutul așa cum rosturile despart panourile fațadei. Fără umbre grele, fără chenare.</p></li>
+      <li><h3 class="h3">Un singur val</h3><p>Valul din logo e singurul ornament: în etichete și în liniile de strat. Albastrul lui e singurul accent cromatic.</p></li>
+    </ul>
+  </section>
+
+  <section class="doc-section">
+    <header><h2 class="h3">Culori</h2><p>Materialele clădirii: porțelanul fațadei, sticla, bleumarinul brandului, soclul închis. Accentul vine doar din val.</p></header>
+    <div class="swatches">
+      <div class="swatch"><i style="background:var(--porcelain)"></i><div><b>Porcelain</b><code>--porcelain #f6f5f1</code><span class="muted">Fundalul paginii</span></div></div>
+      <div class="swatch"><i style="background:var(--paper)"></i><div><b>Paper</b><code>--paper #ffffff</code><span class="muted">Benzile luminate, carduri</span></div></div>
+      <div class="swatch"><i style="background:var(--shell)"></i><div><b>Shell</b><code>--shell #ecebe6</code><span class="muted">Banda în umbră</span></div></div>
+      <div class="swatch"><i style="background:var(--glass)"></i><div><b>Glass</b><code>--glass #dfe7ec</code><span class="muted">Fundal imagini</span></div></div>
+      <div class="swatch"><i style="background:var(--ink)"></i><div><b>Ink</b><code>--ink #0a2434</code><span class="muted">Text, butoane</span></div></div>
+      <div class="swatch"><i style="background:var(--ink-2)"></i><div><b>Ink 2</b><code>--ink-2 #3b5260</code><span class="muted">Text secundar</span></div></div>
+      <div class="swatch"><i style="background:var(--ink-3)"></i><div><b>Ink 3</b><code>--ink-3 #74858f</code><span class="muted">Etichete</span></div></div>
+      <div class="swatch"><i style="background:var(--plinth)"></i><div><b>Plinth</b><code>--plinth #061923</code><span class="muted">Soclul: subsol, secțiuni de noapte</span></div></div>
+      <div class="swatch"><i style="background:var(--wave)"></i><div><b>Wave</b><code>--wave #9cb0fe</code><span class="muted">Valul din logo: accent</span></div></div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <header><h2 class="h3">Tipografie</h2><p>Manrope, găzduit local, cu diacriticele românești (ș, ț). Titluri subțiri (300), strânse; etichete spațiate, cu majuscule.</p></header>
+    <div>
+      <div class="type-row"><code>Display<br>300 · −4.5%</code><p class="display" style="font-size:clamp(2.5rem,6vw,5.5rem)">Un nou standard</p></div>
+      <div class="type-row"><code>H2<br>300 · −3.5%</code><p class="h2">Colecția de Apartamente</p></div>
+      <div class="type-row"><code>H3<br>500</code><p class="h3">Patent de invenție pentru fațade</p></div>
+      <div class="type-row"><code>Lead<br>300</code><p class="lead">Descoperă locuința care îți schimbă perspectiva asupra luxului.</p></div>
+      <div class="type-row"><code>Body<br>400 · 17px</code><p class="body">Rezidenții beneficiază de o comunitate complet integrată, care include o cafenea la parter cu livrare direct în apartamente.</p></div>
+      <div class="type-row"><code>Eyebrow<br>600 · +22%</code><p class="eyebrow">Despre YACHT KID</p></div>
+      <div class="type-row"><code>Cifră</code><p class="fact"><span class="fact-value num">10.000<small>m²</small></span><span class="fact-label">Acces direct la un parc de 10.000 m²</span></p></div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <header><h2 class="h3">Butoane și legături</h2><p>Pastilă de 56 px cu un cerc-săgeată care se rotește la hover, ca o busolă.</p></header>
+    <div style="display:grid;gap:24px">
+      <div class="row">
+        <a class="btn" href="#">Solicită ofertă <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
+        <a class="btn btn--ghost" href="#">Descoperă tehnologia <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
+        <a class="link-arrow" href="#">Află mai multe <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+      </div>
+      <div class="panel-dark row on-dark">
+        <a class="btn btn--light" href="#">Solicită ofertă <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
+        <a class="btn btn--glass" href="#">Video de prezentare <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="currentColor"/></svg></span></a>
+        <span class="eyebrow">Etichetă pe fundal închis</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <header><h2 class="h3">Raze</h2><p>Colțurile balcoanelor. Raza „band” e rezervată capetelor de secțiune și imaginilor mari; o imagine poate avea un singur colț „band”, ca o bandă care se întoarce.</p></header>
+    <div class="radii">
+      <div style="border-radius:var(--r-s)">--r-s · 10</div>
+      <div style="border-radius:var(--r-m)">--r-m · 20</div>
+      <div style="border-radius:var(--r-l)">--r-l · 24–40</div>
+      <div style="border-radius:var(--r-band) var(--r-l) var(--r-l) var(--r-l)">--r-band · 40–140</div>
+      <div style="border-radius:var(--r-pill);width:240px">--r-pill</div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <header><h2 class="h3">Straturi</h2><p>Liniile fațadei, cu retragerea lor rotunjită: despărțitor între secțiuni mari și semnătura subsolului.</p></header>
+    <svg class="strata" viewBox="0 0 1440 120" preserveAspectRatio="none" style="height:120px" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"><path d="M0 10H620C680 10 700 50 760 50H1440"/><path d="M0 30H620C680 30 700 70 760 70H1440"/><path d="M0 50H620C680 50 700 90 760 90H1440"/><path d="M0 70H620C680 70 700 110 760 110H1440"/></g></svg>
+  </section>
+
+  <section class="doc-section">
+    <header><h2 class="h3">Formular</h2><p>Câmpuri deschise, doar cu linia de jos, ca pe o fișă tehnică.</p></header>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;max-width:720px">
+      <div class="field"><label for="d1">Nume complet *</label><input id="d1" placeholder="Scrieți numele dvs. complet"></div>
+      <div class="field"><label for="d2">Tip apartament *</label><select id="d2"><option>Apartament 3 camere</option></select></div>
+    </div>
+  </section>
+  <p class="muted" style="padding:48px 0 80px;font-size:.8125rem">Tokenurile și componentele: <code>design/system.css</code>. Homepage-ul: <a class="link-arrow" href="../homepage/">design/homepage</a></p>
+</main>
+</body>
+</html>

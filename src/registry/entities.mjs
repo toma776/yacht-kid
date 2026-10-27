@@ -389,6 +389,8 @@ export const ENTITIES = [
       {key: 'bytes', label: 'Mărime', type: 'int', readonly: true},
       {key: 'alt', label: 'Text alternativ', type: 'text', max: 200, ...T, help: 'Aceeași imagine, câte un text pe limbă.'},
       {key: 'caption', label: 'Legendă', type: 'text', ...T},
+      {key: 'description', label: 'Descriere', type: 'textarea', ...T, help: 'Ce se vede în fotografie, pentru căutare și pentru alegerea imaginii.'},
+      {key: 'tags', label: 'Etichete', type: 'list', help: 'Cuvinte-cheie în română: exterior, living, bucătărie, lac…'},
       {key: 'legacy_url', label: 'Adresa în site-ul vechi', type: 'url', intern: true, readonly: true},
       {key: 'legacy_id', label: 'ID în site-ul vechi', type: 'int', intern: true, readonly: true}
     ]

@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YACHT KID · Ansamblu rezidențial de lux pe malul lacului</title>
+<meta name="description" content="YACHT KID: apartamente de lux pe malul lacului, cu deschidere directă către un parc de 10.000 m². Premiat la 5 competiții internaționale.">
+<meta name="theme-color" content="#061923">
+<link rel="preload" href="../fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../system.css">
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<!-- Pictogramele, desenate cu aceeași linie subțire ca rosturile fațadei -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="currentColor"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 16 16"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-facade" viewBox="0 0 32 32"><path d="M5 27V8c0-2 1.5-3 3.5-3H27M5 12h16a4 4 0 0 1 4 4v11M5 19h12a4 4 0 0 1 4 4v4"/></symbol>
+  <symbol id="i-material" viewBox="0 0 32 32"><path d="M16 4 27 10.5v11L16 28 5 21.5v-11zM5 10.5 16 17l11-6.5M16 17v11"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 32 32"><path d="M5 12h5l6-5v18l-6-5H5zM21 11c1.7 1.4 2.5 3 2.5 5s-.8 3.6-2.5 5M24.5 7.5C27 9.8 28 12.6 28 16s-1 6.2-3.5 8.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 32 32"><path d="M16 4 26 8v7c0 6.5-4.2 11.2-10 13-5.8-1.8-10-6.5-10-13V8zM11.5 16l3.2 3.2 6-6.4"/></symbol>
+  <symbol id="i-promenade" viewBox="0 0 32 32"><path d="M3 24c4 0 4-2.5 8.3-2.5s4.4 2.5 8.4 2.5 4.3-2.5 9.3-2.5M3 18.5c4 0 4-2.5 8.3-2.5s4.4 2.5 8.4 2.5 4.3-2.5 9.3-2.5M16 13V5M12 9c0-2.5 1.8-4 4-4s4 1.5 4 4"/></symbol>
+  <symbol id="i-air" viewBox="0 0 32 32"><path d="M4 12h15a4 4 0 1 0-4-4M4 18h21a4 4 0 1 1-4 4M4 24h9"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 32 32"><path d="M5 13v14h22V13M3.5 6h25l-2 7H5.5zM12 27v-8h8v8M5.5 13a3.5 3.5 0 0 0 7 0 3.5 3.5 0 0 0 7 0 3.5 3.5 0 0 0 7 0"/></symbol>
+  <symbol id="i-pool" viewBox="0 0 32 32"><path d="M11 21V7a3 3 0 0 1 6 0M21 21V7a3 3 0 0 1 6 0M11 12h10M11 17h10M3 25c3 0 3-2 6.5-2s3.5 2 6.5 2 3-2 6.5-2 3.5 2 6.5 2"/></symbol>
+  <symbol id="i-energy" viewBox="0 0 32 32"><path d="M18 3 7 18h8l-2 11 12-16h-8z"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 32 32"><path d="M16 28c-5 0-9-3.4-9-8.5 0-5 4.5-7.5 5-13 3.5 2 5 5 5 8 1.5-1 2.5-3 2.5-5 3.5 3 5.5 6.5 5.5 10 0 5.1-4 8.5-9 8.5zM16 28c-2 0-3.5-1.5-3.5-3.5S15 20 16 18c1 2 3.5 4.5 3.5 6.5S18 28 16 28z"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 32 32"><path d="M16 4c4.5 6 8 10.2 8 14.5a8 8 0 0 1-16 0C8 14.2 11.5 10 16 4zM12.5 19.5a3.5 3.5 0 0 0 3.5 3.5"/></symbol>
+  <symbol id="i-thermal" viewBox="0 0 32 32"><path d="M13 19V7a3 3 0 0 1 6 0v12a5 5 0 1 1-6 0zM16 12v10M23 9h4M23 14h4M23 19h3"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 32 32"><path d="M6 26C6 13 13 6 27 5c0 14-7 21-20 21zM6 26 18 14"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3.5 6.5h17v11h-17zM3.5 7l8.5 6.5L20.5 7" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a10 10 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2C11 19.5 4.5 13 4.5 5.5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-4A8 8 0 1 1 8.3 19zM9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 1c-1.2-.5-2.3-1.6-2.8-2.8l1-1-1-2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M4.5 6.5h15v13h-15zM4.5 10.5h15M8.5 4v4M15.5 4v4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></symbol>
+  <symbol id="i-award" viewBox="0 0 32 32"><path d="M16 20a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zM11.5 18.5 10 28l6-3 6 3-1.5-9.5"/></symbol>
+</svg>
+
+<a class="skip" href="#continut">Sari la conținut</a>
+
+<!-- ===================== ANTET ===================== -->
+<header class="site-header" data-header>
+  <div class="header-inner wrap">
+    <a class="logo" href="/" aria-label="YACHT KID, pagina principală">
+      <img class="logo-light" src="/wp-content/uploads/2024/10/yacht_kid_logo_white.png" alt="" width="275" height="168">
+      <img class="logo-dark" src="/wp-content/uploads/2024/10/yacht_kid_logo_blue.png" alt="" width="275" height="168">
+    </a>
+    <nav class="nav" aria-label="Meniul principal">
+      <ul>
+        <li class="has-sub">
+          <button type="button" aria-expanded="false" aria-controls="sub-ap">Apartamente <svg width="12" height="12"><use href="#i-chevron"/></svg></button>
+          <ul class="sub" id="sub-ap">
+            <li><a href="/apartamente-2-camere/">Apartamente 2 camere</a></li>
+            <li><a href="/apartamente-3-camere/">Apartamente 3 camere</a></li>
+            <li><a href="/apartamente-4-camere/">Apartamente 4 camere</a></li>
+            <li><a href="/duplex/">Apartamente tip duplex</a></li>
+          </ul>
+        </li>
+        <li><a href="/spatii-comerciale/">Comercial</a></li>
+        <li><a href="/tehnologie/">Tehnologie</a></li>
+        <li><a href="/comunitate/">Comunitate</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/category/premii/">Premii</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <nav class="langs" aria-label="Limba"><a href="/" aria-current="true">RO</a><a href="/en/" hreflang="en">EN</a></nav>
+      <a class="btn btn--glass btn--sm header-cta" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span></span><span></span><span class="sr-only">Meniu</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- Meniul pe mobil -->
+<div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+  <nav class="wrap" aria-label="Meniul principal">
+    <p class="eyebrow on-dark">Apartamente</p>
+    <ul class="mm-primary">
+      <li><a href="/apartamente-2-camere/">2 camere</a></li>
+      <li><a href="/apartamente-3-camere/">3 camere</a></li>
+      <li><a href="/apartamente-4-camere/">4 camere</a></li>
+      <li><a href="/duplex/">Duplex</a></li>
+    </ul>
+    <ul class="mm-secondary">
+      <li><a href="/spatii-comerciale/">Comercial</a></li>
+      <li><a href="/tehnologie/">Tehnologie</a></li>
+      <li><a href="/comunitate/">Comunitate</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/category/premii/">Premii</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+    <div class="mm-foot">
+      <a class="btn btn--light" href="#contact" data-menu-close>Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+      <nav class="langs" aria-label="Limba"><a href="/" aria-current="true">RO</a><a href="/en/" hreflang="en">EN</a></nav>
+    </div>
+  </nav>
+</div>
+
+<main id="continut">
+
+<!-- ===================== 1. HERO ===================== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-media" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="metadata" poster="/wp-content/uploads/2024/10/homapage-hero-section-1-edit-scaled-1.jpg" data-hero-video>
+      <source src="/wp-content/uploads/2026/09/Video-Yacht-Kid-Iunie-26-H264.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-inner wrap">
+    <p class="status reveal"><span class="status-dot"></span>Ultimele apartamente disponibile</p>
+    <h1 class="display hero-title reveal" id="hero-title" style="--d:80ms">Experimentează un nou standard de viață</h1>
+    <div class="hero-foot">
+      <p class="lead hero-sub reveal" style="--d:160ms">Descoperă locuința care îți schimbă perspectiva asupra luxului.</p>
+      <div class="hero-actions reveal" style="--d:240ms">
+        <a class="btn btn--light" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+        <button class="btn btn--glass" type="button" data-video-open>Video de prezentare <span class="btn-icon"><svg><use href="#i-play"/></svg></span></button>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#despre" aria-label="Mergi la secțiunea Despre"><span></span></a>
+</section>
+
+<!-- ===================== 2. CIFRE-CHEIE ===================== -->
+<section class="facts slab bg-porcelain" aria-label="YACHT KID în cifre">
+  <div class="wrap">
+    <ul class="facts-grid">
+      <li class="fact reveal"><span class="fact-value num">10.000<small>m²</small></span><span class="fact-label">Acces direct la un parc de 10.000 m²</span></li>
+      <li class="fact reveal" style="--d:80ms"><span class="fact-value num">6<small>RON/m²</small></span><span class="fact-label">Cost de întreținere minim: doar 6 RON/m²</span></li>
+      <li class="fact reveal" style="--d:160ms"><span class="fact-value num">5</span><span class="fact-label">Premiat la 5 competiții internaționale de renume</span></li>
+      <li class="fact reveal" style="--d:240ms"><span class="fact-value">Nr. 1</span><span class="fact-label">Izolație fonică și etanșare nr. 1 pe piață</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 3. DESPRE ===================== -->
+<section class="about floor bg-porcelain" id="despre" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-intro">
+        <p class="eyebrow reveal">Despre YACHT KID</p>
+        <h2 class="h2 reveal" id="about-title" style="--d:80ms">Un ansamblu rezidențial de lux, pe malul lacului, deschis către parc.</h2>
+      </div>
+      <div class="about-copy">
+        <p class="lead reveal">YACHT KID este un ansamblu rezidențial de lux, conceput pentru a oferi atât un stil de viață excepțional, cât și o valoare investițională solidă pe termen lung. Situat într-o locație exclusivistă pe malul lacului, la doar câțiva pași de apă și cu deschidere directă către un parc de 10.000 mp, proiectul beneficiază de o poziționare de top și de un potențial constant de creștere a cererii.</p>
+        <div class="body reveal">
+          <p>Dezvoltarea oferă o colecție de apartamente moderne, inclusiv locuințe exclusive cu piscine private, construite cu tehnologii avansate și materiale de cea mai înaltă calitate, inspirate din industria yachtingului. Rezidenții beneficiază de o comunitate complet integrată, care include o cafenea la parter cu livrare direct în apartamente, un magazin alimentar, un salon premium de înfrumusețare, o clinică stomatologică de top în curs de deschidere și un studio de hot pilates, toate concepute pentru confort maxim și comoditate zilnică.</p>
+          <p>Premiat în cadrul a cinci competiții internaționale de renume și construit la cele mai înalte standarde de calitate, YACHT KID se remarcă prin echilibrul său unic între lux și eficiența costurilor. În ciuda poziționării sale de top, proiectul oferă unele dintre cele mai reduse costuri de mentenanță din București, începând de la doar 6 RON/mp, asigurând cheltuieli optimizate post-achiziție și o performanță investițională solidă.</p>
+        </div>
+        <blockquote class="pull reveal">Fiecare aspect al execuției YACHT KID reflectă un angajament fără compromis față de calitate, design inteligent și o experiență de locuire superioară, oferind un produs de top, unic pe piață.</blockquote>
+        <a class="btn reveal" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+
+  <figure class="about-visual wrap reveal">
+    <div class="frame frame--band about-frame">
+      <img src="/wp-content/uploads/2024/10/colaj-yacht-kid-resize-_0002_colaj-yacht-kid-00002.jpg" alt="Fațada YACHT KID: benzi albe continue cu colțuri rotunjite și balustrade de sticlă" loading="lazy" width="2048" height="1365" data-parallax>
+    </div>
+  </figure>
+</section>
+
+<!-- ===================== 4. AVANTAJE ===================== -->
+<section class="features floor bg-paper slab" aria-labelledby="features-title">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <p class="eyebrow reveal">Avantaje</p>
+        <h2 class="h2 reveal" id="features-title" style="--d:80ms">Detalii care definesc o altă clasă de locuire.</h2>
+      </div>
+    </div>
+    <ul class="features-grid">
+      <li class="feature reveal"><svg class="icon"><use href="#i-facade"/></svg><h3 class="h3">Patent de invenție pentru fațade</h3></li>
+      <li class="feature reveal" style="--d:60ms"><svg class="icon"><use href="#i-material"/></svg><h3 class="h3">Materiale premium</h3></li>
+      <li class="feature reveal" style="--d:120ms"><svg class="icon"><use href="#i-pool"/></svg><h3 class="h3">Apartamente cu piscine private</h3></li>
+      <li class="feature reveal" style="--d:180ms"><svg class="icon"><use href="#i-sound"/></svg><h3 class="h3">Izolație fonică și etanșare nr. 1 pe piață</h3></li>
+      <li class="feature reveal"><svg class="icon"><use href="#i-promenade"/></svg><h3 class="h3">Promenadă publică</h3></li>
+      <li class="feature reveal" style="--d:60ms"><svg class="icon"><use href="#i-air"/></svg><h3 class="h3">Locație aerisită</h3></li>
+      <li class="feature reveal" style="--d:120ms"><svg class="icon"><use href="#i-shield"/></svg><h3 class="h3">Pază 24/7, camere CCTV</h3></li>
+      <li class="feature reveal" style="--d:180ms"><svg class="icon"><use href="#i-shop"/></svg><h3 class="h3">Spații comerciale</h3><p class="muted">Cafenea, minimarket, salon de beauty, cabinet stomatologic, studio hot pilates, disponibile la parter.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 5. COLECȚIA DE APARTAMENTE ===================== -->
+<section class="collection floor bg-porcelain" id="apartamente" aria-labelledby="collection-title">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div>
+        <p class="eyebrow reveal">Apartamente</p>
+        <h2 class="h2 reveal" id="collection-title" style="--d:80ms">Colecția de Apartamente</h2>
+      </div>
+      <p class="lead reveal" style="--d:160ms">Descoperă colecția noastră de apartamente de lux, unde designul modern, finisajele de înaltă clasă și confortul exceptional, se îmbină pentru a crea o experiență superioară de locuire.</p>
+    </div>
+
+    <ul class="units">
+      <li class="unit reveal">
+        <a href="/apartamente-2-camere/">
+          <div class="frame unit-frame"><img src="/wp-content/uploads/2025/09/apartament-2-camere_SNY5891-Edit-1536x1025.webp" alt="Living într-un apartament cu 2 camere YACHT KID" loading="lazy" width="1536" height="1025"></div>
+          <div class="unit-meta"><span class="unit-index num">01</span><h3 class="h3">Apartamente 2 camere</h3><span class="link-arrow">Află mai multe <svg><use href="#i-arrow"/></svg></span></div>
+        </a>
+      </li>
+      <li class="unit reveal" style="--d:100ms">
+        <a href="/apartamente-3-camere/">
+          <div class="frame unit-frame"><img src="/wp-content/uploads/2026/02/cover-2-camere-yacht-kid-v2-1536x1024.webp" alt="Interior într-un apartament cu 3 camere YACHT KID" loading="lazy" width="1536" height="1024"></div>
+          <div class="unit-meta"><span class="unit-index num">02</span><h3 class="h3">Apartamente 3 camere</h3><span class="link-arrow">Află mai multe <svg><use href="#i-arrow"/></svg></span></div>
+        </a>
+      </li>
+      <li class="unit reveal">
+        <a href="/apartamente-4-camere/">
+          <div class="frame unit-frame"><img src="/wp-content/uploads/2025/09/apartamente-4-camere_SNY5815-Edit-1536x1024.webp" alt="Interior într-un apartament cu 4 camere YACHT KID" loading="lazy" width="1536" height="1024"></div>
+          <div class="unit-meta"><span class="unit-index num">03</span><h3 class="h3">Apartamente 4 camere</h3><span class="link-arrow">Află mai multe <svg><use href="#i-arrow"/></svg></span></div>
+        </a>
+      </li>
+      <li class="unit reveal" style="--d:100ms">
+        <a href="/duplex/">
+          <div class="frame unit-frame"><img src="/wp-content/uploads/2026/02/duplex-apartament-cover-image-edit-2026-1536x1024.webp" alt="Interior într-un apartament duplex YACHT KID" loading="lazy" width="1536" height="1024"></div>
+          <div class="unit-meta"><span class="unit-index num">04</span><h3 class="h3">Apartamente tip duplex</h3><span class="link-arrow">Află mai multe <svg><use href="#i-arrow"/></svg></span></div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 6. ARHITECTURA ===================== -->
+<section class="architecture bg-porcelain" aria-labelledby="arch-title">
+  <svg class="strata" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
+      <path d="M0 10H620C680 10 700 50 760 50H1440"/><path d="M0 30H620C680 30 700 70 760 70H1440"/><path d="M0 50H620C680 50 700 90 760 90H1440"/><path d="M0 70H620C680 70 700 110 760 110H1440"/>
+    </g>
+  </svg>
+  <div class="arch-grid wrap">
+    <figure class="frame arch-a reveal"><img src="/wp-content/uploads/2024/10/colaj-yacht-kid-resize-_0001_colaj-yacht-kid-00003.jpg" alt="Colțurile rotunjite ale fațadei YACHT KID, privite de jos, pe cer albastru" loading="lazy" width="2048" height="1365" data-parallax></figure>
+    <div class="arch-copy reveal" style="--d:80ms">
+      <svg class="icon arch-icon"><use href="#i-award"/></svg>
+      <h2 class="h2" id="arch-title">Premiat la 5 competiții internaționale de renume</h2>
+      <a class="link-arrow" href="/category/premii/">Vezi premiile <svg><use href="#i-arrow"/></svg></a>
+    </div>
+    <figure class="frame frame--band arch-b reveal" style="--d:120ms"><img src="/wp-content/uploads/2025/02/Poza-Colaj-3-edit-v1-1536x1023.jpg" alt="Piscina privată a unui apartament de la parter, între fațada albă și grădină" loading="lazy" width="1536" height="1023"></figure>
+    <figure class="frame arch-c reveal" style="--d:200ms"><img src="/wp-content/uploads/2024/10/poza-yacht-website-v1-final-1536x1023.jpg" alt="Curtea interioară YACHT KID, cu gazon, piscină și balcoanele în val" loading="lazy" width="1536" height="1023"></figure>
+  </div>
+</section>
+
+<!-- ===================== 7. LOCAȚIE ===================== -->
+<section class="location floor bg-plinth on-dark slab" id="locatie" aria-labelledby="location-title">
+  <div class="wrap location-grid">
+    <div class="location-copy">
+      <p class="eyebrow reveal">Locație</p>
+      <h2 class="h2 reveal" id="location-title" style="--d:80ms">Locație premium pe malul lacului, cu deschidere către parc</h2>
+      <div class="body reveal" style="--d:160ms">
+        <p>Amplasat în zona de nord a capitalei, YACHT KID oferă acces rapid la diverse parcuri, centre comerciale, restaurante de top, săli de fitness și multe altele.</p>
+        <p>Ansamblul beneficiază de toate facilitățile necesare pentru un stil de viață modern și confortabil, fiind poziționat ideal pentru a îmbina eleganța cu comoditatea zilnică.</p>
+      </div>
+      <address class="address reveal" style="--d:200ms"><svg width="20" height="20"><use href="#i-pin"/></svg>Str. Anton Holban 6, București 077190</address>
+      <a class="btn btn--light reveal" style="--d:240ms" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+    </div>
+    <figure class="frame location-map reveal" style="--d:120ms">
+      <img src="/wp-content/uploads/2025/01/ro-yacht-kid-harta.jpg" alt="Harta zonei: YACHT KID pe Str. Anton Holban 6, lângă Lacul Tei, Metrou Pipera, Promenada Mall, Kaufland, World Class Caro și Clubul Pescariu Sports & SPA" loading="lazy" width="1024" height="554">
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== 8. CONFORT ȘI SIGURANȚĂ ===================== -->
+<section class="comfort floor bg-porcelain slab" aria-labelledby="comfort-title">
+  <div class="wrap comfort-grid">
+    <div class="comfort-copy">
+      <p class="eyebrow reveal">Tehnologie</p>
+      <h2 class="h2 reveal" id="comfort-title" style="--d:80ms">Confort și siguranță</h2>
+      <p class="lead reveal" style="--d:160ms">Finisajele moderne, materialele de calitate superioară și tehnologia de ultimă generație reprezintă elemente esențiale în decizia de a achiziționa un apartament la YACHT KID.</p>
+      <div class="body reveal" style="--d:200ms"><p>Clădirea este realizată cu cele mai bune materiale și proiectată pentru a oferi o experiență de locuire la un standard ridicat, remarcabilă prin detalii rafinate și design unic. Aceasta garantează nu doar confort și siguranță, ci și economii semnificative la facturile individuale și colective pentru utilități.</p></div>
+      <a class="btn btn--ghost reveal" style="--d:240ms" href="/tehnologie/">Descoperă Yacht KID Technology <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+    </div>
+    <ol class="spec-list">
+      <li class="reveal"><span class="num">01</span><svg class="icon"><use href="#i-energy"/></svg><h3 class="h3">Consum redus de energie</h3></li>
+      <li class="reveal"><span class="num">02</span><svg class="icon"><use href="#i-fire"/></svg><h3 class="h3">Protecție împotriva incendiilor</h3></li>
+      <li class="reveal"><span class="num">03</span><svg class="icon"><use href="#i-drop"/></svg><h3 class="h3">Protecție împotriva condensului</h3></li>
+      <li class="reveal"><span class="num">04</span><svg class="icon"><use href="#i-thermal"/></svg><h3 class="h3">Izolare termică</h3></li>
+      <li class="reveal"><span class="num">05</span><svg class="icon"><use href="#i-sound"/></svg><h3 class="h3">Izolare fonică</h3></li>
+      <li class="reveal"><span class="num">06</span><svg class="icon"><use href="#i-leaf"/></svg><h3 class="h3">Eficiență energetică ridicată</h3></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== 9. LIFESTYLE ===================== -->
+<section class="lifestyle bg-porcelain" aria-label="Viața la YACHT KID">
+  <div class="wrap">
+    <figure class="frame frame--band lifestyle-frame reveal">
+      <img src="/wp-content/uploads/2024/10/homepage-hero-section.jpg" alt="Fațada YACHT KID în lumina după-amiezii" loading="lazy" data-parallax>
+      <figcaption class="lifestyle-caption">
+        <span class="eyebrow on-dark">Vizionare</span>
+        <p class="h2">Programează vizionare!</p>
+        <a class="btn btn--light" href="/programeaza-o-vizionare/">Programează vizionare <span class="btn-icon"><svg><use href="#i-calendar"/></svg></span></a>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== 10. CONTACT ===================== -->
+<section class="contact floor bg-porcelain" id="contact" aria-labelledby="contact-title">
+  <div class="wrap contact-grid">
+    <div class="contact-copy">
+      <p class="eyebrow reveal">Contact</p>
+      <h2 class="h2 reveal" id="contact-title" style="--d:80ms">Hai să facem primul pas spre locuința ta de vis!</h2>
+      <p class="lead reveal" style="--d:160ms">Fie că îți dorești să programezi o vizionare, să primești detalii suplimentare sau pur și simplu să descoperi de ce Yacht KID este alegerea perfectă pentru tine, suntem la un click distanță.</p>
+      <dl class="channels reveal" style="--d:200ms">
+        <div><dt>Email</dt><dd><a href="mailto:contact@yachtkid.ro"><svg width="20" height="20"><use href="#i-mail"/></svg>contact@yachtkid.ro</a></dd></div>
+        <div><dt>Telefon</dt><dd><a href="tel:+40739085331"><svg width="20" height="20"><use href="#i-phone"/></svg>+40 739 085 331</a></dd></div>
+        <div><dt>WhatsApp</dt><dd><a href="https://wa.me/+40739085331"><svg width="20" height="20"><use href="#i-whatsapp"/></svg>Scrie-ne pe WhatsApp</a></dd></div>
+        <div><dt>Adresă</dt><dd><span><svg width="20" height="20"><use href="#i-pin"/></svg>Str. Anton Holban 6, București 077190</span></dd></div>
+      </dl>
+    </div>
+
+    <form class="form-card reveal" style="--d:120ms" action="#" method="post" novalidate data-form>
+      <div class="form-head">
+        <h3 class="h3">Formular contact</h3>
+        <p class="muted">Nu ai timp să completezi formularul? Dă-ne un telefon sau trimite-ne un email și vom reveni rapid cu toate informațiile de care ai nevoie.</p>
+      </div>
+      <div class="form-grid">
+        <div class="field span-2"><label for="f-name">Nume complet *</label><input id="f-name" name="name" type="text" autocomplete="name" placeholder="Scrieți numele dvs. complet" required></div>
+        <div class="field"><label for="f-email">Email *</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="Scrieți email-ul dvs." required></div>
+        <div class="field"><label for="f-phone">Telefon *</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="Scrieți nr. dvs de telefon" required></div>
+        <div class="field"><label for="f-type">Tip apartament *</label>
+          <select id="f-type" name="tip_apartament" required>
+            <option value="" disabled selected>Ce tip de apartament doriți?</option>
+            <option>Apartament 2 camere</option><option>Apartament 3 camere</option><option>Apartament 4 camere</option><option>Duplex</option>
+          </select></div>
+        <div class="field"><label for="f-design">Doriți design de interior? *</label>
+          <select id="f-design" name="design_interior" required>
+            <option value="" disabled selected>Selectați o opțiune</option>
+            <option>Da, vreau design interior</option><option>Nu doresc design de interior</option>
+          </select></div>
+        <div class="field span-2"><label for="f-info">Informații suplimentare *</label><textarea id="f-info" name="informatii_suplimentare" rows="3" placeholder="Cu ce informații vă putem ajuta?" required></textarea></div>
+        <label class="check span-2"><input type="checkbox" name="gdpr" required><span>Sunt de acord cu prelucrarea datelor personale, conform <a href="/politica-de-confidentialitate/">politicii de confidențialitate.</a></span></label>
+      </div>
+      <div class="form-foot">
+        <button class="btn" type="submit">Trimite solicitare <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></button>
+        <p class="form-note muted" role="status" aria-live="polite" data-form-note></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== SOCLUL: SUBSOL ===================== -->
+<footer class="site-footer bg-plinth on-dark slab">
+  <svg class="strata footer-strata" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
+      <path d="M0 10H900C960 10 980 40 1040 40H1440"/><path d="M0 25H900C960 25 980 55 1040 55H1440"/><path d="M0 40H900C960 40 980 70 1040 70H1440"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <div class="footer-top">
+      <a class="footer-logo" href="/" aria-label="YACHT KID"><img src="/wp-content/uploads/2024/10/yacht_kid_logo_white.png" alt="" width="275" height="168" loading="lazy"></a>
+      <div class="footer-cta">
+        <p class="h2">Experimentează un nou standard de viață.</p>
+        <a class="btn btn--light" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+      </div>
+    </div>
+    <hr class="rule">
+    <div class="footer-cols">
+      <nav aria-labelledby="ft-disc"><h4 id="ft-disc" class="eyebrow">Descoperă</h4>
+        <ul>
+          <li><a href="/">Despre noi</a></li>
+          <li><a href="/apartamente-2-camere/">Apartamente 2 camere</a></li>
+          <li><a href="/apartamente-3-camere/">Apartamente 3 camere</a></li>
+          <li><a href="/apartamente-4-camere/">Apartamente 4 camere</a></li>
+          <li><a href="/duplex/">Apartamente tip duplex</a></li>
+          <li><a href="/comunitate/">Comunitate</a></li>
+          <li><a href="/spatii-comerciale/">Comercial</a></li>
+          <li><a href="/category/premii/">Premii</a></li>
+          <li><a href="/tehnologie/">Tehnologie</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/testimoniale/">Testimoniale</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="ft-legal"><h4 id="ft-legal" class="eyebrow">Legal</h4>
+        <ul>
+          <li><a href="https://anpc.ro">ANPC</a></li>
+          <li><a href="https://anpc.ro/ce-este-sal/">Soluționarea alternativă a litigiilor</a></li>
+          <li><a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&amp;lng=RO">Soluționarea online a litigiilor</a></li>
+          <li><a href="/politica-de-confidentialitate/">Politica de confidențialitate</a></li>
+          <li><a href="/politica-cookies/">Politica de cookie-uri</a></li>
+          <li><a href="/termeni-si-conditii/">Termeni și condiții</a></li>
+        </ul>
+      </nav>
+      <div><h4 class="eyebrow">Contact</h4>
+        <ul>
+          <li><a href="mailto:contact@yachtkid.ro">contact@yachtkid.ro</a></li>
+          <li><a href="tel:+40739085331">+40 739 085 331</a></li>
+          <li>Str. Anton Holban 6,<br>București 077190</li>
+        </ul>
+      </div>
+      <div><h4 class="eyebrow">Follow Us</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/YachtKidProperties">Facebook</a></li>
+          <li><a href="https://www.instagram.com/yachtkid.properties/">Instagram</a></li>
+          <li><a href="https://www.linkedin.com/company/yacht-kid/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright 2026 - Yacht KID</p>
+      <div class="anpc">
+        <a href="https://anpc.ro/ce-este-sal/"><img src="/wp-content/uploads/2024/10/legal-info-ro-1.webp" alt="Soluționarea alternativă a litigiilor (ANPC SAL)" width="250" height="62" loading="lazy"></a>
+        <a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&amp;lng=RO"><img src="/wp-content/uploads/2024/10/legal-info-ro-2.webp" alt="Soluționarea online a litigiilor (SOL)" width="250" height="62" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bara de contact pe mobil -->
+<nav class="dock" aria-label="Contact rapid">
+  <a href="tel:+40739085331"><svg width="20" height="20"><use href="#i-phone"/></svg>Telefon</a>
+  <a href="https://wa.me/+40739085331"><svg width="20" height="20"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+  <a href="mailto:contact@yachtkid.ro"><svg width="20" height="20"><use href="#i-mail"/></svg>Email</a>
+</nav>
+
+<!-- Video de prezentare -->
+<dialog class="video-dialog" data-video-dialog aria-label="Video de prezentare YACHT KID">
+  <button class="dialog-close" type="button" data-video-close aria-label="Închide"><svg width="24" height="24"><use href="#i-close"/></svg></button>
+  <video controls playsinline preload="none" poster="/wp-content/uploads/2024/10/homapage-hero-section-1-edit-scaled-1.jpg" data-video-full>
+    <source src="/wp-content/uploads/2026/09/Video-Yacht-Kid-Iunie-26-H264.mp4" type="video/mp4">
+  </video>
+</dialog>
+
+<script src="home.js" defer></script>
+</body>
+</html>
