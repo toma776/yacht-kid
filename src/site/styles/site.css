@@ -748,10 +748,6 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .quote-author span { color: var(--on-plinth-2); }
 
 /* Tehnologie: repere, cardurile tehnologiilor (pictogramă, titlu, rezumat) și banda furnizorilor */
-.tech-copy { display: grid; gap: 22px; max-width: 60ch; }
-.tech-points { display: grid; gap: 10px; }
-.tech-points li { display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--navy); }
-.tech-points .icon { width: 22px; height: 22px; color: var(--coral-ink); flex: none; }
 .tech-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: var(--stack-5); border: 1px solid var(--line); border-radius: var(--r-l) var(--r-l) var(--r-band) var(--r-l); overflow: hidden; background: var(--porcelain); }
 .tech-card { display: grid; align-content: start; gap: 12px; padding: clamp(22px, 2.4vw, 36px); }
 .tech-card:not(:nth-child(3n+1)) { border-left: 1px solid var(--line); }
@@ -779,3 +775,18 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .tech-icon .icon { width: 26px; height: 26px; color: var(--coral-ink); }
 .supplier-mask { display: block; width: 112px; height: 40px; background: var(--navy); opacity: .72; -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat; transition: background var(--t) var(--ease), opacity var(--t) var(--ease); }
 .supplier-list a:hover .supplier-mask { background: var(--coral); opacity: 1; }
+/* Intro-ul de pe Tehnologie: titlul și textul aliniate sus, una lângă alta; reperele, un rând întreg deasupra cardurilor */
+.tech-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px clamp(32px, 6vw, 96px); align-items: start; }
+.tech-head .h2 { margin-bottom: 0; }
+.tech-lead { font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); line-height: 1.65; color: var(--ink-2); max-width: 56ch; padding-top: 6px; }
+.tech-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--stack-5); border-block: 1px solid var(--line); }
+.tech-points li { display: flex; align-items: center; gap: 16px; padding: 22px clamp(16px, 2vw, 28px); font-weight: 700; font-size: .9375rem; letter-spacing: .02em; color: var(--navy); }
+.tech-points li + li { border-left: 1px solid var(--line); }
+.tech-points .icon { box-sizing: content-box; width: 22px; height: 22px; padding: 11px; flex: none; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--navy); background: var(--porcelain); }
+.tech-points + .tech-grid { margin-top: clamp(28px, 3vw, 44px); }
+@media (max-width: 900px) {
+  .tech-head { grid-template-columns: 1fr; }
+  .tech-points { grid-template-columns: 1fr; }
+  .tech-points li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .tech-points li { padding-inline: 0; }
+}

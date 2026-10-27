@@ -13,7 +13,8 @@ const Arrow = () => <Icon id="arrow"/>;
 const ICONS = [[/fa[țt]ad|facade/i, 'facade'], [/material/i, 'material'], [/piscin|pool/i, 'pool'], [/fonic|sound/i, 'sound'], [/promenad/i, 'promenade'],
   [/aerisit|airy/i, 'air'], [/paz[aă]|cctv|security/i, 'shield'], [/comercial/i, 'shop'], [/energie|energy|consum/i, 'energy'], [/incend|fire/i, 'fire'],
   [/condens/i, 'drop'], [/termic|thermal/i, 'thermal'], [/eficien|efficien/i, 'leaf'],
-  [/parchet|parquet/i, 'material'], [/loca[țt]i|location/i, 'location'], [/vizibil|visib/i, 'visibility'], [/flexib/i, 'layout'], [/investi|profitab/i, 'growth']];
+  [/parchet|parquet/i, 'material'], [/loca[țt]i|location/i, 'location'], [/vizibil|visib/i, 'visibility'], [/flexib/i, 'layout'], [/investi|profitab/i, 'growth'],
+  [/seism/i, 'shield'], [/între[țt]inere|maintenance/i, 'material']];
 const iconFor = t => ICONS.find(([rx]) => rx.test(t ?? ''))?.[1] ?? 'leaf';
 
 async function buttons(ctx, s, values) {
@@ -488,13 +489,11 @@ async function Technologies({ctx, s, values}) {
   return (
     <section className="tech floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
-        <div className="section-head section-head--split">
+        <div className="tech-head">
           <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
-          <div className="tech-copy reveal" style={{'--d': '160ms'}}>
-            {lead && <p className="lead">{strip(lead)}</p>}
-            {points.length > 0 && <ul className="tech-points">{points.map(p => <li key={p}><Icon id="shield" className="icon"/>{p}</li>)}</ul>}
-          </div>
+          {lead && <p className="tech-lead reveal" style={{'--d': '160ms'}}>{strip(lead)}</p>}
         </div>
+        {points.length > 0 && <ul className="tech-points reveal" style={{'--d': '200ms'}}>{points.map(p => <li key={p}><Icon id={iconFor(p)} className="icon"/><span>{p}</span></li>)}</ul>}
         <ul className="tech-grid">
           {techs.map((t, i) => (
             <li key={t.id} className="tech-card reveal" style={{'--d': `${(i % 3) * 80}ms`}}>
