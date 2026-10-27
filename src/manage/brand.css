@@ -71,13 +71,15 @@
 .bb-type { background: #f1f1f0; color: #20366c; border-radius: 12px; padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 14px; font-family: var(--font-montserrat), Montserrat, sans-serif; }
 .bb-type .fam { font-size: 40px; font-weight: 700; line-height: 1.1; margin: 0 0 10px; }
 .bb-type .spec { font-size: 17px; line-height: 1.7; margin: 0 0 18px; word-spacing: .25em; }
-.bb-type .lvl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline; border-bottom: 1px solid rgba(32, 54, 108, .15); padding: 10px 0; }
-.bb-type .lvl small { font-size: 12px; white-space: nowrap; }
+.bb-lvl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline; border-bottom: 1px solid rgba(32, 54, 108, .15); padding: 10px 0; }
+.bb-lvl span { font-size: clamp(22px, 2.4vw, 32px); line-height: 1.15; overflow-wrap: anywhere; }
+.bb-lvl small { font-size: 12px; white-space: nowrap; }
 .bb-type .body { font-size: 13px; line-height: 1.6; font-weight: 300; margin-top: 14px; }
 
 .bb-apps { display: grid; gap: 16px; }
 .bb-app { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(240px, 1fr); gap: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-.bb-app img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 16 / 9; }
+.bb-app > a { display: block; }
+.bb-app img { width: 100%; height: auto; object-fit: cover; display: block; aspect-ratio: 16 / 9; }
 .bb-app div { padding: 16px 16px 16px 0; }
 .bb-app h3 { font-size: 15px; margin-bottom: 8px; display: flex; gap: 8px; align-items: baseline; }
 .bb-app ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; display: grid; gap: 4px; }

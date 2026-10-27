@@ -16,8 +16,8 @@ export default function Tipografie() {
         </div>
         <div>
           {[h, sub].map(l => (
-            <div key={l.rol} className="lvl">
-              <span style={{fontWeight: l.greutate, letterSpacing: l.spatiere, color: l.culoare, fontSize: 34}}>{l.mostra}</span>
+            <div key={l.rol} className="bb-lvl">
+              <span style={{fontWeight: l.greutate, letterSpacing: l.spatiere, color: l.culoare}}>{l.mostra}</span>
               <small style={{color: l.culoare, fontWeight: l.greutate === 700 ? 700 : 300}}>→ {l.regula}</small>
             </div>
           ))}
