@@ -37,10 +37,9 @@ function MegaUnits({item, chrome}) {
   );
 }
 
-// Placa Proiectul: capitolele, iar pe ultima coloană filmul de prezentare (se deschide cu sunet, la clic; nimic nu pornește singur).
-// Fereastra filmului stă în afara plăcii (în Header): placa închisă e ascunsă (visibility), iar fereastra ar dispărea cu ea.
+// Placa Proiectul: capitolele, iar pe ultima coloană harta zonei, care duce la harta interactivă (secțiunea Locație)
 function MegaTopics({item, chrome}) {
-  const L = chrome.labels, film = item.mega === 'proiect' ? chrome.video : null;
+  const L = chrome.labels, map = item.mega === 'proiect' ? chrome.map : null;
   return (
     <ul className="mega-topics">
       {item.children.map(c => (
@@ -49,13 +48,11 @@ function MegaTopics({item, chrome}) {
           <span className="mega-topic-text"><span className="mega-topic-ic"><Icon id={c.icon ?? 'arrow'} size={22}/></span><span><b>{c.label}</b><small>{c.desc}</small></span></span>
         </a></li>
       ))}
-      {film && (
-        <li>
-          <button type="button" className="mega-topic mega-film" data-video-open="film-proiect" data-mega-close>
-            <span className="frame mega-topic-frame">{film.poster && <img src={film.poster} alt="" decoding="async" loading="lazy"/>}<span className="mega-film-play"><Icon id="play" size={20}/></span></span>
-            <span className="mega-topic-text"><span className="mega-topic-ic"><Icon id="play" size={22}/></span><span><b>{L['tur-video'] ?? 'Tur video'}</b><small>{L['tur-video-text'] ?? 'Clădirea, apartamentele și lacul, în filmul de prezentare.'}</small></span></span>
-          </button>
-        </li>
+      {map && (
+        <li><a className="mega-topic mega-map" href={map.href} data-mega-close>
+          <span className="frame mega-topic-frame">{map.image && <img src={map.image} alt="" decoding="async" loading="lazy"/>}<span className="mega-map-tag"><Icon id="pin" size={16}/>{L['harta-3d'] ?? 'Hartă 3D'}</span></span>
+          <span className="mega-topic-text"><span className="mega-topic-ic"><Icon id="location" size={22}/></span><span><b>{L['harta-interactiva'] ?? 'Harta interactivă'}</b><small>{L['harta-interactiva-text'] ?? 'Lacul, parcul și tot ce e în jur, pe harta 3D.'}</small></span></span>
+        </a></li>
       )}
     </ul>
   );
@@ -100,12 +97,6 @@ export function Header({chrome, solid = false}) {
         </div>
       </header>
       <div className="mega-scrim" data-mega-scrim/>
-      {chrome.video && (
-        <dialog className="video-dialog" id="film-proiect" data-video-dialog aria-label={L['tur-video'] ?? 'Tur video'}>
-          <button className="dialog-close" type="button" data-video-close aria-label="×"><Icon id="close" size={24}/></button>
-          <video controls playsInline preload="none" poster={chrome.video.poster} data-video-full><source src={chrome.video.src} type="video/mp4"/></video>
-        </dialog>
-      )}
       <MobileMenu chrome={chrome} items={items}/>
     </>
   );

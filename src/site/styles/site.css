@@ -99,15 +99,11 @@
 .mega-topic-text small { display: block; margin-top: 2px; font-size: .8125rem; line-height: 1.5; color: var(--ink-2); }
 .mega-topic:hover .mega-topic-ic, .mega-topic:focus-visible .mega-topic-ic { background: var(--navy); color: #fff; }
 .mega-topic:hover .mega-topic-frame img { transform: scale(1.05); }
-/* Cardul „Tur video”: același cadru ca subiectele, ca buton; peste poster un voal navy și butonul de play */
-.mega-film { width: 100%; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
-.mega-film .mega-topic-frame { position: relative; isolation: isolate; border-top-right-radius: var(--r-l); }
-.mega-film .mega-topic-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgb(32 54 108 / .55), rgb(32 54 108 / .1)); }
-.mega-film-play { position: absolute; z-index: 1; left: 50%; top: 50%; translate: -50% -50%; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #fff; color: var(--coral); box-shadow: 0 12px 28px rgb(20 32 68 / .35); }
-.mega-film-play svg { translate: 2px 0; }
-.mega-film .mega-topic-ic svg { fill: currentColor; stroke: none; translate: 1px 0; }
-.mega-film:hover .mega-film-play, .mega-film:focus-visible .mega-film-play { background: var(--coral); color: #fff; }
-.mega-film:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; border-radius: var(--r-m); }
+/* Cardul hărții: harta zonei (navy), cu eticheta „Hartă 3D”; duce la harta interactivă din homepage */
+.mega-map .mega-topic-frame { position: relative; border-top-right-radius: var(--r-l); background: var(--navy); }
+.mega-map .mega-topic-frame img { object-position: 55% 40%; }
+.mega-map-tag { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 10px; border-radius: var(--r-pill); background: #fff; color: var(--navy); font-size: .75rem; font-weight: 700; letter-spacing: .04em; box-shadow: 0 8px 20px rgb(20 32 68 / .3); }
+.mega-map-tag svg { color: var(--coral); }
 
 /* Voalul de sub placă */
 .mega-scrim { position: fixed; inset: 0; z-index: 45; background: rgb(32 54 108 / .28); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); opacity: 0; visibility: hidden; transition: opacity var(--t) var(--ease), visibility 0s linear var(--t); }

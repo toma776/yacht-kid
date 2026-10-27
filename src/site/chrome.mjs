@@ -54,10 +54,10 @@ export async function loadChrome(ctx, alternates = {}) {
     const phone = firma?.phone ?? '';
     // Broșura (PDF) e pusă pe hero-ul homepage-ului; subsolul o oferă pe toate paginile
     const [withBrochure] = await ctx.query('sectiuni', {fields: ['brochure'], where: 'e.brochure_id IS NOT NULL', order: 'e.id', limit: 1});
-    // Filmul de prezentare (tot de pe hero-ul homepage-ului): cardul „Tur video” din placa Proiectul îl deschide oriunde
-    const [withVideo] = await ctx.query('sectiuni', {fields: ['video'], where: `e.kind = 'hero' AND e.video_id IS NOT NULL`, order: 'e.id', limit: 1});
-    const film = withVideo?.video ? await ctx.item('media', withVideo.video, 'media') : null;
-    const r = (film?.renditions ?? []).find(x => x.quality === '1080p') ?? film?.renditions?.[0];
+    // Harta (secțiunea Locație de pe homepage, cu „Harta 3D”): cardul din placa Proiectul arată harta zonei din textul
+    // secțiunii (alta pe fiecare limbă) și duce la harta interactivă
+    const [withMap] = await ctx.query('sectiuni', {fields: ['anchor', 'text'], where: 'e.show_map = 1', order: 'e.id', limit: 1});
+    const mapImg = withMap?.text?.match(/<figure>[\s\S]*?data-media="(\d+)"/)?.[1];
     return {
       lang: ctx.lang, labels, values, alternates, home: localPath(ctx.lang),
       firma: firma && {
@@ -69,7 +69,7 @@ export async function loadChrome(ctx, alternates = {}) {
       footer: await resolveItems(ctx, menus.subsol, labels, values),
       contactHref: await resolveTo(ctx, menus.antet?.find(i => i.cta)?.to) ?? '#contact',
       brochure: withBrochure?.brochure ? ctx.media(withBrochure.brochure) : null,
-      video: film && {src: r?.file ?? ctx.media(film.id), poster: film.poster}
+      map: withMap && {href: `${localPath(ctx.lang)}#${withMap.anchor || 'locatie'}`, image: mapImg ? ctx.media(+mapImg) : null}
     };
   });
 }
