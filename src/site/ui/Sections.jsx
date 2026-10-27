@@ -51,7 +51,6 @@ async function HeroCard({ctx, s, values, chrome, video}) {
         <div className="hero-card on-dark">
           {s.image && <img className="hero-card-img" src={ctx.media(s.image)} alt="" fetchPriority="high"/>}
           <div className="hero-card-top">
-            {f?.maps && <a className="hero-card-map" href={f.maps} target="_blank" rel="noopener"><Icon id="pin" size={18}/>{L['vezi-pe-harta'] ?? 'Vezi pe hartă'}</a>}
             {f?.address && <p className="hero-card-office"><span>{L['birou-vanzari'] ?? 'Birou de vânzări'}</span>{f.address}</p>}
           </div>
           <div className="hero-card-body">
