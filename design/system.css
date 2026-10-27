@@ -71,16 +71,16 @@
   --fs-label: .75rem;
 
   /* Spațiu și grilă */
-  --gutter: clamp(20px, 4.4vw, 72px);
-  --max: 1520px;
-  --section: clamp(104px, 12vw, 200px);
-  --stack-1: 8px; --stack-2: 16px; --stack-3: 24px; --stack-4: 40px; --stack-5: 64px; --stack-6: 96px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --max: 1320px;
+  --section: clamp(72px, 8vw, 128px);
+  --stack-1: 8px; --stack-2: 16px; --stack-3: 24px; --stack-4: 40px; --stack-5: 48px; --stack-6: 72px;
 
   /* Raze: colțurile balcoanelor */
   --r-s: 10px;
   --r-m: 20px;
   --r-l: clamp(24px, 2.4vw, 40px);
-  --r-band: clamp(40px, 7vw, 140px);   /* capătul unei benzi: secțiunile-etaj și imaginile mari */
+  --r-band: clamp(32px, 5.5vw, 104px);   /* capătul unei benzi: secțiunile-etaj și imaginile mari */
   --r-pill: 999px;
 
   /* Mișcare */
@@ -148,21 +148,21 @@ b, strong { font-weight: 600; }
 .on-dark .eyebrow::before, .eyebrow.on-dark::before { background: var(--periwinkle-light); }
 
 /* ---------- 4. Butoane ---------- */
-/* Principal: coral, ca butonul din machete. Textul e navy, nu alb: alb pe coral are contrast 2.6:1 */
+/* Principal: coral cu text alb, ca butonul din machete (pagina 25) */
 .btn {
-  --btn-bg: var(--coral); --btn-fg: var(--navy); --btn-bd: var(--coral); --btn-ic-bg: var(--navy); --btn-ic-fg: #fff;
+  --btn-bg: var(--coral); --btn-fg: #fff; --btn-bd: var(--coral); --btn-ic-bg: var(--navy); --btn-ic-fg: #fff;
   position: relative; display: inline-flex; align-items: center; gap: 14px;
-  height: 56px; padding: 0 10px 0 28px; border-radius: var(--r-pill);
+  height: 52px; padding: 0 8px 0 24px; border-radius: var(--r-pill);
   background: var(--btn-bg); color: var(--btn-fg); border: 1px solid var(--btn-bd);
   font-size: .875rem; font-weight: 700; letter-spacing: .05em; white-space: nowrap; cursor: pointer;
   transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease), transform var(--t) var(--ease);
 }
 .btn .btn-icon {
-  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
   background: var(--btn-ic-bg); color: var(--btn-ic-fg); transition: transform var(--t) var(--ease);
 }
 .btn .btn-icon svg { width: 16px; height: 16px; }
-.btn:hover { --btn-bg: var(--coral-light); --btn-bd: var(--coral-light); }
+.btn:hover { --btn-bg: #dc7748; --btn-bd: #dc7748; }
 .btn:hover .btn-icon { transform: translateX(3px) rotate(-45deg); }
 .btn:active { transform: scale(.98); }
 .btn--navy { --btn-bg: var(--navy); --btn-fg: #fff; --btn-bd: var(--navy); --btn-ic-bg: var(--coral); --btn-ic-fg: var(--navy); }
@@ -173,7 +173,7 @@ b, strong { font-weight: 600; }
 .btn--light:hover { --btn-bg: var(--gray-light); --btn-bd: var(--gray-light); }
 .btn--glass { --btn-bg: rgb(255 255 255 / .1); --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .4); --btn-ic-bg: #fff; --btn-ic-fg: var(--navy); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .btn--glass:hover { --btn-bg: rgb(255 255 255 / .2); --btn-bd: rgb(255 255 255 / .6); }
-.btn--plain { padding: 0 28px; }
+.btn--plain { padding: 0 24px; }
 
 /* Legătura text cu săgeată */
 .link-arrow {

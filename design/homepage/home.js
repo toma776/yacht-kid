@@ -8,23 +8,43 @@ let lastY = scrollY;
 function onScroll() {
   const y = scrollY;
   const pastHero = y > (hero?.offsetHeight ?? 600) - 120;
-  header.classList.toggle('is-solid', y > 40 && (pastHero || y > innerHeight * .5));
+  const megaOpen = header.classList.contains('mega-open');
+  header.classList.toggle('is-solid', megaOpen || (y > 40 && (pastHero || y > innerHeight * .5)));
   document.body.classList.toggle('past-hero', y > innerHeight * .6);
-  header.classList.toggle('is-hidden', pastHero && y > lastY + 4 && !document.body.classList.contains('menu-open'));
+  header.classList.toggle('is-hidden', !megaOpen && pastHero && y > lastY + 4 && !document.body.classList.contains('menu-open'));
   if (y < lastY - 4 || !pastHero) header.classList.remove('is-hidden');
   lastY = y;
 }
 addEventListener('scroll', onScroll, {passive: true});
 onScroll();
 
-// Submeniul Apartamente (tastatură și atingere)
-for (const btn of document.querySelectorAll('.has-sub > button')) {
-  btn.addEventListener('click', () => btn.setAttribute('aria-expanded', String(btn.getAttribute('aria-expanded') !== 'true')));
-  btn.parentElement.addEventListener('mouseleave', () => btn.setAttribute('aria-expanded', 'false'));
+// Mega meniul Apartamente: se deschide la hover (cu o mică întârziere, ca să nu clipească la trecerea mouse-ului),
+// la click și din tastatură; se închide cu Esc, la click pe voal sau când mouse-ul iese din antet
+const megaBtn = document.querySelector('[data-mega-toggle]');
+const mega = document.querySelector('[data-mega]');
+const scrim = document.querySelector('[data-mega-scrim]');
+let megaTimer;
+function setMega(open) {
+  clearTimeout(megaTimer);
+  megaBtn.setAttribute('aria-expanded', String(open));
+  mega.classList.toggle('is-open', open);
+  header.classList.toggle('mega-open', open);
+  document.body.classList.toggle('mega-on', open);
+  onScroll();
 }
+const hoverable = matchMedia('(hover: hover) and (min-width: 1181px)');
+megaBtn.addEventListener('click', () => setMega(megaBtn.getAttribute('aria-expanded') !== 'true'));
+megaBtn.parentElement.addEventListener('mouseenter', () => { if (hoverable.matches) { clearTimeout(megaTimer); megaTimer = setTimeout(() => setMega(true), 120); } });
+header.addEventListener('mouseleave', () => { if (hoverable.matches) { clearTimeout(megaTimer); megaTimer = setTimeout(() => setMega(false), 220); } });
+header.addEventListener('mouseenter', () => { if (mega.classList.contains('is-open')) clearTimeout(megaTimer); });
+// Celelalte legături din meniu închid placa
+document.querySelectorAll('.nav > ul > li:not(.has-mega)').forEach(li => li.addEventListener('mouseenter', () => { if (hoverable.matches) setMega(false); }));
+scrim.addEventListener('click', () => setMega(false));
+mega.addEventListener('click', e => { if (e.target.closest('[data-mega-close]')) setMega(false); });
+mega.addEventListener('focusout', e => { if (!header.contains(e.relatedTarget)) setMega(false); });
 addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
-  document.querySelectorAll('.has-sub > button[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  if (mega.classList.contains('is-open')) { setMega(false); megaBtn.focus(); }
   if (document.body.classList.contains('menu-open')) setMenu(false);
 });
 
@@ -66,6 +86,13 @@ if (!reduced && layers.length) {
 // Video-ul din hero: pornește doar dacă utilizatorul nu a cerut mișcare redusă
 const heroVideo = document.querySelector('[data-hero-video]');
 if (reduced && heroVideo) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
+// Mai lent decât filmarea: cadrele curg calm, ca un travelling
+const HERO_RATE = .7;
+if (heroVideo) {
+  heroVideo.playbackRate = HERO_RATE;
+  heroVideo.addEventListener('loadedmetadata', () => { heroVideo.playbackRate = HERO_RATE; });
+  heroVideo.addEventListener('play', () => { heroVideo.playbackRate = HERO_RATE; });
+}
 
 // Video de prezentare, cu sunet, într-o fereastră
 const dialog = document.querySelector('[data-video-dialog]');

@@ -50,14 +50,41 @@
     </a>
     <nav class="nav" aria-label="Meniul principal">
       <ul>
-        <li class="has-sub">
-          <button type="button" aria-expanded="false" aria-controls="sub-ap">Apartamente <svg width="12" height="12"><use href="#i-chevron"/></svg></button>
-          <ul class="sub" id="sub-ap">
-            <li><a href="/apartamente-2-camere/">Apartamente 2 camere</a></li>
-            <li><a href="/apartamente-3-camere/">Apartamente 3 camere</a></li>
-            <li><a href="/apartamente-4-camere/">Apartamente 4 camere</a></li>
-            <li><a href="/duplex/">Apartamente tip duplex</a></li>
-          </ul>
+        <li class="has-mega">
+          <button type="button" aria-expanded="false" aria-controls="mega-ap" data-mega-toggle>Apartamente <svg width="12" height="12"><use href="#i-chevron"/></svg></button>
+          <div class="mega" id="mega-ap" data-mega>
+            <div class="wrap mega-inner">
+              <div class="mega-intro">
+                <p class="eyebrow">Colecția de apartamente</p>
+                <p class="mega-title">Designul modern, finisajele de înaltă clasă și confortul, într-o experiență superioară de locuire.</p>
+                <a class="link-arrow" href="#apartamente" data-mega-close>Descoperă colecția <svg><use href="#i-arrow"/></svg></a>
+              </div>
+              <ul class="mega-units">
+              <li><a class="mega-unit" href="/apartamente-2-camere/">
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2025/09/apartament-2-camere_SNY5891-Edit-768x512.webp" alt="Living într-un apartament cu 2 camere" decoding="async" width="768" height="512"></span>
+                <span class="mega-unit-meta"><span class="num">01</span><span class="mega-unit-title">Apartamente 2 camere</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+              </a></li>
+              <li><a class="mega-unit" href="/apartamente-3-camere/">
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2026/02/cover-2-camere-yacht-kid-v2-768x512.webp" alt="Interior într-un apartament cu 3 camere" decoding="async" width="768" height="512"></span>
+                <span class="mega-unit-meta"><span class="num">02</span><span class="mega-unit-title">Apartamente 3 camere</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+              </a></li>
+              <li><a class="mega-unit" href="/apartamente-4-camere/">
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2025/09/apartamente-4-camere_SNY5815-Edit-768x512.webp" alt="Interior într-un apartament cu 4 camere" decoding="async" width="768" height="512"></span>
+                <span class="mega-unit-meta"><span class="num">03</span><span class="mega-unit-title">Apartamente 4 camere</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+              </a></li>
+              <li><a class="mega-unit" href="/duplex/">
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2026/02/duplex-apartament-cover-image-edit-2026-768x512.webp" alt="Interior într-un apartament duplex" decoding="async" width="768" height="512"></span>
+                <span class="mega-unit-meta"><span class="num">04</span><span class="mega-unit-title">Apartamente tip duplex</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+              </a></li>
+              </ul>
+              <aside class="mega-aside on-dark">
+                <p class="eyebrow">Vizionare</p>
+                <p class="mega-aside-title">Programează vizionare!</p>
+                <a class="mega-phone" href="tel:+40739085331"><svg width="18" height="18"><use href="#i-phone"/></svg>+40 739 085 331</a>
+                <a class="btn btn--sm" href="/programeaza-o-vizionare/">Programează <span class="btn-icon"><svg><use href="#i-calendar"/></svg></span></a>
+              </aside>
+            </div>
+          </div>
         </li>
         <li><a href="/spatii-comerciale/">Comercial</a></li>
         <li><a href="/tehnologie/">Tehnologie</a></li>
@@ -74,6 +101,8 @@
     </div>
   </div>
 </header>
+
+<div class="mega-scrim" data-mega-scrim></div>
 
 <!-- Meniul pe mobil -->
 <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
