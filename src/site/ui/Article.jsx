@@ -27,10 +27,13 @@ export function splitArticle(html) {
     const title = strip(p.slice(0, end));
     return {title, id: slug(title), html: p.slice(end + 5)};
   });
+  // Întrebările frecvente devin acordeon doar dacă au forma întrebare (<strong> sau <h3>) + răspuns (<p>);
+  // altfel secțiunea rămâne una obișnuită, ca nimic din text să nu se piardă
   const faqAt = sections.findIndex(s => FAQ.test(s.title));
-  const faq = faqAt >= 0 ? sections.splice(faqAt, 1)[0] : null;
-  const qa = faq ? [...faq.html.matchAll(/<strong>([\s\S]*?)<\/strong>\s*<p>([\s\S]*?)<\/p>/g)].map(m => ({q: strip(m[1]), a: m[2]})) : [];
-  return {intro, sections, faq: faq && qa.length ? {...faq, qa} : null};
+  const qa = faqAt < 0 ? [] : [...sections[faqAt].html.matchAll(/<(strong|h3)>([\s\S]*?)<\/\1>\s*((?:<p>[\s\S]*?<\/p>\s*)+?)(?=<(?:strong|h3)>|$)/g)]
+    .map(m => ({q: strip(m[2]), a: m[3]})).filter(x => x.q && strip(x.a));
+  const faq = qa.length ? {...sections.splice(faqAt, 1)[0], qa} : null;
+  return {intro, sections, faq};
 }
 
 export async function Article({ctx, rec, title, chrome}) {
@@ -79,7 +82,7 @@ export async function Article({ctx, rec, title, chrome}) {
                 {faq.qa.map((x, i) => (
                   <details key={i} className="faq-item" open={i === 0}>
                     <summary><span>{x.q}</span><span className="chapter-icon" aria-hidden="true"/></summary>
-                    <div className="faq-answer prose" dangerouslySetInnerHTML={{__html: `<p>${x.a}</p>`}}/>
+                    <div className="faq-answer prose" dangerouslySetInnerHTML={{__html: x.a}}/>
                   </details>
                 ))}
               </div>

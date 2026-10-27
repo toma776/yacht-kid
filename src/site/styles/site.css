@@ -803,7 +803,8 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .article-cover { aspect-ratio: 16 / 7; }
 .article-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: clamp(32px, 5vw, 80px); align-items: start; padding-block: clamp(36px, 4.5vw, 64px) var(--section); }
 .article-main { min-width: 0; max-width: 72ch; }
-.article-intro { font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); line-height: 1.7; color: var(--ink); }
+/* Doar primul paragraf e mai mare: articolele fără titluri (știrile) au tot textul în „intro” */
+.article-intro > p:first-child { font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); line-height: 1.7; color: var(--ink) !important; }
 .article-section { padding-top: clamp(36px, 4vw, 56px); scroll-margin-top: 110px; }
 .article-section h2, .article-faq h2 { display: flex; gap: 16px; align-items: baseline; font-size: clamp(1.375rem, 1.15rem + .9vw, 1.875rem); font-weight: 700; line-height: 1.25; letter-spacing: var(--ls-headline); color: var(--navy); margin-bottom: 18px; }
 .article-section h2 .num { flex: none; font-size: .8125rem; font-weight: 600; letter-spacing: .1em; color: var(--coral-ink); padding: 6px 10px; border: 1px solid var(--line-strong); border-radius: 999px; transform: translateY(-4px); }

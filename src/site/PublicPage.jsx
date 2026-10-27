@@ -15,8 +15,6 @@ import {Sections, sectionsOf, PostList} from './ui/Sections.jsx';
 import SiteBehavior from './ui/SiteBehavior.jsx';
 import {Article} from './ui/Article.jsx';
 
-// Articolele cu macheta nouă (cuprins, secțiuni numerotate, întrebări frecvente în acordeon, sidebar); de extins după probă
-const NEW_ARTICLE_LAYOUT = new Set([26]);
 
 export const pathFrom = (lang, segments = []) => localPath(lang, ...segments.map(decodeURIComponent));
 
@@ -61,18 +59,8 @@ async function Body({ctx, kind, rec, values, chrome}) {
       );
     }
     case 'articole':
-      // Macheta nouă, deocamdată doar pe articolele din listă (de probă); restul păstrează macheta simplă
-      if (NEW_ARTICLE_LAYOUT.has(rec.id)) return <Article ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
-      return (
-        <article className="wrap page-body">
-          <header className="page-head">
-            <h1 className="display">{title}</h1>
-            {rec.published_at && <p className="page-meta"><time dateTime={rec.published_at}>{new Date(rec.published_at).toLocaleDateString(ctx.lang === 'en' ? 'en-US' : 'ro-RO', {dateStyle: 'long'})}</time></p>}
-          </header>
-          {rec.image && <div className="frame frame--band" style={{aspectRatio: '16 / 8', marginBottom: 'var(--stack-5)'}}><img src={ctx.media(rec.image)} alt=""/></div>}
-          <div className="prose" dangerouslySetInnerHTML={await html(rec.content)}/>
-        </article>
-      );
+      // Macheta articolelor: cuprins, secțiuni numerotate, întrebări frecvente în acordeon, sidebar (ui/Article.jsx)
+      return <Article ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
     case 'categorii': {
       const posts = await ctx.within('Lista articolelor', `categoria ${rec.id}`, () =>
         ctx.query('articole', {scope: `categorii:${rec.id}`, where: 'e.category_id = ?', args: [rec.id], order: 'e.published_at DESC'}));
