@@ -368,12 +368,56 @@ const PAGE_HEROES = [
     ro: {eyebrow: 'Comunitate', heading: 'Bine ai venit în comunitatea YACHT KID', text: '<p>Descoperă stilul de viață visat, chiar la tine acasă.</p>'},
     en: {eyebrow: 'Community'}, ai: {heading: 'Welcome to the YACHT KID community', text: '<p>Discover the lifestyle you dreamed of, right at home.</p>'}}
 ];
+const heroIds = {};
 for (const h of PAGE_HEROES) {
-  const id = await upsert('sectiuni', `sectiune:${h.key}`, {base: {kind: 'hero', anchor: null, video: h.video, video_start: h.start},
+  heroIds[h.key] = await upsert('sectiuni', `sectiune:${h.key}`, {base: {kind: 'hero', anchor: null, video: h.video, video_start: h.start},
     tr: {ro: {...h.ro, buttons: [btn('Solicită ofertă', ref('pagini', P.contact)), btn('Video de prezentare', '#video')]},
       en: {...h.en, buttons: [btn('Get offer', ref('pagini', P.contact)), btn('Presentation video', '#video')]}}, ai: h.ai});
-  await saveEntity(db, 'pagini', h.page, {links: {sections: [id]}}, {user: USER});
 }
+await saveEntity(db, 'pagini', P.tehnologie, {links: {sections: [heroIds['tehnologie-hero']]}}, {user: USER});
+
+// ---------- 7d. Comunitate: conținutul paginii vechi (/comunitate/, /en/community/) în stilul nou — capitole cu fotografii,
+// galeria de 10 fotografii, testimonialele rezidenților, vizionarea. Paragrafele RO/EN sunt de pe site-ul vechi;
+// titlurile capitolelor și ale secțiunilor sunt noi (EN = AI).
+const pic = async (file, alt) => `<figure><img data-media="${await mediaId(`2024/11/${file}`)}" alt="${alt}"></figure>`;
+const COMMUNITY_CH = [
+  [await pic('yacht-kid-comunitate-9.jpg', 'Living într-un apartament finalizat YACHT KID'),
+    ['Un stil de viață modern', 'Descoperă colecția de apartamente finalizate, ce îmbină priveliști spectaculoase către lac, lux, confort și inovație, creând spații unde poți prospera și savura cele mai frumoase momente ale vieții.'],
+    ['A modern way of living', 'Discover ready-to-move-in apartments that blend lake views, luxury, convenience, and innovation, creating environments where you can thrive and enjoy life’s best moments.']],
+  [await pic('yacht-kid-apartamente-duplex-31.jpg', 'Fațada YACHT KID seara, cu balcoanele luminate'),
+    ['Siguranță 24/7', 'Siguranța reprezintă o prioritate în COMUNITATEA YACHT KID. Cu securitate 24/7, oferim un mediu sigur și liniștit, pentru fiecare familie. Fiecare unitate rezidențială este realizată cu materiale premium și tehnologie de ultimă generație, pentru a asigura confort și eficiență excepționale. Astfel, rezidenții care s-au mutat deja în complex, se bucură de condiții ideale.'],
+    ['24/7 safety', 'Safety represents a top priority at YACHT KID COMMUNITY. With 24/7 security, we provide a secure and peaceful environment for every family. Each residence is crafted with premium materials and cutting-edge technology to ensure exceptional comfort and efficiency. Therefore, residents who have already moved into the complex enjoy perfect conditions.']],
+  [await pic('yacht-kid-comunitate-10.jpg', 'Lacul și parcul văzute de la YACHT KID'),
+    ['Alei verzi, totul aproape', 'Cu doar câteva apartamente finalizate rămase, acum este momentul perfect pentru a vă alătura acestei comunități vii. Bucurați-vă de alei verzi, căi pietonale bine întreținute și acces rapid și ușor la toate facilitățile de care aveți nevoie. Fiecare detaliu este conceput cu o atenție deosebită, pentru a oferi un stil de viață confortabil, care respectă cele mai înalte standarde.'],
+    ['Green walkways, everything close by', 'With just a few ready-to-move-in apartments left, now is the perfect time to join this lively neighborhood. Enjoy peaceful green walkways, well maintained pedestrian paths, and quick, easy access to every amenity you need. Every detail is thoughtfully designed to offer an ideal, comfortable lifestyle.']],
+  [await pic('yacht-kid-comunitate-6.jpg', 'Spațiu de zi luminos, pe două niveluri'),
+    ['Spații pentru întreaga familie', 'Imaginați-vă spații unde copiii se pot juca și râde, în timp ce părinții se relaxează într-un mediu calm și liniștit. COMUNITATEA YACHT KID vă pune la dispoziție toate acestea, fiind mai mult decât un simplu loc de trai, ci o comunitate prosperă.'],
+    ['Room for the whole family', 'Imagine spaces where children can play and laugh, while parents relax in a calm and peaceful environment. YACHT KID COMMUNITY is more than just a place to live, it’s a welcoming community where you can feel connected and truly at home.']]
+];
+const chaptersHtml = (lang, statement) => `<blockquote><p>${statement}</p></blockquote>` +
+  COMMUNITY_CH.map(([fig, ro, en]) => { const [t, p] = lang === 'ro' ? ro : en; return `<h3>${t}</h3><p>${p}</p>${fig}`; }).join('');
+const communityGallery = [];
+for (const n of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) communityGallery.push(await mediaId(`2024/11/yacht-kid-comunitate-${n}.jpg`));
+const residents = (await all(db, `SELECT id FROM testimonials WHERE anonymous = 1 AND quote IS NOT NULL ORDER BY id`)).map(r => r.id);
+const COMMUNITY = [
+  {key: 'comunitate-despre', kind: 'text', anchor: 'despre',
+    ro: {eyebrow: 'Comunitate', heading: 'Mai mult decât un loc de trai',
+      text: chaptersHtml('ro', 'COMUNITATEA YACHT KID oferă un stil de viață modern, unde tot ce ai nevoie este la doar un pas distanță.')},
+    en: {eyebrow: 'Community', heading: 'More than just a place to live',
+      text: chaptersHtml('en', 'Designed with a modern urban style for the future, YACHT KID COMMUNITY offers a premium lifestyle where everything you need is within reach.')}},
+  {key: 'comunitate-galerie', kind: 'galerie', anchor: 'galerie', links: {gallery: communityGallery},
+    ro: {eyebrow: 'Galerie', heading: 'Apartamente finalizate, gata de mutare'}, en: {eyebrow: 'Gallery'}, ai: {heading: 'Finished apartments, ready to move in'}},
+  {key: 'comunitate-testimoniale', kind: 'testimoniale', anchor: 'testimoniale', links: {testimonials: residents},
+    ro: {eyebrow: 'Testimoniale', heading: 'Alege o comunitate care spune o poveste', buttons: [btn('Toate testimonialele', ref('pagini', P.testimoniale))]},
+    en: {eyebrow: 'Testimonials', heading: 'Choose a community that tells a story', buttons: [btn('All testimonials', ref('pagini', P.testimoniale))]}},
+  {key: 'comunitate-vizionare', kind: 'cta', anchor: 'vizionare', base: {image: await mediaId('2024/11/yacht-kid-comunitate-edit-45-1.jpg')},
+    ro: {eyebrow: 'Vizionare', heading: 'Descoperă stilul de viață visat în comunitatea YACHT KID.', buttons: [btn('Programează vizionare', ref('pagini', P.vizionare))]},
+    en: {eyebrow: 'Viewing', heading: 'Discover your dream lifestyle at YACHT KID COMMUNITY', buttons: [btn('Schedule a viewing', ref('pagini', P.vizionare))]}}
+];
+const communityIds = [heroIds['comunitate-hero']];
+for (const s of COMMUNITY)
+  communityIds.push(await upsert('sectiuni', `sectiune:${s.key}`, {base: {kind: s.kind, anchor: s.anchor, ...(s.base ?? {})}, tr: {ro: s.ro, en: s.en}, links: s.links, ai: s.ai ?? {}}));
+await saveEntity(db, 'pagini', P.comunitate, {links: {sections: communityIds}}, {user: USER});
 
 // ---------- 8. Traducerile AI: proveniența devine „inferred”, de verificat de un om (§1.5)
 await db.execute({sql: `UPDATE provenance SET certainty = 'inferred', method = 'ai-translation', verified_at = NULL, verified_by = NULL

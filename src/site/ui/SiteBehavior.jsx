@@ -195,6 +195,19 @@ function init(signal) {
     on(dialog, 'close', () => full.pause());
   }
 
+  // ---------- Galeria: fotografia mare într-un dialog, cu înainte/înapoi (butoane, săgețile tastaturii) și Esc
+  const box = document.querySelector('[data-lightbox]');
+  if (box) {
+    const photos = JSON.parse(box.dataset.lightbox), img = box.querySelector('[data-lightbox-img]'), count = box.querySelector('[data-lightbox-count]');
+    let at = 0;
+    const show = i => { at = (i + photos.length) % photos.length; img.src = photos[at].src; img.alt = photos[at].alt; count.textContent = `${at + 1} / ${photos.length}`; };
+    document.querySelectorAll('[data-lightbox-open]').forEach(b => on(b, 'click', () => { show(+b.dataset.lightboxOpen); box.showModal(); }));
+    box.querySelectorAll('[data-lightbox-step]').forEach(b => on(b, 'click', () => show(at + +b.dataset.lightboxStep)));
+    on(box.querySelector('[data-lightbox-close]'), 'click', () => box.close());
+    on(box, 'click', e => { if (e.target === box) box.close(); });
+    on(box, 'keydown', e => { if (e.key === 'ArrowRight') show(at + 1); if (e.key === 'ArrowLeft') show(at - 1); });
+  }
+
   // ---------- Capitolele din Despre: unul deschis, cu fotografia lui; se schimbă singure cât timp secțiunea e pe
   // ecran, se opresc la hover/focus și de tot după primul click
   const chapters = document.querySelector('[data-chapters]');

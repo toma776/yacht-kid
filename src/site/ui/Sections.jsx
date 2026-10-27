@@ -228,8 +228,38 @@ async function Collection({ctx, s, values}) {
 }
 
 // Arhitectura: trei fotografii ca straturi la adâncimi diferite, valurile curg deasupra
+// Galeria cu mai mult de trei fotografii: grilă, prima mai mare; un click deschide fotografia mare (dialog, cu
+// înainte/înapoi), ca lightbox-ul de pe site-ul vechi
+function PhotoGrid({ctx, s, values, imgs}) {
+  const list = imgs.map(m => ({src: ctx.media(m.id), alt: m.alt ?? ''}));
+  return (
+    <section className="photos floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap">
+        <div className="section-head"><Head s={s} values={values} id={`t-${s.id}`}/></div>
+        <ul className="photo-grid">
+          {list.map((p, i) => (
+            <li key={i} className="reveal" style={{'--d': `${(i % 4) * 60}ms`}}>
+              <button type="button" className="frame photo" data-lightbox-open={i} aria-label={p.alt || `${i + 1} / ${list.length}`}>
+                <img src={p.src} alt={p.alt} loading="lazy"/>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <dialog className="lightbox" data-lightbox={JSON.stringify(list)} aria-label={s.heading ?? ''}>
+        <button className="dialog-close" type="button" data-lightbox-close aria-label="×"><Icon id="close" size={24}/></button>
+        <button className="lightbox-nav lightbox-prev" type="button" data-lightbox-step="-1" aria-label="←"><Arrow/></button>
+        <img alt="" data-lightbox-img/>
+        <button className="lightbox-nav lightbox-next" type="button" data-lightbox-step="1" aria-label="→"><Arrow/></button>
+        <p className="lightbox-count num" data-lightbox-count/>
+      </dialog>
+    </section>
+  );
+}
+
 async function Gallery({ctx, s, values}) {
   const imgs = await ctx.links('sectiuni.gallery', s.id);
+  if (imgs.length > 3) return PhotoGrid({ctx, s, values, imgs});
   const [b1] = await buttons(ctx, s, values);
   const [a, b, c] = imgs;
   return (
@@ -409,6 +439,34 @@ async function Awards({ctx, s, values}) {
   );
 }
 
+// Testimonialele: cele alese în secțiune sau, dacă nu e niciunul, toate cele „Afișat pe pagina Testimoniale”.
+// Textul e în limba paginii: originalul dacă e scris în ea, altfel traducerea.
+async function Testimonials({ctx, s, values}) {
+  const chosen = await ctx.links('sectiuni.testimonials', s.id);
+  const list = chosen.length ? chosen : await ctx.within(`Testimoniale (${s.id})`, 'cele afișate pe pagina Testimoniale', () =>
+    ctx.query('testimoniale', {fields: ['featured'], where: 'e.featured = 1', order: 'e.id'}));
+  const [b1] = await buttons(ctx, s, values);
+  const text = t => (t.quote_lang === ctx.lang ? t.quote : t.quote_translated || t.quote) ?? '';
+  return (
+    <section className="testimonials floor bg-navy on-dark slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap">
+        <div className="section-head section-head--split">
+          <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
+          {b1 && <a className="link-arrow reveal" style={{'--d': '160ms'}} href={b1.href}>{b1.label} <Arrow/></a>}
+        </div>
+        <ul className="quote-grid">
+          {list.filter(t => text(t)).map((t, i) => (
+            <li key={t.id} className="quote-card reveal" style={{'--d': `${(i % 3) * 80}ms`}}>
+              <blockquote><p>{text(t)}</p></blockquote>
+              <p className="quote-author"><b>{t.author}</b>{t.role && <span>{t.role}</span>}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 // Cardurile articolelor: aceeași listă pe pagina blogului (secțiunea `articole`) și pe paginile categoriilor
 export async function PostList({ctx, posts, labels}) {
   const date = d => new Date(d).toLocaleDateString(ctx.lang === 'en' ? 'en-US' : 'ro-RO', {dateStyle: 'long'});
@@ -444,7 +502,7 @@ async function Posts({ctx, s, values, first}) {
 }
 
 const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-locuinte': Collection, galerie: Gallery, cta: Cta, formular: ContactForm, articole: Posts,
-  'fisa-tehnica': UnitSpec, afaceri: Businesses, premii: Awards};
+  'fisa-tehnica': UnitSpec, afaceri: Businesses, premii: Awards, testimoniale: Testimonials};
 
 export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) {
   const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId));
