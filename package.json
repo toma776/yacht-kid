@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "import": "node scripts/import.mjs",
+    "import:foto": "node scripts/import-photos.mjs",
     "crawl": "node scripts/crawl.mjs",
     "analyze": "node scripts/analyze.mjs",
     "schema": "node scripts/schema.mjs",

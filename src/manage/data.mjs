@@ -279,7 +279,7 @@ export async function eventStats(db) {
 }
 
 export async function mediaItems(db) {
-  return all(db, `SELECT m.id, m.filename, m.mime, m.width, m.height, m.bytes, ro.alt alt_ro, en.alt alt_en,
+  return all(db, `SELECT m.id, m.filename, m.mime, m.width, m.height, m.bytes, m.tags, ro.alt alt_ro, en.alt alt_en, ro.description description_ro,
     (SELECT count(*) FROM provenance p WHERE p.entity = 'media' AND p.entity_id = m.id AND p.certainty = 'unrecoverable') lost
     FROM media m LEFT JOIN media_translations ro ON ro.entity_id = m.id AND ro.lang = 'ro' LEFT JOIN media_translations en ON en.entity_id = m.id AND en.lang = 'en' ORDER BY m.id`);
 }

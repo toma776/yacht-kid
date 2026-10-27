@@ -1,0 +1,102 @@
+/* Branding: meniul secundar din stânga conținutului și blocurile paginilor (logo, culori, tipografie, aplicații) */
+.bb { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 24px; align-items: start; }
+.bb-nav { position: sticky; top: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; display: grid; gap: 2px; }
+.bb-nav .h { font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 10px 8px 4px; }
+.bb-nav .h:first-child { margin-top: 2px; }
+.bb-nav a { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px; color: var(--ink); font-size: 13.5px; }
+.bb-nav a:hover { background: var(--panel-2); text-decoration: none; }
+.bb-nav a.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+.bb-nav a small { color: var(--muted); font-size: 11px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.bb-main { min-width: 0; font-family: var(--font-montserrat), Montserrat, system-ui, sans-serif; }
+.bb-src { color: var(--muted); font-size: 12px; margin: -10px 0 18px; }
+
+.bb-hero { border-radius: 16px; background: #20366c; color: #fff; padding: 48px 40px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; margin-bottom: 18px; }
+.bb-hero h2 { font-size: 34px; font-weight: 700; letter-spacing: .02em; margin: 0; }
+.bb-hero p { margin: 6px 0 0; font-weight: 300; letter-spacing: .12em; text-transform: uppercase; color: #9cb0fe; }
+.bb-hero img { width: 180px; height: auto; display: block; }
+
+.bb-chapters { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); }
+.bb-chapter { display: grid; gap: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; color: var(--ink); }
+.bb-chapter:hover { border-color: var(--accent); text-decoration: none; box-shadow: var(--shadow); }
+.bb-chapter img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: var(--panel-2); }
+.bb-chapter div { padding: 0 14px 12px; }
+.bb-chapter b { display: block; font-size: 14.5px; }
+.bb-chapter small { color: var(--muted); }
+
+.bb-quote { border-left: 3px solid #e8895c; padding: 4px 0 4px 14px; margin: 0 0 10px; }
+.bb-quote q { display: block; font-style: italic; color: var(--ink); quotes: none; }
+.bb-quote span { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+.bb-logos { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
+.bb-logo { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--panel); }
+.bb-logo .stage { display: grid; place-items: center; padding: 34px; min-height: 220px; }
+.bb-logo .stage img { max-width: 70%; max-height: 170px; width: auto; height: auto; display: block; }
+.bb-logo .cap { padding: 12px 14px; border-top: 1px solid var(--line); display: grid; gap: 4px; font-size: 13px; }
+.bb-logo .cap b { font-size: 14px; display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+.bb-logo .cap span { color: var(--muted); }
+
+.bb-formula { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 14px; align-items: center; background: #f1f1f0; border-radius: 12px; padding: 22px; margin-bottom: 12px; }
+.bb-formula figure { margin: 0; display: grid; grid-template-rows: 56px auto; gap: 8px; justify-items: center; align-items: center; text-align: center; }
+.bb-formula img { max-width: 100%; max-height: 56px; width: auto; height: auto; }
+.bb-formula figcaption { font-size: 12.5px; color: #20366c; }
+.bb-formula i { font-style: normal; font-size: 26px; font-weight: 700; color: #24262e; }
+
+.bb-variants { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(330px, 100%), 1fr)); }
+.bb-var { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--panel); }
+.bb-var.is-main { border-color: #20366c; box-shadow: inset 0 0 0 1px #20366c; }
+/* minmax(0, 1fr): coloanele nu se lățesc după mărimea naturală a imaginilor mari */
+.bb-var .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.bb-var .pair div { display: grid; place-items: center; height: 150px; padding: 18px; min-width: 0; overflow: hidden; }
+.bb-var .pair div:first-child { background: #20366c; }
+.bb-var .pair div:last-child { background: #fff; }
+.bb-var .pair img { max-width: 100%; max-height: 110px; width: auto; height: auto; object-fit: contain; }
+.bb-var .cap { padding: 12px 14px; border-top: 1px solid var(--line); font-size: 13px; display: grid; gap: 4px; }
+.bb-var .cap b { font-size: 15px; display: flex; gap: 8px; align-items: center; }
+.bb-var .cap span { color: var(--muted); }
+.bb-letter { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: #20366c; color: #fff; font-size: 13px; }
+
+.bb-swatches { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); }
+.bb-sw { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--panel); display: grid; }
+.bb-sw .chip { height: 120px; display: flex; align-items: flex-end; padding: 12px; font-size: 12px; }
+.bb-sw .chip.big { height: 170px; }
+.bb-sw .cap { padding: 12px 14px; display: grid; gap: 6px; font-size: 13px; }
+.bb-sw .cap b { font-size: 14px; }
+.bb-sw .cap span { color: var(--muted); }
+.bb-codes { display: flex; flex-wrap: wrap; gap: 6px; }
+.bb-codes button { font-family: ui-monospace, Consolas, monospace; font-size: 12px; padding: 3px 8px; }
+.bb-pair .chips { display: grid; grid-template-rows: 1fr 1fr; }
+.bb-pair .chip { height: 80px; }
+.bb-grad { height: 120px; }
+
+.bb-type { background: #f1f1f0; color: #20366c; border-radius: 12px; padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 14px; font-family: var(--font-montserrat), Montserrat, sans-serif; }
+.bb-type .fam { font-size: 40px; font-weight: 700; line-height: 1.1; margin: 0 0 10px; }
+.bb-type .spec { font-size: 17px; line-height: 1.7; margin: 0 0 18px; word-spacing: .25em; }
+.bb-type .lvl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline; border-bottom: 1px solid rgba(32, 54, 108, .15); padding: 10px 0; }
+.bb-type .lvl small { font-size: 12px; white-space: nowrap; }
+.bb-type .body { font-size: 13px; line-height: 1.6; font-weight: 300; margin-top: 14px; }
+
+.bb-apps { display: grid; gap: 16px; }
+.bb-app { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(240px, 1fr); gap: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.bb-app img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 16 / 9; }
+.bb-app div { padding: 16px 16px 16px 0; }
+.bb-app h3 { font-size: 15px; margin-bottom: 8px; display: flex; gap: 8px; align-items: baseline; }
+.bb-app ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; display: grid; gap: 4px; }
+
+.bb-pages { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.bb-page { display: grid; gap: 4px; color: var(--ink); font-size: 12.5px; }
+.bb-page img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block; }
+.bb-page:hover img { border-color: var(--accent); }
+.bb-page:hover { text-decoration: none; }
+
+.bb-obs { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: baseline; font-size: 13.5px; }
+.bb-obs:last-child { border: 0; }
+.lvl.ok { background: var(--ok); color: #fff; }
+
+@media (max-width: 1000px) {
+  .bb { grid-template-columns: 1fr; }
+  .bb-nav { position: static; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .bb-nav .h { grid-column: 1 / -1; }
+  .bb-app, .bb-type, .bb-hero { grid-template-columns: 1fr; }
+  .bb-app div { padding: 0 16px 16px; }
+  .bb-formula { grid-template-columns: 1fr; }
+}

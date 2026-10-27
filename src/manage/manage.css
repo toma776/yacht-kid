@@ -230,6 +230,8 @@ td.num, th.num { font-variant-numeric: tabular-nums; text-align: right; white-sp
 .media-card img, .media-card .ph { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--panel-2); }
 .media-card .ph { display: grid; place-items: center; color: var(--muted); font-weight: 700; }
 .media-card div { padding: 8px 10px; display: grid; gap: 4px; }
+.media-card .tags { display: flex; flex-wrap: wrap; gap: 3px; }
+.media-card .tags i { font-style: normal; font-size: 10.5px; padding: 1px 6px; border-radius: 999px; background: var(--panel-2); color: var(--muted); }
 .media-card b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* istoric */
