@@ -453,7 +453,7 @@ export async function runImport(client, {dir, overwriteEdits = false, now = new 
       const i = a.findIndex(x => x.heading === from);
       if (i < 0) { W.warn(`„${from}” nu e pe ${roPath}.`); return []; }
       if (a.length !== b.length) W.warn(`${roPath} și ${enPath} au structuri diferite (${a.length} / ${b.length} titluri); EN nu s-a importat.`);
-      return a.slice(i, i + count).map((x, k) => ({ro: x, en: a.length === b.length ? b[i + k] : null}));
+      return a.slice(i, i + count).map((x, k) => ({ro: x, before: a[i + k - 1], en: a.length === b.length ? b[i + k] : null}));
     };
     for (const [group, from, count] of [['avantaje', 'Patent de invenție pentru fațade', 12], ['confort', 'Consum redus de energie', 6]]) {
       for (const it of await outlineItems('/', '/en/', from, count)) {
@@ -467,7 +467,9 @@ export async function runImport(client, {dir, overwriteEdits = false, now = new 
     const techSrc = await pageSource('/tehnologie/', 'ro');
     const techLong = text(mainOf(await S.html('/tehnologie/')));
     for (const it of await outlineItems('/tehnologie/', '/en/technology/', 'Structură și rezistență la seism', 6)) {
-      const img = images(it.ro.html)[0];
+      // Pe pagina veche pictograma stă deasupra titlului, deci e ultima imagine din bucata de dinaintea lui;
+      // prima imagine de după titlu e a cardului următor (de aici decalajul de câte o poziție)
+      const img = images(it.before?.html ?? '').filter(m => mediaId(m.src)).at(-1);
       const id = await W.save('tehnologii', `tehnologie:${fold(it.ro.heading).replace(/[^a-z0-9]+/g, '-')}`, {
         base: {image: img ? mediaId(img.src) : null},
         tr: {ro: {title: it.ro.heading, summary: paragraphs(it.ro.html)[0] ?? text(it.ro.html) ?? null}, ...(it.en ? {en: {title: it.en.heading, summary: paragraphs(it.en.html)[0] ?? text(it.en.html) ?? null}} : {})}

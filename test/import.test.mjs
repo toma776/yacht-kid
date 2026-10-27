@@ -139,3 +139,13 @@ test('textul bogat: trimiterile devin adresa curentă în limba paginii', async 
   assert.ok(!html.includes('data-ref='));
   assert.match(html, /href="\/[^"]*\/"/);
 });
+
+test('tehnologiile primesc pictograma de deasupra titlului lor, nu pe a cardului următor', async () => {
+  const icon = async title => (await one(db, `SELECT m.filename FROM technologies t JOIN technologies_translations tr ON tr.entity_id = t.id AND tr.lang = 'ro' LEFT JOIN media m ON m.id = t.image_id WHERE tr.title = ?`, [title]))?.filename;
+  assert.match(await icon('Structură și rezistență la seism'), /icons_Structura/);
+  assert.match(await icon('Sisteme de panouri prefabricate'), /icons_Fatada/);
+  assert.match(await icon('Protecție împotriva infiltrațiilor'), /water-resistant/);
+  assert.match(await icon('Robot de curățenie'), /robot/);
+  assert.match(await icon('Ferestre Saint-Gobain'), /Tamplarie-si-Geamuri/);
+  assert.match(await icon('Parchet triplu stratificat'), /Pardoseala/);
+});

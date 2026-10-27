@@ -477,6 +477,17 @@ for (const [name, file] of SUPPLIERS) {
   if (found) { if (!found.logo_id) await saveEntity(db, 'parteneri', found.id, {base: {logo}}, {user: USER}); }
   else await upsert('parteneri', `partener:${name.toLowerCase()}`, {base: {name, roles: ['furnizor'], logo}, status: 'published'});
 }
+// Pictogramele tehnologiilor, ca pe pagina veche. Importul le decala cu o poziție (luat imaginea cardului următor);
+// e reparat în src/import/run.mjs, iar aici se corectează bazele importate înainte de reparație
+const TECH_ICONS = {'Structură și rezistență la seism': 'icons_Structura.webp', 'Sisteme de panouri prefabricate': 'icons_Fatada.webp',
+  'Protecție împotriva infiltrațiilor': 'water-resistant.png', 'Robot de curățenie': 'icon_robot_curatenie.png',
+  'Ferestre Saint-Gobain': 'icons_Tamplarie-si-Geamuri.png', 'Parchet triplu stratificat': 'icons_Pardoseala.webp'};
+for (const [title, file] of Object.entries(TECH_ICONS)) {
+  const t = await one(db, `SELECT entity_id id FROM technologies_translations WHERE lang = 'ro' AND title = ?`, [title]);
+  const image = await mediaId(`2024/10/${file}`);
+  if (!t || !image) throw new Error(`Tehnologia „${title}” sau pictograma ${file} lipsește`);
+  await saveEntity(db, 'tehnologii', t.id, {base: {image}}, {user: USER});
+}
 const techIds = (await all(db, 'SELECT id FROM technologies ORDER BY id')).map(r => r.id);
 const techIntro = await upsert('sectiuni', 'sectiune:tehnologie-intro', {base: {kind: 'tehnologii', anchor: 'tehnologii'}, links: {technologies: techIds},
   tr: {ro: {eyebrow: 'Tehnologie și finisaje de lux', heading: 'Pentru un stil de viață superior',
