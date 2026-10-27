@@ -651,8 +651,9 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .feature-text { grid-column: 2; margin: -8px 0 0; font-size: var(--fs-small); line-height: 1.55; color: var(--ink-2); padding-right: 18px; }
 .spec-value { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem); }
 .spec-value small { white-space: nowrap; }
-/* Fișa e urmată de o placă (.slab) care urcă peste ea cu --r-band: spațiul de jos acoperă suprapunerea */
-.facts--spec { padding-bottom: calc(var(--r-band) + clamp(44px, 4.5vw, 64px)); }
+/* Fișa nu e o placă proprie: continuă secțiunea de deasupra (avantajele, tot pe alb), iar placa următoare (.slab)
+   urcă peste ea cu --r-band, deci spațiul de jos acoperă suprapunerea */
+.facts--spec { padding-top: 0; padding-bottom: calc(var(--r-band) + clamp(44px, 4.5vw, 64px)); }
 .businesses .section-head--split { align-items: end; }
 .business-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); margin-top: var(--stack-5); }
 .business > a, .business > div { display: grid; gap: 10px; align-content: start; height: 100%; }
