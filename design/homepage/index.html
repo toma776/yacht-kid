@@ -40,21 +40,25 @@
   <symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></symbol>
   <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M5 9h3v10H5zM6.5 4.5a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zM10.5 9h2.9v1.4c.4-.8 1.5-1.6 3-1.6 3 0 3.6 2 3.6 4.5V19h-3v-5c0-1.2 0-2.6-1.6-2.6s-1.9 1.2-1.9 2.5V19h-3z" fill="currentColor"/></symbol>
   <symbol id="i-award" viewBox="0 0 32 32"><path d="M16 20a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zM11.5 18.5 10 28l6-3 6 3-1.5-9.5"/></symbol>
+  <symbol id="i-community" viewBox="0 0 32 32"><path d="M11 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 26v-2a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v2M22 14a3.5 3.5 0 1 0 0-7M24 18a5 5 0 0 1 4 5v3"/></symbol>
 </svg>
 
 <a class="skip" href="#continut">Sari la conținut</a>
 
 <!-- ===================== ANTET ===================== -->
+<!-- Patru intrări în loc de șapte: Apartamente și Proiectul se deschid ca plăci (mega), Blog și Contact sunt legături.
+     Suprafețele și prețurile vin din Brain (tipuri de locuințe); în prototip sunt scrise aici. -->
 <header class="site-header" data-header>
   <div class="header-inner wrap">
     <a class="logo" href="/" aria-label="YACHT KID, pagina principală">
       <img class="logo-light" src="/wp-content/uploads/2024/10/yacht_kid_logo_white.png" alt="" width="275" height="168">
       <img class="logo-dark" src="/wp-content/uploads/2024/10/yacht_kid_logo_blue.png" alt="" width="275" height="168">
     </a>
-    <nav class="nav" aria-label="Meniul principal">
+    <nav class="nav" aria-label="Meniul principal" data-nav>
+      <span class="nav-pill" aria-hidden="true" data-nav-pill></span>
       <ul>
         <li class="has-mega">
-          <button type="button" aria-expanded="false" aria-controls="mega-ap" data-mega-toggle>Apartamente <svg width="12" height="12"><use href="#i-chevron"/></svg></button>
+          <button type="button" aria-expanded="false" aria-controls="mega-ap" data-mega-toggle="mega-ap">Apartamente <svg width="12" height="12"><use href="#i-chevron"/></svg></button>
           <div class="mega" id="mega-ap" data-mega>
             <div class="wrap mega-inner">
               <div class="mega-intro">
@@ -64,20 +68,20 @@
               </div>
               <ul class="mega-units">
               <li><a class="mega-unit" href="/apartamente-2-camere/">
-                <span class="frame mega-frame"><img src="/wp-content/uploads/2025/09/apartament-2-camere_SNY5891-Edit-768x512.webp" alt="Living într-un apartament cu 2 camere" decoding="async" width="768" height="512"></span>
-                <span class="mega-unit-meta"><span class="num">01</span><span class="mega-unit-title">Apartamente 2 camere</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2025/09/apartament-2-camere_SNY5891-Edit-768x512.webp" alt="Living într-un apartament cu 2 camere" decoding="async" width="768" height="512"><span class="mega-badge">61,9 – 66,24 m²</span></span>
+                <span class="mega-unit-meta"><span class="num">01</span><span class="mega-unit-title">Apartamente 2 camere<small>de la 210.000 € + TVA</small></span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
               </a></li>
               <li><a class="mega-unit" href="/apartamente-3-camere/">
-                <span class="frame mega-frame"><img src="/wp-content/uploads/2026/02/cover-2-camere-yacht-kid-v2-768x512.webp" alt="Interior într-un apartament cu 3 camere" decoding="async" width="768" height="512"></span>
-                <span class="mega-unit-meta"><span class="num">02</span><span class="mega-unit-title">Apartamente 3 camere</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2026/02/cover-2-camere-yacht-kid-v2-768x512.webp" alt="Interior într-un apartament cu 3 camere" decoding="async" width="768" height="512"><span class="mega-badge">87,6 – 115,1 m²</span></span>
+                <span class="mega-unit-meta"><span class="num">02</span><span class="mega-unit-title">Apartamente 3 camere<small>de la 390.000 € + TVA</small></span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
               </a></li>
               <li><a class="mega-unit" href="/apartamente-4-camere/">
-                <span class="frame mega-frame"><img src="/wp-content/uploads/2025/09/apartamente-4-camere_SNY5815-Edit-768x512.webp" alt="Interior într-un apartament cu 4 camere" decoding="async" width="768" height="512"></span>
-                <span class="mega-unit-meta"><span class="num">03</span><span class="mega-unit-title">Apartamente 4 camere</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2025/09/apartamente-4-camere_SNY5815-Edit-768x512.webp" alt="Interior într-un apartament cu 4 camere" decoding="async" width="768" height="512"><span class="mega-badge">136 – 186,8 m²</span></span>
+                <span class="mega-unit-meta"><span class="num">03</span><span class="mega-unit-title">Apartamente 4 camere<small>de la 690.000 € + TVA</small></span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
               </a></li>
               <li><a class="mega-unit" href="/duplex/">
-                <span class="frame mega-frame"><img src="/wp-content/uploads/2026/02/duplex-apartament-cover-image-edit-2026-768x512.webp" alt="Interior într-un apartament duplex" decoding="async" width="768" height="512"></span>
-                <span class="mega-unit-meta"><span class="num">04</span><span class="mega-unit-title">Apartamente tip duplex</span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
+                <span class="frame mega-frame"><img src="/wp-content/uploads/2026/02/duplex-apartament-cover-image-edit-2026-768x512.webp" alt="Interior într-un apartament duplex" decoding="async" width="768" height="512"><span class="mega-badge">219 – 246 m²</span></span>
+                <span class="mega-unit-meta"><span class="num">04</span><span class="mega-unit-title">Apartamente tip duplex<small>de la 1.495.000 € + TVA</small></span><svg class="mega-go" width="16" height="16"><use href="#i-arrow"/></svg></span>
               </a></li>
               </ul>
               <aside class="mega-aside on-dark">
@@ -89,11 +93,37 @@
             </div>
           </div>
         </li>
-        <li><a href="/spatii-comerciale/">Comercial</a></li>
-        <li><a href="/tehnologie/">Tehnologie</a></li>
-        <li><a href="/comunitate/">Comunitate</a></li>
+        <li class="has-mega">
+          <button type="button" aria-expanded="false" aria-controls="mega-pr" data-mega-toggle="mega-pr">Proiectul <svg width="12" height="12"><use href="#i-chevron"/></svg></button>
+          <div class="mega" id="mega-pr" data-mega>
+            <div class="wrap mega-inner mega-inner--project">
+              <div class="mega-intro">
+                <p class="eyebrow">Proiectul</p>
+                <p class="mega-title">Un ansamblu premiat internațional, pe malul lacului, cu tot ce ai nevoie la parter.</p>
+                <a class="link-arrow" href="#despre" data-mega-close>Despre YACHT KID <svg><use href="#i-arrow"/></svg></a>
+              </div>
+              <ul class="mega-topics">
+                <li><a class="mega-topic" href="/tehnologie/">
+                  <span class="frame mega-topic-frame"><img src="/wp-content/uploads/2024/10/YachtKID-Exterior-51-1536x1024.jpg" alt="" decoding="async" loading="lazy" width="1536" height="1024"></span>
+                  <span class="mega-topic-text"><span class="mega-topic-ic"><svg width="22" height="22"><use href="#i-facade"/></svg></span><span><b>Tehnologie</b><small>Structură post-tensionată, fațadă cu patent propriu, consum redus.</small></span></span>
+                </a></li>
+                <li><a class="mega-topic" href="/comunitate/">
+                  <span class="frame mega-topic-frame"><img src="/wp-content/uploads/2024/10/colaj-yacht-kid-resize-_0001_colaj-yacht-kid-00003.jpg" alt="" decoding="async" loading="lazy" width="1536" height="1024"></span>
+                  <span class="mega-topic-text"><span class="mega-topic-ic"><svg width="22" height="22"><use href="#i-community"/></svg></span><span><b>Comunitate</b><small>Cafenea, minimarket, beauty și wellness, chiar la parter.</small></span></span>
+                </a></li>
+                <li><a class="mega-topic" href="/spatii-comerciale/">
+                  <span class="frame mega-topic-frame"><img src="/wp-content/uploads/2024/10/poza-yacht-website-v1-final-1536x1023.jpg" alt="" decoding="async" loading="lazy" width="1536" height="1023"></span>
+                  <span class="mega-topic-text"><span class="mega-topic-ic"><svg width="22" height="22"><use href="#i-shop"/></svg></span><span><b>Spații comerciale</b><small>88,2 – 171,8 m², cu terasă, de la 350.000 € + TVA.</small></span></span>
+                </a></li>
+                <li><a class="mega-topic" href="/category/premii/">
+                  <span class="frame mega-topic-frame"><img src="/wp-content/uploads/2024/10/yacht-kid-premiu-masterprize-1536x1536.jpg" alt="" decoding="async" loading="lazy" width="1536" height="1536"></span>
+                  <span class="mega-topic-text"><span class="mega-topic-ic"><svg width="22" height="22"><use href="#i-award"/></svg></span><span><b>Premii</b><small>Premiat la 5 competiții internaționale de arhitectură.</small></span></span>
+                </a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
         <li><a href="/blog/">Blog</a></li>
-        <li><a href="/category/premii/">Premii</a></li>
         <li><a href="/contact/">Contact</a></li>
       </ul>
     </nav>
@@ -107,29 +137,64 @@
 
 <div class="mega-scrim" data-mega-scrim></div>
 
-<!-- Meniul pe mobil -->
-<div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
-  <nav class="wrap" aria-label="Meniul principal">
-    <p class="eyebrow on-dark">Apartamente</p>
-    <ul class="mm-primary">
-      <li><a href="/apartamente-2-camere/">2 camere</a></li>
-      <li><a href="/apartamente-3-camere/">3 camere</a></li>
-      <li><a href="/apartamente-4-camere/">4 camere</a></li>
-      <li><a href="/duplex/">Duplex</a></li>
-    </ul>
-    <ul class="mm-secondary">
-      <li><a href="/spatii-comerciale/">Comercial</a></li>
-      <li><a href="/tehnologie/">Tehnologie</a></li>
-      <li><a href="/comunitate/">Comunitate</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/category/premii/">Premii</a></li>
-      <li><a href="/contact/">Contact</a></li>
-    </ul>
-    <div class="mm-foot">
-      <a class="btn" href="#contact" data-menu-close>Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
-      <nav class="langs" aria-label="Limba"><a href="/" aria-current="true">RO</a><a href="/en/" hreflang="en">EN</a></nav>
+<!-- Meniul pe mobil: un dialog pe tot ecranul. Tipurile de locuințe ca fotografii, proiectul pe rânduri cu pictogramă,
+     contactul la îndemână și o bară de acțiune fixă jos. -->
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Meniu" hidden data-mobile-menu>
+  <svg class="mm-waves" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"><path d="M0 20c25 0 25 14 50 14s25-14 50-14 25 14 50 14 25-14 50-14 25 14 50 14 25-14 50-14 25 14 50 14 25-14 50-14"/><path d="M0 50c25 0 25 14 50 14s25-14 50-14 25 14 50 14 25-14 50-14 25 14 50 14 25-14 50-14 25 14 50 14 25-14 50-14"/><path d="M0 80c25 0 25 14 50 14s25-14 50-14 25 14 50 14 25-14 50-14 25 14 50 14 25-14 50-14 25 14 50 14 25-14 50-14"/></g></svg>
+  <div class="mm-scroll">
+    <div class="wrap mm-top mm-in" style="--i:0">
+      <nav class="mm-langs" aria-label="Limba"><a href="/" aria-current="true">RO</a><a href="/en/" hreflang="en">EN</a></nav>
+      <a class="mm-call" href="tel:+40739085331"><svg width="16" height="16"><use href="#i-phone"/></svg>+40 739 085 331</a>
     </div>
-  </nav>
+
+    <section class="mm-block" aria-labelledby="mm-ap">
+      <div class="wrap mm-head mm-in" style="--i:1">
+        <p class="eyebrow on-dark" id="mm-ap">Apartamente</p>
+        <span class="mm-count num" data-mm-count>1 / 4</span>
+      </div>
+      <ul class="mm-units" data-mm-units>
+        <li class="mm-in" style="--i:2"><a class="mm-unit" href="/apartamente-2-camere/">
+          <span class="mm-unit-img"><img src="/wp-content/uploads/2025/09/apartament-2-camere_SNY5891-Edit-768x512.webp" alt="" decoding="async" loading="lazy" width="768" height="512"></span>
+          <span class="mm-unit-body"><span class="num">01</span><b>2 camere</b><small>61,9 – 66,24 m² · de la 210.000 € + TVA</small></span>
+        </a></li>
+        <li class="mm-in" style="--i:3"><a class="mm-unit" href="/apartamente-3-camere/">
+          <span class="mm-unit-img"><img src="/wp-content/uploads/2026/02/cover-2-camere-yacht-kid-v2-768x512.webp" alt="" decoding="async" loading="lazy" width="768" height="512"></span>
+          <span class="mm-unit-body"><span class="num">02</span><b>3 camere</b><small>87,6 – 115,1 m² · de la 390.000 € + TVA</small></span>
+        </a></li>
+        <li class="mm-in" style="--i:4"><a class="mm-unit" href="/apartamente-4-camere/">
+          <span class="mm-unit-img"><img src="/wp-content/uploads/2025/09/apartamente-4-camere_SNY5815-Edit-768x512.webp" alt="" decoding="async" loading="lazy" width="768" height="512"></span>
+          <span class="mm-unit-body"><span class="num">03</span><b>4 camere</b><small>136 – 186,8 m² · de la 690.000 € + TVA</small></span>
+        </a></li>
+        <li class="mm-in" style="--i:5"><a class="mm-unit" href="/duplex/">
+          <span class="mm-unit-img"><img src="/wp-content/uploads/2026/02/duplex-apartament-cover-image-edit-2026-768x512.webp" alt="" decoding="async" loading="lazy" width="768" height="512"></span>
+          <span class="mm-unit-body"><span class="num">04</span><b>Duplex</b><small>219 – 246 m² · de la 1.495.000 € + TVA</small></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="wrap mm-block" aria-labelledby="mm-pr">
+      <p class="eyebrow on-dark mm-in" style="--i:5" id="mm-pr">Proiectul</p>
+      <ul class="mm-rows">
+        <li class="mm-in" style="--i:6"><a href="/tehnologie/"><span class="mm-ic"><svg width="22" height="22"><use href="#i-facade"/></svg></span><span><b>Tehnologie</b><small>Structură, fațadă, eficiență</small></span><svg class="mm-go" width="16" height="16"><use href="#i-arrow"/></svg></a></li>
+        <li class="mm-in" style="--i:7"><a href="/comunitate/"><span class="mm-ic"><svg width="22" height="22"><use href="#i-community"/></svg></span><span><b>Comunitate</b><small>Tot ce ai nevoie, la parter</small></span><svg class="mm-go" width="16" height="16"><use href="#i-arrow"/></svg></a></li>
+        <li class="mm-in" style="--i:8"><a href="/spatii-comerciale/"><span class="mm-ic"><svg width="22" height="22"><use href="#i-shop"/></svg></span><span><b>Spații comerciale</b><small>De la 350.000 € + TVA</small></span><svg class="mm-go" width="16" height="16"><use href="#i-arrow"/></svg></a></li>
+        <li class="mm-in" style="--i:9"><a href="/category/premii/"><span class="mm-ic"><svg width="22" height="22"><use href="#i-award"/></svg></span><span><b>Premii</b><small>5 competiții internaționale</small></span><svg class="mm-go" width="16" height="16"><use href="#i-arrow"/></svg></a></li>
+      </ul>
+      <ul class="mm-links mm-in" style="--i:10">
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/testimoniale/">Testimoniale</a></li>
+      </ul>
+      <address class="mm-address mm-in" style="--i:11"><svg width="18" height="18"><use href="#i-pin"/></svg><span>Str. Anton Holban 6, București 077190<small>Luni – Vineri: 09:00 – 17:00</small></span></address>
+    </section>
+  </div>
+
+  <!-- Bara de acțiune: rămâne jos, deasupra zonei sigure a telefonului -->
+  <div class="mm-bar">
+    <a class="btn mm-bar-main" href="/programeaza-o-vizionare/"><span><span class="mm-long">Programează </span>vizionare</span> <span class="btn-icon"><svg><use href="#i-calendar"/></svg></span></a>
+    <a class="mm-bar-ic" href="tel:+40739085331" aria-label="Sună: +40 739 085 331"><svg width="20" height="20"><use href="#i-phone"/></svg></a>
+    <a class="mm-bar-ic" href="https://wa.me/+40739085331" aria-label="Scrie-ne pe WhatsApp"><svg width="20" height="20"><use href="#i-whatsapp"/></svg></a>
+  </div>
 </div>
 
 <main id="continut">

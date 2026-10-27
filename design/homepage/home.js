@@ -18,47 +18,117 @@ function onScroll() {
 addEventListener('scroll', onScroll, {passive: true});
 onScroll();
 
-// Mega meniul Apartamente: se deschide la hover (cu o mică întârziere, ca să nu clipească la trecerea mouse-ului),
-// la click și din tastatură; se închide cu Esc, la click pe voal sau când mouse-ul iese din antet
-const megaBtn = document.querySelector('[data-mega-toggle]');
-const mega = document.querySelector('[data-mega]');
+// Pastila navigației: o singură formă alunecă sub intrarea peste care e mouse-ul (sau sub placa deschisă)
+const nav = document.querySelector('[data-nav]');
+const pill = document.querySelector('[data-nav-pill]');
+const navItems = [...nav.querySelectorAll(':scope > ul > li > a, :scope > ul > li > button')];
+let hoverEl = null;
+function movePill(el) {
+  if (!el) { pill.classList.remove('is-on'); return; }
+  // Pastila e poziționată față de antet (nu față de navigație), ca plăcile să rămână pe toată lățimea
+  const r = el.getBoundingClientRect(), n = header.getBoundingClientRect();
+  // Prima apariție nu alunecă din stânga: se pune pe loc, apoi animă doar mutările
+  const first = !pill.classList.contains('is-on');
+  pill.classList.toggle('no-anim', first);
+  pill.style.setProperty('--x', `${r.left - n.left}px`);
+  pill.style.setProperty('--w', `${r.width}px`);
+  pill.classList.add('is-on');
+  if (first) requestAnimationFrame(() => pill.classList.remove('no-anim'));
+}
+
+// Plăcile (mega): Apartamente și Proiectul. Se deschid la hover (cu o mică întârziere, ca să nu clipească la trecerea
+// mouse-ului), la click și din tastatură; se închid cu Esc, la click pe voal sau când mouse-ul iese din antet.
+// Între două plăci, conținutul se schimbă pe loc, fără să se strângă placa.
+const megaBtns = [...document.querySelectorAll('[data-mega-toggle]')];
 const scrim = document.querySelector('[data-mega-scrim]');
-let megaTimer;
-function setMega(open) {
+const btnOf = id => megaBtns.find(b => b.dataset.megaToggle === id);
+let openId = null, megaTimer;
+function setMega(id) {
   clearTimeout(megaTimer);
-  megaBtn.setAttribute('aria-expanded', String(open));
-  mega.classList.toggle('is-open', open);
-  header.classList.toggle('mega-open', open);
-  document.body.classList.toggle('mega-on', open);
+  if (id === openId) return;
+  const prev = openId, swap = !!(prev && id);
+  for (const b of megaBtns) {
+    const key = b.dataset.megaToggle, m = document.getElementById(key), on = key === id;
+    b.setAttribute('aria-expanded', String(on));
+    m.classList.toggle('is-swap', swap && on);
+    m.classList.toggle('is-swap-out', swap && key === prev);
+    if (!swap) m.classList.remove('is-swap', 'is-swap-out');
+    m.classList.toggle('is-open', on);
+  }
+  openId = id;
+  header.classList.toggle('mega-open', !!id);
+  document.body.classList.toggle('mega-on', !!id);
+  movePill(id ? btnOf(id) : hoverEl);
   onScroll();
 }
 const hoverable = matchMedia('(hover: hover) and (min-width: 1181px)');
-megaBtn.addEventListener('click', () => setMega(megaBtn.getAttribute('aria-expanded') !== 'true'));
-megaBtn.parentElement.addEventListener('mouseenter', () => { if (hoverable.matches) { clearTimeout(megaTimer); megaTimer = setTimeout(() => setMega(true), 120); } });
-header.addEventListener('mouseleave', () => { if (hoverable.matches) { clearTimeout(megaTimer); megaTimer = setTimeout(() => setMega(false), 220); } });
-header.addEventListener('mouseenter', () => { if (mega.classList.contains('is-open')) clearTimeout(megaTimer); });
+for (const b of megaBtns) {
+  const id = b.dataset.megaToggle;
+  b.addEventListener('click', () => setMega(openId === id ? null : id));
+  b.parentElement.addEventListener('mouseenter', () => {
+    if (!hoverable.matches) return;
+    clearTimeout(megaTimer);
+    // Dintr-o placă deschisă în alta: aproape imediat; din antet închis: după o mică pauză
+    megaTimer = setTimeout(() => setMega(id), openId ? 60 : 120);
+  });
+  document.getElementById(id).addEventListener('click', e => { if (e.target.closest('[data-mega-close]')) setMega(null); });
+}
+for (const el of navItems) {
+  el.addEventListener('mouseenter', () => { hoverEl = el; movePill(el); });
+  el.addEventListener('focus', () => movePill(el));
+}
+nav.addEventListener('mouseleave', () => { hoverEl = null; movePill(openId ? btnOf(openId) : null); });
+nav.addEventListener('focusout', e => { if (!nav.contains(e.relatedTarget)) movePill(openId ? btnOf(openId) : null); });
+header.addEventListener('mouseleave', () => { if (hoverable.matches) { clearTimeout(megaTimer); megaTimer = setTimeout(() => setMega(null), 220); } });
+header.addEventListener('mouseenter', () => { if (openId) clearTimeout(megaTimer); });
 // Celelalte legături din meniu închid placa
-document.querySelectorAll('.nav > ul > li:not(.has-mega)').forEach(li => li.addEventListener('mouseenter', () => { if (hoverable.matches) setMega(false); }));
-scrim.addEventListener('click', () => setMega(false));
-mega.addEventListener('click', e => { if (e.target.closest('[data-mega-close]')) setMega(false); });
-mega.addEventListener('focusout', e => { if (!header.contains(e.relatedTarget)) setMega(false); });
+document.querySelectorAll('.nav > ul > li:not(.has-mega)').forEach(li => li.addEventListener('mouseenter', () => { if (hoverable.matches) setMega(null); }));
+scrim.addEventListener('click', () => setMega(null));
+header.addEventListener('focusout', e => { if (openId && !header.contains(e.relatedTarget)) setMega(null); });
+addEventListener('resize', () => movePill(openId ? btnOf(openId) : null));
 addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
-  if (mega.classList.contains('is-open')) { setMega(false); megaBtn.focus(); }
+  if (openId) { const b = btnOf(openId); setMega(null); b.focus(); }
   if (document.body.classList.contains('menu-open')) setMenu(false);
 });
 
-// Meniul pe mobil
+// Meniul pe mobil: un dialog. Restul paginii devine inert cât e deschis (focusul nu poate ieși din antet și meniu),
+// iar la închidere focusul se întoarce pe buton.
 const toggle = document.querySelector('[data-menu-toggle]');
 const menu = document.querySelector('[data-mobile-menu]');
+const behind = [document.querySelector('main'), document.querySelector('footer'), document.querySelector('.dock')].filter(Boolean);
 function setMenu(open) {
   toggle.setAttribute('aria-expanded', String(open));
+  toggle.querySelector('.sr-only').textContent = open ? 'Închide meniul' : 'Meniu';
   document.body.classList.toggle('menu-open', open);
-  if (open) { menu.hidden = false; requestAnimationFrame(() => menu.classList.add('is-open')); }
-  else { menu.classList.remove('is-open'); setTimeout(() => { if (!menu.classList.contains('is-open')) menu.hidden = true; }, 700); }
+  behind.forEach(el => { el.inert = open; });
+  if (open) {
+    menu.hidden = false;
+    menu.querySelector('.mm-scroll').scrollTop = 0;
+    requestAnimationFrame(() => { menu.classList.add('is-open'); menu.querySelector('.mm-unit')?.focus({preventScroll: true}); });
+  } else {
+    const hadFocus = menu.contains(document.activeElement);
+    menu.classList.remove('is-open');
+    setTimeout(() => { if (!menu.classList.contains('is-open')) menu.hidden = true; }, 700);
+    if (hadFocus) toggle.focus();
+  }
 }
 toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
 menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+// Pe ecran lat meniul de mobil nu mai are sens: îl închidem dacă fereastra se lărgește cu el deschis
+matchMedia('(min-width: 1181px)').addEventListener('change', e => { if (e.matches && document.body.classList.contains('menu-open')) setMenu(false); });
+
+// Caruselul tipurilor de locuințe: „2 / 4” urmează cardul aflat la stânga
+const units = menu.querySelector('[data-mm-units]');
+const count = menu.querySelector('[data-mm-count]');
+if (units && count) {
+  const cards = [...units.children];
+  units.addEventListener('scroll', () => {
+    const step = cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : 1;
+    const i = Math.min(cards.length - 1, Math.round(units.scrollLeft / step));
+    count.textContent = `${i + 1} / ${cards.length}`;
+  }, {passive: true});
+}
 
 // Apariția la derulare
 const io = new IntersectionObserver(entries => {
