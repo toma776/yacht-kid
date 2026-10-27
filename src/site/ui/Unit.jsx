@@ -80,11 +80,12 @@ export async function UnitPage({ctx, rec, title, chrome}) {
         )}
       </section>
 
-      {gallery.length > 0 && PhotoGrid({ctx, values, imgs: gallery, limit: 9, allLabel: L['toate-fotografiile'],
+      {/* Fundalurile alternează ca în brandbook (gri, alb, navy): galeria e banda navy din mijlocul paginii */}
+      {gallery.length > 0 && PhotoGrid({ctx, values, imgs: gallery, limit: 9, allLabel: L['toate-fotografiile'], tone: 'bg-navy on-dark',
         s: {id: 'unit-galerie', anchor: 'galerie', eyebrow: L.galerie ?? 'Galerie', heading: title}})}
 
       {others.length > 0 && (
-        <section className="unit-others floor bg-porcelain slab" aria-labelledby="unit-others-title">
+        <section className="unit-others floor bg-paper slab" aria-labelledby="unit-others-title">
           <div className="wrap">
             <div className="section-head section-head--split">
               <div><p className="eyebrow reveal">{L.apartamente ?? 'Apartamente'}</p><h2 className="h2 ruled reveal" id="unit-others-title">{L['alte-apartamente'] ?? 'Alte apartamente YACHT KID'}</h2></div>

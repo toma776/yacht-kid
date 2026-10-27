@@ -316,11 +316,11 @@ async function Collection({ctx, s, values}) {
 // Galeria cu mai mult de trei fotografii: grilă, prima mai mare; un click deschide fotografia mare (dialog, cu
 // înainte/înapoi), ca lightbox-ul de pe site-ul vechi
 // limit: câte fotografii stau în grilă (restul doar în lightbox, cu butonul „Toate fotografiile”)
-export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel}) {
+export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel, tone = 'bg-paper'}) {
   const list = imgs.map(m => ({src: ctx.media(m.id), alt: m.alt ?? ''}));
   const shown = list.slice(0, limit);
   return (
-    <section className="photos floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+    <section className={`photos floor ${tone} slab`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
         <div className="section-head"><Head s={s} values={values} id={`t-${s.id}`}/></div>
         <ul className="photo-grid">

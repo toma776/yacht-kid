@@ -170,6 +170,8 @@ b, strong { font-weight: 600; }
 .btn--navy:hover { --btn-bg: #2a4384; --btn-bd: #2a4384; }
 .btn--ghost { --btn-bg: transparent; --btn-fg: var(--navy); --btn-bd: var(--line-strong); --btn-ic-bg: var(--navy); --btn-ic-fg: #fff; }
 .btn--ghost:hover { --btn-bg: transparent; --btn-bd: var(--navy); }
+.on-dark .btn--ghost { --btn-fg: #fff; --btn-bd: var(--line-light); --btn-ic-bg: #fff; --btn-ic-fg: var(--navy); }
+.on-dark .btn--ghost:hover { --btn-bd: #fff; }
 .btn--light { --btn-bg: #fff; --btn-fg: var(--navy); --btn-bd: #fff; --btn-ic-bg: var(--navy); --btn-ic-fg: #fff; }
 .btn--light:hover { --btn-bg: var(--gray-light); --btn-bd: var(--gray-light); }
 .btn--glass { --btn-bg: rgb(255 255 255 / .1); --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .4); --btn-ic-bg: #fff; --btn-ic-fg: var(--navy); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
