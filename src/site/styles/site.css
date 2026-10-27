@@ -462,6 +462,9 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
   .spec-list li { min-height: 0; }
 }
 
+/* Paginile de apartamente: plăcile rămân la locul lor (urcă peste secțiunea de dinainte), dar cu colțuri drepte și fără umbră */
+.unit-page .slab { border-radius: 0; box-shadow: none; }
+
 /* ===================== 9. LIFESTYLE ===================== */
 /* width: 100% — altfel lățimea se calculează din înălțimea minimă prin raportul 21:9 (980px) și cadrul iese din ecran pe tabletă */
 .lifestyle-frame { aspect-ratio: 21 / 9; min-height: 420px; width: 100%; }

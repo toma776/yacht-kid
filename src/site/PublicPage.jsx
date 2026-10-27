@@ -68,12 +68,14 @@ export async function renderPublic(lang, segments) {
   const composed = sections.length > 0;
   // Fără hero, antetul e opac și conținutul coboară sub el de la prima randare (nu abia după JS)
   const hero = sections[0]?.kind === 'hero';
+  // Paginile tipurilor de apartamente au secțiunile cu colțuri drepte (fără Spații comerciale, tot un tip de locuință)
+  const unitPage = hit.key === 'locuinte' && rec?.kind !== 'comercial';
   return (
     <>
       <IconSprite/>
       <a className="skip" href="#continut">{chrome.labels['sari-la-continut'] ?? 'Sari la conținut'}</a>
       <Header chrome={chrome} solid/>
-      <main id="continut" className={hero ? undefined : 'no-hero'}>
+      <main id="continut" className={[hero ? null : 'no-hero', unitPage ? 'unit-page' : null].filter(Boolean).join(' ') || undefined}>
         {composed ? <Sections ctx={ctx} owner={hit.key} pageId={hit.id} values={values} chrome={chrome}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
       </main>
       <Footer chrome={chrome}/>
