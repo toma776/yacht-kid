@@ -189,29 +189,40 @@ body.menu-open { overflow: hidden; }
 }
 
 /* ===================== 4. AVANTAJE ===================== */
+/* O placă, ca o fișă tehnică: rosturi fine între avantaje, pictograma într-un cerc, numărul în colț */
 .features-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); margin-top: var(--stack-6);
-  border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: var(--stack-5);
+  background: var(--porcelain); border: 1px solid var(--line); border-radius: var(--r-l) var(--r-l) var(--r-band) var(--r-l);
+  overflow: hidden; counter-reset: feature;
 }
 .feature {
-  display: grid; align-content: start; gap: 14px; padding: 32px clamp(16px, 2vw, 28px) 36px;
-  border-bottom: 1px solid var(--line); position: relative; transition: background var(--t) var(--ease-soft);
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px;
+  min-height: 112px; padding: 22px clamp(18px, 1.8vw, 28px);
+  counter-increment: feature; transition: background var(--t) var(--ease-soft);
 }
 .feature:not(:nth-child(4n+1)) { border-left: 1px solid var(--line); }
-.feature:nth-child(4n+1) { padding-left: 0; }
-.feature .icon { width: 34px; height: 34px; color: var(--ink); margin-bottom: 18px; }
-.feature .h3 { max-width: 16ch; }
-.feature p { font-size: var(--fs-small); line-height: 1.55; }
-@media (max-width: 1000px) {
-  .features-grid { grid-template-columns: 1fr 1fr; }
-  .feature:nth-child(n) { border-left: 0; padding-left: 0; }
-  .feature:nth-child(2n) { border-left: 1px solid var(--line); padding-left: clamp(16px, 3vw, 32px); }
+.feature:nth-child(n+5) { border-top: 1px solid var(--line); }
+.feature::after {
+  content: counter(feature, decimal-leading-zero); position: absolute; top: 14px; right: 18px;
+  font-size: .6875rem; font-weight: 600; letter-spacing: .1em; color: var(--coral-ink); opacity: .75;
 }
-@media (max-width: 520px) {
-  .features-grid { grid-template-columns: 1fr; }
-  .feature:nth-child(2n) { border-left: 0; padding-left: 0; }
-  .feature { grid-template-columns: 40px 1fr; column-gap: 20px; padding-block: 28px; }
-  .feature .icon { margin: 0; grid-row: span 2; width: 32px; height: 32px; }
+.feature .icon {
+  box-sizing: content-box; width: 22px; height: 22px; padding: 12px; border: 1px solid var(--line-strong); border-radius: 50%;
+  color: var(--navy); stroke-width: 1.4; background: var(--paper);
+  transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+.feature .h3 { font-size: .9375rem; font-weight: 700; letter-spacing: .04em; line-height: 1.4; padding-right: 18px; }
+.feature:hover { background: var(--paper); }
+.feature:hover .icon { background: var(--navy); border-color: var(--navy); color: #fff; }
+@media (max-width: 1000px) {
+  .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feature:nth-child(n) { border-left: 0; border-top: 1px solid var(--line); }
+  .feature:nth-child(-n+2) { border-top: 0; }
+  .feature:nth-child(2n) { border-left: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .feature { grid-template-columns: 1fr; align-content: start; gap: 12px; min-height: 0; padding: 20px 16px 22px; }
+  .feature .h3 { font-size: .875rem; padding-right: 0; }
 }
 
 /* ===================== 5. COLECȚIA ===================== */
