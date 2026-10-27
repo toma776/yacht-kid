@@ -103,6 +103,9 @@ document.querySelector('[data-video-close]').addEventListener('click', closeVide
 dialog.addEventListener('click', e => { if (e.target === dialog) closeVideo(); });
 dialog.addEventListener('close', () => full.pause());
 
+// „Sus” din subsol: înapoi la hero
+document.querySelector('[data-to-top]')?.addEventListener('click', e => { e.preventDefault(); scrollTo({top: 0, behavior: reduced ? 'auto' : 'smooth'}); });
+
 // Formularul: în prototip doar validează; trimiterea reală vine cu formularele din Brain
 const form = document.querySelector('[data-form]');
 form.addEventListener('submit', e => {

@@ -36,6 +36,9 @@
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
   <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-4A8 8 0 1 1 8.3 19zM9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 1c-1.2-.5-2.3-1.6-2.8-2.8l1-1-1-2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
   <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M4.5 6.5h15v13h-15zM4.5 10.5h15M8.5 4v4M15.5 4v4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M14 8.5h2.5V5H14c-2.2 0-3.5 1.6-3.5 3.6V11H8v3.4h2.5V21h3.4v-6.6h2.4l.5-3.4h-2.9V9.2c0-.4.3-.7.7-.7z" fill="currentColor"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M5 9h3v10H5zM6.5 4.5a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zM10.5 9h2.9v1.4c.4-.8 1.5-1.6 3-1.6 3 0 3.6 2 3.6 4.5V19h-3v-5c0-1.2 0-2.6-1.6-2.6s-1.9 1.2-1.9 2.5V19h-3z" fill="currentColor"/></symbol>
   <symbol id="i-award" viewBox="0 0 32 32"><path d="M16 20a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zM11.5 18.5 10 28l6-3 6 3-1.5-9.5"/></symbol>
 </svg>
 
@@ -374,70 +377,100 @@
 </main>
 
 <!-- ===================== SOCLUL: SUBSOL ===================== -->
-<footer class="site-footer bg-plinth on-dark slab">
-  <svg class="strata footer-strata" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
-    <g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
-      <path d="M0 10H900C960 10 980 40 1040 40H1440"/><path d="M0 25H900C960 25 980 55 1040 55H1440"/><path d="M0 40H900C960 40 980 70 1040 70H1440"/>
-    </g>
-  </svg>
+<footer class="site-footer bg-plinth on-dark slab" aria-labelledby="ft-title">
   <div class="wrap">
-    <div class="footer-top">
-      <a class="footer-logo" href="/" aria-label="YACHT KID"><img src="/wp-content/uploads/2024/10/yacht_kid_logo_white.png" alt="" width="275" height="168" loading="lazy"></a>
-      <div class="footer-cta">
-        <p class="h2">Experimentează un nou standard de viață.</p>
+
+    <!-- 1. Invitația -->
+    <div class="ft-invite">
+      <div class="ft-invite-copy">
+        <p class="eyebrow">YACHT KID</p>
+        <h2 class="h2 ruled" id="ft-title">Experimentează un nou standard de viață.</h2>
+      </div>
+      <div class="ft-invite-actions">
         <a class="btn" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+        <a class="btn btn--glass" href="/programeaza-o-vizionare/">Programează vizionare <span class="btn-icon"><svg><use href="#i-calendar"/></svg></span></a>
       </div>
     </div>
-    <hr class="rule">
-    <div class="footer-cols">
-      <nav aria-labelledby="ft-disc"><h4 id="ft-disc" class="eyebrow">Descoperă</h4>
-        <ul>
-          <li><a href="/">Despre noi</a></li>
+
+    <ul class="ft-quick" aria-label="Contact rapid">
+      <li><a href="tel:+40739085331"><span class="ft-quick-ic"><svg width="20" height="20"><use href="#i-phone"/></svg></span><span><small>Telefon</small>+40 739 085 331</span></a></li>
+      <li><a href="mailto:contact@yachtkid.ro"><span class="ft-quick-ic"><svg width="20" height="20"><use href="#i-mail"/></svg></span><span><small>Email</small>contact@yachtkid.ro</span></a></li>
+      <li><a href="https://wa.me/+40739085331"><span class="ft-quick-ic"><svg width="20" height="20"><use href="#i-whatsapp"/></svg></span><span><small>WhatsApp</small>Scrie-ne pe WhatsApp</span></a></li>
+    </ul>
+
+    <!-- 2. Harta site-ului, pe întrebările vizitatorului -->
+    <div class="ft-map">
+      <div class="ft-brand">
+        <a class="ft-logo" href="/" aria-label="YACHT KID, pagina principală"><img src="/wp-content/uploads/2024/10/yacht_kid_logo_white.png" alt="" width="275" height="168" loading="lazy"></a>
+        <p class="subhead ft-tagline">Descoperă locuința care îți schimbă perspectiva asupra luxului.</p>
+        <ul class="ft-social" aria-label="Rețele sociale">
+          <li><a href="https://www.facebook.com/YachtKidProperties" aria-label="Facebook"><svg width="18" height="18"><use href="#i-facebook"/></svg></a></li>
+          <li><a href="https://www.instagram.com/yachtkid.properties/" aria-label="Instagram"><svg width="18" height="18"><use href="#i-instagram"/></svg></a></li>
+          <li><a href="https://www.linkedin.com/company/yacht-kid/" aria-label="LinkedIn"><svg width="18" height="18"><use href="#i-linkedin"/></svg></a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h3 class="ft-h">Vizitează-ne</h3>
+        <address class="ft-address">Str. Anton Holban 6<br>București 077190</address>
+        <a class="link-arrow" href="https://www.google.com/maps/search/?api=1&amp;query=Str.+Anton+Holban+6,+Bucure%C8%99ti+077190">Deschide în Google Maps <svg><use href="#i-arrow"/></svg></a>
+        <dl class="ft-hours"><dt>Program</dt><dd>Luni – Vineri: 09:00 – 17:00</dd></dl>
+      </div>
+      <nav class="ft-col" aria-labelledby="ft-ap">
+        <h3 class="ft-h" id="ft-ap">Apartamente</h3>
+        <ul class="ft-links">
           <li><a href="/apartamente-2-camere/">Apartamente 2 camere</a></li>
           <li><a href="/apartamente-3-camere/">Apartamente 3 camere</a></li>
           <li><a href="/apartamente-4-camere/">Apartamente 4 camere</a></li>
           <li><a href="/duplex/">Apartamente tip duplex</a></li>
-          <li><a href="/comunitate/">Comunitate</a></li>
-          <li><a href="/spatii-comerciale/">Comercial</a></li>
-          <li><a href="/category/premii/">Premii</a></li>
-          <li><a href="/tehnologie/">Tehnologie</a></li>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/testimoniale/">Testimoniale</a></li>
+          <li><a href="/spatii-comerciale/">Spații comerciale</a></li>
         </ul>
       </nav>
-      <nav aria-labelledby="ft-legal"><h4 id="ft-legal" class="eyebrow">Legal</h4>
-        <ul>
-          <li><a href="https://anpc.ro">ANPC</a></li>
-          <li><a href="https://anpc.ro/ce-este-sal/">Soluționarea alternativă a litigiilor</a></li>
-          <li><a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&amp;lng=RO">Soluționarea online a litigiilor</a></li>
+      <nav class="ft-col" aria-labelledby="ft-pr">
+        <h3 class="ft-h" id="ft-pr">Proiectul</h3>
+        <ul class="ft-links">
+          <li><a href="/">Despre noi</a></li>
+          <li><a href="/tehnologie/">Tehnologie</a></li>
+          <li><a href="/category/premii/">Premii</a></li>
+          <li><a href="/comunitate/">Comunitate</a></li>
+          <li><a href="/testimoniale/">Testimoniale</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- 3. Legal -->
+    <div class="ft-legal">
+      <nav aria-label="Informații legale">
+        <ul class="ft-legal-links">
           <li><a href="/politica-de-confidentialitate/">Politica de confidențialitate</a></li>
           <li><a href="/politica-cookies/">Politica de cookie-uri</a></li>
           <li><a href="/termeni-si-conditii/">Termeni și condiții</a></li>
+          <li><a href="https://anpc.ro">ANPC</a></li>
+          <li><a href="https://anpc.ro/ce-este-sal/">Soluționarea alternativă a litigiilor</a></li>
+          <li><a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&amp;lng=RO">Soluționarea online a litigiilor</a></li>
         </ul>
       </nav>
-      <div><h4 class="eyebrow">Contact</h4>
-        <ul>
-          <li><a href="mailto:contact@yachtkid.ro">contact@yachtkid.ro</a></li>
-          <li><a href="tel:+40739085331">+40 739 085 331</a></li>
-          <li>Str. Anton Holban 6,<br>București 077190</li>
-        </ul>
-      </div>
-      <div><h4 class="eyebrow">Follow Us</h4>
-        <ul>
-          <li><a href="https://www.facebook.com/YachtKidProperties">Facebook</a></li>
-          <li><a href="https://www.instagram.com/yachtkid.properties/">Instagram</a></li>
-          <li><a href="https://www.linkedin.com/company/yacht-kid/">LinkedIn</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>Copyright 2026 - Yacht KID</p>
       <div class="anpc">
         <a href="https://anpc.ro/ce-este-sal/"><img src="/wp-content/uploads/2024/10/legal-info-ro-1.webp" alt="Soluționarea alternativă a litigiilor (ANPC SAL)" width="250" height="62" loading="lazy"></a>
         <a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&amp;lng=RO"><img src="/wp-content/uploads/2024/10/legal-info-ro-2.webp" alt="Soluționarea online a litigiilor (SOL)" width="250" height="62" loading="lazy"></a>
       </div>
     </div>
+
+    <!-- 4. Bara de jos -->
+    <div class="ft-bottom">
+      <p class="ft-company">© 2026 YACHT KID · KID PROJECT DESIGN S.R.L. · CUI RO38632756 · J2017020922403<br><span>Sediu social: Intrarea Chefalului nr. 12H, etaj 7, ap. 22, camera 4, Sector 2, București, 020333</span></p>
+      <div class="ft-bottom-actions">
+        <nav class="langs" aria-label="Limba"><a href="/" aria-current="true">RO</a><a href="/en/" hreflang="en">EN</a></nav>
+        <a class="ft-top" href="#continut" data-to-top>Sus <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
   </div>
+
+  <!-- Valul din logo, ca semnătură pe toată lățimea -->
+  <svg class="ft-wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"><path d="M0 8c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12"/><path d="M0 26c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12"/><path d="M0 44c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12c25 0 25 12 50 12s25-12 50-12"/></g>
+  </svg>
 </footer>
 
 <!-- Bara de contact pe mobil -->
