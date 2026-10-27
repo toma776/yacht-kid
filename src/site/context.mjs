@@ -2,7 +2,7 @@
 // de publicare și devine o dependență, cu componenta și motivul ei (§3.2).
 // Regulile de publicare stau doar aici: pe site există doar ce e publicat, are traducere în limba paginii
 // și, pentru legături, doar ce e confirmat.
-import {entity, fieldsOf, hasStatus, hasTranslations, publicPath, relation, relTable} from '../registry/derive.mjs';
+import {entity, field, fieldsOf, hasStatus, hasTranslations, publicPath, relation, relTable} from '../registry/derive.mjs';
 import {all, one} from '../core/db.mjs';
 import {columnOf} from '../core/schema.mjs';
 
@@ -27,7 +27,9 @@ export function selectSql(key, {lang, publicOnly}) {
   const tr = hasTranslations(key);
   const where = [];
   if (publicOnly && hasStatus(key)) where.push(`e.status = 'published'`);
-  if (publicOnly && tr) where.push('t.entity_id IS NOT NULL');
+  // Fără traducere în limba paginii, conținutul nu apare; o imagine fără text alternativ EN rămâne însă imagine:
+  // traducerea e obligatorie doar când titlul însuși se traduce (articole, pagini, secțiuni)
+  if (publicOnly && tr && field(key, e.title)?.translatable) where.push('t.entity_id IS NOT NULL');
   const sql = tr
     ? `SELECT t.*, e.* FROM "${e.table}" e LEFT JOIN "${e.table}_translations" t ON t.entity_id = e.id AND t.lang = ?`
     : `SELECT e.* FROM "${e.table}" e`;

@@ -1,6 +1,13 @@
-import '../../site/site.css';
+import '../../site/styles/system.css';
+import '../../site/styles/site.css';
 
-// Rădăcina site-ului în engleză (/en/): html lang corect pentru fiecare limbă (§1.10)
+// Rădăcina site-ului în engleză (/en/): html lang corect pentru fiecare limbă (§1.10).
+// Stilurile sunt cele din designul aprobat (design/system.css și design/homepage/home.css), portate în src/site/styles/.
 export default function Layout({children}) {
-  return <html lang="en"><body>{children}</body></html>;
+  return (
+    <html lang="en">
+      <head><link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossOrigin=""/></head>
+      <body>{children}</body>
+    </html>
+  );
 }

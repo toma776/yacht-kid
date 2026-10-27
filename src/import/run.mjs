@@ -526,7 +526,10 @@ export async function runImport(client, {dir, overwriteEdits = false, now = new 
       if (!f) return null;
       const labels = [...f.matchAll(/<label\b[^>]*>([\s\S]*?)<\/label>/g)].map(m => text(m[1]));
       const seen = {};
-      const fields = [...f.matchAll(/<(input|select|textarea)\b[^>]*>(?:([\s\S]*?)<\/select>)?/g)].map(([tag, kind, inner]) => {
+      // Un <select> se citește cu opțiunile lui; un <input> sau <textarea> doar cu eticheta de deschidere
+      // (o variantă cu „</select>” opțional după orice câmp înghițea câmpurile următoare până la primul select)
+      const fields = [...f.matchAll(/<select\b([^>]*)>([\s\S]*?)<\/select>|<(input|textarea)\b([^>]*)>/g)].map(([, selAttrs, inner, kindIn, inAttrs]) => {
+        const kind = kindIn ?? 'select', tag = `<${kind}${selAttrs ?? inAttrs}>`;
         let name = attr(tag, 'name'); const type = kind === 'input' ? attr(tag, 'type') : kind;
         if (!name || type === 'hidden') return null;
         name = FORM_FIELD_ALIASES[name] ?? name.replace(/\[\]$/, '');

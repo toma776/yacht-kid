@@ -115,6 +115,15 @@ test('contextul: pe site doar ce e publicat; jetoanele vin din Date firmă și d
   await assert.rejects(ro.query('articole', {}), /fără scope/);
 });
 
+test('formularele se citesc câmp cu câmp, cu etichetele la locul lor', async () => {
+  const f = await one(db, `SELECT id, fields FROM forms WHERE handle = 'contact'`);
+  assert.deepEqual(JSON.parse(f.fields).map(x => x.name), ['name', 'email', 'phone', 'tip_apartament', 'design_interior', 'informatii_suplimentare', 'consent']);
+  const ro = JSON.parse((await one(db, `SELECT field_labels FROM forms_translations WHERE entity_id = ? AND lang = 'ro'`, [f.id])).field_labels);
+  assert.deepEqual(ro.slice(0, 4).map(l => l.label), ['Nume complet', 'Email', 'Telefon', 'Tip apartament']);
+  const viz = JSON.parse((await one(db, `SELECT fields FROM forms WHERE handle = 'vizionare'`)).fields).map(x => x.name);
+  assert.ok(viz.includes('buget_estimativ') && viz.includes('modalitate_achizitie'));
+});
+
 test('primul import de pe server rulează o singură dată', async () => {
   const {importIfEmpty} = await import('../src/import/auto.mjs');
   const d = await fresh();

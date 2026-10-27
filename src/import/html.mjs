@@ -66,7 +66,12 @@ export function sanitize(html, {link = h => ({href: h}), image = () => null} = {
       continue;
     }
     const tag = `<${rawName}${attrs}>`;
-    if (name === 'a') {
+    // Trimiterile deja rezolvate (data-ref, data-media) rămân așa: textul salvat din /manage le conține deja
+    const keepRef = attr(tag, 'data-ref'), keepMedia = attr(tag, 'data-media');
+    if (name === 'a' && keepRef && /^[a-z-]+:\d+$/.test(keepRef)) { out += `<a data-ref="${keepRef}">`; stack.push('a'); }
+    else if (name === 'a' && keepMedia && /^\d+$/.test(keepMedia)) { out += `<a data-media="${keepMedia}">`; stack.push('a'); }
+    else if (name === 'img' && keepMedia && /^\d+$/.test(keepMedia)) out += `<img data-media="${keepMedia}" alt="${escape(attr(tag, 'alt') ?? '')}">`;
+    else if (name === 'a') {
       const href = attr(tag, 'href');
       const r = href ? link(href) : null;
       if (r?.ref) out += `<a data-ref="${r.ref}">`;

@@ -56,6 +56,13 @@ test('textul bogat se curăță la salvare (vocabular fix)', async () => {
   assert.equal((await one(db, `SELECT content FROM posts_translations WHERE entity_id = ? AND lang = 'ro'`, [id])).content, '<p>Text <strong>bold</strong></p>');
 });
 
+test('re-salvarea unui text păstrează trimiterile interne și imaginile', async () => {
+  const id = (await one(db, `SELECT entity_id id FROM posts_translations WHERE lang = 'ro' AND content LIKE '%data-ref=%' LIMIT 1`)).id;
+  const html = '<h3>Titlu</h3><p>Vezi <a data-ref="locuinte:4">duplexul</a> și <a data-media="214">fișa</a>.</p><figure><img data-media="214" alt="Living"><figcaption>10.000 m² — parc</figcaption></figure>';
+  await saveEntity(db, 'articole', id, {tr: {ro: {content: html}}});
+  assert.equal((await one(db, `SELECT content FROM posts_translations WHERE entity_id = ? AND lang = 'ro'`, [id])).content, html);
+});
+
 test('o schimbare în RO face traducerea EN „învechită”', async () => {
   const fpRo = async () => trFingerprint('locuinte', {...(await one(db, `SELECT * FROM unit_types_translations WHERE entity_id = ? AND lang = 'ro'`, [duplex]))});
   const en = async () => (await one(db, `SELECT source_fp FROM unit_types_translations WHERE entity_id = ? AND lang = 'en'`, [duplex])).source_fp;

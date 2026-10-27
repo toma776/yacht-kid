@@ -1,0 +1,257 @@
+/* ==========================================================================
+   YACHT KID · Strata — design system
+   Culorile și tipografia vin din brandbook („Yacht KID Brand Identity UPDATED.pdf”, paginile 8–9):
+   Navy #20366C și Antracit #24262E (primare), Periwinkle, Coral și Gri (secundare), Montserrat
+   (titluri Bold cu 5% spațiere, subtitluri Light în coral, text Light în navy).
+   Compoziția pornește din arhitectura ansamblului: benzi albe continue (balcoanele), colțuri cu rază
+   mare, sticlă între benzi, o bază grea și închisă (soclul), rosturi fine între panouri.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-latin-ext.woff2') format('woff2');
+  font-weight: 300 700; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-latin.woff2') format('woff2');
+  font-weight: 300 700; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------- 1. Tokenuri ---------- */
+:root {
+  /* Paleta primară (brandbook) */
+  --navy: #20366c;               /* culoarea brandului: titluri, text, butoane secundare, secțiuni pline */
+  --antracit: #24262e;           /* neutrul închis: soclul paginii (subsolul) */
+  /* Paleta secundară (brandbook) */
+  --periwinkle: #8397e5;         /* elementul de apă din logo: accente pe fundal deschis */
+  --periwinkle-light: #9cb0fe;   /* accente pe navy și antracit */
+  --coral: #e8895c;              /* butoane, sublinieri, subtitluri pe fundal închis */
+  --coral-light: #f9ab86;        /* subtitluri pe fundal închis, unde coralul plin e prea dens */
+  --gray: #d8dadb;               /* separatoare, chenare */
+  --gray-light: #fbfbfb;         /* fundaluri deschise */
+  --bronze: linear-gradient(135deg, #ec9065, #f5a57f);
+
+  /* Derivate, pentru lizibilitate (nu sunt în brandbook): aceleași nuanțe, mai închise, ca textul să treacă AA */
+  --coral-ink: #a9532c;          /* coral pentru text mic pe fundal deschis: 4.7:1 pe #F1F1F0 */
+  --navy-2: #4a5a8a;             /* text secundar: 6:1 */
+  --navy-3: #5f6c94;             /* etichete: 4.6:1 */
+
+  /* Rolurile din pagină */
+  --porcelain: #f1f1f0;          /* fundalul paginii: fundalul brandbook-ului */
+  --paper: #ffffff;              /* benzile luminate, carduri */
+  --shell: var(--gray-light);
+  --glass: #e3e7f1;              /* fundalul imaginilor încă neîncărcate */
+  --ink: var(--navy);
+  --ink-2: var(--navy-2);
+  --ink-3: var(--navy-3);
+  --plinth: var(--antracit);     /* soclul */
+  --plinth-2: #2e3039;
+  --on-plinth: #ffffff;
+  --on-plinth-2: #b9bdcc;
+  --wave: var(--periwinkle);
+  --wave-deep: var(--navy);
+
+  --line: rgb(32 54 108 / .14);  /* rostul dintre panouri, în navy */
+  --line-strong: rgb(32 54 108 / .28);
+  --line-light: rgb(255 255 255 / .16);
+
+  /* Tipografie: Montserrat. Titluri Bold, 5% spațiere; subtitluri Light, 0%; text Light. */
+  --font: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ls-headline: .05em;
+  --fs-display: clamp(2.125rem, 1.1rem + 4.3vw, 5.5rem);
+  --fs-h2: clamp(1.75rem, 1.2rem + 2.1vw, 3.25rem);
+  --fs-h3: clamp(1.0625rem, 1rem + .3vw, 1.25rem);
+  --fs-sub: clamp(1.25rem, 1.05rem + .9vw, 1.875rem);
+  --fs-lead: clamp(1.125rem, 1rem + .45vw, 1.375rem);
+  --fs-body: 1.0625rem;
+  --fs-small: .9375rem;
+  --fs-label: .75rem;
+
+  /* Spațiu și grilă */
+  --gutter: clamp(20px, 4vw, 56px);
+  --max: 1320px;
+  --section: clamp(72px, 8vw, 128px);
+  --stack-1: 8px; --stack-2: 16px; --stack-3: 24px; --stack-4: 40px; --stack-5: 48px; --stack-6: 72px;
+
+  /* Raze: colțurile balcoanelor */
+  --r-s: 10px;
+  --r-m: 20px;
+  --r-l: clamp(24px, 2.4vw, 40px);
+  --r-band: clamp(32px, 5.5vw, 104px);   /* capătul unei benzi: secțiunile-etaj și imaginile mari */
+  --r-pill: 999px;
+
+  /* Mișcare */
+  --ease: cubic-bezier(.2, .7, .1, 1);
+  --ease-soft: cubic-bezier(.4, 0, .2, 1);
+  --t-fast: 180ms; --t: 420ms; --t-slow: 1100ms;
+
+  --shadow-slab: 0 -1px 0 var(--line), 0 -30px 60px -40px rgb(32 54 108 / .28);
+  --shadow-float: 0 30px 80px -30px rgb(32 54 108 / .35);
+}
+
+/* ---------- 2. Bază ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 96px; }
+body {
+  margin: 0; background: var(--porcelain); color: var(--ink);
+  font: 300 var(--fs-body)/1.75 var(--font);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+img, video, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+h1, h2, h3, h4, p, ul, ol, dl, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+b, strong { font-weight: 600; }
+::selection { background: var(--periwinkle-light); color: var(--navy); }
+:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; border-radius: 4px; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ---------- 3. Tipografie ---------- */
+/* Headline: Bold, 5% LS (brandbook) */
+.display { font-size: var(--fs-display); font-weight: 700; line-height: 1.1; letter-spacing: var(--ls-headline); }
+.h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.18; letter-spacing: var(--ls-headline); text-wrap: balance; }
+.h3 { font-size: var(--fs-h3); font-weight: 700; line-height: 1.35; letter-spacing: .03em; }
+/* Linia scurtă de sub titlu, ca pe paginile brandbook-ului („Colors”, „Typefaces”) */
+.ruled::after { content: ''; display: block; width: 64px; height: 2px; margin-top: .75em; background: var(--navy); }
+.on-dark .ruled::after, .ruled.on-dark::after { background: var(--coral); }
+/* Sub headline: Light, 0% LS, coral (brandbook). Pe fundal deschis, nuanța mai închisă, pentru contrast */
+.subhead { font-size: var(--fs-sub); font-weight: 300; line-height: 1.4; letter-spacing: 0; color: var(--coral-ink); text-wrap: balance; }
+.on-dark .subhead, .subhead.on-dark { color: var(--coral-light); }
+/* Text de deschidere, Light navy */
+.lead { font-size: var(--fs-lead); font-weight: 300; line-height: 1.65; color: var(--ink); text-wrap: pretty; }
+.body { color: var(--ink-2); text-wrap: pretty; }
+.body > * + * { margin-top: 1.1em; }
+.muted { color: var(--ink-3); }
+.strong { font-weight: 600; color: var(--ink); }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+/* Cuvântul subliniat cu coral, ca titlul din macheta site-ului (pagina 25) */
+.mark { background: linear-gradient(var(--coral), var(--coral)) 0 92%/100% .12em no-repeat; padding-bottom: .04em; }
+
+/* Eticheta de secțiune: valul din logo + text spațiat */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-size: var(--fs-label); font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--coral-ink);
+}
+.eyebrow::before {
+  content: ''; width: 34px; height: 12px; flex: none; background: var(--periwinkle);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 12' fill='none' stroke='black' stroke-width='1.3'%3E%3Cpath d='M0 2c4.25 0 4.25 2.5 8.5 2.5S12.75 2 17 2s4.25 2.5 8.5 2.5S29.75 2 34 2M0 7c4.25 0 4.25 2.5 8.5 2.5S12.75 7 17 7s4.25 2.5 8.5 2.5S29.75 7 34 7'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 12' fill='none' stroke='black' stroke-width='1.3'%3E%3Cpath d='M0 2c4.25 0 4.25 2.5 8.5 2.5S12.75 2 17 2s4.25 2.5 8.5 2.5S29.75 2 34 2M0 7c4.25 0 4.25 2.5 8.5 2.5S12.75 7 17 7s4.25 2.5 8.5 2.5S29.75 7 34 7'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.on-dark .eyebrow, .eyebrow.on-dark { color: var(--coral-light); }
+.on-dark .eyebrow::before, .eyebrow.on-dark::before { background: var(--periwinkle-light); }
+
+/* ---------- 4. Butoane ---------- */
+/* Principal: coral cu text alb, ca butonul din machete (pagina 25) */
+.btn {
+  --btn-bg: var(--coral); --btn-fg: #fff; --btn-bd: var(--coral); --btn-ic-bg: var(--navy); --btn-ic-fg: #fff;
+  position: relative; display: inline-flex; align-items: center; gap: 14px;
+  height: 52px; padding: 0 8px 0 24px; border-radius: var(--r-pill);
+  background: var(--btn-bg); color: var(--btn-fg); border: 1px solid var(--btn-bd);
+  font-size: .875rem; font-weight: 700; letter-spacing: .05em; white-space: nowrap; cursor: pointer;
+  transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease), transform var(--t) var(--ease);
+}
+.btn .btn-icon {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+  background: var(--btn-ic-bg); color: var(--btn-ic-fg); transition: transform var(--t) var(--ease);
+}
+.btn .btn-icon svg { width: 16px; height: 16px; }
+.btn:hover { --btn-bg: #dc7748; --btn-bd: #dc7748; }
+.btn:hover .btn-icon { transform: translateX(3px) rotate(-45deg); }
+.btn:active { transform: scale(.98); }
+.btn--navy { --btn-bg: var(--navy); --btn-fg: #fff; --btn-bd: var(--navy); --btn-ic-bg: var(--coral); --btn-ic-fg: var(--navy); }
+.btn--navy:hover { --btn-bg: #2a4384; --btn-bd: #2a4384; }
+.btn--ghost { --btn-bg: transparent; --btn-fg: var(--navy); --btn-bd: var(--line-strong); --btn-ic-bg: var(--navy); --btn-ic-fg: #fff; }
+.btn--ghost:hover { --btn-bg: transparent; --btn-bd: var(--navy); }
+.btn--light { --btn-bg: #fff; --btn-fg: var(--navy); --btn-bd: #fff; --btn-ic-bg: var(--navy); --btn-ic-fg: #fff; }
+.btn--light:hover { --btn-bg: var(--gray-light); --btn-bd: var(--gray-light); }
+.btn--glass { --btn-bg: rgb(255 255 255 / .1); --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .4); --btn-ic-bg: #fff; --btn-ic-fg: var(--navy); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.btn--glass:hover { --btn-bg: rgb(255 255 255 / .2); --btn-bd: rgb(255 255 255 / .6); }
+.btn--plain { padding: 0 24px; }
+
+/* Legătura text cu săgeată */
+.link-arrow {
+  display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: .875rem; letter-spacing: .04em; color: var(--navy);
+  padding-bottom: 6px; background: linear-gradient(var(--coral), var(--coral)) 0 100%/100% 2px no-repeat;
+  transition: background-size var(--t) var(--ease), gap var(--t) var(--ease);
+}
+.on-dark .link-arrow { color: #fff; }
+.link-arrow svg { width: 15px; height: 15px; }
+.link-arrow:hover { gap: 16px; background-size: 30% 2px; }
+
+/* ---------- 5. Structura: secțiuni-etaj ---------- */
+.floor { position: relative; padding-block: var(--section); }
+/* O secțiune care urcă peste cea de dinainte, cu capetele rotunjite ca o placă de balcon */
+.slab {
+  position: relative; z-index: 1; margin-top: calc(var(--r-band) * -1);
+  border-radius: var(--r-band) var(--r-band) 0 0; box-shadow: var(--shadow-slab);
+}
+.bg-porcelain { background: var(--porcelain); }
+.bg-paper { background: var(--paper); }
+.bg-shell { background: var(--shell); }
+.bg-navy { background: var(--navy); color: #fff; }
+.bg-plinth { background: var(--plinth); color: var(--on-plinth); }
+.on-dark { color: #fff; }
+.on-dark .lead { color: #fff; }
+.on-dark .body, .on-dark .muted { color: var(--on-plinth-2); }
+.bg-navy.on-dark .body, .bg-navy .muted { color: #c7d0ea; }
+
+/* Antetul de secțiune: etichetă, titlu, text */
+.section-head { display: grid; gap: var(--stack-3); max-width: 920px; }
+.section-head--split { max-width: none; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: end; column-gap: var(--stack-6); }
+@media (max-width: 900px) { .section-head--split { grid-template-columns: 1fr; } }
+
+/* Rostul: linie fină între panouri */
+.rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+.on-dark .rule { background: var(--line-light); }
+
+/* Straturile: liniile orizontale ale fațadei, cu o retragere rotunjită, în periwinkle */
+.strata { display: block; width: 100%; height: auto; color: rgb(131 151 229 / .55); }
+.on-dark .strata { color: rgb(156 176 254 / .35); }
+
+/* ---------- 6. Media ---------- */
+.frame { position: relative; overflow: hidden; border-radius: var(--r-l); background: var(--glass); isolation: isolate; }
+.frame img, .frame video { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-slow) var(--ease); }
+.frame--band { border-radius: var(--r-band) var(--r-l) var(--r-band) var(--r-l); }
+a.frame:hover img, a:hover > .frame img { transform: scale(1.035); }
+
+/* ---------- 7. Liste și cifre ---------- */
+.fact { display: grid; gap: 8px; }
+.fact-value { font-size: clamp(1.875rem, 1.4rem + 1.5vw, 3rem); font-weight: 700; letter-spacing: .03em; line-height: 1; color: var(--navy); }
+.fact-value small { font-size: .4em; font-weight: 600; letter-spacing: .05em; margin-left: 6px; color: var(--coral-ink); }
+.fact-label { font-size: var(--fs-small); color: var(--ink-2); line-height: 1.5; }
+
+.icon { width: 28px; height: 28px; stroke: currentColor; stroke-width: 1.25; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- 8. Formulare ---------- */
+.field { display: grid; gap: 8px; }
+.field label { font-size: var(--fs-label); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+.field input, .field select, .field textarea {
+  width: 100%; border: 0; border-bottom: 1px solid var(--line-strong); background: transparent;
+  padding: 10px 0 14px; font-size: 1.0625rem; font-weight: 400; color: var(--navy); border-radius: 0; outline: none; appearance: none;
+  transition: border-color var(--t) var(--ease);
+}
+.field select {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2320366c' stroke-width='1.3'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E") right 2px center/16px no-repeat; padding-right: 28px; cursor: pointer;
+}
+.field textarea { resize: vertical; min-height: 96px; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--coral); }
+.field input::placeholder, .field textarea::placeholder { color: var(--ink-3); opacity: .75; font-weight: 300; }
+.check { display: flex; gap: 12px; align-items: flex-start; font-size: var(--fs-small); color: var(--ink-2); line-height: 1.55; }
+.check input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--navy); flex: none; }
+.check a { text-decoration: underline; text-decoration-color: var(--coral); text-underline-offset: 3px; }
+
+/* ---------- 9. Mișcare ---------- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease); transition-delay: var(--d, 0ms); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
+  .reveal { opacity: 1; transform: none; }
+}
