@@ -37,7 +37,10 @@ function MegaUnits({item, chrome}) {
   );
 }
 
-function MegaTopics({item}) {
+// Placa Proiectul: capitolele, iar pe ultima coloană filmul de prezentare (se deschide cu sunet, la clic; nimic nu pornește singur).
+// Fereastra filmului stă în afara plăcii (în Header): placa închisă e ascunsă (visibility), iar fereastra ar dispărea cu ea.
+function MegaTopics({item, chrome}) {
+  const L = chrome.labels, film = item.mega === 'proiect' ? chrome.video : null;
   return (
     <ul className="mega-topics">
       {item.children.map(c => (
@@ -46,6 +49,14 @@ function MegaTopics({item}) {
           <span className="mega-topic-text"><span className="mega-topic-ic"><Icon id={c.icon ?? 'arrow'} size={22}/></span><span><b>{c.label}</b><small>{c.desc}</small></span></span>
         </a></li>
       ))}
+      {film && (
+        <li>
+          <button type="button" className="mega-topic mega-film" data-video-open="film-proiect" data-mega-close>
+            <span className="frame mega-topic-frame">{film.poster && <img src={film.poster} alt="" decoding="async" loading="lazy"/>}<span className="mega-film-play"><Icon id="play" size={20}/></span></span>
+            <span className="mega-topic-text"><span className="mega-topic-ic"><Icon id="play" size={22}/></span><span><b>{L['tur-video'] ?? 'Tur video'}</b><small>{L['tur-video-text'] ?? 'Clădirea, apartamentele și lacul, în filmul de prezentare.'}</small></span></span>
+          </button>
+        </li>
+      )}
     </ul>
   );
 }
@@ -74,7 +85,7 @@ export function Header({chrome, solid = false}) {
                         <p className="mega-title">{it.title}</p>
                         {it.more?.href && <a className="link-arrow" href={it.more.href} data-mega-close>{it.more.label} <Arrow/></a>}
                       </div>
-                      {it.mega === 'locuinte' ? <MegaUnits item={it} chrome={chrome}/> : <MegaTopics item={it}/>}
+                      {it.mega === 'locuinte' ? <MegaUnits item={it} chrome={chrome}/> : <MegaTopics item={it} chrome={chrome}/>}
                     </div>
                   </div>
                 </li>
@@ -89,6 +100,12 @@ export function Header({chrome, solid = false}) {
         </div>
       </header>
       <div className="mega-scrim" data-mega-scrim/>
+      {chrome.video && (
+        <dialog className="video-dialog" id="film-proiect" data-video-dialog aria-label={L['tur-video'] ?? 'Tur video'}>
+          <button className="dialog-close" type="button" data-video-close aria-label="×"><Icon id="close" size={24}/></button>
+          <video controls playsInline preload="none" poster={chrome.video.poster} data-video-full><source src={chrome.video.src} type="video/mp4"/></video>
+        </dialog>
+      )}
       <MobileMenu chrome={chrome} items={items}/>
     </>
   );

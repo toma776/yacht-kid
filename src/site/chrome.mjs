@@ -54,6 +54,10 @@ export async function loadChrome(ctx, alternates = {}) {
     const phone = firma?.phone ?? '';
     // Broșura (PDF) e pusă pe hero-ul homepage-ului; subsolul o oferă pe toate paginile
     const [withBrochure] = await ctx.query('sectiuni', {fields: ['brochure'], where: 'e.brochure_id IS NOT NULL', order: 'e.id', limit: 1});
+    // Filmul de prezentare (tot de pe hero-ul homepage-ului): cardul „Tur video” din placa Proiectul îl deschide oriunde
+    const [withVideo] = await ctx.query('sectiuni', {fields: ['video'], where: `e.kind = 'hero' AND e.video_id IS NOT NULL`, order: 'e.id', limit: 1});
+    const film = withVideo?.video ? await ctx.item('media', withVideo.video, 'media') : null;
+    const r = (film?.renditions ?? []).find(x => x.quality === '1080p') ?? film?.renditions?.[0];
     return {
       lang: ctx.lang, labels, values, alternates, home: localPath(ctx.lang),
       firma: firma && {
@@ -64,7 +68,8 @@ export async function loadChrome(ctx, alternates = {}) {
       header: await resolveItems(ctx, menus.antet, labels, values),
       footer: await resolveItems(ctx, menus.subsol, labels, values),
       contactHref: await resolveTo(ctx, menus.antet?.find(i => i.cta)?.to) ?? '#contact',
-      brochure: withBrochure?.brochure ? ctx.media(withBrochure.brochure) : null
+      brochure: withBrochure?.brochure ? ctx.media(withBrochure.brochure) : null,
+      video: film && {src: r?.file ?? ctx.media(film.id), poster: film.poster}
     };
   });
 }

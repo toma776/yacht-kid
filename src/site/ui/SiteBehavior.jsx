@@ -169,16 +169,19 @@ function init(signal) {
     update();
   }
 
-  // ---------- Video: fereastra de prezentare cu sunet (fundalul din hero rulează la viteza normală)
-  const dialog = document.querySelector('[data-video-dialog]');
-  const full = document.querySelector('[data-video-full]');
-  if (dialog && full) {
-    document.querySelectorAll('[data-video-open]').forEach(b => on(b, 'click', e => { e.preventDefault(); dialog.showModal(); full.play().catch(() => {}); }));
+  // ---------- Video: fereastra de prezentare cu sunet (fundalul din hero rulează la viteza normală).
+  // Pot fi două pe pagină (hero-ul homepage-ului și cardul din placa Proiectul): un buton cu valoare deschide fereastra
+  // cu acel id (data-video-open="film-proiect"); unul fără valoare, fereastra din secțiunea lui
+  const target = b => (b.dataset.videoOpen ? document.getElementById(b.dataset.videoOpen) : b.closest('section')?.querySelector('[data-video-dialog]'));
+  document.querySelectorAll('[data-video-dialog]').forEach(dialog => {
+    const full = dialog.querySelector('[data-video-full]');
+    if (!full) return;
+    document.querySelectorAll('[data-video-open]').forEach(b => { if (target(b) === dialog) on(b, 'click', e => { e.preventDefault(); dialog.showModal(); full.play().catch(() => {}); }); });
     const closeVideo = () => { full.pause(); if (dialog.open) dialog.close(); };
     on(dialog.querySelector('[data-video-close]'), 'click', closeVideo);
     on(dialog, 'click', e => { if (e.target === dialog) closeVideo(); });
     on(dialog, 'close', () => full.pause());
-  }
+  });
 
   // ---------- Cuprinsul articolului: marchează secțiunea citită acum (cea mai de sus care a trecut de antet)
   const toc = document.querySelector('[data-toc]');
