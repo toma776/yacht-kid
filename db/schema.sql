@@ -25,6 +25,10 @@ CREATE TABLE IF NOT EXISTS aliases (
   entity TEXT NOT NULL, entity_id INTEGER NOT NULL, alias TEXT NOT NULL, learned_from TEXT, at TEXT NOT NULL,
   PRIMARY KEY (entity, alias));
 
+CREATE TABLE IF NOT EXISTS import_keys (
+  entity TEXT NOT NULL, natural_key TEXT NOT NULL, entity_id INTEGER NOT NULL, at TEXT NOT NULL,
+  PRIMARY KEY (entity, natural_key));
+
 CREATE TABLE IF NOT EXISTS page_index (
   path TEXT PRIMARY KEY, lang TEXT NOT NULL, owner_entity TEXT, owner_id INTEGER, title TEXT, status INTEGER, rendered_at TEXT,
   hash TEXT, deps INTEGER, error TEXT, stale INTEGER NOT NULL DEFAULT 0);
@@ -269,6 +273,7 @@ CREATE TABLE IF NOT EXISTS "businesses" (
   "name" TEXT,
   "aliases" TEXT CHECK ("aliases" IS NULL OR json_valid("aliases")),
   "logo_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
+  "image_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   "website" TEXT,
   "state" TEXT DEFAULT 'deschis' CHECK ("state" IS NULL OR "state" IN ('deschis', 'in-curand', 'inchis')),
   "opened_on" TEXT,
@@ -281,6 +286,8 @@ CREATE TABLE IF NOT EXISTS "businesses" (
 );
 
 CREATE INDEX IF NOT EXISTS "ix_businesses_logo_id" ON "businesses"("logo_id");
+
+CREATE INDEX IF NOT EXISTS "ix_businesses_image_id" ON "businesses"("image_id");
 
 CREATE INDEX IF NOT EXISTS "ix_businesses_status" ON "businesses"(status);
 

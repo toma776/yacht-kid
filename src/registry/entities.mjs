@@ -191,9 +191,9 @@ export const ENTITIES = [
   // ───────────── Comunitate ─────────────
   {
     key: 'afaceri', table: 'businesses', label: 'Afaceri din comunitate', one: 'Afacere',
-    category: 'comunitate', color: '#d0643b', icon: 'store', thumb: 'logo', mentions: true, aliases: 'aliases', assume: 'A8',
+    category: 'comunitate', color: '#d0643b', icon: 'store', thumb: 'image', mentions: true, aliases: 'aliases', assume: 'A8',
     title: 'name',
-    linkFields: ['name', 'logo', 'tagline', 'state'],
+    linkFields: ['name', 'image', 'tagline', 'state'],
     fields: [
       {key: 'name', label: 'Nume', type: 'text', required: true, max: 120, list: true},
       {key: 'aliases', label: 'Alte nume', type: 'list', help: 'MOB = Ministry of Beauty; AMCOR = AMCOR Complete Dentistry.'},
@@ -202,6 +202,7 @@ export const ENTITIES = [
        help: 'Forma scurtă din listele generate: „cafenea”, „clinică stomatologică”.'},
       {key: 'description', label: 'Descriere', type: 'textarea', ...T},
       {key: 'logo', label: 'Logo', type: 'image'},
+      {key: 'image', label: 'Imagine', type: 'image', help: 'Imaginea din cardul afacerii.'},
       {key: 'website', label: 'Site', type: 'url'},
       {key: 'state', label: 'Stare', type: 'select', required: true, list: true, options: ['deschis', 'in-curand', 'inchis'], default: 'deschis', assume: 'A7'},
       {key: 'opened_on', label: 'Deschis din', type: 'date'},

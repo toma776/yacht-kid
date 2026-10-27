@@ -35,7 +35,7 @@ export const ASSUMPTIONS = [
     ifOther: 'Importul primește lista suplimentară.'},
   // Presupuneri tehnice, nu întrebări pentru client
   {id: 'T1', question: null, where: 'src/core/schema.mjs',
-    assumed: 'Baza e SQLite (local: node:sqlite; pe Vercel: libSQL/Turso, compatibil). Schema urmează Anexa B.',
+    assumed: 'Decis pe 27.10.2026: baza e SQLite prin libSQL (local: fișierul data/brain.db; pe Vercel: Turso). Schema urmează Anexa B. Rămâne de verificat pe Turso că cheile străine sunt aplicate.',
     ifOther: 'Pe Postgres se schimbă generatorul de schemă, nu registrul.'},
   {id: 'T2', question: null, where: 'premii.tokens.nr_premii',
     assumed: '„Premiat la 5 competiții” numără premiile publicate, fără lista scurtă (SHARE Architecture Awards 2024). Azi dă 5, ca textul de pe site.',

@@ -83,7 +83,7 @@ Construite pentru întrebările din [01-entitati.md, secțiunea 8](01-entitati.m
 | A8 | 8.8 | TC Joyeria și Ghost Agency sunt deschise; fără logo și site, „unverified”. | `afaceri` |
 | A9 | 8.9 | Cererile se păstrează în Brain, apoi se trimit spre HubSpot. | `cereri` |
 | A10 | 8.10 | Se importă doar cele 354 de fișiere folosite. | `media` |
-| T1 | tehnic | Baza e SQLite: node:sqlite local, libSQL/Turso pe Vercel. | `src/core/schema.mjs` |
+| T1 | tehnic | **Decis pe 27.10.2026:** SQLite prin libSQL, local fișier, pe Vercel Turso ([03](03-aplicatie-si-import.md)). | `src/core/schema.mjs` |
 | T2 | tehnic | `{nr_premii}` numără premiile fără lista scurtă: 5, ca textul actual. | `premii.tokens` |
 | T3 | tehnic | Adresele vechi se păstrează exact, inclusiv `/community-card-concept/` ↔ `/en/community-card/`. | `pagini` |
 
@@ -108,5 +108,4 @@ Construite pentru întrebările din [01-entitati.md, secțiunea 8](01-entitati.m
 ## Ce nu e încă aici
 
 - **Nucleul** (store, context urmărit, sync, /manage). Standardul cere să pornim din nucleul comun, iar contul `toma776` nu are acces la `stefanmorariu/oxxygene-brain`. Tabelele sistemului din `schema.mjs` urmează Anexa B; cele marcate „ca în nucleu” (users, sessions, backups…) sunt scrise de noi și trebuie comparate cu nucleul când îl avem.
-- **Aplicația Next.js.** Registrul nu depinde de ea; o adăugăm la pasul 5 (site-ul public), odată cu alegerea bazei pe Vercel (T1).
-- **Importul** (pasul 4): din `reference/snapshot/`, cu perechile RO/EN unite pe aceeași entitate, ID-uri deterministe, proveniență pe fiecare câmp și presupunerile A1, A5, A8 și A10 aplicate.
+- Aplicația Next.js și importul sunt în [03-aplicatie-si-import.md](03-aplicatie-si-import.md).

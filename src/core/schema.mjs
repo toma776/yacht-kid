@@ -104,6 +104,10 @@ export const SYSTEM_SQL = [
   `CREATE TABLE IF NOT EXISTS aliases (
   entity TEXT NOT NULL, entity_id INTEGER NOT NULL, alias TEXT NOT NULL, learned_from TEXT, at TEXT NOT NULL,
   PRIMARY KEY (entity, alias))`,
+  // Cheia naturală din sistemul vechi → ID-ul din Brain (§1.3: ID-uri deterministe, reimportul actualizează, nu dublează)
+  `CREATE TABLE IF NOT EXISTS import_keys (
+  entity TEXT NOT NULL, natural_key TEXT NOT NULL, entity_id INTEGER NOT NULL, at TEXT NOT NULL,
+  PRIMARY KEY (entity, natural_key))`,
   `CREATE TABLE IF NOT EXISTS page_index (
   path TEXT PRIMARY KEY, lang TEXT NOT NULL, owner_entity TEXT, owner_id INTEGER, title TEXT, status INTEGER, rendered_at TEXT,
   hash TEXT, deps INTEGER, error TEXT, stale INTEGER NOT NULL DEFAULT 0)`,
@@ -171,23 +175,32 @@ export function schemaStatements() {
 
 export const schemaSql = () => `-- Generat din src/registry/entities.mjs de src/core/schema.mjs. Nu se editează de mână.\n\n${schemaStatements().map(s => `${s};`).join('\n\n')}\n`;
 
-// Migrare care doar adaugă: coloanele declarate în registru care lipsesc dintr-o bază existentă
-export function missingColumns(db) {
-  const out = [];
-  const check = (table, fields) => {
-    const have = new Set(db.prepare(`PRAGMA table_info(${q(table)})`).all().map(c => c.name));
-    if (!have.size) return;
-    for (const f of fields) if (!have.has(columnOf(f))) out.push(`ALTER TABLE ${q(table)} ADD COLUMN ${columnSql(f).replace(/ NOT NULL DEFAULT/, ' DEFAULT')}`);
-  };
-  for (const e of ENTITIES) {
-    check(e.table, baseFields(e.key));
-    if (hasTranslations(e.key)) check(`${e.table}_translations`, translatableFields(e.key));
-  }
-  return out;
-}
+// Migrare care doar adaugă: coloanele declarate în registru care lipsesc dintr-o bază existentă.
+// `columnsOf(table)` întoarce numele coloanelor; așa merge la fel pe node:sqlite (sincron) și pe libSQL (asincron).
+const migrationTargets = () => ENTITIES.flatMap(e => [
+  [e.table, baseFields(e.key)],
+  ...(hasTranslations(e.key) ? [[`${e.table}_translations`, translatableFields(e.key)]] : [])
+]);
+const alterFor = (table, fields, have) => (have.size ? fields.filter(f => !have.has(columnOf(f)))
+  .map(f => `ALTER TABLE ${q(table)} ADD COLUMN ${columnSql(f).replace(/ NOT NULL DEFAULT/, ' DEFAULT')}`) : []);
+
+export const missingColumns = db => migrationTargets()
+  .flatMap(([t, fields]) => alterFor(t, fields, new Set(db.prepare(`PRAGMA table_info(${q(t)})`).all().map(c => c.name))));
 
 export function migrate(db) {
   db.exec('PRAGMA foreign_keys = ON');
   for (const s of schemaStatements()) db.exec(s);
   for (const s of missingColumns(db)) db.exec(s);
+}
+
+// Aceeași migrare pe clientul libSQL (local: fișier; producție: Turso)
+export async function migrateClient(client) {
+  await client.batch(schemaStatements(), 'write');
+  const alters = [];
+  for (const [t, fields] of migrationTargets()) {
+    const {rows} = await client.execute(`PRAGMA table_info(${q(t)})`);
+    alters.push(...alterFor(t, fields, new Set(rows.map(r => r.name))));
+  }
+  if (alters.length) await client.batch(alters, 'write');
+  return alters;
 }

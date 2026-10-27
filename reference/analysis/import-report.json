@@ -1,0 +1,59 @@
+{
+ "counts": {
+  "media": 343,
+  "firma": 1,
+  "cifre": 4,
+  "parteneri": 5,
+  "categorii": 2,
+  "locuinte": 5,
+  "rel:locuinte.gallery": 150,
+  "afaceri": 8,
+  "premii": 6,
+  "articole": 26,
+  "rel:articole.unit_types": 12,
+  "rel:articole.awards": 6,
+  "rel:articole.businesses": 6,
+  "testimoniale": 54,
+  "avantaje": 18,
+  "tehnologii": 6,
+  "rel:tehnologii.suppliers": 2,
+  "niveluri-card": 3,
+  "pagini": 13,
+  "formulare": 2,
+  "meniuri": 2,
+  "redirectari": 53,
+  "etichete": 5
+ },
+ "warnings": [
+  "60 imagini folosite nu au text alternativ în RO; niciuna nu are în EN.",
+  "Adresa din EN („Anton Holban Stree, no. 6, Bucharest”, fără cod poștal) nu s-a importat: adresa vine o singură dată din Date firmă, prin {adresa}.",
+  "/duplex/: prețul diferă (RO 1495000 €, EN 1450000 €). Importat 1495000 € (A1), certitudine „unverified”.",
+  "39 testimoniale nu au text public (API gol, pagina proprie fără citat): importate ca ciorne, textul trebuie cerut clientului.",
+  "ISO CHEMIE apare doar în textul lung de pe /tehnologie/ (panourile prefabricate); legătura nu s-a dedus automat.",
+  "Beneficiile pe niveluri (Gold / Platinum / Diamond) nu apar pe site: nivelurile s-au importat fără beneficii și fără legătura cu tipurile de locuințe.",
+  "Secțiunile paginilor (Bricks) nu sunt încă importate: paginile compuse au titlu și SEO, fără conținut. Felurile de secțiuni se mapează la pasul următor.",
+  "Formularul vizionare (/programeaza-o-vizionare/): două câmpuri cu numele „buget_estimativ”; al doilea a devenit „modalitate_achizitie”.",
+  "Meniul EN trimite la pagina RO /apartamente-3-camere/ („2 Bedrooms Apartments”); ca trimitere spre entitate, se afișează adresa EN.",
+  "1 imagini sau linkuri din texte n-au putut fi rezolvate (de exemplu imagini de pe dev.sota360.ro); detalii în import-report.json."
+ ],
+ "roundtrip": {
+  "checked": 48,
+  "failed": 0
+ },
+ "unresolved_links": 0,
+ "sanitize_issues": 1,
+ "report": {
+  "roundtrip": {
+   "checked": 48,
+   "failed": []
+  },
+  "unresolved_links": [],
+  "sanitize_issues": [
+   {
+    "where": "/evolutia-pietei-imobiliare-bucuresti/",
+    "kind": "image",
+    "src": "https://dev.sota360.ro/yacht/wp-content/uploads/2024/09/YachtKid_locatie-1024x1024.jpeg"
+   }
+  ]
+ }
+}

@@ -2,11 +2,23 @@
   "name": "yacht-kid",
   "private": true,
   "type": "module",
-  "engines": {"node": ">=24"},
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "import": "node scripts/import.mjs",
     "crawl": "node scripts/crawl.mjs",
     "analyze": "node scripts/analyze.mjs",
     "schema": "node scripts/schema.mjs",
     "test": "node --test --disable-warning=ExperimentalWarning"
+  },
+  "dependencies": {
+    "@libsql/client": "0.18.0",
+    "next": "16.4.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   }
 }
