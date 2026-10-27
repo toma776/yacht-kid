@@ -198,6 +198,11 @@ const SECTIONS = [
   {key: 'cifre', kind: 'cifre', links: {facts: [F.parc, F.intretinere]},
     ro: {heading: 'YACHT KID în cifre', buttons: [{value: '{nr_premii}', label: 'Premiat la {nr_premii} competiții internaționale de renume'}, {value: 'Nr. 1', label: 'Izolație fonică și etanșare nr. 1 pe piață'}]},
     en: {heading: 'YACHT KID in figures', buttons: [{value: '{nr_premii}', label: '{nr_premii}× international award winner'}, {value: 'No. 1', label: 'Market-leading sound insulation & sealing'}]}},
+  // Banda de premii (specificația din design/homepage, „2b. PREMII”): logo-urile vin din premii.logo, fără lista scurtă
+  {key: 'premii', kind: 'premii', anchor: 'premii-banda',
+    ro: {eyebrow: 'Recunoaștere internațională', heading: 'Premiat la {nr_premii} competiții internaționale de renume', buttons: [btn('Vezi premiile', ref('categorii', premii))]},
+    en: {buttons: [btn('See the awards', ref('categorii', premii))]},
+    ai: {eyebrow: 'International recognition', heading: 'Awarded at {nr_premii} renowned international competitions'}},
   {key: 'despre', kind: 'text', anchor: 'despre',
     ro: {eyebrow: 'Despre YACHT KID', heading: 'Un ansamblu rezidențial de lux, pe malul lacului, deschis către parc.', buttons: [btn('Solicită ofertă', '#contact')],
       text: '<blockquote><p>Fiecare aspect al execuției YACHT KID reflectă un angajament fără compromis față de calitate, design inteligent și o experiență de locuire superioară, oferind un produs de top, unic pe piață.</p></blockquote>'

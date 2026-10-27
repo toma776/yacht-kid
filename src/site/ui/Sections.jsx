@@ -378,6 +378,37 @@ async function Businesses({ctx, s, values}) {
   );
 }
 
+// Banda de premii: logo-urile competițiilor (premii.logo) ca mască monocromă, cu distincția și anul dedesubt.
+// Fără lista scurtă (ca jetonul {nr_premii}); ordinea: anul, apoi câștigător → distincție → mențiune.
+async function Awards({ctx, s, values}) {
+  const awards = await ctx.within(`Premii (${s.id})`, 'premiile publicate cu logo, fără lista scurtă', () =>
+    ctx.query('premii', {scope: `sectiuni:${s.id}`, where: `e.logo_id IS NOT NULL AND e.result != 'lista-scurta'`,
+      order: `e.year DESC, CASE e.result WHEN 'castigator' THEN 0 WHEN 'distinctie' THEN 1 WHEN 'mentiune' THEN 2 ELSE 3 END, e.id`, limit: s.limit}));
+  if (!awards.length) return null;
+  const [b1] = await buttons(ctx, s, values);
+  return (
+    <section className="proof bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap proof-inner">
+        <div className="proof-head reveal">
+          {s.eyebrow && <p className="eyebrow">{fillTokens(s.eyebrow, values)}</p>}
+          {s.heading && <h2 className="proof-title" id={`t-${s.id}`}>{fillTokens(s.heading, values)}</h2>}
+          {b1?.href && <a className="link-arrow" href={b1.href}>{b1.label} <Arrow/></a>}
+        </div>
+        <ul className="proof-list reveal" style={{'--d': '120ms', '--n': awards.length}}>
+          {awards.map(a => (
+            <li key={a.id} className="proof-item">
+              <a href={a.url || b1?.href} {...(a.url ? {target: '_blank', rel: 'noopener'} : {})}>
+                <span className="proof-logo" role="img" aria-label={a.competition} style={{'--logo': `url('${ctx.media(a.logo)}')`}}/>
+                <span className="proof-meta"><b>{a.distinction}</b><span className="num">{a.year}</span></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 // Cardurile articolelor: aceeași listă pe pagina blogului (secțiunea `articole`) și pe paginile categoriilor
 export async function PostList({ctx, posts, labels}) {
   const date = d => new Date(d).toLocaleDateString(ctx.lang === 'en' ? 'en-US' : 'ro-RO', {dateStyle: 'long'});
@@ -413,7 +444,7 @@ async function Posts({ctx, s, values, first}) {
 }
 
 const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-locuinte': Collection, galerie: Gallery, cta: Cta, formular: ContactForm, articole: Posts,
-  'fisa-tehnica': UnitSpec, afaceri: Businesses};
+  'fisa-tehnica': UnitSpec, afaceri: Businesses, premii: Awards};
 
 export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) {
   const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId));
