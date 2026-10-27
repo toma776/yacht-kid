@@ -168,30 +168,80 @@
 </section>
 
 <!-- ===================== 3. DESPRE ===================== -->
+<!-- Textul e împărțit în trei capitole: unul deschis, cu fotografia lui alături; se schimbă singure până la prima interacțiune -->
 <section class="about floor bg-porcelain" id="despre" aria-labelledby="about-title">
   <div class="wrap">
-    <div class="about-grid">
+    <div class="about-head">
       <div class="about-intro">
         <p class="eyebrow reveal">Despre YACHT KID</p>
         <h2 class="h2 ruled reveal" id="about-title" style="--d:80ms">Un ansamblu rezidențial de lux, pe malul lacului, deschis către parc.</h2>
       </div>
-      <div class="about-copy">
-        <p class="lead reveal">YACHT KID este un ansamblu rezidențial de lux, conceput pentru a oferi atât un stil de viață excepțional, cât și o valoare investițională solidă pe termen lung. Situat într-o locație exclusivistă pe malul lacului, la doar câțiva pași de apă și cu deschidere directă către un parc de 10.000 mp, proiectul beneficiază de o poziționare de top și de un potențial constant de creștere a cererii.</p>
-        <div class="body reveal">
-          <p>Dezvoltarea oferă o colecție de apartamente moderne, inclusiv locuințe exclusive cu piscine private, construite cu tehnologii avansate și materiale de cea mai înaltă calitate, inspirate din industria yachtingului. Rezidenții beneficiază de o comunitate complet integrată, care include o cafenea la parter cu livrare direct în apartamente, un magazin alimentar, un salon premium de înfrumusețare, o clinică stomatologică de top în curs de deschidere și un studio de hot pilates, toate concepute pentru confort maxim și comoditate zilnică.</p>
-          <p>Premiat în cadrul a cinci competiții internaționale de renume și construit la cele mai înalte standarde de calitate, YACHT KID se remarcă prin echilibrul său unic între lux și eficiența costurilor. În ciuda poziționării sale de top, proiectul oferă unele dintre cele mai reduse costuri de mentenanță din București, începând de la doar 6 RON/mp, asigurând cheltuieli optimizate post-achiziție și o performanță investițională solidă.</p>
-        </div>
-        <blockquote class="pull subhead reveal">Fiecare aspect al execuției YACHT KID reflectă un angajament fără compromis față de calitate, design inteligent și o experiență de locuire superioară, oferind un produs de top, unic pe piață.</blockquote>
-        <a class="btn reveal" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+      <div class="about-statement reveal" style="--d:160ms">
+        <blockquote class="pull subhead">Fiecare aspect al execuției YACHT KID reflectă un angajament fără compromis față de calitate, design inteligent și o experiență de locuire superioară, oferind un produs de top, unic pe piață.</blockquote>
+      </div>
+    </div>
+
+    <div class="chapters reveal" data-chapters>
+      <div class="chapters-copy">
+        <ol class="chapter-list">
+          <li class="chapter is-active" data-chapter="0">
+            <h3 class="chapter-head">
+              <button type="button" id="ch-btn-0" aria-expanded="true" aria-controls="ch-panel-0">
+                <span class="chapter-num num">01</span>
+                <span class="chapter-title">Locație și investiție</span>
+                <span class="chapter-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="chapter-panel" id="ch-panel-0" role="region" aria-labelledby="ch-btn-0">
+              <div><p>YACHT KID este un ansamblu rezidențial de lux, conceput pentru a oferi atât un stil de viață excepțional, cât și o valoare investițională solidă pe termen lung. Situat într-o locație exclusivistă pe malul lacului, la doar câțiva pași de apă și cu deschidere directă către un parc de 10.000 mp, proiectul beneficiază de o poziționare de top și de un potențial constant de creștere a cererii.</p></div>
+            </div>
+            <span class="chapter-progress" aria-hidden="true"></span>
+          </li>
+          <li class="chapter" data-chapter="1">
+            <h3 class="chapter-head">
+              <button type="button" id="ch-btn-1" aria-expanded="false" aria-controls="ch-panel-1">
+                <span class="chapter-num num">02</span>
+                <span class="chapter-title">Locuințe și comunitate</span>
+                <span class="chapter-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="chapter-panel" id="ch-panel-1" role="region" aria-labelledby="ch-btn-1">
+              <div><p>Dezvoltarea oferă o colecție de apartamente moderne, inclusiv locuințe exclusive cu piscine private, construite cu tehnologii avansate și materiale de cea mai înaltă calitate, inspirate din industria yachtingului. Rezidenții beneficiază de o comunitate complet integrată, care include o cafenea la parter cu livrare direct în apartamente, un magazin alimentar, un salon premium de înfrumusețare, o clinică stomatologică de top în curs de deschidere și un studio de hot pilates, toate concepute pentru confort maxim și comoditate zilnică.</p></div>
+            </div>
+            <span class="chapter-progress" aria-hidden="true"></span>
+          </li>
+          <li class="chapter" data-chapter="2">
+            <h3 class="chapter-head">
+              <button type="button" id="ch-btn-2" aria-expanded="false" aria-controls="ch-panel-2">
+                <span class="chapter-num num">03</span>
+                <span class="chapter-title">Premii și costuri reduse</span>
+                <span class="chapter-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="chapter-panel" id="ch-panel-2" role="region" aria-labelledby="ch-btn-2">
+              <div><p>Premiat în cadrul a cinci competiții internaționale de renume și construit la cele mai înalte standarde de calitate, YACHT KID se remarcă prin echilibrul său unic între lux și eficiența costurilor. În ciuda poziționării sale de top, proiectul oferă unele dintre cele mai reduse costuri de mentenanță din București, începând de la doar 6 RON/mp, asigurând cheltuieli optimizate post-achiziție și o performanță investițională solidă.</p></div>
+            </div>
+            <span class="chapter-progress" aria-hidden="true"></span>
+          </li>
+        </ol>
+        <a class="btn" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
+      </div>
+      <div class="frame frame--band chapter-stage">
+          <figure class="chapter-figure is-active" data-figure="0">
+            <img src="/wp-content/uploads/2024/10/YachtKID-Exterior-51-1536x1024.jpg" alt="Curtea interioară YACHT KID: benzile albe ale balcoanelor, cu colțuri rotunjite" width="1536" height="1024" loading="lazy" style="object-position:62% 50%">
+            <figcaption class="chapter-chip"><b>10.000 m²</b><span>parc cu deschidere directă</span></figcaption>
+          </figure>
+          <figure class="chapter-figure" data-figure="1" aria-hidden="true">
+            <img src="/wp-content/uploads/2024/10/YachtKID-Exterior-v12313.jpg" alt="Piscina privată a unui apartament de la parter, sub balcoanele în val" width="1365" height="2048" loading="lazy" style="object-position:50% 70%">
+            <figcaption class="chapter-chip"><b>Piscine private</b><span>la apartamentele de la parter</span></figcaption>
+          </figure>
+          <figure class="chapter-figure" data-figure="2" aria-hidden="true">
+            <img src="/wp-content/uploads/2024/10/yacht-kid-premiu-masterprize-1536x1536.jpg" alt="Fațada YACHT KID, cu mențiunea de onoare Architecture MasterPrize 2024" width="1536" height="1536" loading="lazy" style="object-position:50% 50%">
+            <figcaption class="chapter-chip"><b>6 RON/m²</b><span>cost de întreținere, de la</span></figcaption>
+          </figure>
       </div>
     </div>
   </div>
-
-  <figure class="about-visual wrap reveal">
-    <div class="frame frame--band about-frame">
-      <img src="/wp-content/uploads/2024/10/colaj-yacht-kid-resize-_0002_colaj-yacht-kid-00002.jpg" alt="Fațada YACHT KID: benzi albe continue cu colțuri rotunjite și balustrade de sticlă" loading="lazy" width="2048" height="1365" data-parallax>
-    </div>
-  </figure>
 </section>
 
 <!-- ===================== 4. AVANTAJE ===================== -->

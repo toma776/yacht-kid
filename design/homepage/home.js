@@ -103,6 +103,48 @@ document.querySelector('[data-video-close]').addEventListener('click', closeVide
 dialog.addEventListener('click', e => { if (e.target === dialog) closeVideo(); });
 dialog.addEventListener('close', () => full.pause());
 
+// Capitolele din Despre: unul deschis o dată, cu fotografia lui alături. Se schimbă singure cât timp secțiunea e pe
+// ecran, se opresc la hover sau la focus și se opresc de tot după primul click, ca cititorul să nu fie grăbit
+const chapters = document.querySelector('[data-chapters]');
+if (chapters) {
+  const items = [...chapters.querySelectorAll('[data-chapter]')];
+  const figures = [...chapters.querySelectorAll('[data-figure]')];
+  const STEP = 8000;
+  chapters.style.setProperty('--chapter-ms', `${STEP}ms`);
+  let current = 0, timer = null, started = 0, left = STEP, auto = !reduced, visible = false, held = false;
+
+  const show = i => {
+    current = (i + items.length) % items.length;
+    items.forEach((li, n) => {
+      const on = n === current;
+      li.classList.toggle('is-active', on);
+      li.querySelector('button').setAttribute('aria-expanded', String(on));
+    });
+    figures.forEach((f, n) => { f.classList.toggle('is-active', n === current); f.toggleAttribute('aria-hidden', n !== current); });
+  };
+  // Repornește animația liniei de progres pe capitolul nou
+  const restartBar = () => { chapters.classList.remove('is-playing'); void chapters.offsetWidth; if (auto) chapters.classList.add('is-playing'); };
+  const schedule = ms => { clearTimeout(timer); started = Date.now(); left = ms; timer = setTimeout(() => { show(current + 1); left = STEP; restartBar(); schedule(STEP); }, ms); };
+  const sync = () => {
+    const run = auto && visible && !held;
+    chapters.classList.toggle('is-paused', !run);
+    if (run) schedule(left); else if (timer) { clearTimeout(timer); timer = null; left = Math.max(400, left - (Date.now() - started)); }
+  };
+
+  items.forEach((li, n) => li.querySelector('button').addEventListener('click', () => {
+    auto = false; clearTimeout(timer); chapters.classList.remove('is-playing');
+    show(n);
+  }));
+  chapters.addEventListener('mouseenter', () => { held = true; sync(); });
+  chapters.addEventListener('mouseleave', () => { held = false; sync(); });
+  chapters.addEventListener('focusin', () => { held = true; sync(); });
+  chapters.addEventListener('focusout', e => { if (!chapters.contains(e.relatedTarget)) { held = false; sync(); } });
+  // Rulează cât timp componenta trece prin mijlocul ecranului (pe mobil e mai înaltă decât ecranul)
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }, {rootMargin: '-30% 0px -30% 0px'}).observe(chapters);
+  show(0);
+  if (auto) restartBar();
+}
+
 // „Sus” din subsol: înapoi la hero
 document.querySelector('[data-to-top]')?.addEventListener('click', e => { e.preventDefault(); scrollTo({top: 0, behavior: reduced ? 'auto' : 'smooth'}); });
 

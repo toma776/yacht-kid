@@ -175,17 +175,65 @@ body.menu-open { overflow: hidden; }
 
 /* ===================== 3. DESPRE ===================== */
 .about { padding-top: clamp(56px, 6vw, 96px); }
-.about-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--stack-5) clamp(40px, 7vw, 128px); }
-.about-intro { position: sticky; top: 140px; align-self: start; display: grid; gap: var(--stack-3); }
-.about-copy { display: grid; gap: var(--stack-4); justify-items: start; }
-.pull { margin: 0; padding: 4px 0 4px 28px; border-left: 2px solid var(--coral); font-size: clamp(1.1875rem, 1rem + .6vw, 1.5rem); line-height: 1.55; }
-.about-visual { margin-top: var(--section); }
-.about-frame { aspect-ratio: 21 / 9; }
-.about-frame img { height: 118%; }
+.about-head { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--stack-4) clamp(40px, 6vw, 96px); align-items: end; }
+.about-intro { display: grid; gap: var(--stack-3); }
+.pull { margin: 0; padding: 4px 0 4px 24px; border-left: 2px solid var(--coral); font-size: clamp(1.0625rem, .95rem + .45vw, 1.3125rem); line-height: 1.6; }
+
+/* Capitolele: o listă care se desfășoară, cu fotografia capitolului deschis alături */
+.chapters { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--stack-5) clamp(40px, 6vw, 96px); align-items: start; margin-top: var(--stack-5); }
+.chapters-copy { display: grid; gap: var(--stack-4); justify-items: start; }
+.chapter-list { width: 100%; border-top: 1px solid var(--line); }
+.chapter { position: relative; border-bottom: 1px solid var(--line); }
+.chapter-head { margin: 0; }
+.chapter-head button {
+  width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) 32px; align-items: center; gap: 12px;
+  padding: 22px 0; background: none; border: 0; text-align: left; cursor: pointer; color: var(--navy);
+}
+.chapter-num { font-size: .75rem; font-weight: 600; letter-spacing: .1em; color: var(--coral-ink); }
+.chapter-title { font-size: clamp(1.0625rem, .95rem + .5vw, 1.375rem); font-weight: 700; letter-spacing: .05em; line-height: 1.3; color: var(--navy-3); transition: color var(--t) var(--ease); }
+.chapter-head button:hover .chapter-title, .chapter.is-active .chapter-title { color: var(--navy); }
+/* + care devine − în capitolul deschis */
+.chapter-icon { position: relative; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line-strong); transition: background var(--t) var(--ease), border-color var(--t) var(--ease); }
+.chapter-icon::before, .chapter-icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 11px; height: 1.5px; margin: -.75px 0 0 -5.5px; background: var(--navy); transition: transform var(--t) var(--ease), background var(--t) var(--ease); }
+.chapter-icon::after { transform: rotate(90deg); }
+.chapter.is-active .chapter-icon { background: var(--navy); border-color: var(--navy); }
+.chapter.is-active .chapter-icon::before, .chapter.is-active .chapter-icon::after { background: #fff; }
+.chapter.is-active .chapter-icon::after { transform: rotate(0deg); }
+/* Paragraful se desfășoară lin (0fr → 1fr) */
+.chapter-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 650ms var(--ease); }
+.chapter-panel > div { overflow: hidden; }
+.chapter-panel p { padding: 0 44px 26px 56px; color: var(--ink-2); max-width: 64ch; opacity: 0; transform: translateY(-6px); transition: opacity 400ms var(--ease), transform 400ms var(--ease); }
+.chapter.is-active .chapter-panel { grid-template-rows: 1fr; }
+.chapter.is-active .chapter-panel p { opacity: 1; transform: none; transition-delay: 180ms; transition-duration: 700ms; }
+/* Linia de progres: arată cât mai rămâne până la capitolul următor */
+.chapter-progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--coral); }
+.chapters.is-playing .chapter.is-active .chapter-progress { animation: chapter-progress var(--chapter-ms, 8000ms) linear forwards; }
+.chapters.is-paused .chapter.is-active .chapter-progress { animation-play-state: paused; }
+@keyframes chapter-progress { to { width: 100%; } }
+
+.chapter-stage { position: sticky; top: 112px; aspect-ratio: 4 / 5; }
+.chapter-figure { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 900ms var(--ease); }
+.chapter-figure.is-active { opacity: 1; }
+.chapter-figure img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 9s linear; }
+.chapter-figure.is-active img { transform: scale(1); }
+.chapter-chip {
+  position: absolute; left: clamp(14px, 1.6vw, 24px); bottom: clamp(14px, 1.6vw, 24px); display: grid; gap: 2px;
+  padding: 14px 20px; border-radius: var(--r-m); background: rgb(255 255 255 / .84); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  color: var(--navy); box-shadow: 0 20px 40px -24px rgb(32 54 108 / .45);
+  opacity: 0; transform: translateY(10px); transition: opacity 500ms var(--ease), transform 500ms var(--ease);
+}
+.chapter-figure.is-active .chapter-chip { opacity: 1; transform: none; transition-delay: 350ms; }
+.chapter-chip b { font-size: clamp(1.25rem, 1rem + .8vw, 1.75rem); font-weight: 700; letter-spacing: .03em; line-height: 1.1; }
+.chapter-chip span { font-size: .8125rem; color: var(--ink-2); }
+
 @media (max-width: 900px) {
-  .about-grid { grid-template-columns: 1fr; }
-  .about-intro { position: static; }
-  .about-frame { aspect-ratio: 4 / 3; }
+  .about-head, .chapters { grid-template-columns: 1fr; }
+  .chapter-stage { position: relative; top: 0; order: -1; aspect-ratio: 4 / 3; }
+  .chapter-panel p { padding: 0 0 22px 56px; }
+}
+@media (max-width: 520px) {
+  .chapter-head button { grid-template-columns: 36px minmax(0, 1fr) 32px; padding: 18px 0; }
+  .chapter-panel p { padding-left: 0; }
 }
 
 /* ===================== 4. AVANTAJE ===================== */
