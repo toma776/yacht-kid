@@ -73,6 +73,9 @@ for (const [k, file] of Object.entries(COVERS)) {
   if (m) await saveEntity(db, 'locuinte', U[k], {base: {hero_image: m.id}}, {user: USER});
 }
 const mediaId = async file => (await one(db, 'SELECT id FROM media WHERE filename = ?', [file]))?.id;
+// Video-ul de pe paginile vechi de 2, 3 și 4 camere (Prezentare YACHT KID Residence); duplexul nu avea video
+const residenceVideo = await mediaId('2024/11/Prezentare-Yacht-KID-Residence.mp4');
+for (const k of ['ap2', 'ap3', 'ap4']) await saveEntity(db, 'locuinte', U[k], {base: {video: residenceVideo}}, {user: USER});
 const M = {facade: await mediaId('2024/10/YachtKID-Exterior-51.jpg'), colaj: await mediaId('2024/10/colaj-yacht-kid-resize-_0001_colaj-yacht-kid-00003.jpg'),
   curte: await mediaId('2024/10/poza-yacht-website-v1-final.jpg'), premiu: await mediaId('2024/10/yacht-kid-premiu-masterprize.jpg'),
   piscina: await mediaId('2025/02/Poza-Colaj-3-edit-v1.jpg'), heroImg: await mediaId('2024/10/homapage-hero-section-1-edit-scaled-1.jpg'),
@@ -93,6 +96,15 @@ const LABELS = {
   bai: ['Băi', 'Bathrooms'], terasa: ['Terasă', 'Terrace'], balcon: ['Balcon', 'Balcony'], da: ['Da', 'Yes'], 'pret-de-la': ['Preț de la', 'Starting from'],
   'formular-contact': ['Formular contact', 'Contact form'], trimite: ['Trimite solicitare', 'Send request'],
   'formular-comercial': ['Cerere pentru spațiu comercial', 'Commercial space enquiry'],
+  // Pagina unui tip de locuință (ui/Unit.jsx); textele RO sunt cele de pe paginile vechi de apartament
+  'intretinere-doar': ['Întreținere de doar', 'Maintenance of only'], 'vezi-video': ['Vezi video de prezentare', 'Watch the presentation video'],
+  caracteristici: ['Caracteristici', 'Features'], 'unit-despre-titlu': ['Un stil de viață aspirațional într-o comunitate prosperă', 'An aspirational lifestyle in a thriving community'],
+  galerie: ['Galerie', 'Gallery'], 'toate-fotografiile': ['Toate fotografiile', 'All photos'], 'vezi-detalii': ['Vezi detalii', 'View details'],
+  'alte-apartamente': ['Alte apartamente YACHT KID', 'Other YACHT KID apartments'],
+  'alte-apartamente-text': ['Descoperă și alte tipuri de apartamente din cadrul YACHT KID, fiecare conceput pentru a oferi un echilibru între design, confort și spațiu.', 'Discover the other apartment types at YACHT KID, each designed to balance design, comfort and space.'],
+  'contact-titlu': ['Hai să facem primul pas spre locuința ta de vis!', 'Let’s take the first step towards your dream home!'],
+  'contact-text': ['Fie că îți dorești să programezi o vizionare, să primești detalii suplimentare sau pur și simplu să descoperi de ce Yacht KID este alegerea perfectă pentru tine, suntem la un click distanță.', 'Whether you want to schedule a viewing, receive additional details or simply discover why Yacht KID is the perfect choice for you, we are just a click away.'],
+  'citeste-mai-multe': ['Citește mai multe despre YACHT KID', 'Read more about YACHT KID'],
   cuprins: ['Cuprins', 'Contents'], 'alte-articole': ['Alte articole', 'More articles'], 'min-citire': ['min de citit', 'min read'],
   'articol-cta-titlu': ['Vino să vezi YACHT KID', 'Come and see YACHT KID'],
   'articol-cta-text': ['Programează o vizionare și descoperă locuințele de lângă parc.', 'Book a viewing and discover the homes by the park.'],

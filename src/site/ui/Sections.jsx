@@ -232,14 +232,16 @@ async function Collection({ctx, s, values}) {
 // Arhitectura: trei fotografii ca straturi la adâncimi diferite, valurile curg deasupra
 // Galeria cu mai mult de trei fotografii: grilă, prima mai mare; un click deschide fotografia mare (dialog, cu
 // înainte/înapoi), ca lightbox-ul de pe site-ul vechi
-function PhotoGrid({ctx, s, values, imgs}) {
+// limit: câte fotografii stau în grilă (restul doar în lightbox, cu butonul „Toate fotografiile”)
+export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel}) {
   const list = imgs.map(m => ({src: ctx.media(m.id), alt: m.alt ?? ''}));
+  const shown = list.slice(0, limit);
   return (
     <section className="photos floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
         <div className="section-head"><Head s={s} values={values} id={`t-${s.id}`}/></div>
         <ul className="photo-grid">
-          {list.map((p, i) => (
+          {shown.map((p, i) => (
             <li key={i} className="reveal" style={{'--d': `${(i % 4) * 60}ms`}}>
               <button type="button" className="frame photo" data-lightbox-open={i} aria-label={p.alt || `${i + 1} / ${list.length}`}>
                 <img src={p.src} alt={p.alt} loading="lazy"/>
@@ -247,6 +249,7 @@ function PhotoGrid({ctx, s, values, imgs}) {
             </li>
           ))}
         </ul>
+        {list.length > shown.length && <button type="button" className="btn btn--ghost photos-all" data-lightbox-open={shown.length}>{allLabel ?? 'Toate fotografiile'} ({list.length}) <span className="btn-icon"><Arrow/></span></button>}
       </div>
       <dialog className="lightbox" data-lightbox={JSON.stringify(list)} aria-label={s.heading ?? ''}>
         <button className="dialog-close" type="button" data-lightbox-close aria-label="×"><Icon id="close" size={24}/></button>
@@ -303,7 +306,8 @@ async function Cta({ctx, s, values}) {
   );
 }
 
-async function ContactForm({ctx, s, values, chrome}) {
+// preset: opțiunea aleasă dinainte într-un select (pe pagina unui apartament, tipul lui)
+export async function ContactForm({ctx, s, values, chrome, preset}) {
   const L = chrome.labels, f = chrome.firma;
   const form = s.form ? await ctx.item('formulare', s.form) : null;
   const labels = Object.fromEntries((form?.field_labels ?? []).map(l => [l.name, l]));
@@ -317,7 +321,7 @@ async function ContactForm({ctx, s, values, chrome}) {
     if (x.type === 'checkbox') return <label key={x.name} className="check span-2"><input type="checkbox" name={x.name} required={x.required}/><span dangerouslySetInnerHTML={{__html: L['acord-date'] ?? l?.label ?? ''}}/></label>;
     if (x.type === 'select') {
       const opts = x.options_from === 'locuinte' ? types.map(t => t.name) : l?.options ?? [];
-      return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><select id={id} name={x.name} required={x.required} defaultValue=""><option value="" disabled>{l?.placeholder ?? ''}</option>{opts.map(o => <option key={o}>{o}</option>)}</select></div>;
+      return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><select id={id} name={x.name} required={x.required} defaultValue={preset && opts.includes(preset) ? preset : ''}><option value="" disabled>{l?.placeholder ?? ''}</option>{opts.map(o => <option key={o}>{o}</option>)}</select></div>;
     }
     if (x.type === 'textarea') return <div key={x.name} className="field span-2"><label htmlFor={id}>{label}</label><textarea id={id} name={x.name} rows={3} required={x.required}/></div>;
     return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;

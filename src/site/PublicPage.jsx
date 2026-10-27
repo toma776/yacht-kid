@@ -4,60 +4,29 @@
 import {notFound, permanentRedirect} from 'next/navigation';
 import {getDb} from '../core/db.mjs';
 import {titleOf} from '../registry/derive.mjs';
-import {formatMoney, formatRange, localPath} from '../registry/langs.mjs';
+import {localPath} from '../registry/langs.mjs';
 import {createContext} from './context.mjs';
 import {resolvePath, pathsOf} from './resolve.mjs';
-import {rich, tokenValues, fillTokens} from './rich.mjs';
+import {rich, tokenValues} from './rich.mjs';
 import {loadChrome, resolveTo} from './chrome.mjs';
-import {IconSprite, Icon} from './ui/Icons.jsx';
+import {IconSprite} from './ui/Icons.jsx';
 import {Header, Footer} from './ui/Chrome.jsx';
 import {Sections, sectionsOf, PostList} from './ui/Sections.jsx';
 import SiteBehavior from './ui/SiteBehavior.jsx';
 import {Article} from './ui/Article.jsx';
+import {UnitPage} from './ui/Unit.jsx';
 
 
 export const pathFrom = (lang, segments = []) => localPath(lang, ...segments.map(decodeURIComponent));
-
-function Spec({u, lang, L}) {
-  const rows = [
-    [L.suprafata ?? 'Suprafață', formatRange(u.area_min, u.area_max, lang, 'm²')],
-    [L.etaj ?? 'Etaj', formatRange(u.floor_min, u.floor_max, lang)],
-    [L.bai ?? 'Băi', formatRange(u.baths_min, u.baths_max, lang)],
-    [L.terasa ?? 'Terasă', formatRange(u.terrace_min, u.terrace_max, lang, 'm²')],
-    [L.balcon ?? 'Balcon', u.balcony ? (L.da ?? 'Da') : '']
-  ].filter(([, v]) => v);
-  return (
-    <dl className="spec-grid">
-      {rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
-      {u.price_from && <div className="price"><dt>{L['pret-de-la'] ?? 'Preț de la'}</dt><dd>{formatMoney(u.price_from, 'EUR', lang)}{u.vat_excluded ? ` ${L.tva ?? '+ TVA'}` : ''}</dd></div>}
-    </dl>
-  );
-}
 
 async function Body({ctx, kind, rec, values, chrome}) {
   const L = chrome.labels;
   const html = async h => ({__html: await rich(ctx, h, values)});
   const title = titleOf(kind, rec, rec);
   switch (kind) {
-    case 'locuinte': {
-      const gallery = await ctx.within('Galerie', 'imaginile tipului de locuință', () => ctx.links('locuinte.gallery', rec.id));
-      return (
-        <div className="wrap page-body">
-          <div className="unit-hero page-head">
-            <div>
-              <p className="eyebrow">{L.apartamente ?? 'Apartamente'}</p>
-              <h1 className="display">{title}</h1>
-              {rec.intro && <p className="lead">{fillTokens(rec.intro, values)}</p>}
-              <Spec u={rec} lang={ctx.lang} L={L}/>
-              <a className="btn" href={chrome.contactHref}>{L['solicita-oferta']} <span className="btn-icon"><Icon id="arrow"/></span></a>
-            </div>
-            {rec.hero_image && <div className="frame frame--band"><img src={ctx.media(rec.hero_image)} alt={title}/></div>}
-          </div>
-          <div className="prose" dangerouslySetInnerHTML={await html(rec.description)}/>
-          {gallery.length > 0 && <div className="gallery-grid">{gallery.map(m => <div key={m.id} className="frame"><img src={ctx.media(m.id)} alt={m.alt ?? ''} loading="lazy"/></div>)}</div>}
-        </div>
-      );
-    }
+    case 'locuinte':
+      // Tipurile de locuințe: antet, caracteristici, descriere cu video, galerie, celelalte tipuri, contact, articole
+      return <UnitPage ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
     case 'articole':
       // Macheta articolelor: cuprins, secțiuni numerotate, întrebări frecvente în acordeon, sidebar (ui/Article.jsx)
       return <Article ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
