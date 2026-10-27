@@ -425,25 +425,32 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 @media (max-width: 900px) { .location-grid { grid-template-columns: 1fr; } }
 
 /* ===================== 8. CONFORT ===================== */
-.comfort-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--stack-5) clamp(40px, 7vw, 128px); align-items: start; }
-.comfort-copy { display: grid; gap: var(--stack-4); justify-items: start; position: sticky; top: 140px; }
-.comfort-copy .h2 { margin-top: calc(var(--stack-3) * -1 + 8px); }
-.spec-list { border-top: 1px solid var(--line); }
+/* Textul în stânga, strâns; în dreapta, punctele ca o grilă de plăcuțe albe (2×3), în aceeași familie cu avantajele */
+.comfort-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--stack-5) clamp(40px, 6vw, 112px); align-items: center; }
+.comfort-copy { display: grid; gap: var(--stack-3); justify-items: start; }
+.comfort-copy .lead { font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); line-height: 1.55; }
+.comfort-copy .body { font-size: var(--fs-small); line-height: 1.65; }
+.comfort-copy .btn { margin-top: 8px; }
+.spec-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1vw, 16px); }
 .spec-list li {
-  display: grid; grid-template-columns: 56px 44px 1fr; align-items: center; gap: 16px;
-  padding: 22px 0; border-bottom: 1px solid var(--line);
-  transition: padding var(--t) var(--ease);
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px;
+  min-height: 92px; padding: 18px 44px 18px 18px;
+  background: var(--paper); border-radius: var(--r-m) var(--r-m) var(--r-l) var(--r-m); box-shadow: 0 1px 0 var(--line);
 }
-.spec-list li:hover { padding-left: 12px; }
-.spec-list .num { font-size: var(--fs-small); color: var(--coral-ink); font-weight: 600; }
-.spec-list .icon { width: 30px; height: 30px; }
-.spec-list .h3 { font-size: clamp(1.125rem, 1rem + .7vw, 1.625rem); font-weight: 300; letter-spacing: 0; }
+.spec-list .num { position: absolute; top: 16px; right: 18px; font-size: .6875rem; font-weight: 600; letter-spacing: .12em; color: var(--coral-ink); }
+.spec-list .icon {
+  box-sizing: content-box; width: 22px; height: 22px; padding: 13px; border-radius: 50%;
+  color: #fff; stroke-width: 1.5; background: var(--navy); box-shadow: 0 10px 20px -10px rgb(32 54 108 / .55);
+}
+.spec-list .h3 { font-size: clamp(.9375rem, .9rem + .2vw, 1.0625rem); font-weight: 700; letter-spacing: .02em; line-height: 1.3; color: var(--navy); }
 @media (max-width: 900px) {
   .comfort-grid { grid-template-columns: minmax(0, 1fr); }
   .comfort-copy { min-width: 0; }
   .comfort-copy .btn { white-space: normal; max-width: 100%; }
-  .comfort-copy { position: static; }
-  .spec-list li { grid-template-columns: 40px 36px 1fr; padding: 22px 0; }
+}
+@media (max-width: 520px) {
+  .spec-list { grid-template-columns: 1fr; gap: 10px; }
+  .spec-list li { min-height: 0; }
 }
 
 /* ===================== 9. LIFESTYLE ===================== */
