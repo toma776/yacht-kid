@@ -281,7 +281,7 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 
 /* ===================== 2. CIFRE-CHEIE ===================== */
 .facts { padding-top: clamp(44px, 4.5vw, 64px); }
-.facts-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.facts-grid { display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); }
 .facts-grid .fact { padding: 8px clamp(16px, 2.4vw, 40px) 8px 0; }
 .facts-grid .fact + .fact { padding-left: clamp(16px, 2.4vw, 40px); border-left: 1px solid var(--line); }
 .facts-grid .fact-label { max-width: 24ch; }
@@ -643,3 +643,24 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .post-card .h3 { line-height: 1.4; }
 .post-card time { font-size: var(--fs-small); color: var(--ink-3); }
 @media (max-width: 900px) { .unit-hero { grid-template-columns: 1fr; } }
+
+/* Pagini compuse ale tipurilor de locuințe (Spații comerciale): avantaje cu text, fișa ca cifre, afacerile din comunitate */
+.features-copy { max-width: 60ch; display: grid; gap: 14px; }
+.features-copy .body { color: var(--ink-2); }
+.feature:has(.feature-text) { align-items: start; }
+.feature-text { grid-column: 2; margin: -8px 0 0; font-size: var(--fs-small); line-height: 1.55; color: var(--ink-2); padding-right: 18px; }
+.spec-value { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem); }
+.spec-value small { white-space: nowrap; }
+.businesses .section-head--split { align-items: end; }
+.business-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); margin-top: var(--stack-5); }
+.business > a, .business > div { display: grid; gap: 10px; align-content: start; height: 100%; }
+.business .frame { aspect-ratio: 4 / 3; border-radius: var(--r-m); }
+.business > a:hover .frame img { transform: scale(1.04); }
+.business .h3 { font-size: 1rem; line-height: 1.35; margin-top: 6px; }
+.business-tagline { font-size: var(--fs-small); color: var(--ink-2); line-height: 1.5; }
+.business .link-arrow { margin-top: 4px; }
+@media (max-width: 1000px) { .business-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .feature-text { grid-column: auto; margin-top: 0; padding-right: 0; }
+  .business-grid { grid-template-columns: 1fr 1fr; gap: 20px 14px; }
+}

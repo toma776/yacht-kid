@@ -11,7 +11,7 @@ import {rich, tokenValues, fillTokens} from './rich.mjs';
 import {loadChrome, resolveTo} from './chrome.mjs';
 import {IconSprite, Icon} from './ui/Icons.jsx';
 import {Header, Footer} from './ui/Chrome.jsx';
-import {Sections, hasSections, PostList} from './ui/Sections.jsx';
+import {Sections, sectionsOf, PostList} from './ui/Sections.jsx';
 import SiteBehavior from './ui/SiteBehavior.jsx';
 
 export const pathFrom = (lang, segments = []) => localPath(lang, ...segments.map(decodeURIComponent));
@@ -100,16 +100,18 @@ export async function renderPublic(lang, segments) {
   const rec = await ctx.within('Pagina', 'pagina proprie', () => ctx.item(hit.key, hit.id, 'page'));
   const values = await tokenValues(ctx);
   const chrome = await loadChrome(ctx, await pathsOf(db, hit.key, hit.id));
-  const composed = hit.key === 'pagini' && await hasSections(ctx, hit.id);
+  // Pagini compuse: paginile cu secțiuni și tipurile de locuințe cu secțiuni (Spații comerciale)
+  const sections = ['pagini', 'locuinte'].includes(hit.key) ? await sectionsOf(ctx, hit.key, hit.id) : [];
+  const composed = sections.length > 0;
   // Fără hero, antetul e opac și conținutul coboară sub el de la prima randare (nu abia după JS)
-  const hero = composed && (await ctx.links('pagini.sections', hit.id))[0]?.kind === 'hero';
+  const hero = sections[0]?.kind === 'hero';
   return (
     <>
       <IconSprite/>
       <a className="skip" href="#continut">{chrome.labels['sari-la-continut'] ?? 'Sari la conținut'}</a>
       <Header chrome={chrome} solid={!hero}/>
       <main id="continut" className={hero ? undefined : 'no-hero'}>
-        {composed ? <Sections ctx={ctx} pageId={hit.id} values={values} chrome={chrome}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
+        {composed ? <Sections ctx={ctx} owner={hit.key} pageId={hit.id} values={values} chrome={chrome}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
       </main>
       <Footer chrome={chrome}/>
       <SiteBehavior/>

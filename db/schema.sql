@@ -759,6 +759,21 @@ CREATE TABLE IF NOT EXISTS "rel_unit_types_gallery" (
 
 CREATE INDEX IF NOT EXISTS "ix_rel_unit_types_gallery_dst" ON "rel_unit_types_gallery"(dst_id);
 
+CREATE TABLE IF NOT EXISTS "rel_unit_types_sections" (
+  src_id INTEGER NOT NULL REFERENCES "unit_types"(id) ON DELETE CASCADE,
+  dst_id INTEGER NOT NULL REFERENCES "sections"(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'inferred', 'unverified')),
+  confidence REAL,
+  source_id INTEGER REFERENCES sources(id) ON DELETE SET NULL,
+  note TEXT,
+  attrs TEXT CHECK (attrs IS NULL OR json_valid(attrs)),
+  created_at TEXT, created_by TEXT,
+  PRIMARY KEY (src_id, dst_id)
+);
+
+CREATE INDEX IF NOT EXISTS "ix_rel_unit_types_sections_dst" ON "rel_unit_types_sections"(dst_id);
+
 CREATE TABLE IF NOT EXISTS "rel_card_tiers_partners" (
   src_id INTEGER NOT NULL REFERENCES "card_tiers"(id) ON DELETE CASCADE,
   dst_id INTEGER NOT NULL REFERENCES "businesses"(id) ON DELETE CASCADE,

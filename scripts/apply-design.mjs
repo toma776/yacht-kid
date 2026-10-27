@@ -256,6 +256,49 @@ const blogList = await upsert('sectiuni', 'sectiune:blog-lista', {base: {kind: '
   tr: {ro: {eyebrow: 'Yacht KID', heading: 'Blog'}, en: {eyebrow: 'Yacht KID', heading: 'Blog'}}});
 await saveEntity(db, 'pagini', P.blog, {links: {sections: [blogList]}}, {user: USER});
 
+// ---------- 7b. Spații comerciale: pagina compusă cu blocurile din site-ul vechi (/spatii-comerciale/, /en/commercial-spaces/).
+// Textele RO și EN sunt cele de pe site-ul vechi (nu traduceri AI); afacerile și fișa tehnică vin din Brain.
+const lifestyleVideo = await mediaId('2024/11/Yacht-Kid-Lifestyle.mp4');
+const BENEFITS = [
+  [['O locație premium', 'O comunitate prosperă, situată într-o zonă exclusivistă.'], ['Strategic location', 'An innovative community in an exclusive district.']],
+  [['Vizibilitate excelentă', 'Trafic pietonal intens, dar și auto, pentru acces facil al clienților.'], ['High Visibility', 'Strong pedestrian and vehicle traffic for maximum exposure.']],
+  [['Spații flexibile', 'Posibilități variate de amenajare și compartimentare, adaptate nevoilor afacerii tale.'], ['Flexible Spaces', 'Customizable layouts tailored to your business needs.']],
+  [['Investiție sigură și profitabilă', 'Randament atractiv, venit pasiv stabil și oportunități de creștere pe termen lung.'], ['Secure & Profitable Investment', 'Attractive returns, stable income, and long-term growth potential.']]
+];
+const benefits = [];
+for (const [i, [[tRo, xRo], [tEn, xEn]]] of BENEFITS.entries())
+  benefits.push(await upsert('avantaje', `avantaj:comercial-${i + 1}`, {base: {group: 'avantaje'}, status: 'published',
+    tr: {ro: {title: tRo, text: xRo}, en: {title: tEn, text: xEn}}}));
+const WHY = {
+  ro: '<p>Bucură-te de o investiție imobiliară sigură și rentabilă, într-o comunitate selectă, care îți garantează un randament atractiv și un venit pasiv stabil. Cu un design inovator, spații modernizate și o locație de excepție, YACHT KID este alegerea perfectă pentru cei care vor să își diversifice portofoliul și să își dezvolte afacerea într-un mediu exclusivist.</p><p>Indiferent dacă vrei să deschizi un magazin de lux, un showroom modern, un spațiu dedicat serviciilor premium, sau să faci o investiție sigură, aici găsești cadrul ideal pentru succes.</p><p>Alege un spațiu care îți crește afacerea și îți maximizează investiția. Alege YACHT KID.</p>',
+  en: '<p>Join an exclusive community that guarantees attractive returns and stable passive income. With innovative design, modernized spaces, and a premium location, YACHT KID is the ideal choice for those looking to diversify their portfolio and expand their business in a high-end environment.</p><p>Whether you’re planning to open a luxury boutique, an exclusive showroom, a premium service space, or secure a profitable investment, this is the perfect setting for success.</p><p>Choose a space that accelerates your business growth and maximizes your investment. Choose YACHT KID.</p>'
+};
+const COMMERCIAL = [
+  {key: 'comercial-hero', kind: 'hero', base: {video: lifestyleVideo},
+    ro: {eyebrow: 'Spații comerciale', heading: 'Extinde-ți afacerea într-o locație de top din nordul Bucureștiului!',
+      text: '<p>Descoperă colecția de spații comerciale YACHT KID, proiectate pentru a-ți oferi flexibilitate maximă și adaptabilitate perfectă la nevoile afacerii tale. Fie că ești antreprenor în căutarea unui spațiu ideal sau investitor în căutarea unei oportunități sigure și profitabile, comunitatea YACHT KID îți oferă acces la una dintre cele mai dinamice și prospere zone ale capitalei.</p>',
+      buttons: [btn('Solicită ofertă', '#contact'), btn('Video de prezentare', '#video')]},
+    en: {eyebrow: 'Commercial spaces', heading: 'Expand Your Business in a Top Northern Bucharest Location!',
+      text: '<p>Discover the YACHT KID collection of commercial spaces, designed for maximum flexibility and seamless adaptability to your business needs. Whether you’re an entrepreneur searching for the perfect space or an investor looking for a secure and profitable opportunity, the YACHT KID Community offers access to one of the most dynamic and thriving areas in the capital.</p>',
+      buttons: [btn('Get offer', '#contact'), btn('Presentation video', '#video')]}},
+  {key: 'comercial-avantaje', kind: 'avantaje', anchor: 'de-ce', links: {features: benefits},
+    ro: {eyebrow: 'Spații comerciale', heading: 'De ce să alegi comunitatea Yacht Kid?', text: WHY.ro},
+    en: {eyebrow: 'Commercial spaces', heading: 'Why Choose YACHT KID Community?', text: WHY.en}},
+  {key: 'comercial-fisa', kind: 'fisa-tehnica', anchor: 'caracteristici', base: {unit_type: U.comercial},
+    ro: {eyebrow: 'Spații comerciale', heading: 'Caracteristici'}, en: {eyebrow: 'Commercial spaces', heading: 'Features'}},
+  {key: 'comercial-branduri', kind: 'afaceri', anchor: 'branduri', base: {business_filter: 'toate'},
+    ro: {eyebrow: 'Comunitate', heading: 'Branduri deja prezente în comunitatea Yacht Kid'},
+    en: {eyebrow: 'Community', heading: 'Join Leading Brands Already at YACHT KID Community'}},
+  {key: 'comercial-contact', kind: 'formular', anchor: 'contact', base: {form: contactForm},
+    ro: {eyebrow: 'Contact', heading: 'Alege YACHT KID pentru afacerea ta!', text: '<p>Alege un spațiu care îți crește afacerea și îți maximizează investiția.</p>'},
+    en: {eyebrow: 'Contact', heading: 'Choose YACHT KID', text: '<p>Choose a space that accelerates your business growth and maximizes your investment.</p>'}}
+];
+const commercialIds = [];
+for (const s of COMMERCIAL)
+  commercialIds.push(await upsert('sectiuni', `sectiune:${s.key}`, {base: {kind: s.kind, anchor: s.anchor ?? null, ...(s.base ?? {})}, tr: {ro: s.ro, en: s.en}, links: s.links}));
+// Descrierea rămâne textul „De ce” (importul lipise acolo și două texte de avantaje, fără titluri)
+await saveEntity(db, 'locuinte', U.comercial, {links: {sections: commercialIds}, tr: {ro: {description: WHY.ro}, en: {description: WHY.en}}}, {user: USER});
+
 // ---------- 8. Traducerile AI: proveniența devine „inferred”, de verificat de un om (§1.5)
 await db.execute({sql: `UPDATE provenance SET certainty = 'inferred', method = 'ai-translation', verified_at = NULL, verified_by = NULL
   WHERE source_id = (SELECT id FROM sources WHERE url = ?)`, args: [`manual:${AI}`]});

@@ -38,7 +38,7 @@ async function resolveItems(ctx, items, labels, values) {
     if (it.aside?.cta) out.aside = {...it.aside, cta: {...it.aside.cta, href: await resolveTo(ctx, it.aside.cta.to)}};
     out.children = (await Promise.all((it.children ?? []).map(async c => {
       const m = c.to?.match(LINK_REF);
-      if (m?.[1] === 'locuinte') { const u = await unitCard(ctx, +m[2], labels); return u && {...c, unit: u, href: u.href}; }
+      if (m?.[1] === 'locuinte') { const u = await unitCard(ctx, +m[2], labels); return u && {...c, unit: u, href: u.href, image: c.image ? ctx.media(c.image) : u.image}; }
       return {...c, href: await resolveTo(ctx, c.to), image: c.image ? ctx.media(c.image) : null};
     }))).filter(c => c && c.href);
     return out;

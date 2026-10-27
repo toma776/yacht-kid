@@ -158,6 +158,9 @@ export const ENTITIES = [
        rel: 'primește nivelul', inverseLabel: 'Tipuri de locuințe'},
       {key: 'intro', label: 'Introducere', type: 'textarea', max: 600, ...T},
       {key: 'description', label: 'Descriere', type: 'richtext', ...T},
+      {key: 'sections', label: 'Secțiuni', type: 'refs', target: 'sectiuni', ordered: true, owned: true,
+       rel: 'e compusă din', inverseLabel: 'Tipuri de locuințe',
+       help: 'Gol = pagina standard (fișă, descriere, galerie). Cu secțiuni, pagina e compusă ca homepage-ul (ex. Spații comerciale).'},
       ...SEO, LEGACY
     ],
     duplicates: {same: ['kind', 'rooms']},

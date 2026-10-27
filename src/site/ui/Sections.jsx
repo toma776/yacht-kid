@@ -1,6 +1,6 @@
 // Secțiunile paginilor compuse (homepage-ul din design), randate din `sectiuni` prin contextul urmărit.
 // Un fel de secțiune = o machetă. Textul vine din câmpurile secțiunii (pe limbă); listele vin din entitățile legate.
-import {formatNumber} from '../../registry/langs.mjs';
+import {formatNumber, formatRange, formatMoney} from '../../registry/langs.mjs';
 import {fillTokens, rich} from '../rich.mjs';
 import {unitCard, resolveTo} from '../chrome.mjs';
 import {Icon} from './Icons.jsx';
@@ -156,16 +156,29 @@ async function Text({ctx, s, values}) {
 async function Features({ctx, s, values}) {
   const items = await ctx.links('sectiuni.features', s.id);
   const comfort = items.length && items.every(f => f.group === 'confort');
-  if (!comfort) return (
-    <section className="features floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
-      <div className="wrap">
-        <div className="section-head section-head--split"><div><Head s={s} values={values} id={`t-${s.id}`}/></div></div>
-        <ul className="features-grid">
-          {items.map((f, i) => <li key={f.id} className="feature reveal" style={{'--d': `${(i % 4) * 60}ms`}}><Icon id={iconFor(f.title)} className="icon"/><h3 className="h3">{fillTokens(f.title, values)}</h3></li>)}
-        </ul>
-      </div>
-    </section>
-  );
+  if (!comfort) {
+    // Textul secțiunii (dacă există): primul paragraf ca lead lângă titlu, restul sub el
+    const paras = (await rich(ctx, s.text, values)).match(/<p>[\s\S]*?<\/p>/g) ?? [];
+    return (
+      <section className="features floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+        <div className="wrap">
+          <div className="section-head section-head--split">
+            <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
+            {paras.length > 0 && <div className="features-copy reveal" style={{'--d': '160ms'}}>
+              <p className="lead">{strip(paras[0])}</p>
+              {paras.length > 1 && <div className="body" dangerouslySetInnerHTML={{__html: paras.slice(1).join('')}}/>}
+            </div>}
+          </div>
+          <ul className="features-grid">
+            {items.map((f, i) => <li key={f.id} className="feature reveal" style={{'--d': `${(i % 4) * 60}ms`}}>
+              <Icon id={iconFor(f.title)} className="icon"/><h3 className="h3">{fillTokens(f.title, values)}</h3>
+              {f.text && <p className="feature-text">{fillTokens(f.text, values)}</p>}
+            </li>)}
+          </ul>
+        </div>
+      </section>
+    );
+  }
   const paras = (await rich(ctx, s.text, values)).match(/<p>[\s\S]*?<\/p>/g) ?? [];
   const [b1] = await buttons(ctx, s, values);
   return (
@@ -304,6 +317,64 @@ async function ContactForm({ctx, s, values, chrome}) {
   );
 }
 
+// Fișa tehnică a unui tip de locuință, ca rând de cifre: suprafață, terasă, preț (din `locuinte`, nu din text)
+async function UnitSpec({ctx, s, values}) {
+  const u = s.unit_type && await ctx.item('locuinte', s.unit_type, 'page');
+  if (!u) return null;
+  const L = values.__labels ?? {}, lang = ctx.lang;
+  const tiles = [
+    [L.suprafata ?? 'Suprafață', formatRange(u.area_min, u.area_max, lang, 'm²')],
+    [L.etaj ?? 'Etaj', formatRange(u.floor_min, u.floor_max, lang)],
+    [L.terasa ?? 'Terasă', formatRange(u.terrace_min, u.terrace_max, lang, 'm²')],
+    [L['pret-de-la'] ?? 'Preț de la', u.price_from ? formatMoney(u.price_from, 'EUR', lang) : '', u.vat_excluded ? (L.tva ?? '+ TVA') : null]
+  ].filter(([, v]) => v);
+  return (
+    <section className="facts slab bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap">
+        <div className="section-head"><Head s={s} values={values} id={`t-${s.id}`}/></div>
+        <ul className="facts-grid" style={{'--cols': tiles.length}}>
+          {tiles.map(([k, v, note], i) => <li key={k} className="fact reveal" style={{'--d': `${i * 80}ms`}}><span className="fact-value num spec-value">{v}{note && <small>{note}</small>}</span><span className="fact-label">{k}</span></li>)}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+// Afacerile din comunitate: imagine, nume, domeniu și, dacă există, articolul care anunță afacerea
+async function Businesses({ctx, s, values}) {
+  const L = values.__labels ?? {};
+  const list = await ctx.within(`Afaceri (${s.id})`, s.business_filter === 'membri-card' ? 'partenerii Community Card' : 'toate afacerile deschise', () =>
+    ctx.query('afaceri', {scope: `sectiuni:${s.id}`, where: `e.state = 'deschis'${s.business_filter === 'membri-card' ? ' AND e.card_member = 1' : ''}`,
+      order: 'e.id', limit: s.limit}));
+  const cards = await Promise.all(list.map(async b => {
+    const [post] = await ctx.query('articole', {scope: `afaceri:${b.id}`, order: 'e.published_at DESC', limit: 1,
+      where: 'EXISTS (SELECT 1 FROM rel_posts_businesses r WHERE r.src_id = e.id AND r.dst_id = ?)', args: [b.id]});
+    return {b, href: post ? await ctx.href('articole', post.id) : null};
+  }));
+  const [b1] = await buttons(ctx, s, values);
+  return (
+    <section className="businesses floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap">
+        <div className="section-head section-head--split">
+          <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
+          {b1 && <a className="btn btn--ghost reveal" style={{'--d': '160ms'}} href={b1.href}>{b1.label} <span className="btn-icon"><Arrow/></span></a>}
+        </div>
+        <ul className="business-grid">
+          {cards.map(({b, href}, i) => {
+            const body = <>
+              <span className="frame">{b.image && <img src={ctx.media(b.image)} alt={b.name} loading="lazy"/>}</span>
+              <h3 className="h3">{b.name}</h3>
+              {b.tagline && <p className="business-tagline">{b.tagline}</p>}
+              {href && <span className="link-arrow">{L['afla-mai-multe'] ?? 'Află mai multe'} <Arrow/></span>}
+            </>;
+            return <li key={b.id} className="business reveal" style={{'--d': `${(i % 4) * 60}ms`}}>{href ? <a href={href}>{body}</a> : <div>{body}</div>}</li>;
+          })}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 // Cardurile articolelor: aceeași listă pe pagina blogului (secțiunea `articole`) și pe paginile categoriilor
 export async function PostList({ctx, posts, labels}) {
   const date = d => new Date(d).toLocaleDateString(ctx.lang === 'en' ? 'en-US' : 'ro-RO', {dateStyle: 'long'});
@@ -338,10 +409,11 @@ async function Posts({ctx, s, values, first}) {
   );
 }
 
-const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-locuinte': Collection, galerie: Gallery, cta: Cta, formular: ContactForm, articole: Posts};
+const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-locuinte': Collection, galerie: Gallery, cta: Cta, formular: ContactForm, articole: Posts,
+  'fisa-tehnica': UnitSpec, afaceri: Businesses};
 
-export async function Sections({ctx, pageId, values, chrome}) {
-  const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links('pagini.sections', pageId));
+export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) {
+  const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId));
   const v = {...values, __labels: chrome.labels};
   const out = [];
   for (const [i, s] of sections.entries()) {
@@ -352,4 +424,6 @@ export async function Sections({ctx, pageId, values, chrome}) {
   return out;
 }
 
-export const hasSections = async (ctx, pageId) => (await ctx.links('pagini.sections', pageId)).length > 0;
+// Secțiunile le pot avea paginile și tipurile de locuințe (pagina Spații comerciale)
+export const sectionsOf = (ctx, owner, id) => ctx.links(`${owner}.sections`, id);
+export const hasSections = async (ctx, pageId, owner = 'pagini') => (await sectionsOf(ctx, owner, pageId)).length > 0;
