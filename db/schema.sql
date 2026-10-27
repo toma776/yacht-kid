@@ -224,6 +224,37 @@ CREATE INDEX IF NOT EXISTS "ix_partners_logo_id" ON "partners"("logo_id");
 
 CREATE INDEX IF NOT EXISTS "ix_partners_status" ON "partners"(status);
 
+CREATE TABLE IF NOT EXISTS "categories" (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  "listed" INTEGER NOT NULL DEFAULT 1 CHECK ("listed" IN (0, 1)),
+  search TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS "posts" (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
+  draft TEXT CHECK (draft IS NULL OR json_valid(draft)),
+  published_at TEXT,
+  "category_id" INTEGER REFERENCES "categories"(id) ON DELETE RESTRICT,
+  "author" TEXT DEFAULT 'YachtKID',
+  "image_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
+  search TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE INDEX IF NOT EXISTS "ix_posts_category_id" ON "posts"("category_id");
+
+CREATE INDEX IF NOT EXISTS "ix_posts_image_id" ON "posts"("image_id");
+
+CREATE INDEX IF NOT EXISTS "ix_posts_status" ON "posts"(status);
+
 CREATE TABLE IF NOT EXISTS "awards" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
@@ -233,6 +264,7 @@ CREATE TABLE IF NOT EXISTS "awards" (
   "year" INTEGER,
   "result" TEXT CHECK ("result" IS NULL OR "result" IN ('castigator', 'distinctie', 'mentiune', 'lista-scurta')),
   "url" TEXT,
+  "article_id" INTEGER REFERENCES "posts"(id) ON DELETE SET NULL,
   "badge_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   "logo_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   "organizer_id" INTEGER REFERENCES "partners"(id) ON DELETE SET NULL,
@@ -242,6 +274,8 @@ CREATE TABLE IF NOT EXISTS "awards" (
   created_by TEXT,
   updated_by TEXT
 );
+
+CREATE INDEX IF NOT EXISTS "ix_awards_article_id" ON "awards"("article_id");
 
 CREATE INDEX IF NOT EXISTS "ix_awards_badge_id" ON "awards"("badge_id");
 
@@ -344,36 +378,6 @@ CREATE TABLE IF NOT EXISTS "testimonials" (
 );
 
 CREATE INDEX IF NOT EXISTS "ix_testimonials_status" ON "testimonials"(status);
-
-CREATE TABLE IF NOT EXISTS "categories" (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  search TEXT,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  created_by TEXT,
-  updated_by TEXT
-);
-
-CREATE TABLE IF NOT EXISTS "posts" (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
-  draft TEXT CHECK (draft IS NULL OR json_valid(draft)),
-  published_at TEXT,
-  "category_id" INTEGER REFERENCES "categories"(id) ON DELETE RESTRICT,
-  "author" TEXT DEFAULT 'YachtKID',
-  "image_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
-  search TEXT,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  created_by TEXT,
-  updated_by TEXT
-);
-
-CREATE INDEX IF NOT EXISTS "ix_posts_category_id" ON "posts"("category_id");
-
-CREATE INDEX IF NOT EXISTS "ix_posts_image_id" ON "posts"("image_id");
-
-CREATE INDEX IF NOT EXISTS "ix_posts_status" ON "posts"(status);
 
 CREATE TABLE IF NOT EXISTS "pages" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -595,6 +599,47 @@ CREATE TABLE IF NOT EXISTS "partners_translations" (
   PRIMARY KEY (entity_id, lang)
 );
 
+CREATE TABLE IF NOT EXISTS "categories_translations" (
+  entity_id INTEGER NOT NULL REFERENCES "categories"(id) ON DELETE CASCADE,
+  lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
+  "name" TEXT,
+  "slug" TEXT,
+  "description" TEXT,
+  "seo_title" TEXT,
+  "seo_description" TEXT,
+  "legacy_id" INTEGER,
+  source_fp TEXT,
+  translated_at TEXT,
+  translated_by TEXT,
+  updated_at TEXT NOT NULL,
+  PRIMARY KEY (entity_id, lang)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS "ux_categories_translations_slug" ON "categories_translations"(lang, slug) WHERE slug IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS "ix_categories_translations_legacy" ON "categories_translations"(legacy_id);
+
+CREATE TABLE IF NOT EXISTS "posts_translations" (
+  entity_id INTEGER NOT NULL REFERENCES "posts"(id) ON DELETE CASCADE,
+  lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
+  "title" TEXT,
+  "slug" TEXT,
+  "excerpt" TEXT,
+  "content" TEXT,
+  "seo_title" TEXT,
+  "seo_description" TEXT,
+  "legacy_id" INTEGER,
+  source_fp TEXT,
+  translated_at TEXT,
+  translated_by TEXT,
+  updated_at TEXT NOT NULL,
+  PRIMARY KEY (entity_id, lang)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS "ux_posts_translations_slug" ON "posts_translations"(lang, slug) WHERE slug IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS "ix_posts_translations_legacy" ON "posts_translations"(legacy_id);
+
 CREATE TABLE IF NOT EXISTS "awards_translations" (
   entity_id INTEGER NOT NULL REFERENCES "awards"(id) ON DELETE CASCADE,
   lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
@@ -666,47 +711,6 @@ CREATE TABLE IF NOT EXISTS "testimonials_translations" (
 );
 
 CREATE INDEX IF NOT EXISTS "ix_testimonials_translations_legacy" ON "testimonials_translations"(legacy_id);
-
-CREATE TABLE IF NOT EXISTS "categories_translations" (
-  entity_id INTEGER NOT NULL REFERENCES "categories"(id) ON DELETE CASCADE,
-  lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
-  "name" TEXT,
-  "slug" TEXT,
-  "description" TEXT,
-  "seo_title" TEXT,
-  "seo_description" TEXT,
-  "legacy_id" INTEGER,
-  source_fp TEXT,
-  translated_at TEXT,
-  translated_by TEXT,
-  updated_at TEXT NOT NULL,
-  PRIMARY KEY (entity_id, lang)
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS "ux_categories_translations_slug" ON "categories_translations"(lang, slug) WHERE slug IS NOT NULL;
-
-CREATE INDEX IF NOT EXISTS "ix_categories_translations_legacy" ON "categories_translations"(legacy_id);
-
-CREATE TABLE IF NOT EXISTS "posts_translations" (
-  entity_id INTEGER NOT NULL REFERENCES "posts"(id) ON DELETE CASCADE,
-  lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
-  "title" TEXT,
-  "slug" TEXT,
-  "excerpt" TEXT,
-  "content" TEXT,
-  "seo_title" TEXT,
-  "seo_description" TEXT,
-  "legacy_id" INTEGER,
-  source_fp TEXT,
-  translated_at TEXT,
-  translated_by TEXT,
-  updated_at TEXT NOT NULL,
-  PRIMARY KEY (entity_id, lang)
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS "ux_posts_translations_slug" ON "posts_translations"(lang, slug) WHERE slug IS NOT NULL;
-
-CREATE INDEX IF NOT EXISTS "ix_posts_translations_legacy" ON "posts_translations"(legacy_id);
 
 CREATE TABLE IF NOT EXISTS "pages_translations" (
   entity_id INTEGER NOT NULL REFERENCES "pages"(id) ON DELETE CASCADE,

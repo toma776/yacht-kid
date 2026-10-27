@@ -538,6 +538,7 @@ async function Awards({ctx, s, values}) {
       order: `e.year DESC, CASE e.result WHEN 'castigator' THEN 0 WHEN 'distinctie' THEN 1 WHEN 'mentiune' THEN 2 ELSE 3 END, e.id`, limit: s.limit}));
   if (!awards.length) return null;
   const [b1] = await buttons(ctx, s, values);
+  const links = await Promise.all(awards.map(async a => ({a, href: a.article ? await ctx.href('articole', a.article) : null})));
   return (
     <section className="proof bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap proof-inner">
@@ -547,14 +548,18 @@ async function Awards({ctx, s, values}) {
           {b1?.href && <a className="link-arrow" href={b1.href}>{b1.label} <Arrow/></a>}
         </div>
         <ul className="proof-list reveal" style={{'--d': '120ms', '--n': awards.length}}>
-          {awards.map(a => (
-            <li key={a.id} className="proof-item">
-              <a href={a.url || b1?.href} {...(a.url ? {target: '_blank', rel: 'noopener'} : {})}>
-                <span className="proof-logo" role="img" aria-label={a.competition} style={{'--logo': `url('${ctx.media(a.logo)}')`}}/>
-                <span className="proof-meta"><b>{a.distinction}</b><span className="num">{a.year}</span></span>
-              </a>
-            </li>
-          ))}
+          {links.map(({a, href}) => {
+            const body = <>
+              <span className="proof-logo" role="img" aria-label={a.competition} style={{'--logo': `url('${ctx.media(a.logo)}')`}}/>
+              <span className="proof-meta"><b>{a.distinction}</b><span className="num">{a.year}</span></span>
+            </>;
+            // Articolul de pe site despre premiu; altfel pagina oficială a competiției (în tab nou); altfel fără link
+            return (
+              <li key={a.id} className="proof-item">
+                {href ? <a href={href}>{body}</a> : a.url ? <a href={a.url} target="_blank" rel="noopener">{body}</a> : <div>{body}</div>}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

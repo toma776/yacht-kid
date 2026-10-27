@@ -145,6 +145,8 @@ export const ENTITIES = [
       {key: 'distinction', label: 'Distincția', type: 'text', required: true, ...T, help: 'De exemplu „Excellent Architecture”, „Honorable Mention”.'},
       {key: 'category_name', label: 'Categoria din competiție', type: 'text', ...T},
       {key: 'url', label: 'Pagina oficială', type: 'url'},
+      {key: 'article', label: 'Articol', type: 'ref', target: 'articole', rel: 'e prezentat în', inverseLabel: 'Premii prezentate',
+       help: 'Articolul de pe site despre premiu; banda de premii trimite aici (altfel la pagina oficială).'},
       {key: 'badge', label: 'Insigna', type: 'image', help: 'Sigiliul primit de proiect („Winner 2025”), de la organizator.'},
       {key: 'logo', label: 'Logo-ul competiției', type: 'image', help: 'Marca oficială a competiției, pentru banda de premii; se afișează monocrom.'},
       {key: 'organizer', label: 'Organizator', type: 'ref', target: 'parteneri', rel: 'e organizat de', inverseLabel: 'Premii organizate',
@@ -289,10 +291,13 @@ export const ENTITIES = [
     key: 'categorii', table: 'categories', label: 'Categorii', one: 'Categorie',
     category: 'continut', color: '#5d8fd1', icon: 'folder', noStatus: true,
     title: 'name',
-    public: {path: slugPath('category')},
-    linkFields: ['name', 'slug'],
+    // O categorie fără pagină proprie (Premii) rămâne gruparea articolelor, dar nu are adresă: nimic nu trimite spre ea
+    public: {path: (rec, lang, tr) => (rec.listed === false || rec.listed === 0 ? null : slugPath('category')(rec, lang, tr))},
+    linkFields: ['name', 'slug', 'listed'],
     fields: [
       {key: 'name', label: 'Nume', type: 'text', required: true, max: 60, list: true, ...T},
+      {key: 'listed', label: 'Are pagină proprie', type: 'boolean', default: 1, list: true,
+       help: 'Debifat: pagina categoriei dispare de pe site (adresa ei se redirecționează), articolele rămân.'},
       {key: 'slug', label: 'Identificator (adresă)', type: 'slug', from: 'name', required: true, ...T},
       {key: 'description', label: 'Descriere', type: 'textarea', ...T},
       ...SEO, LEGACY

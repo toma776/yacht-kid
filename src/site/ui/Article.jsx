@@ -56,7 +56,7 @@ export async function Article({ctx, rec, title, chrome}) {
   return (
     <article className="article">
       <header className="article-head wrap">
-        <p className="eyebrow">{categoryHref ? <a href={categoryHref}>{category?.name ?? 'Blog'}</a> : 'Blog'}</p>
+        <p className="eyebrow">{categoryHref ? <a href={categoryHref}>{category?.name ?? 'Blog'}</a> : (category?.name ?? 'Blog')}</p>
         <h1 className="display">{title}</h1>
         <p className="article-meta">
           {rec.published_at && <time dateTime={rec.published_at}>{dateOf(rec.published_at, lang)}</time>}
