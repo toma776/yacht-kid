@@ -19,14 +19,13 @@ export default async function Lista({params, searchParams}) {
   if (!e) notFound();
   const db = await getDb();
   const all = await listRows(db, tip);
-  const pick = {
-    publicate: r => r.status === 'published', ciorne: r => r.status === 'draft', 'fara-en': r => r.langs && !r.langs.includes('en'),
-    invechite: r => r.outdated, 'de-verificat': r => r.inferred > 0
-  }[f] ?? (() => true);
-  const rows = all.filter(pick);
-  const filters = FILTERS.filter(([k]) => !k || (['publicate', 'ciorne'].includes(k) ? hasStatus(tip) : ['fara-en', 'invechite'].includes(k) ? hasTranslations(tip) : true))
-    .map(([k, l]) => [k, l, k ? all.filter({publicate: r => r.status === 'published', ciorne: r => r.status === 'draft', 'fara-en': r => r.langs && !r.langs.includes('en'), invechite: r => r.outdated, 'de-verificat': r => r.inferred > 0}[k]).length : all.length]])
-    .filter(([k, , n]) => !k || n);
+  const PRED = {
+    '': () => true, publicate: r => r.status === 'published', ciorne: r => r.status === 'draft',
+    'fara-en': r => r.langs && !r.langs.includes('en'), invechite: r => r.outdated, 'de-verificat': r => r.inferred > 0
+  };
+  const rows = all.filter(PRED[f] ?? PRED['']);
+  // Doar filtrele care au sens pentru tip și au cel puțin un rând
+  const filters = FILTERS.map(([k, l]) => [k, l, all.filter(PRED[k]).length]).filter(([k, , n]) => !k || n);
   const rels = [...outgoingRelations(tip), ...inverseRelations(tip)].filter(r => r.target !== 'media' || r.cardinality === 'M:N');
   const canCreate = e.creatable !== false && !e.singleton;
   return (

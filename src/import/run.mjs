@@ -10,6 +10,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
 import {entity, field, hasStatus, hasTranslations, relation, relTable} from '../registry/derive.mjs';
+import {ENTITIES} from '../registry/entities.mjs';
 import {columnOf} from '../core/schema.mjs';
 import {trFingerprint} from '../core/fingerprint.mjs';
 import {decode, text, attr, mainOf, metaOf, byHeading, paragraphs, images, uploadKey, sanitize, roundTrip, fold, squash} from './html.mjs';
@@ -633,6 +634,13 @@ export async function runImport(client, {dir, overwriteEdits = false, now = new 
         else nested.push(i);
       });
       await W.run('UPDATE menus_translations SET items = ? WHERE entity_id = ? AND lang = ?', [JSON.stringify(nested), row.entity_id, row.lang]);
+    }
+
+    // 18b. Perechile importate sunt, prin definiție, la zi: amprenta RO se calculează după rescrierea trimiterilor
+    for (const e of ENTITIES.filter(e => hasTranslations(e.key))) {
+      const t = `${e.table}_translations`;
+      for (const ro of (await W.run(`SELECT r.* FROM "${t}" r JOIN "${t}" x ON x.entity_id = r.entity_id AND x.lang = 'en' WHERE r.lang = 'ro'`)).rows)
+        await W.run(`UPDATE "${t}" SET source_fp = ? WHERE entity_id = ? AND lang = 'en'`, [trFingerprint(e.key, ro), ro.entity_id]);
     }
 
     // 19. Un singur eveniment pentru tot importul; prima scanare (§3.5) îl rezolvă

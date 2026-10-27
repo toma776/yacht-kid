@@ -66,8 +66,14 @@ export async function observations(db) {
   const add = (level, text, href, n) => n !== 0 && out.push({level, text, href, n});
   const drafts = await one(db, `SELECT count(*) n FROM testimonials WHERE quote IS NULL`);
   add('mare', `${drafts.n} testimoniale fără text: API-ul și paginile vechi nu au citatul. Cere-l clientului.`, '/manage/entitati/testimoniale/?f=ciorne', drafts.n);
-  const unv = await all(db, `SELECT p.entity, p.entity_id, p.field, count(*) n FROM provenance p WHERE p.certainty = 'unverified' GROUP BY 1, 2, 3`);
-  for (const u of unv) add('mare', `${entity(u.entity)?.one ?? u.entity} #${u.entity_id}: „${field(u.entity, u.field)?.label ?? u.field}” are surse contradictorii.`, `/manage/entitati/${u.entity}/${u.entity_id}/surse/`, 1);
+  // Neverificate: grupate pe tip și câmp; „contradictorii” doar unde două surse spun lucruri diferite
+  const unv = await all(db, `SELECT entity, field, count(DISTINCT entity_id) n, min(entity_id) one, max(sources) conflict FROM
+    (SELECT entity, entity_id, field, count(*) sources FROM provenance WHERE certainty = 'unverified' GROUP BY 1, 2, 3) GROUP BY 1, 2`);
+  for (const u of unv) {
+    const e = entity(u.entity), f = field(u.entity, u.field)?.label ?? u.field;
+    const text = u.conflict > 1 ? `${e.one} #${u.one}: „${f}” are surse contradictorii.` : `${e.label}: „${f}” neverificat la ${u.n} ${u.n === 1 ? 'înregistrare' : 'înregistrări'}.`;
+    add(u.conflict > 1 ? 'mare' : 'mediu', text, u.n === 1 ? `/manage/entitati/${u.entity}/${u.one}/surse/` : `/manage/entitati/${u.entity}/`, u.n);
+  }
   for (const e of ENTITIES.filter(e => typeof e.public?.path === 'function')) {
     const s = await typeStats(db, e.key);
     add('mediu', `${e.label}: ${s.total - (s.tr.en ?? 0)} fără traducere EN.`, `/manage/entitati/${e.key}/?f=fara-en`, s.total - (s.tr.en ?? 0));

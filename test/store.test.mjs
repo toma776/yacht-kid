@@ -74,6 +74,14 @@ test('legăturile: cele noi sunt confirmate, cele deduse scoase se țin minte', 
   assert.equal((await one(db, 'SELECT status FROM rel_posts_businesses WHERE src_id = ? AND dst_id = ?', [l.src_id, l.dst_id])).status, 'confirmed');
 });
 
+test('o legătură dedusă se confirmă din fișă, fără să fie ținută minte ca respinsă', async () => {
+  const [l] = await all(db, `SELECT src_id, dst_id FROM rel_posts_unit_types WHERE status = 'inferred' LIMIT 1`);
+  const others = (await all(db, 'SELECT dst_id FROM rel_posts_unit_types WHERE src_id = ? AND dst_id != ? ORDER BY position', [l.src_id, l.dst_id])).map(r => r.dst_id);
+  await saveEntity(db, 'articole', l.src_id, {links: {unit_types: [{id: l.dst_id, confirm: true}, ...others]}});
+  assert.equal((await one(db, 'SELECT status FROM rel_posts_unit_types WHERE src_id = ? AND dst_id = ?', [l.src_id, l.dst_id])).status, 'confirmed');
+  assert.equal(await one(db, `SELECT 1 FROM link_dismissals WHERE relation = 'articole.unit_types' AND src_id = ? AND dst_id = ?`, [l.src_id, l.dst_id]), null);
+});
+
 test('Legături de verificat: confirmarea în masă e o tranzacție cu un singur eveniment', async () => {
   const pairs = (await all(db, `SELECT src_id, dst_id FROM rel_posts_awards WHERE status = 'inferred'`)).map(r => [r.src_id, r.dst_id]);
   const n = (await one(db, 'SELECT count(*) n FROM change_events')).n;

@@ -200,8 +200,14 @@ async function replaceLinks(tx, relId, srcId, ids, user) {
   if (!r || r.cardinality !== 'M:N') throw new StoreError(`${relId} nu e o relație multiplă.`);
   const t = relTable(r.source, r.field);
   const cur = (await tx.execute({sql: `SELECT dst_id, status FROM "${t}" WHERE src_id = ? ORDER BY position`, args: [srcId]})).rows;
-  const want = [...new Set(ids.map(Number))];
+  // Un element poate fi un ID sau {id, confirm: true}: legătura dedusă e confirmată pe loc de omul care o vede
+  const items = ids.map(x => (typeof x === 'object' ? {id: Number(x.id), confirm: !!x.confirm} : {id: Number(x), confirm: false}));
+  const want = [...new Set(items.map(x => x.id))];
+  const confirm = new Set(items.filter(x => x.confirm).map(x => x.id));
   const before = cur.map(x => x.dst_id), at = now();
+  let confirmed = 0;
+  for (const x of cur.filter(x => confirm.has(x.dst_id) && x.status !== 'confirmed'))
+    confirmed += (await tx.execute({sql: `UPDATE "${t}" SET status = 'confirmed', note = coalesce(note, '') || ? WHERE src_id = ? AND dst_id = ?`, args: [` · confirmat de ${user}`, srcId, x.dst_id]})).rowsAffected;
   for (const x of cur.filter(x => !want.includes(x.dst_id))) {
     await tx.execute({sql: `DELETE FROM "${t}" WHERE src_id = ? AND dst_id = ?`, args: [srcId, x.dst_id]});
     if (x.status !== 'confirmed') await tx.execute({sql: 'INSERT OR REPLACE INTO link_dismissals (relation, src_id, dst_id, evidence, at, by) VALUES (?, ?, ?, ?, ?, ?)', args: [relId, srcId, x.dst_id, 'scoasă din /manage', at, user]});
@@ -210,7 +216,7 @@ async function replaceLinks(tx, relId, srcId, ids, user) {
     if (before.includes(dst)) await tx.execute({sql: `UPDATE "${t}" SET position = ? WHERE src_id = ? AND dst_id = ?`, args: [pos, srcId, dst]});
     else await tx.execute({sql: `INSERT INTO "${t}" (src_id, dst_id, position, status, created_at, created_by) VALUES (?, ?, ?, 'confirmed', ?, ?)`, args: [srcId, dst, pos, at, user]});
   }
-  const changed = JSON.stringify(before) !== JSON.stringify(want);
+  const changed = confirmed > 0 || JSON.stringify(before) !== JSON.stringify(want);
   return {changed, before, after: want, touched: [...new Set([...before, ...want])].map(d => `${r.target}:${d}`)};
 }
 
