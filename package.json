@@ -13,7 +13,8 @@
     "crawl": "node scripts/crawl.mjs",
     "analyze": "node scripts/analyze.mjs",
     "schema": "node scripts/schema.mjs",
-    "test": "node --test --disable-warning=ExperimentalWarning"
+    "test": "node --test --disable-warning=ExperimentalWarning",
+    "import:turso": "node --env-file=.env.local scripts/import.mjs"
   },
   "dependencies": {
     "@libsql/client": "0.18.0",
