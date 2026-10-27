@@ -957,6 +957,8 @@ html { scroll-behavior: auto !important; }
 .site-header.is-hidden { transform: none !important; }
 
 /* Testimonialele „card” (homepage): un card mare navy, cu două contururi decalate în spate (ca un teanc), și paginile */
+/* După tehnologie (același fundal, fără placă între ele) spațiile de jos și de sus se adunau (~230px): sus rămâne puțin */
+.comfort + .voices { padding-top: clamp(8px, 1.5vw, 24px); }
 .voices-stack { position: relative; margin-top: var(--stack-5); margin-right: 14px; }
 .voices-stack::before, .voices-stack::after { content: ''; position: absolute; inset: 0; border: 1px solid var(--line-strong); border-radius: var(--r-band); pointer-events: none; }
 .voices-stack::before { translate: 7px 7px; }
