@@ -82,7 +82,6 @@ async function HeroCard({ctx, s, values, chrome, video}) {
             </div>
           </aside>
         )}
-        {s.next && <a className="hero-card-next" href={`#${s.next}`}>{L['hero-continut'] ?? 'Descoperă YACHT KID'} <Arrow/></a>}
       </div>
       {video && (
         <dialog className="video-dialog" data-video-dialog aria-label={b2?.label}>
@@ -96,7 +95,7 @@ async function HeroCard({ctx, s, values, chrome, video}) {
 
 async function Hero({ctx, s, values, next, chrome}) {
   const video = s.video ? await ctx.item('media', s.video, 'media') : null;
-  if (s.variant === 'card') return HeroCard({ctx, s: {...s, next}, values, chrome, video});
+  if (s.variant === 'card') return HeroCard({ctx, s, values, chrome, video});
   const [b1, b2] = await buttons(ctx, s, values);
   const heading = fillTokens(s.heading ?? '', values);
   const [first, ...rest] = heading.split(' ');

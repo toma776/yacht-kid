@@ -909,8 +909,6 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .btn--whatsapp { background: #25d366; border-color: #25d366; color: #fff; }
 .btn--whatsapp:hover { background: #1fb457; border-color: #1fb457; }
 .brochure-actions .btn svg { width: 20px; height: 20px; }
-.hero-card-next { grid-column: 1; grid-row: 2; justify-self: end; margin: clamp(20px, 2.4vw, 32px) clamp(24px, 3vw, 48px) 0 0; display: inline-flex; align-items: center; gap: 12px; font-size: .875rem; color: var(--ink-2); }
-.hero-card-next svg { width: 40px; height: 14px; }
 /* Ecrane joase (laptopuri): același hero, cu textul și spațiile mai strânse, ca să încapă fără derulare */
 @media (max-height: 820px) and (min-width: 1101px) {
   .hero-card-top { padding-top: 24px; }
@@ -926,7 +924,6 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
   .hero-card-grid { grid-template-columns: 1fr; }
   .hero-card-body { max-width: none; }
   .brochure-card { grid-column: 1; grid-row: 2; justify-self: center; width: min(100%, 420px); margin: -40px 0 0; transform: none; padding-top: 150px; margin-top: 110px; }
-  .hero-card-next { grid-row: 3; justify-self: center; margin-right: 0; }
 }
 @media (max-width: 640px) {
   .hero-card-top { padding-inline: var(--gutter); }
