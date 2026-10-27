@@ -17,7 +17,8 @@
     "test": "node --test --disable-warning=ExperimentalWarning",
     "import:turso": "node --env-file=.env.local scripts/import.mjs",
     "mirror": "node scripts/mirror.mjs",
-    "mirror:serve": "node scripts/mirror-serve.mjs"
+    "mirror:serve": "node scripts/mirror-serve.mjs",
+    "video": "node scripts/video.mjs"
   },
   "dependencies": {
     "@libsql/client": "0.18.0",

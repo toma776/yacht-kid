@@ -387,6 +387,12 @@ export const ENTITIES = [
       {key: 'width', label: 'Lățime', type: 'int', readonly: true},
       {key: 'height', label: 'Înălțime', type: 'int', readonly: true},
       {key: 'bytes', label: 'Mărime', type: 'int', readonly: true},
+      // Doar pentru video: generate de `npm run video` din original (scripts/video.mjs)
+      {key: 'duration', label: 'Durată (s)', type: 'number', readonly: true},
+      {key: 'poster', label: 'Cadru de previzualizare', type: 'url', readonly: true, help: 'Imaginea afișată până pornește video-ul.'},
+      {key: 'renditions', label: 'Versiuni pentru web', type: 'table', readonly: true,
+        columns: ['quality', 'file', 'width', 'height', 'bytes', 'kbps'],
+        help: 'Video-ul comprimat pentru site: 1080p pentru desktop, 720p pentru mobil și fundaluri. Originalul rămâne neschimbat.'},
       {key: 'alt', label: 'Text alternativ', type: 'text', max: 200, ...T, help: 'Aceeași imagine, câte un text pe limbă.'},
       {key: 'caption', label: 'Legendă', type: 'text', ...T},
       {key: 'description', label: 'Descriere', type: 'textarea', ...T, help: 'Ce se vede în fotografie, pentru căutare și pentru alegerea imaginii.'},
