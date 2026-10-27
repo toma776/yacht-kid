@@ -121,6 +121,7 @@ const LABELS = {
   'brosura-descarca': ['Descarcă broșura', 'Download the brochure'], 'brosura-whatsapp': ['Primește pe WhatsApp', 'Get it on WhatsApp'], 'brosura-email': ['Primește pe email', 'Get it by email'],
   'brosura-mesaj': ['Bună ziua! Aș dori să primesc broșura YACHT KID.', 'Hello! I would like to receive the YACHT KID brochure.'],
   'hero-continut': ['Descoperă YACHT KID', 'Discover YACHT KID'],
+  'citeste-tot': ['Citește tot', 'Read more'],
   cuprins: ['Cuprins', 'Contents'], 'alte-articole': ['Alte articole', 'More articles'], 'min-citire': ['min de citit', 'min read'],
   'articol-cta-titlu': ['Vino să vezi YACHT KID', 'Come and see YACHT KID'],
   'articol-cta-text': ['Programează o vizionare și descoperă locuințele de lângă parc.', 'Book a viewing and discover the homes by the park.'],
@@ -220,6 +221,22 @@ for (const loc of ['antet', 'subsol']) {
 const feat = async titles => Promise.all(titles.map(t => idByTitle('features', 'title', t)));
 const btn = (label, to, extra = {}) => ({label, to, ...extra});
 const fig = (media, alt, caption) => `<figure><img data-media="${media}" alt="${alt}"><figcaption>${caption}</figcaption></figure>`;
+// Cele 5 recenzii reale de la cei care locuiesc sau au cumpărat aici: proprietarul #9 (scrie despre construcție și
+// finisaje), cei trei rezidenți de pe pagina veche Comunitate și #10. Rolul lui #9 vine din propriul text („Sunt
+// proprietar”); traducerile EN pentru #9 și #10 lipseau și sunt scrise de AI (de verificat).
+const VOICES = [9, 53, 52, 54, 10];
+for (const id of VOICES) if (!(await one(db, `SELECT 1 FROM testimonials WHERE id = ? AND status = 'published' AND quote IS NOT NULL`, [id]))) throw new Error(`Testimonialul #${id} lipsește sau nu e publicat`);
+await saveEntity(db, 'testimoniale', 9, {tr: {ro: {role: 'Proprietar YACHT KID'}}}, {user: USER});
+await saveEntity(db, 'testimoniale', 9, {tr: {en: {role: 'YACHT KID owner', quote_translated: [
+  'I have been an owner at Yacht Kid for a month and I still am, as the investment has already proven its value, showing a real net profit opportunity of about €60,000, based on an existing potential buyer.',
+  'Yacht Kid is one of the most premium residential developments in Bucharest, perfectly positioned on the lakeshore, in the Floreasca area.',
+  'The project offers an authentic resort lifestyle, with four private outdoor pools overlooking the lake, concierge services including in-room delivery, a premium reception area, 24/7 security and a hotel-like experience, with four lifts per floor and fully monitored indoor and outdoor common areas.',
+  'The building clearly stands out through the exceptional quality of its construction. Every floor is built with superior-quality structural slabs, complemented by triple-glazed French windows, excellent thermal and sound insulation, heat pumps, gas heating for cost efficiency, an A-class energy rating, Barrisol ceilings, granite bathrooms and smart bird-deterrent systems on the roof. Even the north-facing apartments maintain remarkable comfort and efficiency. All finishes and materials are truly premium.',
+  'On the ground floor, residents benefit from a hair salon offering brow shaping, manicure and men’s haircuts, the Fabriq specialty café, the Froo supermarket and many other services currently in development. These include fashion boutiques, wellness services, Pilates studios, tanning centres and much more. The area is undergoing a rapid transformation, with new public schools and kindergartens planned by District 2, the Aviation Museum currently under renovation, a hotel under construction across the street and a strong IT hub nearby.',
+  'The location is exceptional, offering a direct lake view and, soon, direct access to Tei Park, proximity to the promenade, spa centres, restaurants, an ice rink'
+].join('\n')}}}, {user: AI});
+await saveEntity(db, 'testimoniale', 10, {tr: {en: {quote_translated: 'I assure you there is no other place to live than Yacht Kid, now in Pipera, more comfort than ever.'}}}, {user: AI});
+
 const SECTIONS = [
   // Hero-ul „card”: fotografia cu balcoanele-val (setul foto profesional; dacă baza nu o are încă, rămâne cea veche)
   // și broșura „Prezentare generală” de pe site-ul vechi; video-ul rămâne pentru butonul „Video de prezentare”
@@ -275,6 +292,10 @@ const SECTIONS = [
       text: '<p>Finisajele moderne, materialele de calitate superioară și tehnologia de ultimă generație reprezintă elemente esențiale în decizia de a achiziționa un apartament la YACHT KID.</p><p>Clădirea este realizată cu cele mai bune materiale și proiectată pentru a oferi o experiență de locuire la un standard ridicat, remarcabilă prin detalii rafinate și design unic. Aceasta garantează nu doar confort și siguranță, ci și economii semnificative la facturile individuale și colective pentru utilități.</p>'},
     en: {eyebrow: 'Technology', heading: 'Comfort and safety', buttons: [btn('Discover Yacht KID Technology', ref('pagini', P.tehnologie))],
       text: '<p>The modern finishes, high-quality materials, and innovative technology are essential factors when choosing to purchase a residential unit at YACHT KID.</p><p>The building is crafted with top-tier materials and designed to deliver an exceptional living experience, distinguished by unique design elements and refined details. This approach ensures not only comfort and safety, but also substantial savings on both individual and shared utility costs.</p>'}},
+  // Testimonialele de pe homepage: doar recenzii reale, de la proprietari și rezidenți (fără texte scrise de noi)
+  {key: 'testimoniale-acasa', kind: 'testimoniale', anchor: 'testimoniale', base: {variant: 'card'}, links: {testimonials: VOICES},
+    ro: {eyebrow: 'Testimoniale', heading: 'Ce spun cei care au ales YACHT KID'}, en: {eyebrow: 'Testimonials'},
+    ai: {heading: 'What those who chose YACHT KID say'}},
   {key: 'vizionare', kind: 'cta', anchor: 'vizionare', base: {image: M.lifestyle},
     ro: {eyebrow: 'Vizionare', heading: 'Programează vizionare!', buttons: [btn('Programează vizionare', ref('pagini', P.vizionare))]},
     en: {buttons: [btn('Contact us', ref('pagini', P.contact))]}, ai: {eyebrow: 'Viewing', heading: 'Schedule a viewing!'}},

@@ -12,7 +12,7 @@ function init(signal) {
   // animată sau antet care se ascunde; interacțiunile (meniuri, acordeoane, galerie, video) rămân, dar fără animație
   const reduced = true;
   const header = document.querySelector('[data-header]');
-  const hero = document.querySelector('.hero');
+  const hero = document.querySelector('.hero, .hero-card');
   if (!header) return () => {};
 
   // ---------- Antetul: transparent peste hero, bandă albă după (rămâne mereu pe ecran).
@@ -196,6 +196,17 @@ function init(signal) {
     on(window, 'scroll', mark, {passive: true});
     mark();
   }
+
+  // ---------- Testimonialele „card”: paginile 1, 2, 3… arată cardul ales (pe loc, fără animație)
+  document.querySelectorAll('[data-voices]').forEach(stack => {
+    const cards = [...stack.querySelectorAll('[data-voice]')];
+    const pages = [...stack.parentElement.querySelectorAll('[data-voice-go]')];
+    pages.forEach(b => on(b, 'click', () => {
+      const n = +b.dataset.voiceGo;
+      cards.forEach((c, i) => { c.hidden = i !== n; });
+      pages.forEach((p, i) => p.setAttribute('aria-pressed', String(i === n)));
+    }));
+  });
 
   // ---------- Galeria: fotografia mare într-un dialog, cu înainte/înapoi (butoane, săgețile tastaturii) și Esc
   const box = document.querySelector('[data-lightbox]');

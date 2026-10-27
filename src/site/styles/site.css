@@ -914,9 +914,14 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 
 /* Hero-ul „card” (homepage): fotografia într-un card rotunjit; broșura stă peste marginea lui de jos, în dreapta */
 /* Jos: loc pentru cardul broșurii, care iese sub fotografie (~45% din înălțimea lui), plus placa secțiunii următoare */
-.hero-card-wrap { padding-top: 8px; padding-bottom: calc(clamp(40px, 4vw, 72px) + var(--r-band)); }
+.hero-card-wrap { padding-top: 0; padding-bottom: calc(clamp(40px, 4vw, 72px) + var(--r-band)); }
 .hero-card-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: auto auto; }
-.hero-card { position: relative; grid-column: 1 / -1; grid-row: 1; min-height: min(78svh, 760px); display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; overflow: hidden; border-radius: var(--r-band); color: #fff; isolation: isolate; }
+.hero-card { position: relative; grid-column: 1 / -1; grid-row: 1; min-height: 100vh; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; overflow: hidden; color: #fff; isolation: isolate; }
+/* Pe toată lățimea ecranului, sub antetul transparent: cardul iese din .wrap cu margini negative, iar umplutura
+   egală readuce conținutul pe coloana paginii (procentele sunt din lățimea coloanei, nu a cardului).
+   cqw în loc de vw: lățimea secțiunii nu include bara de derulare, deci nu apare derulare orizontală. */
+.hero-card-wrap { container-type: inline-size; }
+.hero-card { margin-inline: calc(50% - 50cqw); padding: 84px calc(50cqw - 50%) 0; }
 .hero-card-img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
 .hero-card::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(100deg, rgb(20 32 68 / .82) 0%, rgb(32 54 108 / .6) 38%, rgb(32 54 108 / .12) 70%, rgb(32 54 108 / 0) 100%), linear-gradient(0deg, rgb(20 32 68 / .45) 0%, transparent 40%); }
 .hero-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding: clamp(24px, 3.4vw, 48px) clamp(24px, 5vw, 80px) 0; }
@@ -957,8 +962,7 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
   .hero-card-next { grid-row: 3; justify-self: center; margin-right: 0; }
 }
 @media (max-width: 640px) {
-  .hero-card-wrap { padding-top: 4px; }
-  .hero-card { min-height: 640px; border-radius: var(--r-l); }
+  .hero-card { min-height: 640px; }
   .hero-card-top { flex-direction: column; }
   .hero-card-office { text-align: left; }
   .hero-card-title { font-size: 1.875rem; }
@@ -980,3 +984,33 @@ html { scroll-behavior: auto !important; }
 .feature:hover .icon, .business > a:hover .frame img, .photo:hover img { transform: none !important; translate: none !important; }
 .link-arrow:hover { gap: 10px; background-size: 100% 2px; }
 .site-header.is-hidden { transform: none !important; }
+
+/* Testimonialele „card” (homepage): un card mare navy, cu două contururi decalate în spate (ca un teanc), și paginile */
+.voices-stack { position: relative; margin-top: var(--stack-5); margin-right: 14px; }
+.voices-stack::before, .voices-stack::after { content: ''; position: absolute; inset: 0; border: 1px solid var(--line-strong); border-radius: var(--r-band); pointer-events: none; }
+.voices-stack::before { translate: 7px 7px; }
+.voices-stack::after { translate: 14px 14px; }
+.voice-card { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: clamp(28px, 4vw, 64px); align-items: center; min-height: 380px; padding: clamp(32px, 5vw, 80px) clamp(28px, 6vw, 110px); border-radius: var(--r-band); background: var(--navy); color: #fff; }
+.voice-card[hidden] { display: none; }
+.voice-quote { margin: 0; display: grid; gap: 14px; }
+.voice-quote p, .voice-rest p { font-size: clamp(1.0625rem, .98rem + .45vw, 1.375rem); line-height: 1.55; color: #eef1fa; }
+.voice-quote p:first-child::before { content: '\201E'; color: var(--coral); font-weight: 700; margin-right: 4px; }
+.voice-more summary { list-style: none; cursor: pointer; display: grid; gap: 16px; }
+.voice-more summary::-webkit-details-marker { display: none; }
+.voice-toggle { justify-self: start; font-size: .875rem; font-weight: 600; letter-spacing: .04em; color: #fff; padding-bottom: 4px; border-bottom: 2px solid var(--coral); }
+.voice-more[open] .voice-toggle { display: none; }
+.voice-rest { display: grid; gap: 14px; margin-top: 14px; }
+.voice-who { margin: 0; display: grid; justify-items: center; gap: 14px; text-align: center; }
+.voice-avatar { display: grid; place-items: center; width: 168px; height: 168px; border-radius: 50%; background: rgb(255 255 255 / .08); border: 1px solid rgb(255 255 255 / .22); font-size: 3rem; font-weight: 700; letter-spacing: .04em; color: #fff; }
+.voice-avatar svg { width: 64px; height: 64px; color: var(--coral-light); }
+.voice-who b { display: block; font-size: 1.125rem; }
+.voice-who span:not(.voice-avatar) { display: block; font-size: .875rem; color: var(--on-plinth-2); }
+.voices-pages { display: flex; gap: 10px; margin-top: 36px; }
+.voices-pages button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); background: none; color: var(--navy); font-weight: 600; cursor: pointer; }
+.voices-pages button[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+@media (max-width: 760px) {
+  .voice-card { grid-template-columns: 1fr; min-height: 0; }
+  .voice-who { grid-row: 1; grid-template-columns: auto 1fr; justify-items: start; text-align: left; align-items: center; }
+  .voice-avatar { width: 72px; height: 72px; font-size: 1.5rem; }
+  .voice-avatar svg { width: 36px; height: 36px; }
+}

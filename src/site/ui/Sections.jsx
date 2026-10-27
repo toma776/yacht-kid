@@ -512,8 +512,53 @@ async function Awards({ctx, s, values}) {
 
 // Testimonialele: cele alese în secțiune sau, dacă nu e niciunul, toate cele „Afișat pe pagina Testimoniale”.
 // Textul e în limba paginii: originalul dacă e scris în ea, altfel traducerea.
+// Testimonialele „card” (homepage): câte un card mare, navy, cu citatul și autorul (monogramă în loc de fotografie);
+// paginile 1, 2, 3… schimbă cardul pe loc (site static). Un citat lung pornește strâns, cu „Citește tot” (<details>).
+async function VoiceCards({ctx, s, values, list}) {
+  const L = values.__labels ?? {};
+  const text = t => (t.quote_lang === ctx.lang ? t.quote : t.quote_translated || t.quote) ?? '';
+  const initials = t => t.anonymous ? null : t.author.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+  const paras = t => text(t).split(/\n+/).map(p => p.trim()).filter(Boolean);
+  const items = list.filter(t => text(t));
+  if (!items.length) return null;
+  return (
+    <section className="voices floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap">
+        <div className="section-head"><Head s={s} values={values} id={`t-${s.id}`}/></div>
+        <div className="voices-stack" data-voices>
+          {items.map((t, i) => {
+            const ps = paras(t), long = text(t).length > 420;
+            return (
+              <article key={t.id} className="voice-card on-dark" data-voice={i} hidden={i !== 0} aria-label={`${i + 1} / ${items.length}`}>
+                <div className="voice-text">
+                  {long ? (
+                    <details className="voice-more">
+                      <summary><blockquote className="voice-quote"><p>{ps[0]}</p></blockquote><span className="voice-toggle">{L['citeste-tot'] ?? 'Citește tot'}</span></summary>
+                      <div className="voice-rest">{ps.slice(1).map((p, k) => <p key={k}>{p}</p>)}</div>
+                    </details>
+                  ) : <blockquote className="voice-quote">{ps.map((p, k) => <p key={k}>{p}</p>)}</blockquote>}
+                </div>
+                <figure className="voice-who">
+                  <span className="voice-avatar" aria-hidden="true">{initials(t) ?? <Icon id="community" size={44}/>}</span>
+                  <figcaption><b>{t.author}</b>{t.role && <span>{t.role}</span>}</figcaption>
+                </figure>
+              </article>
+            );
+          })}
+        </div>
+        {items.length > 1 && (
+          <div className="voices-pages" role="group" aria-label={s.heading ?? ''}>
+            {items.map((t, i) => <button key={t.id} type="button" data-voice-go={i} aria-pressed={i === 0} aria-label={`${i + 1} / ${items.length}`}>{i + 1}</button>)}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 async function Testimonials({ctx, s, values}) {
   const chosen = await ctx.links('sectiuni.testimonials', s.id);
+  if (s.variant === 'card') return VoiceCards({ctx, s, values, list: chosen});
   const list = chosen.length ? chosen : await ctx.within(`Testimoniale (${s.id})`, 'cele afișate pe pagina Testimoniale', () =>
     ctx.query('testimoniale', {fields: ['featured'], where: 'e.featured = 1', order: 'e.id'}));
   const [b1] = await buttons(ctx, s, values);
