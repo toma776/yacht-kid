@@ -339,40 +339,39 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 }
 
 /* ===================== 4. AVANTAJE ===================== */
-/* O placă, ca o fișă tehnică: rosturi fine între avantaje, pictograma într-un cerc, numărul în colț */
+/* Carduri separate, pe porțelan: pictograma albă în cerc navy sus, numărul în colț, titlul și textul sub ea.
+   Colțul din dreapta-jos rotunjit mai larg, ca balcoanele (același gest ca plăcile secțiunilor). */
 .features-grid {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: var(--stack-5);
-  background: var(--porcelain); border: 1px solid var(--line); border-radius: var(--r-l) var(--r-l) var(--r-band) var(--r-l);
-  overflow: hidden; counter-reset: feature;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.2vw, 20px);
+  margin-top: var(--stack-5); counter-reset: feature;
 }
 .feature {
-  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px;
-  min-height: 112px; padding: 22px clamp(18px, 1.8vw, 28px);
-  counter-increment: feature; transition: background var(--t) var(--ease-soft);
+  position: relative; display: flex; flex-direction: column; gap: 12px;
+  padding: clamp(22px, 2.2vw, 34px);
+  background: var(--porcelain); border-radius: var(--r-m) var(--r-m) var(--r-l) var(--r-m);
+  counter-increment: feature;
 }
-.feature:not(:nth-child(4n+1)) { border-left: 1px solid var(--line); }
-.feature:nth-child(n+5) { border-top: 1px solid var(--line); }
 .feature::after {
-  content: counter(feature, decimal-leading-zero); position: absolute; top: 14px; right: 18px;
-  font-size: .6875rem; font-weight: 600; letter-spacing: .1em; color: var(--coral-ink); opacity: .75;
+  content: counter(feature, decimal-leading-zero); position: absolute; top: clamp(22px, 2.2vw, 34px); right: clamp(22px, 2.2vw, 34px);
+  font-size: .75rem; font-weight: 600; letter-spacing: .12em; color: var(--coral-ink);
 }
 .feature .icon {
-  box-sizing: content-box; width: 22px; height: 22px; padding: 12px; border: 1px solid var(--line-strong); border-radius: 50%;
-  color: var(--navy); stroke-width: 1.4; background: var(--paper);
-  transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease);
+  box-sizing: content-box; flex: none; width: 24px; height: 24px; padding: 15px; border-radius: 50%;
+  color: #fff; stroke-width: 1.5; background: var(--navy); box-shadow: 0 12px 24px -12px rgb(32 54 108 / .55);
 }
-.feature .h3 { font-size: .9375rem; font-weight: 700; letter-spacing: .04em; line-height: 1.4; padding-right: 18px; }
-.feature:hover { background: var(--paper); }
-.feature:hover .icon { background: var(--navy); border-color: var(--navy); color: #fff; }
+.feature .h3 { padding-top: clamp(16px, 1.6vw, 24px); font-size: clamp(1rem, .94rem + .2vw, 1.125rem); font-weight: 700; letter-spacing: .02em; line-height: 1.3; color: var(--navy); }
+.feature-text { margin: 0; font-size: var(--fs-small); line-height: 1.55; color: var(--ink-2); }
 @media (max-width: 1000px) {
   .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .feature:nth-child(n) { border-left: 0; border-top: 1px solid var(--line); }
-  .feature:nth-child(-n+2) { border-top: 0; }
-  .feature:nth-child(2n) { border-left: 1px solid var(--line); }
 }
+/* Telefon: un rând pe avantaj, pictograma în stânga */
 @media (max-width: 560px) {
-  .feature { grid-template-columns: 1fr; align-content: start; gap: 12px; min-height: 0; padding: 20px 16px 22px; }
-  .feature .h3 { font-size: .875rem; padding-right: 0; }
+  .features-grid { grid-template-columns: 1fr; gap: 10px; }
+  .feature { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 16px; row-gap: 4px; align-items: center; min-height: 0; padding: 18px 44px 18px 18px; }
+  .feature .icon { grid-row: span 2; padding: 13px; }
+  .feature::after { top: 18px; right: 18px; }
+  .feature .h3 { margin: 0; padding: 0; font-size: 1rem; }
+  .feature:not(:has(.feature-text)) .icon { grid-row: auto; }
 }
 
 /* ===================== 5. COLECȚIA ===================== */
@@ -614,8 +613,6 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 /* Pagini compuse ale tipurilor de locuințe (Spații comerciale): avantaje cu text, fișa ca cifre, afacerile din comunitate */
 .features-copy { max-width: 60ch; display: grid; gap: 14px; }
 .features-copy .body { color: var(--ink-2); }
-.feature:has(.feature-text) { align-items: start; }
-.feature-text { grid-column: 2; margin: -8px 0 0; font-size: var(--fs-small); line-height: 1.55; color: var(--ink-2); padding-right: 18px; }
 .spec-value { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem); }
 .spec-value small { white-space: nowrap; }
 /* Fișa nu e o placă proprie: continuă secțiunea de deasupra (avantajele, tot pe alb), iar placa următoare (.slab)
@@ -631,7 +628,6 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .business .link-arrow { margin-top: 4px; }
 @media (max-width: 1000px) { .business-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) {
-  .feature-text { grid-column: auto; margin-top: 0; padding-right: 0; }
   .business-grid { grid-template-columns: 1fr 1fr; gap: 20px 14px; }
 }
 
@@ -959,7 +955,7 @@ html { scroll-behavior: auto !important; }
 .hero-media::before { opacity: 0 !important; }
 [data-depth], [data-drift] g { translate: none !important; transform: none !important; }
 .other-units a:hover, .hero-card-map:hover, .unit-video-play:hover, .proof-item a:hover .proof-logo, .link-arrow:hover,
-.feature:hover .icon, .business > a:hover .frame img, .photo:hover img { transform: none !important; translate: none !important; }
+.business > a:hover .frame img, .photo:hover img { transform: none !important; translate: none !important; }
 .link-arrow:hover { gap: 10px; background-size: 100% 2px; }
 .site-header.is-hidden { transform: none !important; }
 
