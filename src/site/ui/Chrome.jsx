@@ -155,39 +155,39 @@ export function Footer({chrome}) {
   const legal = chrome.footer.find(g => g.legal);
   return (
     <>
-      <footer className="site-footer bg-plinth on-dark slab" aria-labelledby="ft-title">
+      {/* Subsolul: compact, fără colțuri rotunjite. Sus: marca și acțiunile (ofertă, vizionare, broșură); apoi contactul,
+          biroul de vânzări, linkurile (din meniul „subsol”) și informațiile legale; jos: datele firmei, ANPC, limba. */}
+      <footer className="site-footer bg-plinth on-dark" aria-label="YACHT KID">
         <div className="wrap">
-          <div className="ft-invite">
-            <div className="ft-invite-copy">
-              <p className="eyebrow">YACHT KID</p>
-              <h2 className="h2 ruled" id="ft-title">{L['subsol-titlu']}</h2>
-            </div>
-            <div className="ft-invite-actions">
+          <div className="ft-top-row">
+            <a className="ft-logo" href={chrome.home} aria-label="YACHT KID"><img src="/media/1/" alt="" width="275" height="168" loading="lazy"/></a>
+            <p className="ft-tagline">{L['subsol-tagline']}</p>
+            <div className="ft-actions">
               <a className="btn" href={chrome.contactHref}>{L['solicita-oferta']} <span className="btn-icon"><Arrow/></span></a>
               <a className="btn btn--glass" href={chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref}>{L['programeaza-vizionare']} <span className="btn-icon"><Icon id="calendar"/></span></a>
+              {chrome.brochure && <a className="ft-brochure" href={chrome.brochure} target="_blank" rel="noopener" download>{L['brosura-descarca'] ?? 'Descarcă broșura'} <span>PDF</span></a>}
             </div>
           </div>
-          {f && (
-            <ul className="ft-quick" aria-label={L['contact-rapid'] ?? 'Contact rapid'}>
-              <li><a href={`tel:${f.phone}`}><span className="ft-quick-ic"><Icon id="phone" size={20}/></span><span><small>{L.telefon}</small>{f.phoneLabel}</span></a></li>
-              <li><a href={`mailto:${f.email}`}><span className="ft-quick-ic"><Icon id="mail" size={20}/></span><span><small>Email</small>{f.email}</span></a></li>
-              <li><a href={f.whatsapp}><span className="ft-quick-ic"><Icon id="whatsapp" size={20}/></span><span><small>WhatsApp</small>{L['scrie-ne-whatsapp']}</span></a></li>
-            </ul>
-          )}
-          <div className="ft-map">
-            <div className="ft-brand">
-              <a className="ft-logo" href={chrome.home} aria-label="YACHT KID"><img src="/media/1/" alt="" width="275" height="168" loading="lazy"/></a>
-              <p className="subhead ft-tagline">{L['subsol-tagline']}</p>
-              <ul className="ft-social" aria-label={L['retele-sociale'] ?? 'Rețele sociale'}>
-                {(f?.social ?? []).map(s => { const id = SOCIAL[s.label.toLowerCase()]; return id && <li key={s.url}><a href={s.url} aria-label={s.label}><Icon id={id} size={18}/></a></li>; })}
-              </ul>
-            </div>
+          <div className="ft-grid">
             {f && (
               <div className="ft-col">
-                <h3 className="ft-h">{L['vizitati-ne']}</h3>
+                <h3 className="ft-h">Contact</h3>
+                <ul className="ft-contact">
+                  <li><Icon id="phone" size={16}/><a href={`tel:${f.phone}`}>{f.phoneLabel}</a></li>
+                  <li><Icon id="mail" size={16}/><a href={`mailto:${f.email}`}>{f.email}</a></li>
+                  <li><Icon id="whatsapp" size={16}/><a href={f.whatsapp}>{L['scrie-ne-whatsapp']}</a></li>
+                </ul>
+                {f.schedule && <p className="ft-hours"><span>{L.program}</span>{f.schedule}</p>}
+              </div>
+            )}
+            {f && (
+              <div className="ft-col">
+                <h3 className="ft-h">{L['birou-vanzari'] ?? L['vizitati-ne']}</h3>
                 <address className="ft-address">{f.street}<br/>{chrome.lang === 'en' ? 'Bucharest' : f.city} {f.postal_code}</address>
-                <a className="link-arrow" href={f.maps}>{L['deschide-maps']} <Arrow/></a>
-                {f.schedule && <dl className="ft-hours"><dt>{L.program}</dt><dd>{f.schedule}</dd></dl>}
+                <a className="ft-maps" href={f.maps} target="_blank" rel="noopener"><Icon id="pin" size={16}/>{L['deschide-maps']}</a>
+                <ul className="ft-social" aria-label={L['retele-sociale'] ?? 'Rețele sociale'}>
+                  {(f.social ?? []).map(x => { const id = SOCIAL[x.label.toLowerCase()]; return id && <li key={x.url}><a href={x.url} aria-label={x.label}><Icon id={id} size={16}/></a></li>; })}
+                </ul>
               </div>
             )}
             {cols.map((g, i) => (
@@ -196,27 +196,25 @@ export function Footer({chrome}) {
                 <ul className="ft-links">{g.children.map(c => <li key={c.href}><a href={c.href}>{c.label}</a></li>)}</ul>
               </nav>
             ))}
+            {legal && (
+              <nav className="ft-col" aria-labelledby="ft-legal">
+                <h3 className="ft-h" id="ft-legal">{legal.label}</h3>
+                <ul className="ft-links">{legal.children.map(c => <li key={c.href}><a href={c.href}>{c.label}</a></li>)}</ul>
+              </nav>
+            )}
           </div>
-          <div className="ft-legal">
-            {legal && <nav aria-label={legal.label}><ul className="ft-legal-links">{legal.children.map(c => <li key={c.href}><a href={c.href}>{c.label}</a></li>)}</ul></nav>}
+          <div className="ft-bottom">
+            {f && <p className="ft-company">© {new Date().getFullYear()} YACHT KID · {f.legal_name} · CUI {f.cui} · {f.reg_com} · {L['sediu-social']}: {f.registered_office}</p>}
             <div className="anpc">
               <a href="https://anpc.ro/ce-este-sal/"><img src="/media/8/" alt="ANPC SAL" width="250" height="62" loading="lazy"/></a>
               <a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&lng=RO"><img src="/media/9/" alt="SOL" width="250" height="62" loading="lazy"/></a>
             </div>
-          </div>
-          <div className="ft-bottom">
-            {f && <p className="ft-company">© {new Date().getFullYear()} YACHT KID · {f.legal_name} · CUI {f.cui} · {f.reg_com}<br/><span>{L['sediu-social']}: {f.registered_office}</span></p>}
             <div className="ft-bottom-actions">
               <Langs chrome={chrome}/>
               <a className="ft-top" href="#continut" data-to-top>{L.sus} <Icon id="arrow" size={14}/></a>
             </div>
           </div>
         </div>
-        <svg className="ft-wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
-          <g fill="none" stroke="currentColor" strokeWidth="1.2" vectorEffect="non-scaling-stroke">
-            {[8, 26, 44].map(y => <path key={y} d={`M0 ${y}${'c25 0 25 12 50 12s25-12 50-12'.repeat(12)}`}/>)}
-          </g>
-        </svg>
       </footer>
       {f && (
         <nav className="dock" aria-label={L['contact-rapid'] ?? 'Contact rapid'}>

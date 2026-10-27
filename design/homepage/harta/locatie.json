@@ -1,0 +1,109 @@
+{
+ "generated": "2026-10-27",
+ "source": "OpenStreetMap (ODbL) · rute OSRM, routing.openstreetmap.de",
+ "home": {
+  "name": "YACHT KID",
+  "address": "Str. Anton Holban 6, București",
+  "lat": 44.476062,
+  "lng": 26.114986,
+  "osm": "way/1334250599"
+ },
+ "pois": [
+  {
+   "id": "metrou-pipera",
+   "name": "Metrou Pipera",
+   "kind": "Transport",
+   "icon": "metro",
+   "lat": 44.480613,
+   "lng": 26.116635,
+   "osm": "node/255387575",
+   "distance_m": 883,
+   "walk_min": 12,
+   "drive_min": 2
+  },
+  {
+   "id": "promenada",
+   "name": "Promenada Mall",
+   "kind": "Cumpărături",
+   "icon": "mall",
+   "lat": 44.478191,
+   "lng": 26.103413,
+   "osm": "Nominatim: shop/mall",
+   "distance_m": 1197,
+   "walk_min": 16,
+   "drive_min": 4
+  },
+  {
+   "id": "kaufland",
+   "name": "Kaufland",
+   "kind": "Cumpărături",
+   "icon": "shop",
+   "lat": 44.477174,
+   "lng": 26.12257,
+   "osm": "Nominatim: shop/supermarket",
+   "distance_m": 738,
+   "walk_min": 10,
+   "drive_min": 2
+  },
+  {
+   "id": "lacul-tei",
+   "name": "Lacul Tei",
+   "kind": "Natură",
+   "icon": "park",
+   "lat": 44.472541,
+   "lng": 26.12324,
+   "osm": "Nominatim: natural/water",
+   "distance_m": 267,
+   "walk_min": 4,
+   "drive_min": 1
+  },
+  {
+   "id": "world-class-caro",
+   "name": "World Class Caro",
+   "kind": "Sport",
+   "icon": "gym",
+   "lat": 44.474886,
+   "lng": 26.109926,
+   "osm": "node/7009728958",
+   "distance_m": 680,
+   "walk_min": 9,
+   "drive_min": 3
+  },
+  {
+   "id": "pescariu",
+   "name": "Clubul Pescariu Sports & SPA",
+   "kind": "Sport",
+   "icon": "gym",
+   "lat": 44.471806,
+   "lng": 26.110682,
+   "osm": "way/23583384",
+   "distance_m": 1484,
+   "walk_min": 20,
+   "drive_min": 4
+  },
+  {
+   "id": "fratellini",
+   "name": "Fratellini Bistro",
+   "kind": "Restaurant",
+   "icon": "cafe",
+   "lat": 44.472328,
+   "lng": 26.105734,
+   "osm": "Nominatim: amenity/restaurant",
+   "distance_m": 1415,
+   "walk_min": 19,
+   "drive_min": 3
+  },
+  {
+   "id": "parcul-verdi",
+   "name": "Parcul Verdi",
+   "kind": "Natură",
+   "icon": "park",
+   "lat": 44.470143,
+   "lng": 26.108052,
+   "osm": "Nominatim: leisure/park",
+   "distance_m": 1411,
+   "walk_min": 19,
+   "drive_min": 3
+  }
+ ]
+}

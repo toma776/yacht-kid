@@ -52,6 +52,8 @@ export async function loadChrome(ctx, alternates = {}) {
     const firma = await ctx.single('firma');
     const values = await tokenValues(ctx);
     const phone = firma?.phone ?? '';
+    // Broșura (PDF) e pusă pe hero-ul homepage-ului; subsolul o oferă pe toate paginile
+    const [withBrochure] = await ctx.query('sectiuni', {fields: ['brochure'], where: 'e.brochure_id IS NOT NULL', order: 'e.id', limit: 1});
     return {
       lang: ctx.lang, labels, values, alternates, home: localPath(ctx.lang),
       firma: firma && {
@@ -61,7 +63,8 @@ export async function loadChrome(ctx, alternates = {}) {
       },
       header: await resolveItems(ctx, menus.antet, labels, values),
       footer: await resolveItems(ctx, menus.subsol, labels, values),
-      contactHref: await resolveTo(ctx, menus.antet?.find(i => i.cta)?.to) ?? '#contact'
+      contactHref: await resolveTo(ctx, menus.antet?.find(i => i.cta)?.to) ?? '#contact',
+      brochure: withBrochure?.brochure ? ctx.media(withBrochure.brochure) : null
     };
   });
 }
