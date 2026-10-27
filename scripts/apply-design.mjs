@@ -374,7 +374,6 @@ for (const h of PAGE_HEROES) {
     tr: {ro: {...h.ro, buttons: [btn('Solicită ofertă', ref('pagini', P.contact)), btn('Video de prezentare', '#video')]},
       en: {...h.en, buttons: [btn('Get offer', ref('pagini', P.contact)), btn('Presentation video', '#video')]}}, ai: h.ai});
 }
-await saveEntity(db, 'pagini', P.tehnologie, {links: {sections: [heroIds['tehnologie-hero']]}}, {user: USER});
 
 // ---------- 7d. Comunitate: conținutul paginii vechi (/comunitate/, /en/community/) în stilul nou — capitole cu fotografii,
 // galeria de 10 fotografii, testimonialele rezidenților, vizionarea. Paragrafele RO/EN sunt de pe site-ul vechi;
@@ -415,6 +414,74 @@ const COMMUNITY = [
     ro: {eyebrow: 'Vizionare', heading: 'Descoperă stilul de viață visat în comunitatea YACHT KID.', buttons: [btn('Programează vizionare', ref('pagini', P.vizionare))]},
     en: {eyebrow: 'Viewing', heading: 'Discover your dream lifestyle at YACHT KID COMMUNITY', buttons: [btn('Schedule a viewing', ref('pagini', P.vizionare))]}}
 ];
+// ---------- 7e. Tehnologie: intro cu cele 6 tehnologii și furnizorii, apoi trei grupuri de capitole cu fotografii
+// (Structură și parcare subterană, Fațadă, Interior). Paragrafele vin neschimbate din pagina veche (snapshot), sub
+// titlul H2 al grupului; titlurile capitolelor sunt noi (EN = AI), la fel paragraful EN lipsă despre parchet.
+const oldHtml = file => readFile(join(process.cwd(), 'reference', 'snapshot', 'html', file), 'utf8');
+const decode = s => s.replace(/&#8217;|&rsquo;/g, '’').replace(/&#8216;/g, '‘').replace(/&#8211;/g, '–').replace(/&#8220;|&#8221;/g, '"')
+  .replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+async function parasUnder(file, heading) {
+  const h = (await oldHtml(file)).replace(/<(script|style|svg)[\s\S]*?<\/\1>/g, '');
+  const at = [...h.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)];
+  const i = at.findIndex(m => decode(m[1]) === heading);
+  if (i < 0) throw new Error(`Nu găsesc „${heading}” în ${file}`);
+  const part = h.slice(at[i].index, at[i + 1]?.index);
+  // Ultimul H2 („Programează vizionare!”) vine după subsol: linia de copyright nu e un paragraf al grupului
+  return [...part.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(m => decode(m[1])).filter(p => p.length > 40 && !/^Copyright/.test(p));
+}
+const [stRo, stEn, faRo, faEn, inRo, inEn] = await Promise.all([
+  parasUnder('tehnologie.html', 'Structură și parcare subterană'), parasUnder('en/technology.html', 'Structure and underground parking'),
+  parasUnder('tehnologie.html', 'Fațadă'), parasUnder('en/technology.html', 'Facade'),
+  parasUnder('tehnologie.html', 'Interior'), parasUnder('en/technology.html', 'Interior')]);
+if (stRo.length !== 5 || faRo.length !== 8 || inRo.length !== 4) throw new Error(`Pagina veche Tehnologie s-a schimbat: ${stRo.length}/${faRo.length}/${inRo.length} paragrafe`);
+const P_ = (...ps) => ps.map(p => `<p>${p}</p>`).join('');
+const img = async (file, alt) => `<figure><img data-media="${await mediaId(file)}" alt="${alt}"></figure>`;
+const techChapters = async (quote, list) => `<blockquote><p>${quote}</p></blockquote>` +
+  (await Promise.all(list.map(async ([t, body, f, alt]) => `<h3>${t}</h3>${body}${await img(f, alt)}`))).join('');
+const TECH_GROUPS = [
+  {key: 'tehnologie-structura', anchor: 'structura', ro: {eyebrow: 'Structură', heading: 'Structură și parcare subterană'}, en: {eyebrow: 'Structure', heading: 'Structure and underground parking'},
+    text: async lang => techChapters(lang === 'ro' ? stRo[0] : stEn[0], [
+      [lang === 'ro' ? 'Structură post-tensionată' : 'Post-tensioned structure', lang === 'ro' ? P_(stRo[1]) : P_(stEn[1]), '2024/10/colaj-yacht-kid-resize-_0002_colaj-yacht-kid-00002.jpg', 'Ansamblul YACHT KID, structura văzută din curte'],
+      [lang === 'ro' ? 'Panouri prefabricate, testate la INCERC' : 'Prefabricated panels, tested at INCERC', lang === 'ro' ? P_(stRo[2]) : P_(stEn[2]), '2024/10/YachtKID-Exterior-51.jpg', 'Fațada YACHT KID, cu anvelopa din panouri prefabricate'],
+      [lang === 'ro' ? 'Parcare protejată cu poliuree' : 'Parking protected with polyurea', lang === 'ro' ? P_(stRo[3]) : P_(stEn[3], stEn[4]), '2024/10/poza-yacht-website-v1-final.jpg', 'Curtea interioară, deasupra parcării subterane'],
+      [lang === 'ro' ? 'Costuri mici după mutare' : 'Low costs after you move in', lang === 'ro' ? P_(stRo[4]) : P_(stEn[5]), '2024/10/colaj-yacht-kid-resize-_0001_colaj-yacht-kid-00003.jpg', 'Spațiile comune YACHT KID']])},
+  {key: 'tehnologie-fatada', anchor: 'fatada', ro: {eyebrow: 'Anvelopă', heading: 'Fațadă'}, en: {eyebrow: 'Envelope', heading: 'Facade'},
+    text: async lang => techChapters(lang === 'ro' ? faRo[0] : faEn[0], [
+      [lang === 'ro' ? 'Lumină naturală, căldură sub control' : 'Natural light, heat under control', lang === 'ro' ? P_(faRo[1], faRo[2], faRo[3]) : P_(faEn[1], faEn[2]), '2024/10/3_camere_YachtKID-8130.jpg', 'Interior luminat de vitrajele mari Saint-Gobain'],
+      [lang === 'ro' ? 'Intradosul balcoanelor, din compozite' : 'Balcony undersides in composite', lang === 'ro' ? P_(faRo[4]) : P_(faEn[3]), '2024/10/YachtKID-Exterior-v12313.jpg', 'Balcoanele YACHT KID văzute de jos'],
+      [lang === 'ro' ? 'Balustrade de sticlă 10-2-10' : '10-2-10 glass railings', lang === 'ro' ? P_(faRo[5]) : P_(faEn[4]), '2024/10/homapage-hero-section-1-edit-scaled-1.jpg', 'Balcoanele cu balustrade de sticlă'],
+      [lang === 'ro' ? 'Fațade ventilate cu HPL' : 'Ventilated HPL facades', lang === 'ro' ? P_(faRo[6], faRo[7]) : P_(...faEn.slice(5)), '2024/10/hero-header-image-2048px-v2.jpg', 'Fațada ventilată YACHT KID']])},
+  {key: 'tehnologie-interior', anchor: 'interior', ro: {eyebrow: 'Finisaje', heading: 'Interior'}, en: {eyebrow: 'Finishes', heading: 'Interior'},
+    text: async lang => techChapters(lang === 'ro' ? inRo[3] : inEn[inEn.length - 1], [
+      [lang === 'ro' ? 'Tavan extensibil cu profil ascuns' : 'Stretch ceiling with a hidden profile', lang === 'ro' ? P_(inRo[0]) : P_(inEn[0]), '2024/11/yacht-kid-comunitate-edit-45-1.jpg', 'Living cu tavan extensibil, fără profile vizibile'],
+      [lang === 'ro' ? 'Gresie flotantă pe terase' : 'Floating tiles on terraces', lang === 'ro' ? P_(inRo[1]) : P_(inEn[1]), '2024/11/yacht-kid-apartamente-duplex-31.jpg', 'Terasele YACHT KID seara'],
+      [lang === 'ro' ? 'Parchet triplu stratificat' : 'Triple-layered parquet', lang === 'ro' ? P_(inRo[2]) : P_('Triple-layered parquet adds durability and comfort, combining luxury with functionality.'), '2024/11/4_camere_yacht-kid-apartamente-interior-design-1.jpg', 'Parchet triplu stratificat într-un apartament de 4 camere']])}
+];
+
+// Furnizorii din banda paginii vechi: partenerii existenți primesc logo-ul, ceilalți se adaugă (rol „furnizor”)
+const SUPPLIERS = [['Porcelanosa', 'POrcelanosa.png.webp'], ['Reynaers', 'Reynaers.jpg.webp'], ['Alias', 'alias-logo.jpg.webp'], ['Freyrom', 'freyrom-logo.jpg.webp'],
+  ['ISO CHEMIE', 'isochemie-logo.jpg.webp'], ['Laufen', 'laufen-logo.png.webp'], ['Nusco', 'nusco-logo.png.webp'], ['Schindler', 'schindler-logo.png.webp'], ['Tarkett', 'takett-logo.png.webp']];
+for (const [name, file] of SUPPLIERS) {
+  const logo = await mediaId(`2024/10/${file}`);
+  const found = await one(db, 'SELECT id, logo_id FROM partners WHERE name = ? COLLATE NOCASE', [name]);
+  if (found) { if (!found.logo_id) await saveEntity(db, 'parteneri', found.id, {base: {logo}}, {user: USER}); }
+  else await upsert('parteneri', `partener:${name.toLowerCase()}`, {base: {name, roles: ['furnizor'], logo}, status: 'published'});
+}
+const techIds = (await all(db, 'SELECT id FROM technologies ORDER BY id')).map(r => r.id);
+const techIntro = await upsert('sectiuni', 'sectiune:tehnologie-intro', {base: {kind: 'tehnologii', anchor: 'tehnologii'}, links: {technologies: techIds},
+  tr: {ro: {eyebrow: 'Tehnologie și finisaje de lux', heading: 'Pentru un stil de viață superior',
+      text: '<p>Proiectul Yacht KID este construit pe baza unor tehnologii de ultimă generație. Elementele decorative pentru intradosul balcoanelor sunt o premieră, fiind realizate din materiale compozite avansate, o abordare unică pe piața din România.</p><ul><li>Rezistență seismică superioară</li><li>Eficiență energetică ridicată</li><li>Tehnologii avansate pentru întreținere</li></ul>'},
+    en: {eyebrow: 'Luxury finishes and technology', heading: 'For a superior lifestyle',
+      text: '<p>The Yacht KID project is built on the basis of state-of-the-art technologies. The decorative elements for the soffit of the balconies are a first, being made from advanced composite materials, a unique approach on the Romanian market.</p><ul><li>Superior seismic resistance</li><li>High energy efficiency</li><li>Advanced technologies for maintenance</li></ul>'}}});
+const techSections = [heroIds['tehnologie-hero'], techIntro];
+for (const g of TECH_GROUPS)
+  techSections.push(await upsert('sectiuni', `sectiune:${g.key}`, {base: {kind: 'text', anchor: g.anchor},
+    tr: {ro: {...g.ro, text: await g.text('ro')}, en: {...g.en, text: await g.text('en')}}}));
+techSections.push(await upsert('sectiuni', 'sectiune:tehnologie-vizionare', {base: {kind: 'cta', anchor: 'vizionare', image: await mediaId('2024/10/YachtKID-Exterior-51.jpg')},
+  tr: {ro: {eyebrow: 'Vizionare', heading: 'Vezi de aproape detaliile care fac diferența', buttons: [btn('Programează vizionare', ref('pagini', P.vizionare))]},
+    en: {eyebrow: 'Viewing', buttons: [btn('Schedule a viewing', ref('pagini', P.vizionare))]}}, ai: {heading: 'See up close the details that make the difference'}}));
+await saveEntity(db, 'pagini', P.tehnologie, {links: {sections: techSections}}, {user: USER});
+
 const communityIds = [heroIds['comunitate-hero']];
 for (const s of COMMUNITY)
   communityIds.push(await upsert('sectiuni', `sectiune:${s.key}`, {base: {kind: s.kind, anchor: s.anchor, ...(s.base ?? {})}, tr: {ro: s.ro, en: s.en}, links: s.links, ai: s.ai ?? {}}));

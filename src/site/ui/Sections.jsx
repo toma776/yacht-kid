@@ -13,7 +13,7 @@ const Arrow = () => <Icon id="arrow"/>;
 const ICONS = [[/fa[țt]ad|facade/i, 'facade'], [/material/i, 'material'], [/piscin|pool/i, 'pool'], [/fonic|sound/i, 'sound'], [/promenad/i, 'promenade'],
   [/aerisit|airy/i, 'air'], [/paz[aă]|cctv|security/i, 'shield'], [/comercial/i, 'shop'], [/energie|energy|consum/i, 'energy'], [/incend|fire/i, 'fire'],
   [/condens/i, 'drop'], [/termic|thermal/i, 'thermal'], [/eficien|efficien/i, 'leaf'],
-  [/loca[țt]i|location/i, 'location'], [/vizibil|visib/i, 'visibility'], [/flexib/i, 'layout'], [/investi|profitab/i, 'growth']];
+  [/parchet|parquet/i, 'material'], [/loca[țt]i|location/i, 'location'], [/vizibil|visib/i, 'visibility'], [/flexib/i, 'layout'], [/investi|profitab/i, 'growth']];
 const iconFor = t => ICONS.find(([rx]) => rx.test(t ?? ''))?.[1] ?? 'leaf';
 
 async function buttons(ctx, s, values) {
@@ -483,6 +483,7 @@ async function Technologies({ctx, s, values}) {
   const points = [...(html.match(/<ul>([\s\S]*?)<\/ul>/)?.[1] ?? '').matchAll(/<li>([\s\S]*?)<\/li>/g)].map(m => strip(m[1]));
   const suppliers = await ctx.within(`Furnizori (${s.id})`, 'partenerii furnizori cu logo', () =>
     ctx.query('parteneri', {scope: `sectiuni:${s.id}`, where: `e.logo_id IS NOT NULL AND e.roles LIKE '%furnizor%'`, order: 'e.name COLLATE NOCASE'}));
+  const logos = await Promise.all(suppliers.map(async p => ({p, svg: (await ctx.item('media', p.logo, 'logo'))?.mime === 'image/svg+xml'})));
   const L = values.__labels ?? {};
   return (
     <section className="tech floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
@@ -497,7 +498,7 @@ async function Technologies({ctx, s, values}) {
         <ul className="tech-grid">
           {techs.map((t, i) => (
             <li key={t.id} className="tech-card reveal" style={{'--d': `${(i % 3) * 80}ms`}}>
-              {t.image && <span className="tech-icon"><img src={ctx.media(t.image)} alt="" loading="lazy"/></span>}
+              <span className="tech-icon">{t.image ? <img src={ctx.media(t.image)} alt="" loading="lazy"/> : <Icon id={iconFor(t.title)} className="icon"/>}</span>
               <h3 className="h3">{t.title}</h3>
               {t.summary && <p>{t.summary}</p>}
             </li>
@@ -507,7 +508,11 @@ async function Technologies({ctx, s, values}) {
           <div className="suppliers reveal">
             <p className="eyebrow">{L['furnizori'] ?? 'Furnizori și parteneri'}</p>
             <ul className="supplier-list">
-              {suppliers.map(p => <li key={p.id}>{p.url ? <a href={p.url} target="_blank" rel="noopener"><img src={ctx.media(p.logo)} alt={p.name} loading="lazy"/></a> : <img src={ctx.media(p.logo)} alt={p.name} loading="lazy"/>}</li>)}
+              {logos.map(({p, svg}) => {
+                // SVG-urile (mărci cu transparență, uneori albe) se desenează ca mască navy, ca banda de premii; restul, ca imagine
+                const mark = svg ? <span className="supplier-mask" role="img" aria-label={p.name} style={{'--logo': `url('${ctx.media(p.logo)}')`}}/> : <img src={ctx.media(p.logo)} alt={p.name} loading="lazy"/>;
+                return <li key={p.id}>{p.url ? <a href={p.url} target="_blank" rel="noopener">{mark}</a> : mark}</li>;
+              })}
             </ul>
           </div>
         )}
