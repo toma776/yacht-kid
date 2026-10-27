@@ -20,8 +20,8 @@ function MegaUnits({item, chrome}) {
       <ul className="mega-units">
         {item.children.filter(c => c.unit).map((c, i) => (
           <li key={c.unit.id}><a className="mega-unit" href={c.href}>
-            <span className="frame mega-frame">{c.unit.image && <img src={c.unit.image} alt="" decoding="async" loading="lazy"/>}<span className="mega-badge">{c.unit.area}</span></span>
-            <span className="mega-unit-meta"><span className="num">{num(i)}</span><span className="mega-unit-title">{c.unit.name}{c.unit.price && <small>{c.unit.price}</small>}</span><svg className="mega-go" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            <span className="frame mega-frame">{c.unit.image && <img src={c.unit.image} alt="" decoding="async" loading="lazy"/>}</span>
+            <span className="mega-unit-meta"><span className="num">{num(i)}</span><span className="mega-unit-title">{c.unit.name}{(c.unit.area || c.unit.price) && <small>{[c.unit.area, c.unit.price].filter(Boolean).join(' · ')}</small>}</span><svg className="mega-go" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a></li>
         ))}
       </ul>

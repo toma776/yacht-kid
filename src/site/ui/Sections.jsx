@@ -149,14 +149,13 @@ async function Facts({ctx, s, values}) {
   );
 }
 
-// Despre: textul are un citat (blockquote) și capitole (h3 + paragrafe + o figură cu legenda „Cifră — explicație”)
+// Despre: textul are un citat (blockquote) și capitole (h3 + paragrafe + o figură)
 async function Chapters({ctx, s, values, html, run = 0}) {
   const quote = html.match(/<blockquote>([\s\S]*?)<\/blockquote>/)?.[1];
   const parts = html.split(/<h3>/).slice(1).map(p => {
     const title = strip(p.slice(0, p.indexOf('</h3>')));
     const fig = p.match(/<figure>([\s\S]*?)<\/figure>/)?.[1] ?? '';
-    const [chipB, chipS] = strip(fig.match(/<figcaption>([\s\S]*?)<\/figcaption>/)?.[1]).split(/\s+[—–-]\s+/);
-    return {title, body: p.slice(p.indexOf('</h3>') + 5).replace(/<figure>[\s\S]*?<\/figure>/, ''), img: fig.match(/src="([^"]+)"/)?.[1], alt: fig.match(/alt="([^"]*)"/)?.[1] ?? '', chipB, chipS};
+    return {title, body: p.slice(p.indexOf('</h3>') + 5).replace(/<figure>[\s\S]*?<\/figure>/, ''), img: fig.match(/src="([^"]+)"/)?.[1], alt: fig.match(/alt="([^"]*)"/)?.[1] ?? ''};
   });
   const [b1] = await buttons(ctx, s, values);
   return (
@@ -185,7 +184,6 @@ async function Chapters({ctx, s, values, html, run = 0}) {
             {parts.map((c, i) => (
               <figure key={i} className={`chapter-figure ${i === 0 ? 'is-active' : ''}`} data-figure={i} aria-hidden={i === 0 ? undefined : true}>
                 {c.img && <img src={c.img} alt={c.alt} loading="lazy"/>}
-                {c.chipB && <figcaption className="chapter-chip"><b>{c.chipB}</b><span>{c.chipS}</span></figcaption>}
               </figure>
             ))}
           </div>
