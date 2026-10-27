@@ -866,7 +866,8 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .unit-pill b { color: var(--navy); }
 .unit-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
 .unit-cover { aspect-ratio: 4 / 5; max-height: 72vh; }
-.unit-facts { display: grid; grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr)); margin-bottom: clamp(48px, 5vw, 72px); border: 1px solid var(--line); border-radius: var(--r-l); background: var(--paper); overflow: hidden; }
+/* Jos: placa următoare (Despre) urcă cu --r-band peste fișă; spațiul o acoperă, ca fișa să rămână întreagă */
+.unit-facts { display: grid; grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr)); margin-bottom: calc(var(--r-band) + clamp(40px, 4vw, 64px)); border: 1px solid var(--line); border-radius: var(--r-l); background: var(--paper); overflow: hidden; }
 .unit-facts > div { display: grid; gap: 6px; padding: clamp(16px, 1.8vw, 26px); }
 .unit-facts > div + div { border-left: 1px solid var(--line); }
 .unit-facts dt { font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
