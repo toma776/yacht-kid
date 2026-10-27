@@ -105,3 +105,15 @@ test('o înregistrare nouă începe ca ciornă și nu se publică fără câmpur
   await saveEntity(db, 'afaceri', id, {base: {state: 'deschis'}, status: 'published'});
   assert.equal((await one(db, 'SELECT status FROM businesses WHERE id = ?', [id])).status, 'published');
 });
+
+test('hero-ul standard: titlul prea lung e refuzat în limba salvată, avertisment în cealaltă', async () => {
+  const id = await createEntity(db, 'sectiuni', {base: {kind: 'hero'}, tr: {ro: {heading: 'Titlu scurt'}, en: {heading: 'Short title'}}}, {user: 'Toma'});
+  const long = 'Extinde-ți afacerea într-o locație de top din nordul Bucureștiului!';
+  await assert.rejects(saveEntity(db, 'sectiuni', id, {tr: {ro: {heading: long}}}, {user: 'Toma'}), /Titlul hero-ului \(ro\)/);
+  // Un EN prea lung (scris direct în bază, ca o traducere veche) nu blochează o corectură în RO
+  await db.execute({sql: `UPDATE sections_translations SET heading = ? WHERE entity_id = ? AND lang = 'en'`, args: [long, id]});
+  await saveEntity(db, 'sectiuni', id, {tr: {ro: {heading: 'Alt titlu scurt'}}}, {user: 'Toma'});
+  // Altor feluri de secțiuni nu li se aplică
+  const t = await createEntity(db, 'sectiuni', {base: {kind: 'text'}, tr: {ro: {heading: long}}}, {user: 'Toma'});
+  assert.ok(t);
+});
