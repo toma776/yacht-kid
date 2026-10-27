@@ -132,8 +132,8 @@ body.mega-on .site-header .nav > ul > li > a:hover { opacity: 1; }
 .menu-toggle[aria-expanded="true"] span:nth-child(1) { top: 23px; transform: rotate(45deg); }
 .menu-toggle[aria-expanded="true"] span:nth-child(2) { top: 23px; left: 15px; transform: rotate(-45deg); }
 
-/* După ce pagina a coborât sub hero, antetul devine o bandă albă, translucidă */
-.site-header.is-solid { background: rgb(241 241 240 / .86); color: var(--ink); backdrop-filter: saturate(1.4) blur(20px); -webkit-backdrop-filter: saturate(1.4) blur(20px); box-shadow: 0 1px 0 var(--line); }
+/* Antetul e o bandă albă, opacă, distinctă de conținut (și peste hero) */
+.site-header.is-solid { background: var(--paper); color: var(--ink); box-shadow: 0 1px 0 var(--line), 0 6px 20px rgb(20 32 68 / .06); }
 .site-header.is-solid .header-inner { height: 72px; }
 .site-header.is-solid .logo-light { opacity: 0; }
 .site-header.is-solid .logo-dark { opacity: 1; }
@@ -914,14 +914,15 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 
 /* Hero-ul „card” (homepage): fotografia într-un card rotunjit; broșura stă peste marginea lui de jos, în dreapta */
 /* Jos: loc pentru cardul broșurii, care iese sub fotografie (~45% din înălțimea lui), plus placa secțiunii următoare */
-.hero-card-wrap { padding-top: 0; padding-bottom: calc(clamp(40px, 4vw, 72px) + var(--r-band)); }
+/* Sus: înălțimea antetului alb (72px), ca fotografia să pornească sub el */
+.hero-card-wrap { padding-top: 72px; padding-bottom: calc(clamp(40px, 4vw, 72px) + var(--r-band)); }
 .hero-card-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: auto auto; }
-.hero-card { position: relative; grid-column: 1 / -1; grid-row: 1; min-height: 100vh; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; overflow: hidden; color: #fff; isolation: isolate; }
-/* Pe toată lățimea ecranului, sub antetul transparent: cardul iese din .wrap cu margini negative, iar umplutura
+.hero-card { position: relative; grid-column: 1 / -1; grid-row: 1; min-height: min(calc(100vh - 72px), 880px); min-height: min(calc(100svh - 72px), 880px); display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; overflow: hidden; color: #fff; isolation: isolate; }
+/* Pe toată lățimea ecranului: cardul iese din .wrap cu margini negative, iar umplutura
    egală readuce conținutul pe coloana paginii (procentele sunt din lățimea coloanei, nu a cardului).
    cqw în loc de vw: lățimea secțiunii nu include bara de derulare, deci nu apare derulare orizontală. */
 .hero-card-wrap { container-type: inline-size; }
-.hero-card { margin-inline: calc(50% - 50cqw); padding: 84px calc(50cqw - 50%) 0; }
+.hero-card { margin-inline: calc(50% - 50cqw); padding-inline: calc(50cqw - 50%); }
 .hero-card-img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
 .hero-card::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(100deg, rgb(20 32 68 / .82) 0%, rgb(32 54 108 / .6) 38%, rgb(32 54 108 / .12) 70%, rgb(32 54 108 / 0) 100%), linear-gradient(0deg, rgb(20 32 68 / .45) 0%, transparent 40%); }
 .hero-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding: clamp(24px, 3.4vw, 48px) clamp(24px, 5vw, 80px) 0; }
@@ -955,17 +956,35 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .brochure-actions .btn svg { width: 20px; height: 20px; }
 .hero-card-next { grid-column: 1; grid-row: 2; justify-self: end; margin: clamp(20px, 2.4vw, 32px) clamp(24px, 3vw, 48px) 0 0; display: inline-flex; align-items: center; gap: 12px; font-size: .875rem; color: var(--ink-2); }
 .hero-card-next svg { width: 40px; height: 14px; }
+/* Ecrane joase (laptopuri): același hero, cu textul și spațiile mai strânse, ca să încapă fără derulare */
+@media (max-height: 820px) and (min-width: 1101px) {
+  .hero-card-top { padding-top: 24px; }
+  .hero-card-body { gap: 14px; padding-block: 20px 36px; }
+  .hero-card-title { font-size: clamp(2rem, 1.2rem + 2.4vw, 3.25rem); }
+  .hero-card-facts dd { font-size: 1.375rem; }
+}
+/* Ecrane mici: hero-ul are înălțimea conținutului, nu a ecranului */
 @media (max-width: 1100px) {
+  .hero-card { min-height: 0; }
+  .hero-card-top { padding-top: 20px; }
+  .hero-card-body { gap: 16px; padding-block: 48px 32px; }
   .hero-card-grid { grid-template-columns: 1fr; }
   .hero-card-body { max-width: none; }
   .brochure-card { grid-column: 1; grid-row: 2; justify-self: center; width: min(100%, 420px); margin: -40px 0 0; transform: none; padding-top: 150px; margin-top: 110px; }
   .hero-card-next { grid-row: 3; justify-self: center; margin-right: 0; }
 }
 @media (max-width: 640px) {
-  .hero-card { min-height: 640px; }
-  .hero-card-top { flex-direction: column; }
-  .hero-card-office { text-align: left; }
-  .hero-card-title { font-size: 1.875rem; }
+  .hero-card-top { padding-inline: var(--gutter); }
+  .hero-card-map { padding: 9px 16px; font-size: .875rem; }
+  .hero-card-office { display: none; }
+  .hero-card-body { gap: 12px; padding: 40px var(--gutter) 24px; }
+  .hero-card-title { font-size: 1.75rem; }
+  .hero-card-body .subhead { font-size: 1.0625rem; }
+  .hero-card-facts { gap: 8px 28px; }
+  .hero-card-facts dd { font-size: 1.25rem; }
+  .hero-card-body .status { height: 32px; font-size: .75rem; }
+  .hero-card-body .hero-actions { width: 100%; }
+  .hero-card-body .hero-actions .btn { flex: 1 1 auto; justify-content: center; }
   .hero-card-grid { grid-template-columns: minmax(0, 1fr); }
 }
 

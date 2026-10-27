@@ -72,7 +72,7 @@ export async function renderPublic(lang, segments) {
     <>
       <IconSprite/>
       <a className="skip" href="#continut">{chrome.labels['sari-la-continut'] ?? 'Sari la conținut'}</a>
-      <Header chrome={chrome} solid={!hero}/>
+      <Header chrome={chrome} solid/>
       <main id="continut" className={hero ? undefined : 'no-hero'}>
         {composed ? <Sections ctx={ctx} owner={hit.key} pageId={hit.id} values={values} chrome={chrome}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
       </main>

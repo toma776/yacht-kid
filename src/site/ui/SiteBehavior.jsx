@@ -15,14 +15,10 @@ function init(signal) {
   const hero = document.querySelector('.hero, .hero-card');
   if (!header) return () => {};
 
-  // ---------- Antetul: transparent peste hero, bandă albă după (rămâne mereu pe ecran).
-  // Fără hero (paginile interioare), antetul e bandă albă de la început.
+  // ---------- Antetul: bandă albă de la început, pe toate paginile (rămâne mereu pe ecran).
   if (!hero) document.body.classList.add('no-hero');
   function onScroll() {
     const y = scrollY;
-    const pastHero = hero ? y > hero.offsetHeight - 120 : y > 120;
-    const megaOpen = header.classList.contains('mega-open');
-    header.classList.toggle('is-solid', !hero || megaOpen || (y > 40 && (pastHero || y > innerHeight * .5)));
     document.body.classList.toggle('past-hero', !hero || y > innerHeight * .6);
   }
   on(window, 'scroll', onScroll, {passive: true});
