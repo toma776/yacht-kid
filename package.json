@@ -1,0 +1,12 @@
+{
+  "name": "yacht-kid",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=24"},
+  "scripts": {
+    "crawl": "node scripts/crawl.mjs",
+    "analyze": "node scripts/analyze.mjs",
+    "schema": "node scripts/schema.mjs",
+    "test": "node --test --disable-warning=ExperimentalWarning"
+  }
+}

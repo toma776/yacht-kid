@@ -143,7 +143,7 @@ Pe homepage, lista „cafenea, magazin alimentar, salon, clinică stomatologică
 | **`cereri`** (`operational`) | solicitările trimise; azi pleacă spre HubSpot și email (FluentSMTP). **De lămurit:** ținem copia în Brain? |
 | **`media`** | 576 de fișiere; `alt` e **traductibil** (o imagine, două texte alternative) |
 | **`redirectari`** | 301 din adresele vechi: `/testimonial/*`, `/?p=<id>`, `/wp-content/uploads/*`, `/category/*/page/*`, `/author/*` |
-| **`pagini-legale`** | Termeni, Confidențialitate, Cookies: `pagini` cu text bogat. Datele firmei din ele devin jetoane (`{cui}`, `{sediu}`), ca să nu mai poată diferi de Date firmă. |
+| Pagini legale | Termeni, Confidențialitate, Cookies: `pagini` cu șablonul `legal` și text bogat (nu un tip separat). Datele firmei din ele devin jetoane (`{cui}`, `{sediu}`), ca să nu mai poată diferi de Date firmă. |
 
 ---
 
