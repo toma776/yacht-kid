@@ -39,8 +39,17 @@ for (const p of POIS) {
   console.log(`  ✓ ${p.name}: ${foot.m} m · ${foot.min} min pe jos · ${car.min} min cu mașina`);
 }
 // Conturul clădirii (calea OSM a lui HOME), ca poligon GeoJSON; înălțimea din building:levels (~3,2 m pe etaj)
-const ov = await (await fetch('https://overpass-api.de/api/interpreter', {method: 'POST', headers: {'user-agent': UA, 'content-type': 'application/x-www-form-urlencoded'},
-  body: 'data=' + encodeURIComponent('[out:json];way(${HOME.osm.split("/")[1]});out geom tags;')})).json();
+// Serverele Overpass sunt des supraîncărcate: încearcă pe rând oglinzile
+async function overpass(query) {
+  for (const host of ['https://overpass-api.de', 'https://lz4.overpass-api.de', 'https://overpass.kumi.systems'])
+    for (let i = 0; i < 2; i++) {
+      const r = await fetch(`${host}/api/interpreter`, {method: 'POST', headers: {'user-agent': UA, 'content-type': 'application/x-www-form-urlencoded'}, body: 'data=' + encodeURIComponent(query)});
+      if (r.ok) return r.json();
+      await sleep(3000);
+    }
+  throw new Error('Overpass nu răspunde');
+}
+const ov = await overpass(`[out:json];way(${HOME.osm.split('/')[1]});out geom tags;`);
 const way = ov.elements[0];
 HOME.levels = +way.tags['building:levels'] || 10;
 HOME.footprint = {type: 'Polygon', coordinates: [way.geometry.map(p => [+p.lon.toFixed(7), +p.lat.toFixed(7)])]};
