@@ -15,8 +15,8 @@
     },
     {
       "name": "yacht-kid-existing",
-      "url": "http://localhost:3002",
-      "port": 3002
+      "url": "http://localhost:3001",
+      "port": 3001
     },
     {
       "name": "yacht-kid-offline",
