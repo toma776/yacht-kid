@@ -34,6 +34,9 @@ export default async function ManageLayout({children}) {
     {title: 'Site', items: [
       {href: '/manage/media/', label: 'Media', icon: 'media', n: n.media},
       {href: '/manage/entitati/cereri/', label: 'Cereri', icon: 'cereri', n: n.leads}
+    ]},
+    {title: 'Identitate', items: [
+      {href: '/manage/branding/', label: 'Branding', icon: 'branding'}
     ]}
   ];
   const turso = !!process.env.TURSO_DATABASE_URL;

@@ -9,6 +9,7 @@ import {fileURLToPath} from 'node:url';
 import {localFile} from './mirror.mjs';
 
 const SNAPSHOT = fileURLToPath(new URL('../reference/snapshot/', import.meta.url));
+const DESIGN = fileURLToPath(new URL('../design/', import.meta.url));
 const PORT = Number(process.argv[process.argv.indexOf('--port') + 1]) || 4000;
 const manifest = JSON.parse(await readFile(join(SNAPSHOT, 'manifest.json'), 'utf8'));
 
@@ -28,6 +29,11 @@ const stripTrackers = html => html
   .replace(/<link\b[^>]*>/gi, tag => TRACKERS.test(tag) ? '' : tag);
 
 async function resolve(pathname) {
+  // Prototipurile de design (design/) folosesc aceleași imagini, de la aceleași adrese
+  if (pathname.startsWith('/design/')) {
+    const file = join(DESIGN, decodeURIComponent(pathname.slice('/design/'.length)), pathname.endsWith('/') ? 'index.html' : '');
+    return file.startsWith(DESIGN) && await isFile(file) ? {file} : null;
+  }
   if (/^\/wp-(content|includes)\//.test(pathname)) {
     const {media, asset} = localFile(pathname);
     for (const f of [media, asset]) if (f && await isFile(f)) return {file: f};
