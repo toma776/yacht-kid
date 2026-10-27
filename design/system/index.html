@@ -35,8 +35,9 @@
 <main class="wrap">
   <section class="doc-hero">
     <p class="eyebrow">YACHT KID · Design system</p>
-    <h1 class="display">Strata</h1>
-    <p class="lead" style="max-width:52ch;margin-top:24px">Un sistem vizual care pornește din fațada ansamblului: benzi albe continue, colțuri cu rază mare, sticlă între benzi, o bază grea și închisă. Pagina se citește ca o clădire: secțiuni-etaj, linii-rost, un soclu la final.</p>
+    <h1 class="display ruled">Strata</h1>
+    <p class="subhead" style="max-width:40ch;margin-top:24px">Identitatea Yacht KID, aplicată pe arhitectura ansamblului.</p>
+    <p class="lead" style="max-width:60ch;margin-top:16px">Un sistem vizual care pornește din fațada ansamblului: benzi albe continue, colțuri cu rază mare, sticlă între benzi, o bază grea și închisă. Pagina se citește ca o clădire: secțiuni-etaj, linii-rost, un soclu la final.</p>
   </section>
 
   <section class="doc-section">
@@ -45,48 +46,62 @@
       <li><h3 class="h3">Benzi, nu blocuri</h3><p>Secțiunile sunt etaje orizontale. Una nouă urcă peste cea de dinainte, cu capetele rotunjite ca placa unui balcon.</p></li>
       <li><h3 class="h3">Aer</h3><p>Spațiul gol e material de construcție. Între secțiuni, între 104 și 200 px; textul nu trece de 60 de caractere pe rând.</p></li>
       <li><h3 class="h3">Rosturi fine</h3><p>Liniile de 1 px despart conținutul așa cum rosturile despart panourile fațadei. Fără umbre grele, fără chenare.</p></li>
-      <li><h3 class="h3">Un singur val</h3><p>Valul din logo e singurul ornament: în etichete și în liniile de strat. Albastrul lui e singurul accent cromatic.</p></li>
+      <li><h3 class="h3">Valul și coralul</h3><p>Valul din logo, în periwinkle, e singurul ornament: în etichete și în liniile de strat. Coralul marchează acțiunea: butoane, sublinieri, subtitluri.</p></li>
     </ul>
   </section>
 
   <section class="doc-section">
-    <header><h2 class="h3">Culori</h2><p>Materialele clădirii: porțelanul fațadei, sticla, bleumarinul brandului, soclul închis. Accentul vine doar din val.</p></header>
+    <header><h2 class="h3">Culori</h2><p>Din brandbook (pagina 8): paleta primară Navy și Antracit, paleta secundară Periwinkle, Coral și Gri. Ultimele trei sunt derivate: aceleași nuanțe, mai închise, ca textul mic să treacă testul de contrast AA.</p></header>
+    <div style="display:grid;gap:28px">
+    <p class="eyebrow">Paleta primară</p>
     <div class="swatches">
-      <div class="swatch"><i style="background:var(--porcelain)"></i><div><b>Porcelain</b><code>--porcelain #f6f5f1</code><span class="muted">Fundalul paginii</span></div></div>
-      <div class="swatch"><i style="background:var(--paper)"></i><div><b>Paper</b><code>--paper #ffffff</code><span class="muted">Benzile luminate, carduri</span></div></div>
-      <div class="swatch"><i style="background:var(--shell)"></i><div><b>Shell</b><code>--shell #ecebe6</code><span class="muted">Banda în umbră</span></div></div>
-      <div class="swatch"><i style="background:var(--glass)"></i><div><b>Glass</b><code>--glass #dfe7ec</code><span class="muted">Fundal imagini</span></div></div>
-      <div class="swatch"><i style="background:var(--ink)"></i><div><b>Ink</b><code>--ink #0a2434</code><span class="muted">Text, butoane</span></div></div>
-      <div class="swatch"><i style="background:var(--ink-2)"></i><div><b>Ink 2</b><code>--ink-2 #3b5260</code><span class="muted">Text secundar</span></div></div>
-      <div class="swatch"><i style="background:var(--ink-3)"></i><div><b>Ink 3</b><code>--ink-3 #74858f</code><span class="muted">Etichete</span></div></div>
-      <div class="swatch"><i style="background:var(--plinth)"></i><div><b>Plinth</b><code>--plinth #061923</code><span class="muted">Soclul: subsol, secțiuni de noapte</span></div></div>
-      <div class="swatch"><i style="background:var(--wave)"></i><div><b>Wave</b><code>--wave #9cb0fe</code><span class="muted">Valul din logo: accent</span></div></div>
+      <div class="swatch"><i style="background:var(--navy)"></i><div><b>Navy</b><code>#20366C</code><span class="muted">Titluri, text, secțiuni pline</span></div></div>
+      <div class="swatch"><i style="background:var(--antracit)"></i><div><b>Antracit</b><code>#24262E</code><span class="muted">Soclul: subsolul</span></div></div>
+    </div>
+    <p class="eyebrow">Paleta secundară</p>
+    <div class="swatches">
+      <div class="swatch"><i style="background:var(--periwinkle)"></i><div><b>Periwinkle</b><code>#8397E5</code><span class="muted">Valul: accente pe deschis</span></div></div>
+      <div class="swatch"><i style="background:var(--periwinkle-light)"></i><div><b>Periwinkle deschis</b><code>#9CB0FE</code><span class="muted">Accente pe navy</span></div></div>
+      <div class="swatch"><i style="background:var(--coral)"></i><div><b>Coral</b><code>#E8895C</code><span class="muted">Butoane, sublinieri</span></div></div>
+      <div class="swatch"><i style="background:var(--coral-light)"></i><div><b>Coral deschis</b><code>#F9AB86</code><span class="muted">Subtitluri pe închis</span></div></div>
+      <div class="swatch"><i style="background:var(--gray)"></i><div><b>Gri</b><code>#D8DADB</code><span class="muted">Separatoare</span></div></div>
+      <div class="swatch"><i style="background:var(--gray-light)"></i><div><b>Gri deschis</b><code>#FBFBFB</code><span class="muted">Fundaluri deschise</span></div></div>
+      <div class="swatch"><i style="background:var(--porcelain)"></i><div><b>Fundal</b><code>#F1F1F0</code><span class="muted">Fundalul brandbook-ului: pagina</span></div></div>
+    </div>
+    <p class="eyebrow">Derivate pentru text</p>
+    <div class="swatches">
+      <div class="swatch"><i style="background:var(--coral-ink)"></i><div><b>Coral text</b><code>#A9532C</code><span class="muted">Subtitluri, etichete pe deschis · 4.7:1</span></div></div>
+      <div class="swatch"><i style="background:var(--navy-2)"></i><div><b>Navy 2</b><code>#4A5A8A</code><span class="muted">Text secundar · 6:1</span></div></div>
+      <div class="swatch"><i style="background:var(--navy-3)"></i><div><b>Navy 3</b><code>#5F6C94</code><span class="muted">Etichete · 4.6:1</span></div></div>
+    </div>
     </div>
   </section>
 
   <section class="doc-section">
-    <header><h2 class="h3">Tipografie</h2><p>Manrope, găzduit local, cu diacriticele românești (ș, ț). Titluri subțiri (300), strânse; etichete spațiate, cu majuscule.</p></header>
+    <header><h2 class="h3">Tipografie</h2><p>Montserrat (brandbook, pagina 9): Headline Bold cu 5% spațiere, Sub headline Light în coral, text Light în navy. Găzduit local, cu ș și ț.</p></header>
     <div>
-      <div class="type-row"><code>Display<br>300 · −4.5%</code><p class="display" style="font-size:clamp(2.5rem,6vw,5.5rem)">Un nou standard</p></div>
-      <div class="type-row"><code>H2<br>300 · −3.5%</code><p class="h2">Colecția de Apartamente</p></div>
-      <div class="type-row"><code>H3<br>500</code><p class="h3">Patent de invenție pentru fațade</p></div>
-      <div class="type-row"><code>Lead<br>300</code><p class="lead">Descoperă locuința care îți schimbă perspectiva asupra luxului.</p></div>
-      <div class="type-row"><code>Body<br>400 · 17px</code><p class="body">Rezidenții beneficiază de o comunitate complet integrată, care include o cafenea la parter cu livrare direct în apartamente.</p></div>
-      <div class="type-row"><code>Eyebrow<br>600 · +22%</code><p class="eyebrow">Despre YACHT KID</p></div>
+      <div class="type-row"><code>Display<br>Bold · 5% LS</code><p class="display" style="font-size:clamp(2rem,4.6vw,4.5rem)"><span class="mark">Experimentează</span> un nou standard</p></div>
+      <div class="type-row"><code>Headline<br>Bold · 5% LS</code><p class="h2 ruled">Colecția de Apartamente</p></div>
+      <div class="type-row"><code>H3<br>Bold · 3% LS</code><p class="h3">Patent de invenție pentru fațade</p></div>
+      <div class="type-row"><code>Sub headline<br>Light · 0% · coral</code><p class="subhead">Descoperă locuința care îți schimbă perspectiva asupra luxului.</p></div>
+      <div class="type-row"><code>Lead<br>Light · navy</code><p class="lead">Finisajele moderne, materialele de calitate superioară și tehnologia de ultimă generație.</p></div>
+      <div class="type-row"><code>Body<br>Light · 17px</code><p class="body">Rezidenții beneficiază de o comunitate complet integrată, care include o cafenea la parter cu livrare direct în apartamente.</p></div>
+      <div class="type-row"><code>Eyebrow<br>SemiBold · 22% LS</code><p class="eyebrow">Despre YACHT KID</p></div>
       <div class="type-row"><code>Cifră</code><p class="fact"><span class="fact-value num">10.000<small>m²</small></span><span class="fact-label">Acces direct la un parc de 10.000 m²</span></p></div>
     </div>
   </section>
 
   <section class="doc-section">
-    <header><h2 class="h3">Butoane și legături</h2><p>Pastilă de 56 px cu un cerc-săgeată care se rotește la hover, ca o busolă.</p></header>
+    <header><h2 class="h3">Butoane și legături</h2><p>Pastilă de 56 px, coral ca în machetele brandbook-ului, cu text navy (albul pe coral are contrast 2.6:1). Cercul-săgeată se rotește la hover, ca o busolă.</p></header>
     <div style="display:grid;gap:24px">
       <div class="row">
         <a class="btn" href="#">Solicită ofertă <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
+        <a class="btn btn--navy" href="#">Trimite solicitare <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
         <a class="btn btn--ghost" href="#">Descoperă tehnologia <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
         <a class="link-arrow" href="#">Află mai multe <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
       </div>
-      <div class="panel-dark row on-dark">
-        <a class="btn btn--light" href="#">Solicită ofertă <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
+      <div class="panel-dark row on-dark" style="background:var(--navy)">
+        <a class="btn" href="#">Solicită ofertă <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></a>
         <a class="btn btn--glass" href="#">Video de prezentare <span class="btn-icon"><svg viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="currentColor"/></svg></span></a>
         <span class="eyebrow">Etichetă pe fundal închis</span>
       </div>
