@@ -10,7 +10,7 @@ export default async function Media({searchParams}) {
   const all = (await mediaItems(await getDb())).map(m => ({...m, tags: m.tags ? JSON.parse(m.tags) : []}));
   const isImg = m => m.mime.startsWith('image/');
   const PRED = {'': () => true, 'fara-alt': m => isImg(m) && !m.alt_ro, 'fara-alt-en': m => isImg(m) && !m.alt_en, video: m => !isImg(m),
-    exterior: m => m.filename.startsWith('foto/exterior/'), interior: m => m.filename.startsWith('foto/interior/'), 'fara-etichete': m => isImg(m) && !m.tags.length};
+    exterior: m => m.tags.includes('exterior'), interior: m => m.tags.includes('interior'), 'fara-etichete': m => isImg(m) && !m.tags.length};
   const items = all.filter(PRED[f] ?? PRED['']);
   return (
     <>
