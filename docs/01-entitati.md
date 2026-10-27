@@ -68,7 +68,7 @@ Coloana „Trad.” arată ce câmpuri se traduc. Tot restul e scris o singură 
 
 **Premiile găsite:** Iconic Awards 2025 (câștigător), German Design Awards 2025 (Excellent Architecture), Built Design Awards 2024 (mențiune onorabilă), Architecture Masterprize 2024 (Honorable Mention), Saint-Gobain Trophy 2024 (premiul special al juriului), SHARE Architecture Awards 2024 (lista scurtă).
 
-Textul „premiat la **5** competiții” corespunde, dacă lista scurtă SHARE nu se numără. În Brain, numărul devine jetonul `{nr_premii}` = numărul premiilor publicate cu distincția „câștigat”. Un premiu nou schimbă singur textul de pe toate paginile ([§3.2](../standard), dependență `query`).
+Textul „premiat la **5** competiții” corespunde, dacă lista scurtă SHARE nu se numără. În Brain, numărul devine jetonul `{nr_premii}` = numărul premiilor publicate cu distincția „câștigat”. Un premiu nou schimbă singur textul de pe toate paginile (standard §3.2, dependență `query`).
 
 ### 3.2 Imobiliar
 
@@ -217,7 +217,7 @@ Raport: `analysis/repeated.json` (56 de paragrafe repetate, 29 de secțiuni Bric
 | „Descoperă și alte tipuri de apartamente…” | 4 pagini de tip | secțiunea `alte-locuinte` (toate tipurile, fără cel curent) |
 | Citatele „Rezident YACHT KID” | 4 pagini | testimoniale anonime, trimise |
 | Cardurile afacerilor (logo, domeniu, link) | `/spatii-comerciale/`, `/community-card-concept/` + EN | secțiunea `afaceri`, filtrată (toate / membri card) |
-| Opțiunile „tip apartament” din formular | 10 formulare | din `locuinte` |
+| Opțiunile „tip apartament” din formular | formularele de pe 14 pagini | din `locuinte` |
 
 ---
 
