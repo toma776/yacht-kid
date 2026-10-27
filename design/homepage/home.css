@@ -599,7 +599,7 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 .proof-head { display: grid; gap: 12px; justify-items: start; }
 .proof-title { font-size: clamp(1.0625rem, .95rem + .4vw, 1.25rem); font-weight: 700; letter-spacing: .04em; line-height: 1.35; max-width: 20ch; }
 .proof-head .link-arrow { font-size: .8125rem; }
-.proof-list { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-block: 1px solid var(--line); }
+.proof-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-block: 1px solid var(--line); }
 .proof-item + .proof-item { border-left: 1px solid var(--line); }
 .proof-item a { display: grid; justify-items: center; gap: 14px; padding: 26px 14px 22px; height: 100%; transition: background var(--t) var(--ease-soft); }
 .proof-logo {
