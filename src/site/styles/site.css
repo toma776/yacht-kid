@@ -906,3 +906,6 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
   .other-units a { grid-template-columns: 1fr; }
   .other-units .frame { aspect-ratio: 16 / 10; }
 }
+/* „Alte apartamente” și contactul au același fundal: un singur spațiu între ele, nu două spații de secțiune */
+.unit-others { padding-bottom: clamp(40px, 4.5vw, 72px); }
+.unit-others + .contact { padding-top: 0; }
