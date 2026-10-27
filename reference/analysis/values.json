@@ -1,0 +1,291 @@
+{
+ "suprafață_mp": [
+  {
+   "value": "10,000 sqm",
+   "pages": 24,
+   "variants": {
+    "10,000 sqm": 28
+   },
+   "example": [
+    "/en/yacht-kid-share-architecture-awards-2024/",
+    "/en/author/s360_yachtkid/",
+    "/en/an-impressive-10000-sqm-park-at-yacht-kid-setting-a-new-standard-for-lakeside-living/",
+    "/en/froo-store-joins-the-yacht-kid-community-everyday-comfort-right-at-home/",
+    "/en/florit-brings-a-new-wellness-concept-to-the-yacht-kid-community/"
+   ]
+  },
+  {
+   "value": "10.000 mp",
+   "pages": 5,
+   "variants": {
+    "10.000 mp": 9
+   },
+   "example": [
+    "/un-parc-impresionant-de-10-000-mp-la-yacht-kid-un-nou-standard-de-lifestyle-la-malul-lacului/",
+    "/blog/",
+    "/",
+    "/category/noutati/page/2/",
+    "/author/s360_yachtkid/"
+   ]
+  },
+  {
+   "value": "61.9 MP",
+   "pages": 1,
+   "variants": {
+    "61.9 MP": 1
+   },
+   "example": [
+    "/prezentare/"
+   ]
+  },
+  {
+   "value": "87.6 MP",
+   "pages": 1,
+   "variants": {
+    "87.6 MP": 1
+   },
+   "example": [
+    "/prezentare/"
+   ]
+  },
+  {
+   "value": "136 MP",
+   "pages": 1,
+   "variants": {
+    "136 MP": 2
+   },
+   "example": [
+    "/prezentare/"
+   ]
+  }
+ ],
+ "premii_număr": [
+  {
+   "value": "cinci competiții",
+   "pages": 2,
+   "variants": {
+    "cinci competiții": 2
+   },
+   "example": [
+    "/o-zi-de-vara-la-yachtkid/",
+    "/"
+   ]
+  },
+  {
+   "value": "5 competiții",
+   "pages": 1,
+   "variants": {
+    "5 competiții": 1
+   },
+   "example": [
+    "/"
+   ]
+  }
+ ],
+ "telefon": [
+  {
+   "value": "0739085331",
+   "pages": 23,
+   "variants": {
+    "+40 739 085 331": 20,
+    "+40 739-085-331": 6,
+    "tel:+40739085331": 3
+   },
+   "example": [
+    "/",
+    "/politica-de-confidentialitate/",
+    "/contact/",
+    "/prezentare/",
+    "/politica-cookies/"
+   ]
+  }
+ ],
+ "email": [
+  {
+   "value": "contact@yachtkid.ro",
+   "pages": 21,
+   "variants": {
+    "contact@yachtkid.ro": 24,
+    "mailto:contact@yachtkid.ro": 3
+   },
+   "example": [
+    "/",
+    "/politica-de-confidentialitate/",
+    "/contact/",
+    "/prezentare/",
+    "/programeaza-o-vizionare/"
+   ]
+  }
+ ],
+ "adresă": [
+  {
+   "value": "Str. Anton Holban 6, București 077190",
+   "pages": 8,
+   "variants": {
+    "Str. Anton Holban 6, București 077190": 8
+   },
+   "example": [
+    "/",
+    "/contact/",
+    "/prezentare/",
+    "/programeaza-o-vizionare/",
+    "/apartamente-2-camere/"
+   ]
+  },
+  {
+   "value": "Str. Anton Holban 6, YachtKID îți oferă privilegiul de a locui la doar câțiva pași de malul lacului, ferit de zgomotul traficului",
+   "pages": 1,
+   "variants": {
+    "Str. Anton Holban 6, YachtKID îți oferă privilegiul de a locui la doar câțiva pași de malul lacului, ferit de zgomotul traficului": 1
+   },
+   "example": [
+    "/prezentare/"
+   ]
+  },
+  {
+   "value": "Str. Anton Holban 6, o stradă liniștită, dar la mai puțin de 5 minute de Bulevardul Fabrica de Glucoză și de Autostrada Urbană A3. Polul de business Pipera este la 7 minute",
+   "pages": 1,
+   "variants": {
+    "Str. Anton Holban 6, o stradă liniștită, dar la mai puțin de 5 minute de Bulevardul Fabrica de Glucoză și de Autostrada Urbană A3. Polul de business Pipera este la 7 minute": 1
+   },
+   "example": [
+    "/programeaza-o-vizionare/"
+   ]
+  },
+  {
+   "value": "Str. Anton Holban nr. 6, București, cod poștal 077190",
+   "pages": 1,
+   "variants": {
+    "Str. Anton Holban nr. 6, București, cod poștal 077190": 2
+   },
+   "example": [
+    "/termeni-si-conditii/"
+   ]
+  },
+  {
+   "value": "Str. Anton Holban nr. 6, București, postal code 077190",
+   "pages": 1,
+   "variants": {
+    "Str. Anton Holban nr. 6, București, postal code 077190": 2
+   },
+   "example": [
+    "/en/terms-and-conditions/"
+   ]
+  }
+ ],
+ "cost_ron_mp": [
+  {
+   "value": "6 RON/mp",
+   "pages": 1,
+   "variants": {
+    "6 RON/mp": 1
+   },
+   "example": [
+    "/"
+   ]
+  }
+ ],
+ "preț_eur": [
+  {
+   "value": "350.000 € + TVA",
+   "pages": 2,
+   "variants": {
+    "350.000 € + TVA": 2
+   },
+   "example": [
+    "/en/commercial-spaces/",
+    "/spatii-comerciale/"
+   ]
+  },
+  {
+   "value": "210.000 € + TVA",
+   "pages": 1,
+   "variants": {
+    "210.000 € + TVA": 1
+   },
+   "example": [
+    "/apartamente-2-camere/"
+   ]
+  },
+  {
+   "value": "690.000 € + TVA",
+   "pages": 1,
+   "variants": {
+    "690.000 € + TVA": 1
+   },
+   "example": [
+    "/apartamente-4-camere/"
+   ]
+  },
+  {
+   "value": "390.000 € + TVA",
+   "pages": 1,
+   "variants": {
+    "390.000 € + TVA": 1
+   },
+   "example": [
+    "/apartamente-3-camere/"
+   ]
+  },
+  {
+   "value": "1.495.000 € + TVA",
+   "pages": 1,
+   "variants": {
+    "1.495.000 € + TVA": 1
+   },
+   "example": [
+    "/duplex/"
+   ]
+  },
+  {
+   "value": "390.000 €",
+   "pages": 1,
+   "variants": {
+    "390.000 €": 1
+   },
+   "example": [
+    "/en/2-bedroom-apartment/"
+   ]
+  },
+  {
+   "value": "1.450.000 €",
+   "pages": 1,
+   "variants": {
+    "1.450.000 €": 1
+   },
+   "example": [
+    "/en/duplex-apartments/"
+   ]
+  },
+  {
+   "value": "690.000 €",
+   "pages": 1,
+   "variants": {
+    "690.000 €": 1
+   },
+   "example": [
+    "/en/3-bedroom-apartment/"
+   ]
+  },
+  {
+   "value": "60.000 €",
+   "pages": 1,
+   "variants": {
+    "60.000 €": 1
+   },
+   "example": [
+    "/testimoniale/"
+   ]
+  },
+  {
+   "value": "210.000 €",
+   "pages": 1,
+   "variants": {
+    "210.000 €": 1
+   },
+   "example": [
+    "/en/1-bedroom-apartment/"
+   ]
+  }
+ ]
+}

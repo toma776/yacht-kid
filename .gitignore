@@ -1,0 +1,12 @@
+# Video files too large for GitHub (>100MB limit)
+*.mp4
+*.mov
+*.webm
+
+node_modules/
+.env
+.env.*
+*.log
+!reference/crawl-media.log
+.DS_Store
+Thumbs.db

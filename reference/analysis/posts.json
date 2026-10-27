@@ -1,0 +1,878 @@
+[
+ {
+  "wp_id": 2050,
+  "path": "/de-ce-bucurestenii-aleg-locuinta-langa-parc-nord-in-loc-de-centru/",
+  "lang": "ro",
+  "date": "2026-10-19T17:00:00",
+  "modified": "2026-10-19T20:15:24",
+  "title": "De ce tot mai mulți bucureșteni aleg să locuiască lângă un parc, în loc de centru? ",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2052,
+  "pair": null,
+  "words": 1310,
+  "internal_links": [
+   "/un-nou-spatiu-pentru-gandire-ascultare-si-sens-cabinetul-de-psihoterapie-psihanalitica-aura-pavel-acum-in-cadrul-yacht-kid/",
+   "/clinica-ultramoderna-amcor/",
+   "/apartamente-3-camere/",
+   "/apartamente-4-camere/",
+   "/apartamente-2-camere/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:24 h2:7 ul:3 figure:1 div:5"
+ },
+ {
+  "wp_id": 2045,
+  "path": "/apartament-nou-vs-vechi-costuri-reale/",
+  "lang": "ro",
+  "date": "2026-10-16T17:03:00",
+  "modified": "2026-10-19T20:08:43",
+  "title": "Cât costă cu adevărat un apartament nou vs. unul vechi, dacă pui la socoteală renovarea și utilitățile",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2046,
+  "pair": null,
+  "words": 1345,
+  "internal_links": [
+   "/apartamente-2-camere/",
+   "/apartamente-3-camere/",
+   "/proiectul-yacht-kid-tehnologie-inovatoare/",
+   "/apartamente-4-camere/",
+   "/evolutia-pietei-imobiliare-bucuresti/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:21 h2:9 ul:6 figure:2 table:1 div:5"
+ },
+ {
+  "wp_id": 2040,
+  "path": "/tva-apartamente-noi/",
+  "lang": "ro",
+  "date": "2026-10-15T19:00:00",
+  "modified": "2026-10-15T21:43:36",
+  "title": "TVA la apartamente noi: ce trebuie să știi înainte să semnezi? ",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2041,
+  "pair": null,
+  "words": 1558,
+  "internal_links": [
+   "/duplex/",
+   "/apartamente-4-camere/",
+   "/apartamente-3-camere/",
+   "/spatii-comerciale/",
+   "/apartamente-2-camere/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:28 h2:12 ul:7 figure:1 div:5"
+ },
+ {
+  "wp_id": 2035,
+  "path": "/alegere-ansamblu-rezidential-lacul-tei/",
+  "lang": "ro",
+  "date": "2026-10-15T18:00:00",
+  "modified": "2026-10-15T21:36:28",
+  "title": "Cum alegi ansamblul rezidențial potrivit lângă Lacul Tei: 7 criterii de care să ții cont",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2036,
+  "pair": null,
+  "words": 1220,
+  "internal_links": [
+   "/evolutia-pietei-imobiliare-bucuresti/",
+   "/proiectul-yacht-kid-tehnologie-inovatoare/",
+   "/apartamente-2-camere/",
+   "/duplex/",
+   "/apartamente-3-camere/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:19 h2:8 ul:7 figure:1 div:5"
+ },
+ {
+  "wp_id": 2030,
+  "path": "/acte-cumparare-apartament-nou/",
+  "lang": "ro",
+  "date": "2026-10-15T17:00:00",
+  "modified": "2026-10-15T21:30:17",
+  "title": "Acte necesare la cumpărarea unui apartament nou: ghid pas cu pas",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2031,
+  "pair": null,
+  "words": 1566,
+  "internal_links": [
+   "/category/noutati/",
+   "/apartamente-2-camere/",
+   "/apartamente-3-camere/",
+   "/duplex/",
+   "/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:33 h2:11 figure:2 table:1 div:5"
+ },
+ {
+  "wp_id": 2025,
+  "path": "/cum-alegi-ansamblu-rezidential-langa-lacul-tei/",
+  "lang": "ro",
+  "date": "2026-10-14T18:00:00",
+  "modified": "2026-10-15T21:22:01",
+  "title": "Cum alegi ansamblul rezidențial potrivit lângă Lacul Tei: 5 criterii de care să ții cont",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2027,
+  "pair": null,
+  "words": 1139,
+  "internal_links": [
+   "/",
+   "/comunitate/",
+   "/apartamente-4-camere/",
+   "/duplex/",
+   "/category/noutati/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:26 h2:7 ul:5 figure:1 div:5"
+ },
+ {
+  "wp_id": 2021,
+  "path": "/ghid-investitori-spatiu-comercial-vanzare-zona-de-nord/",
+  "lang": "ro",
+  "date": "2026-10-14T17:00:00",
+  "modified": "2026-10-15T21:16:13",
+  "title": "Ghid pentru investitori: cum alegi un spațiu comercial de vânzare în zona de nord?",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2022,
+  "pair": null,
+  "words": 1591,
+  "internal_links": [
+   "/",
+   "/comunitate/",
+   "/tehnologie/",
+   "/category/noutati/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:30 h2:8 ul:9 h3:3 figure:1 div:5"
+ },
+ {
+  "wp_id": 2017,
+  "path": "/investitie-spatiu-comercial-parter-bloc-nou/",
+  "lang": "ro",
+  "date": "2026-10-13T17:00:00",
+  "modified": "2026-10-15T21:10:57",
+  "title": "Merită să investești într-un spațiu comercial la parterul unui bloc nou?",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2018,
+  "pair": null,
+  "words": 1234,
+  "internal_links": [
+   "/magazinul-froo-se-alatura-comunitatii-yacht-kid-confort-de-zi-cu-zi-chiar-acasa/",
+   "/comunitate/",
+   "/apartamente-2-camere/",
+   "/tehnologie/",
+   "/category/noutati/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:26 h2:10 ul:2 figure:2 table:1 div:7"
+ },
+ {
+  "wp_id": 2011,
+  "path": "/de-ce-sa-locuiesti-in-floreasca/",
+  "lang": "ro",
+  "date": "2026-10-13T10:43:34",
+  "modified": "2026-10-13T10:55:59",
+  "title": "De ce Floreasca a devenit una dintre zonele preferate pentru locuit din nordul Bucureștiului?",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2014,
+  "pair": null,
+  "words": 1735,
+  "internal_links": [
+   "/",
+   "/clinica-ultramoderna-amcor/",
+   "/duplex/",
+   "/salonul-exclusivist-mob-ministry-of-beauty-se-alatura-comunitatii-yacht-kid",
+   "/apartamente-3-camere/",
+   "/apartamente-4-camere/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:34 h2:8 ul:6 figure:1 div:6"
+ },
+ {
+  "wp_id": 2005,
+  "path": "/o-zi-de-vara-la-yachtkid/",
+  "lang": "ro",
+  "date": "2026-10-12T10:18:54",
+  "modified": "2026-10-13T10:44:29",
+  "title": "O zi de vară pe malul lacului: cum arată viața la YACHT KID?",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 2007,
+  "pair": null,
+  "words": 1525,
+  "internal_links": [
+   "/",
+   "/comunitate/",
+   "/apartamente-3-camere/",
+   "/tehnologie/",
+   "/apartamente-2-camere/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:28 h2:6 ul:5 figure:1 div:6"
+ },
+ {
+  "wp_id": 1613,
+  "path": "/en/florit-brings-a-new-wellness-concept-to-the-yacht-kid-community/",
+  "lang": "en",
+  "date": "2026-03-10T12:20:15",
+  "modified": "2026-09-08T09:48:58",
+  "title": "Florit brings a new wellness concept to the YACHT KID Community",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1603,
+  "pair": "/florit-aduce-un-nou-concept-de-wellbeing-in-comunitatea-yacht-kid/",
+  "words": 279,
+  "internal_links": [
+   "/en/1-bedroom-apartment/"
+  ],
+  "images_in_content": 8,
+  "blocks": "p:15 figure:4 ul:1"
+ },
+ {
+  "wp_id": 1602,
+  "path": "/florit-aduce-un-nou-concept-de-wellbeing-in-comunitatea-yacht-kid/",
+  "lang": "ro",
+  "date": "2026-03-10T12:16:56",
+  "modified": "2026-09-08T09:46:22",
+  "title": "Florit aduce un nou concept de wellbeing în comunitatea YACHT KID",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1603,
+  "pair": "/en/florit-brings-a-new-wellness-concept-to-the-yacht-kid-community/",
+  "words": 300,
+  "internal_links": [
+   "/apartamente-2-camere/"
+  ],
+  "images_in_content": 8,
+  "blocks": "p:13 figure:4 ul:1"
+ },
+ {
+  "wp_id": 1474,
+  "path": "/en/an-impressive-10000-sqm-park-at-yacht-kid-setting-a-new-standard-for-lakeside-living/",
+  "lang": "en",
+  "date": "2026-02-17T16:50:08",
+  "modified": "2026-09-08T09:54:00",
+  "title": "An Impressive 10,000 sqm Park at YACHT KID — Setting a New Standard for Lakeside Living",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1470,
+  "pair": "/un-parc-impresionant-de-10-000-mp-la-yacht-kid-un-nou-standard-de-lifestyle-la-malul-lacului/",
+  "words": 214,
+  "internal_links": [
+   "/en/2-bedroom-apartment/"
+  ],
+  "images_in_content": 6,
+  "blocks": "figure:3 h2:3 p:3"
+ },
+ {
+  "wp_id": 1467,
+  "path": "/un-parc-impresionant-de-10-000-mp-la-yacht-kid-un-nou-standard-de-lifestyle-la-malul-lacului/",
+  "lang": "ro",
+  "date": "2026-02-17T16:48:29",
+  "modified": "2026-09-08T09:52:07",
+  "title": "Un parc impresionant de 10.000 mp la YACHT KID — Un nou standard de lifestyle la malul lacului",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1470,
+  "pair": "/en/an-impressive-10000-sqm-park-at-yacht-kid-setting-a-new-standard-for-lakeside-living/",
+  "words": 219,
+  "internal_links": [
+   "/apartamente-3-camere/"
+  ],
+  "images_in_content": 6,
+  "blocks": "figure:3 h2:3 p:3"
+ },
+ {
+  "wp_id": 1411,
+  "path": "/en/froo-store-joins-the-yacht-kid-community-everyday-comfort-right-at-home/",
+  "lang": "en",
+  "date": "2026-01-21T18:52:21",
+  "modified": "2026-09-08T09:57:12",
+  "title": "Froo Store Joins the YACHT KID Community — Everyday Comfort, Right at Home",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1409,
+  "pair": "/magazinul-froo-se-alatura-comunitatii-yacht-kid-confort-de-zi-cu-zi-chiar-acasa/",
+  "words": 229,
+  "internal_links": [
+   "/en/1-bedroom-apartment/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:5 figure:1"
+ },
+ {
+  "wp_id": 1408,
+  "path": "/magazinul-froo-se-alatura-comunitatii-yacht-kid-confort-de-zi-cu-zi-chiar-acasa/",
+  "lang": "ro",
+  "date": "2026-01-21T18:51:10",
+  "modified": "2026-09-08T09:57:24",
+  "title": "Magazinul Froo se alătură comunității YACHT KID — Confort de zi cu zi, chiar acasă",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1409,
+  "pair": "/en/froo-store-joins-the-yacht-kid-community-everyday-comfort-right-at-home/",
+  "words": 220,
+  "internal_links": [
+   "/apartamente-2-camere/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:5 figure:1"
+ },
+ {
+  "wp_id": 1339,
+  "path": "/en/yacht-kid-honored-with-the-iconic-awards-2025-winner-in-architecture-residential/",
+  "lang": "en",
+  "date": "2025-09-29T17:23:16",
+  "modified": "2026-09-08T10:29:53",
+  "title": "YACHT KID Honored with the ICONIC AWARDS 2025: Winner in Architecture – Residential",
+  "author": "YachtKID",
+  "categories": [
+   "awards"
+  ],
+  "featured_media": 1336,
+  "pair": "/yacht-kid-premiat-la-iconic-awards-2025-castigator-la-categoria-arhitectura-rezidential/",
+  "words": 181,
+  "internal_links": [
+   "/en/3-bedroom-apartment/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:9 figure:1"
+ },
+ {
+  "wp_id": 1335,
+  "path": "/yacht-kid-premiat-la-iconic-awards-2025-castigator-la-categoria-arhitectura-rezidential/",
+  "lang": "ro",
+  "date": "2025-09-29T17:21:55",
+  "modified": "2026-09-08T10:29:21",
+  "title": "YACHT KID, premiat la ICONIC AWARDS 2025: Câștigător la categoria Arhitectură – Rezidențial",
+  "author": "YachtKID",
+  "categories": [
+   "premii"
+  ],
+  "featured_media": 1336,
+  "pair": "/en/yacht-kid-honored-with-the-iconic-awards-2025-winner-in-architecture-residential/",
+  "words": 200,
+  "internal_links": [
+   "/apartamente-4-camere/"
+  ],
+  "images_in_content": 2,
+  "blocks": "p:9 figure:1"
+ },
+ {
+  "wp_id": 1314,
+  "path": "/en/excellent-news-for-the-fabrica-de-glucoza-pipera-area-new-infrastructure-modern-mobility-and-added-value-for-the-yacht-kid-community/",
+  "lang": "en",
+  "date": "2025-07-15T12:14:18",
+  "modified": "2026-09-08T10:34:02",
+  "title": "Excellent News for the Fabrica de Glucoză – Pipera Area: New Infrastructure, Modern Mobility, and Added Value for the YACHT KID Community",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1312,
+  "pair": "/veste-excelenta-pentru-zona-fabrica-de-glucoza-pipera-infrastructura-noua-mobilitate-moderna-si-plus-de-valoare-pentru-comunitatea-yacht-kid/",
+  "words": 381,
+  "internal_links": [
+   "/en/2-bedroom-apartment/"
+  ],
+  "images_in_content": 0,
+  "blocks": "p:11 ul:3"
+ },
+ {
+  "wp_id": 1311,
+  "path": "/veste-excelenta-pentru-zona-fabrica-de-glucoza-pipera-infrastructura-noua-mobilitate-moderna-si-plus-de-valoare-pentru-comunitatea-yacht-kid/",
+  "lang": "ro",
+  "date": "2025-07-15T12:13:23",
+  "modified": "2026-09-08T10:33:51",
+  "title": "Veste Excelentă pentru Zona Fabrica de Glucoză – Pipera: Infrastructură Nouă, Mobilitate Modernă și Plus de Valoare pentru Comunitatea YACHT KID",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1312,
+  "pair": "/en/excellent-news-for-the-fabrica-de-glucoza-pipera-area-new-infrastructure-modern-mobility-and-added-value-for-the-yacht-kid-community/",
+  "words": 390,
+  "internal_links": [
+   "/apartamente-3-camere/"
+  ],
+  "images_in_content": 0,
+  "blocks": "p:9 ul:3"
+ },
+ {
+  "wp_id": 1309,
+  "path": "/en/a-new-space-for-reflection-listening-and-meaning-aura-pavels-psychoanalytic-psychotherapy-cabinet-now-at-yacht-kid/",
+  "lang": "en",
+  "date": "2025-07-11T15:37:31",
+  "modified": "2026-09-08T10:37:21",
+  "title": "A New Space for Reflection, Listening, and Meaning: Aura Pavel’s Psychoanalytic Psychotherapy Cabinet Now at YACHT KID",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1304,
+  "pair": "/un-nou-spatiu-pentru-gandire-ascultare-si-sens-cabinetul-de-psihoterapie-psihanalitica-aura-pavel-acum-in-cadrul-yacht-kid/",
+  "words": 399,
+  "internal_links": [
+   "/en/3-bedroom-apartment/"
+  ],
+  "images_in_content": 0,
+  "blocks": "p:6"
+ },
+ {
+  "wp_id": 1303,
+  "path": "/un-nou-spatiu-pentru-gandire-ascultare-si-sens-cabinetul-de-psihoterapie-psihanalitica-aura-pavel-acum-in-cadrul-yacht-kid/",
+  "lang": "ro",
+  "date": "2025-07-11T15:35:54",
+  "modified": "2026-09-08T10:37:00",
+  "title": "Un nou spațiu pentru gândire, ascultare și sens: Cabinetul de psihoterapie psihanalitică Aura Pavel, acum în cadrul YACHT KID",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1304,
+  "pair": "/en/a-new-space-for-reflection-listening-and-meaning-aura-pavels-psychoanalytic-psychotherapy-cabinet-now-at-yacht-kid/",
+  "words": 387,
+  "internal_links": [
+   "/apartamente-4-camere/"
+  ],
+  "images_in_content": 0,
+  "blocks": "p:6"
+ },
+ {
+  "wp_id": 1300,
+  "path": "/en/fabriq-specialty-coffee-gin-bar-the-new-go-to-spot-in-the-yacht-kid-community/",
+  "lang": "en",
+  "date": "2025-07-04T08:59:07",
+  "modified": "2026-09-08T10:39:02",
+  "title": "FABRIQ | Specialty Coffee & Gin Bar – The New Go-To Spot in the YACHT KID Community",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1298,
+  "pair": "/fabriq-specialty-coffee-gin-bar-noua-destinatie-din-comunitatea-yacht-kid/",
+  "words": 350,
+  "internal_links": [
+   "/en/duplex-apartments/"
+  ],
+  "images_in_content": 22,
+  "blocks": "p:8 figure:14"
+ },
+ {
+  "wp_id": 1283,
+  "path": "/fabriq-specialty-coffee-gin-bar-noua-destinatie-din-comunitatea-yacht-kid/",
+  "lang": "ro",
+  "date": "2025-07-04T08:53:46",
+  "modified": "2026-09-08T10:39:05",
+  "title": "FABRIQ | Specialty Coffee & Gin Bar – Noua Destinație din Comunitatea YACHT KID",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1298,
+  "pair": "/en/fabriq-specialty-coffee-gin-bar-the-new-go-to-spot-in-the-yacht-kid-community/",
+  "words": 361,
+  "internal_links": [
+   "/duplex/"
+  ],
+  "images_in_content": 22,
+  "blocks": "p:6 figure:14"
+ },
+ {
+  "wp_id": 1210,
+  "path": "/en/yacht-kid-wins-special-jury-award-at-the-saint-gobain-trophy-2024/",
+  "lang": "en",
+  "date": "2025-03-04T17:49:02",
+  "modified": "2026-09-08T10:40:57",
+  "title": "YACHT KID Wins Special Jury Award at the Saint-Gobain Trophy 2024",
+  "author": "YachtKID",
+  "categories": [
+   "awards"
+  ],
+  "featured_media": 1200,
+  "pair": "/yacht-kid-obtine-premiul-special-la-saint-gobain-trophy-2024/",
+  "words": 237,
+  "internal_links": [
+   "/en/2-bedroom-apartment/"
+  ],
+  "images_in_content": 4,
+  "blocks": "p:5 figure:2"
+ },
+ {
+  "wp_id": 1199,
+  "path": "/yacht-kid-obtine-premiul-special-la-saint-gobain-trophy-2024/",
+  "lang": "ro",
+  "date": "2025-03-04T17:47:25",
+  "modified": "2026-09-08T10:40:57",
+  "title": "YACHT KID Obține Premiul Special la Saint-Gobain Trophy 2024",
+  "author": "YachtKID",
+  "categories": [
+   "premii"
+  ],
+  "featured_media": 1200,
+  "pair": "/en/yacht-kid-wins-special-jury-award-at-the-saint-gobain-trophy-2024/",
+  "words": 202,
+  "internal_links": [
+   "/apartamente-3-camere/"
+  ],
+  "images_in_content": 4,
+  "blocks": "p:5 figure:2"
+ },
+ {
+  "wp_id": 1181,
+  "path": "/en/the-ultra-modern-amcor-complete-dentistry-clinic-joins-the-yacht-kid-community/",
+  "lang": "en",
+  "date": "2025-02-19T14:23:12",
+  "modified": "2026-09-08T10:42:08",
+  "title": "The Ultra-Modern AMCOR – Complete Dentistry Clinic Joins the YACHT KID Community",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1174,
+  "pair": "/clinica-ultramoderna-amcor/",
+  "words": 535,
+  "internal_links": [
+   "/en/duplex-apartments/"
+  ],
+  "images_in_content": 16,
+  "blocks": "p:9 figure:8 ul:1"
+ },
+ {
+  "wp_id": 1171,
+  "path": "/clinica-ultramoderna-amcor/",
+  "lang": "ro",
+  "date": "2025-02-19T14:18:29",
+  "modified": "2026-09-08T10:42:08",
+  "title": "Clinica ultramodernă AMCOR – Complete Dentistry devine parte din comunitatea YACHT KID",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1174,
+  "pair": "/en/the-ultra-modern-amcor-complete-dentistry-clinic-joins-the-yacht-kid-community/",
+  "words": 614,
+  "internal_links": [
+   "/duplex/"
+  ],
+  "images_in_content": 16,
+  "blocks": "p:9 figure:8 ul:1"
+ },
+ {
+  "wp_id": 1121,
+  "path": "/en/exclusive-mob-ministry-of-beauty-salon-joins-the-yacht-kid-community/",
+  "lang": "en",
+  "date": "2025-01-23T17:56:00",
+  "modified": "2026-09-08T10:43:22",
+  "title": "Exclusive MOB | Ministry of Beauty Salon Joins the YACHT KID Community",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 1112,
+  "pair": "/salonul-exclusivist-mob-ministry-of-beauty-se-alatura-comunitatii-yacht-kid/",
+  "words": 351,
+  "internal_links": [
+   "/en/1-bedroom-apartment/"
+  ],
+  "images_in_content": 14,
+  "blocks": "p:6 figure:8"
+ },
+ {
+  "wp_id": 1111,
+  "path": "/salonul-exclusivist-mob-ministry-of-beauty-se-alatura-comunitatii-yacht-kid/",
+  "lang": "ro",
+  "date": "2025-01-23T17:50:44",
+  "modified": "2026-09-08T10:43:08",
+  "title": "Salonul exclusivist MOB | Ministry of Beauty se alătură comunității YACHT KID",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 1112,
+  "pair": "/en/exclusive-mob-ministry-of-beauty-salon-joins-the-yacht-kid-community/",
+  "words": 390,
+  "internal_links": [
+   "/apartamente-2-camere/"
+  ],
+  "images_in_content": 14,
+  "blocks": "p:5 figure:8"
+ },
+ {
+  "wp_id": 1105,
+  "path": "/en/yacht-kid-an-honorable-mention-in-architectural-design-amp-residential-at-built-design-awards-2024/",
+  "lang": "en",
+  "date": "2025-01-09T12:07:17",
+  "modified": "2026-09-08T10:44:22",
+  "title": "YACHT KID: An Honorable Mention in Architectural Design & Residential at Built Design Awards 2024",
+  "author": "YachtKID",
+  "categories": [
+   "awards"
+  ],
+  "featured_media": 1101,
+  "pair": "/yacht-kid-mentiune-onorabila-in-design-arhitectural-rezidential-la-built-design-awards-2024/",
+  "words": 396,
+  "internal_links": [
+   "/en/3-bedroom-apartment/"
+  ],
+  "images_in_content": 4,
+  "blocks": "figure:2 p:11 ul:1"
+ },
+ {
+  "wp_id": 1100,
+  "path": "/yacht-kid-mentiune-onorabila-in-design-arhitectural-rezidential-la-built-design-awards-2024/",
+  "lang": "ro",
+  "date": "2025-01-09T12:05:59",
+  "modified": "2026-09-08T10:44:48",
+  "title": "YACHT KID: Mențiune Onorabilă în Design Arhitectural & Rezidențial la Built Design Awards 2024",
+  "author": "YachtKID",
+  "categories": [
+   "premii"
+  ],
+  "featured_media": 1101,
+  "pair": "/en/yacht-kid-an-honorable-mention-in-architectural-design-amp-residential-at-built-design-awards-2024/",
+  "words": 360,
+  "internal_links": [
+   "/apartamente-4-camere/"
+  ],
+  "images_in_content": 4,
+  "blocks": "figure:2 p:12 ul:1"
+ },
+ {
+  "wp_id": 1088,
+  "path": "/en/yacht-kid-wins-the-excellent-architecture-distinction-at-the-german-design-awards-2025/",
+  "lang": "en",
+  "date": "2024-12-17T13:47:16",
+  "modified": "2026-09-08T10:46:31",
+  "title": "YACHT KID Wins the “Excellent Architecture” Distinction at the German Design Awards 2025",
+  "author": "YachtKID",
+  "categories": [
+   "awards"
+  ],
+  "featured_media": 1086,
+  "pair": "/yacht-kid-castiga-distinctia-excellent-architecture-la-german-design-awards-2025/",
+  "words": 336,
+  "internal_links": [
+   "/en/1-bedroom-apartment/"
+  ],
+  "images_in_content": 4,
+  "blocks": "figure:2 p:10"
+ },
+ {
+  "wp_id": 1085,
+  "path": "/yacht-kid-castiga-distinctia-excellent-architecture-la-german-design-awards-2025/",
+  "lang": "ro",
+  "date": "2024-12-17T13:46:40",
+  "modified": "2026-09-08T10:46:31",
+  "title": "YACHT KID câștigă distincția „Excellent Architecture” la German Design Awards 2025",
+  "author": "YachtKID",
+  "categories": [
+   "premii"
+  ],
+  "featured_media": 1086,
+  "pair": "/en/yacht-kid-wins-the-excellent-architecture-distinction-at-the-german-design-awards-2025/",
+  "words": 344,
+  "internal_links": [
+   "/apartamente-2-camere/"
+  ],
+  "images_in_content": 4,
+  "blocks": "figure:2 p:10"
+ },
+ {
+  "wp_id": 760,
+  "path": "/en/honorable-award-for-innovation-in-architecture/",
+  "lang": "en",
+  "date": "2024-10-24T16:48:00",
+  "modified": "2026-09-08T10:47:33",
+  "title": "YACHT KID: An Honorable Award for Innovation in Architecture",
+  "author": "YachtKID",
+  "categories": [
+   "awards"
+  ],
+  "featured_media": 772,
+  "pair": "/premiu-de-onoare-pentru-inovatie-in-arhitectura/",
+  "words": 268,
+  "internal_links": [
+   "/en/2-bedroom-apartment/"
+  ],
+  "images_in_content": 4,
+  "blocks": "figure:2 p:8 div:1"
+ },
+ {
+  "wp_id": 754,
+  "path": "/premiu-de-onoare-pentru-inovatie-in-arhitectura/",
+  "lang": "ro",
+  "date": "2024-10-24T16:42:52",
+  "modified": "2026-09-08T10:47:33",
+  "title": "YACHT KID: Un Premiu de Onoare pentru Inovație în Arhitectură",
+  "author": "YachtKID",
+  "categories": [
+   "premii"
+  ],
+  "featured_media": 772,
+  "pair": "/en/honorable-award-for-innovation-in-architecture/",
+  "words": 275,
+  "internal_links": [
+   "/apartamente-3-camere/"
+  ],
+  "images_in_content": 4,
+  "blocks": "figure:2 p:9 div:1"
+ },
+ {
+  "wp_id": 552,
+  "path": "/en/yacht-kid-share-architecture-awards-2024/",
+  "lang": "en",
+  "date": "2024-10-15T12:59:45",
+  "modified": "2025-02-07T17:51:48",
+  "title": "The Yacht KID real estate project has been shortlisted for the SHARE Architecture Awards 2024",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 791,
+  "pair": "/yacht-kid-la-share-architecture-awards-2024/",
+  "words": 233,
+  "internal_links": [],
+  "images_in_content": 0,
+  "blocks": "h2:2 p:4 blockquote:1"
+ },
+ {
+  "wp_id": 521,
+  "path": "/en/yacht-kid-project-innovative-technology/",
+  "lang": "en",
+  "date": "2024-10-15T12:47:42",
+  "modified": "2026-09-08T10:58:14",
+  "title": "Details that make a difference in the Yacht Kid project – innovative technology, comfort, and elegance",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 69,
+  "pair": "/proiectul-yacht-kid-tehnologie-inovatoare/",
+  "words": 657,
+  "internal_links": [
+   "/en/3-bedroom-apartment/"
+  ],
+  "images_in_content": 8,
+  "blocks": "p:9 h3:3 figure:5 ul:1"
+ },
+ {
+  "wp_id": 505,
+  "path": "/en/evolution-of-the-luxury-real-estate-in-bucharest/",
+  "lang": "en",
+  "date": "2024-10-15T12:30:47",
+  "modified": "2026-09-08T11:02:16",
+  "title": "The evolution of the luxury real estate market in Bucharest: A look at the Lacul Tei area.",
+  "author": "YachtKID",
+  "categories": [
+   "news"
+  ],
+  "featured_media": 78,
+  "pair": "/evolutia-pietei-imobiliare-bucuresti/",
+  "words": 307,
+  "internal_links": [
+   "/en/duplex-apartments/"
+  ],
+  "images_in_content": 4,
+  "blocks": "p:4 h2:2 figure:2"
+ },
+ {
+  "wp_id": 75,
+  "path": "/yacht-kid-la-share-architecture-awards-2024/",
+  "lang": "ro",
+  "date": "2024-07-10T15:03:00",
+  "modified": "2025-02-19T13:59:41",
+  "title": "Proiectul imobiliar Yacht KID a fost selectat pe lista scurtă pentru SHARE Architecture Awards 2024",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 791,
+  "pair": "/en/yacht-kid-share-architecture-awards-2024/",
+  "words": 240,
+  "internal_links": [],
+  "images_in_content": 0,
+  "blocks": "h2:1 p:6 blockquote:2"
+ },
+ {
+  "wp_id": 67,
+  "path": "/proiectul-yacht-kid-tehnologie-inovatoare/",
+  "lang": "ro",
+  "date": "2023-05-15T14:58:00",
+  "modified": "2026-09-08T10:58:02",
+  "title": "Detalii care fac diferența în proiectul Yacht Kid – tehnologie inovatoare, confort și eleganță",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 69,
+  "pair": "/en/yacht-kid-project-innovative-technology/",
+  "words": 673,
+  "internal_links": [
+   "/apartamente-4-camere/"
+  ],
+  "images_in_content": 8,
+  "blocks": "p:10 h3:3 figure:5 ul:1"
+ },
+ {
+  "wp_id": 63,
+  "path": "/evolutia-pietei-imobiliare-bucuresti/",
+  "lang": "ro",
+  "date": "2023-05-15T11:34:00",
+  "modified": "2026-09-08T11:02:16",
+  "title": "Evoluția pieței imobiliare de lux din București: O privire asupra zonei Lacul Tei",
+  "author": "YachtKID",
+  "categories": [
+   "noutati"
+  ],
+  "featured_media": 78,
+  "pair": "/en/evolution-of-the-luxury-real-estate-in-bucharest/",
+  "words": 304,
+  "internal_links": [
+   "/duplex/"
+  ],
+  "images_in_content": 4,
+  "blocks": "p:5 h2:2 figure:2"
+ }
+]

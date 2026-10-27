@@ -1,0 +1,160 @@
+[
+ {
+  "fields": [
+   "name",
+   "email",
+   "phone",
+   "tip_apartament",
+   "design_interior",
+   "informatii_suplimentare",
+   "consent[]"
+  ],
+  "options": {
+   "tip_apartament": [
+    "Ce tip de apartament doriți? *",
+    "Apartament 2 camere",
+    "Apartament 3 camere",
+    "Apartament 4 camere",
+    "Duplex"
+   ],
+   "design_interior": [
+    "Selectați o opțiune *",
+    "Da, vreau design interior",
+    "Nu doresc design de interior"
+   ]
+  },
+  "pages": [
+   "/",
+   "/prezentare/",
+   "/apartamente-2-camere/",
+   "/apartamente-4-camere/",
+   "/apartamente-3-camere/",
+   "/duplex/"
+  ]
+ },
+ {
+  "fields": [
+   "name",
+   "email",
+   "phone",
+   "tip_apartament",
+   "design_interior",
+   "informatii_suplimentare",
+   "consent[]"
+  ],
+  "options": {
+   "tip_apartament": [
+    "Ce tip de apartament doriți? *",
+    "Apartament 2 camere",
+    "Apartament 3 camere",
+    "Apartament 4 camere",
+    "Duplex"
+   ],
+   "design_interior": [
+    "Selectați o opțiune *",
+    "Da, vreau design interior",
+    "Nu doresc design de interior"
+   ]
+  },
+  "pages": [
+   "/contact/"
+  ]
+ },
+ {
+  "fields": [
+   "name",
+   "email",
+   "phone",
+   "tip_apartament",
+   "data_vizionare",
+   "buget_estimativ",
+   "buget_estimativ",
+   "consent[]"
+  ],
+  "options": {
+   "tip_apartament": [
+    "Ce tip de apartament doriți? *",
+    "Apartament 2 camere",
+    "Apartament 3 camere",
+    "Apartament 4 camere",
+    "Duplex"
+   ],
+   "data_vizionare": [
+    "Când doriți să faceți vizionarea? *",
+    "În următoarele 7 zile",
+    "În următoarele 2 săptămâni",
+    "Peste o lună"
+   ],
+   "buget_estimativ": [
+    "Vă rugăm selectați modalitatea de achiziție *",
+    "Cash / Transfer bancar",
+    "Credit ipotecar",
+    "Combinație cash și credit",
+    "Încă nu m-am decis"
+   ]
+  },
+  "pages": [
+   "/programeaza-o-vizionare/"
+  ]
+ },
+ {
+  "fields": [
+   "name",
+   "email",
+   "phone",
+   "tip_apartament",
+   "design_interior",
+   "informatii_suplimentare",
+   "consent[]"
+  ],
+  "options": {
+   "tip_apartament": [
+    "What type of apartment do you want? *",
+    "1 Bedroom Apartments",
+    "2 Bedrooms Apartments",
+    "3 Bedrooms Apartments",
+    "Duplex"
+   ],
+   "design_interior": [
+    "Select an option *",
+    "Yes, I want interior design",
+    "I don't want interior design"
+   ]
+  },
+  "pages": [
+   "/en/contact-us/"
+  ]
+ },
+ {
+  "fields": [
+   "name",
+   "email",
+   "phone",
+   "tip_apartament",
+   "form-field-rwesjr",
+   "informatii_suplimentare",
+   "consent[]"
+  ],
+  "options": {
+   "tip_apartament": [
+    "What type of apartment do you want? *",
+    "1 Bedroom Apartments",
+    "2 Bedrooms Apartments",
+    "3 Bedrooms Apartments",
+    "Duplex"
+   ],
+   "form-field-rwesjr": [
+    "Select an option *",
+    "Yes, I want interior design",
+    "I don't want interior design"
+   ]
+  },
+  "pages": [
+   "/en/",
+   "/en/2-bedroom-apartment/",
+   "/en/duplex-apartments/",
+   "/en/3-bedroom-apartment/",
+   "/en/1-bedroom-apartment/"
+  ]
+ }
+]

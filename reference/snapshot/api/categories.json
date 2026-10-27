@@ -1,0 +1,486 @@
+[
+ {
+  "id": 40,
+  "count": 5,
+  "description": "",
+  "link": "https://yachtkid.ro/en/category/awards/",
+  "name": "Awards",
+  "slug": "awards",
+  "taxonomy": "category",
+  "parent": 0,
+  "meta": [],
+  "acf": [],
+  "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v28.7 - https://yoast.com/product/yoast-seo-wordpress/ -->\n<title>Arhive Awards - YachtKID</title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" />\n<link rel=\"canonical\" href=\"https://yachtkid.ro/en/category/awards/\" />\n<meta property=\"og:locale\" content=\"ro_RO\" />\n<meta property=\"og:type\" content=\"article\" />\n<meta property=\"og:title\" content=\"Arhive Awards - YachtKID\" />\n<meta property=\"og:url\" content=\"https://yachtkid.ro/en/category/awards/\" />\n<meta property=\"og:site_name\" content=\"YachtKID\" />\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n<script type=\"application/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/awards\\/\",\"url\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/awards\\/\",\"name\":\"Arhive Awards - YachtKID\",\"isPartOf\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/awards\\/#breadcrumb\"},\"inLanguage\":\"ro-RO\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/awards\\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Prima pagină\",\"item\":\"https:\\/\\/yachtkid.ro\\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Awards\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\",\"url\":\"https:\\/\\/yachtkid.ro\\/\",\"name\":\"YachtKID\",\"description\":\"Life at a different level\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\\/\\/yachtkid.ro\\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"ro-RO\"}]}</script>\n<!-- / Yoast SEO plugin. -->",
+  "yoast_head_json": {
+   "title": "Arhive Awards - YachtKID",
+   "robots": {
+    "index": "index",
+    "follow": "follow",
+    "max-snippet": "max-snippet:-1",
+    "max-image-preview": "max-image-preview:large",
+    "max-video-preview": "max-video-preview:-1"
+   },
+   "canonical": "https://yachtkid.ro/en/category/awards/",
+   "og_locale": "ro_RO",
+   "og_type": "article",
+   "og_title": "Arhive Awards - YachtKID",
+   "og_url": "https://yachtkid.ro/en/category/awards/",
+   "og_site_name": "YachtKID",
+   "twitter_card": "summary_large_image",
+   "schema": {
+    "@context": "https://schema.org",
+    "@graph": [
+     {
+      "@type": "CollectionPage",
+      "@id": "https://yachtkid.ro/en/category/awards/",
+      "url": "https://yachtkid.ro/en/category/awards/",
+      "name": "Arhive Awards - YachtKID",
+      "isPartOf": {
+       "@id": "https://yachtkid.ro/#website"
+      },
+      "breadcrumb": {
+       "@id": "https://yachtkid.ro/en/category/awards/#breadcrumb"
+      },
+      "inLanguage": "ro-RO"
+     },
+     {
+      "@type": "BreadcrumbList",
+      "@id": "https://yachtkid.ro/en/category/awards/#breadcrumb",
+      "itemListElement": [
+       {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Prima pagină",
+        "item": "https://yachtkid.ro/"
+       },
+       {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Awards"
+       }
+      ]
+     },
+     {
+      "@type": "WebSite",
+      "@id": "https://yachtkid.ro/#website",
+      "url": "https://yachtkid.ro/",
+      "name": "YachtKID",
+      "description": "Life at a different level",
+      "potentialAction": [
+       {
+        "@type": "SearchAction",
+        "target": {
+         "@type": "EntryPoint",
+         "urlTemplate": "https://yachtkid.ro/?s={search_term_string}"
+        },
+        "query-input": {
+         "@type": "PropertyValueSpecification",
+         "valueRequired": true,
+         "valueName": "search_term_string"
+        }
+       }
+      ],
+      "inLanguage": "ro-RO"
+     }
+    ]
+   }
+  },
+  "_links": {
+   "self": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories/40",
+     "targetHints": {
+      "allow": [
+       "GET"
+      ]
+     }
+    }
+   ],
+   "collection": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories"
+    }
+   ],
+   "about": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/taxonomies/category"
+    }
+   ],
+   "wp:post_type": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/posts?categories=40"
+    }
+   ],
+   "curies": [
+    {
+     "name": "wp",
+     "href": "https://api.w.org/{rel}",
+     "templated": true
+    }
+   ]
+  }
+ },
+ {
+  "id": 1,
+  "count": 21,
+  "description": "",
+  "link": "https://yachtkid.ro/category/noutati/",
+  "name": "Blog",
+  "slug": "noutati",
+  "taxonomy": "category",
+  "parent": 0,
+  "meta": [],
+  "acf": [],
+  "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v28.7 - https://yoast.com/product/yoast-seo-wordpress/ -->\n<title>Arhive Blog - YachtKID</title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" />\n<link rel=\"canonical\" href=\"https://yachtkid.ro/category/noutati/\" />\n<meta property=\"og:locale\" content=\"ro_RO\" />\n<meta property=\"og:type\" content=\"article\" />\n<meta property=\"og:title\" content=\"Arhive Blog - YachtKID\" />\n<meta property=\"og:url\" content=\"https://yachtkid.ro/category/noutati/\" />\n<meta property=\"og:site_name\" content=\"YachtKID\" />\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n<script type=\"application/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/yachtkid.ro\\/category\\/noutati\\/\",\"url\":\"https:\\/\\/yachtkid.ro\\/category\\/noutati\\/\",\"name\":\"Arhive Blog - YachtKID\",\"isPartOf\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/category\\/noutati\\/#breadcrumb\"},\"inLanguage\":\"ro-RO\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/yachtkid.ro\\/category\\/noutati\\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Prima pagină\",\"item\":\"https:\\/\\/yachtkid.ro\\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Blog\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\",\"url\":\"https:\\/\\/yachtkid.ro\\/\",\"name\":\"YachtKID\",\"description\":\"Life at a different level\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\\/\\/yachtkid.ro\\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"ro-RO\"}]}</script>\n<!-- / Yoast SEO plugin. -->",
+  "yoast_head_json": {
+   "title": "Arhive Blog - YachtKID",
+   "robots": {
+    "index": "index",
+    "follow": "follow",
+    "max-snippet": "max-snippet:-1",
+    "max-image-preview": "max-image-preview:large",
+    "max-video-preview": "max-video-preview:-1"
+   },
+   "canonical": "https://yachtkid.ro/category/noutati/",
+   "og_locale": "ro_RO",
+   "og_type": "article",
+   "og_title": "Arhive Blog - YachtKID",
+   "og_url": "https://yachtkid.ro/category/noutati/",
+   "og_site_name": "YachtKID",
+   "twitter_card": "summary_large_image",
+   "schema": {
+    "@context": "https://schema.org",
+    "@graph": [
+     {
+      "@type": "CollectionPage",
+      "@id": "https://yachtkid.ro/category/noutati/",
+      "url": "https://yachtkid.ro/category/noutati/",
+      "name": "Arhive Blog - YachtKID",
+      "isPartOf": {
+       "@id": "https://yachtkid.ro/#website"
+      },
+      "breadcrumb": {
+       "@id": "https://yachtkid.ro/category/noutati/#breadcrumb"
+      },
+      "inLanguage": "ro-RO"
+     },
+     {
+      "@type": "BreadcrumbList",
+      "@id": "https://yachtkid.ro/category/noutati/#breadcrumb",
+      "itemListElement": [
+       {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Prima pagină",
+        "item": "https://yachtkid.ro/"
+       },
+       {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog"
+       }
+      ]
+     },
+     {
+      "@type": "WebSite",
+      "@id": "https://yachtkid.ro/#website",
+      "url": "https://yachtkid.ro/",
+      "name": "YachtKID",
+      "description": "Life at a different level",
+      "potentialAction": [
+       {
+        "@type": "SearchAction",
+        "target": {
+         "@type": "EntryPoint",
+         "urlTemplate": "https://yachtkid.ro/?s={search_term_string}"
+        },
+        "query-input": {
+         "@type": "PropertyValueSpecification",
+         "valueRequired": true,
+         "valueName": "search_term_string"
+        }
+       }
+      ],
+      "inLanguage": "ro-RO"
+     }
+    ]
+   }
+  },
+  "_links": {
+   "self": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories/1",
+     "targetHints": {
+      "allow": [
+       "GET"
+      ]
+     }
+    }
+   ],
+   "collection": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories"
+    }
+   ],
+   "about": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/taxonomies/category"
+    }
+   ],
+   "wp:post_type": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/posts?categories=1"
+    }
+   ],
+   "curies": [
+    {
+     "name": "wp",
+     "href": "https://api.w.org/{rel}",
+     "templated": true
+    }
+   ]
+  }
+ },
+ {
+  "id": 8,
+  "count": 11,
+  "description": "",
+  "link": "https://yachtkid.ro/en/category/news/",
+  "name": "Blog",
+  "slug": "news",
+  "taxonomy": "category",
+  "parent": 0,
+  "meta": [],
+  "acf": [],
+  "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v28.7 - https://yoast.com/product/yoast-seo-wordpress/ -->\n<title>Arhive Blog - YachtKID</title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" />\n<link rel=\"canonical\" href=\"https://yachtkid.ro/en/category/news/\" />\n<meta property=\"og:locale\" content=\"ro_RO\" />\n<meta property=\"og:type\" content=\"article\" />\n<meta property=\"og:title\" content=\"Arhive Blog - YachtKID\" />\n<meta property=\"og:url\" content=\"https://yachtkid.ro/en/category/news/\" />\n<meta property=\"og:site_name\" content=\"YachtKID\" />\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n<script type=\"application/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/news\\/\",\"url\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/news\\/\",\"name\":\"Arhive Blog - YachtKID\",\"isPartOf\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/news\\/#breadcrumb\"},\"inLanguage\":\"ro-RO\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/yachtkid.ro\\/en\\/category\\/news\\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Prima pagină\",\"item\":\"https:\\/\\/yachtkid.ro\\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Blog\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\",\"url\":\"https:\\/\\/yachtkid.ro\\/\",\"name\":\"YachtKID\",\"description\":\"Life at a different level\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\\/\\/yachtkid.ro\\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"ro-RO\"}]}</script>\n<!-- / Yoast SEO plugin. -->",
+  "yoast_head_json": {
+   "title": "Arhive Blog - YachtKID",
+   "robots": {
+    "index": "index",
+    "follow": "follow",
+    "max-snippet": "max-snippet:-1",
+    "max-image-preview": "max-image-preview:large",
+    "max-video-preview": "max-video-preview:-1"
+   },
+   "canonical": "https://yachtkid.ro/en/category/news/",
+   "og_locale": "ro_RO",
+   "og_type": "article",
+   "og_title": "Arhive Blog - YachtKID",
+   "og_url": "https://yachtkid.ro/en/category/news/",
+   "og_site_name": "YachtKID",
+   "twitter_card": "summary_large_image",
+   "schema": {
+    "@context": "https://schema.org",
+    "@graph": [
+     {
+      "@type": "CollectionPage",
+      "@id": "https://yachtkid.ro/en/category/news/",
+      "url": "https://yachtkid.ro/en/category/news/",
+      "name": "Arhive Blog - YachtKID",
+      "isPartOf": {
+       "@id": "https://yachtkid.ro/#website"
+      },
+      "breadcrumb": {
+       "@id": "https://yachtkid.ro/en/category/news/#breadcrumb"
+      },
+      "inLanguage": "ro-RO"
+     },
+     {
+      "@type": "BreadcrumbList",
+      "@id": "https://yachtkid.ro/en/category/news/#breadcrumb",
+      "itemListElement": [
+       {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Prima pagină",
+        "item": "https://yachtkid.ro/"
+       },
+       {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog"
+       }
+      ]
+     },
+     {
+      "@type": "WebSite",
+      "@id": "https://yachtkid.ro/#website",
+      "url": "https://yachtkid.ro/",
+      "name": "YachtKID",
+      "description": "Life at a different level",
+      "potentialAction": [
+       {
+        "@type": "SearchAction",
+        "target": {
+         "@type": "EntryPoint",
+         "urlTemplate": "https://yachtkid.ro/?s={search_term_string}"
+        },
+        "query-input": {
+         "@type": "PropertyValueSpecification",
+         "valueRequired": true,
+         "valueName": "search_term_string"
+        }
+       }
+      ],
+      "inLanguage": "ro-RO"
+     }
+    ]
+   }
+  },
+  "_links": {
+   "self": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories/8",
+     "targetHints": {
+      "allow": [
+       "GET"
+      ]
+     }
+    }
+   ],
+   "collection": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories"
+    }
+   ],
+   "about": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/taxonomies/category"
+    }
+   ],
+   "wp:post_type": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/posts?categories=8"
+    }
+   ],
+   "curies": [
+    {
+     "name": "wp",
+     "href": "https://api.w.org/{rel}",
+     "templated": true
+    }
+   ]
+  }
+ },
+ {
+  "id": 38,
+  "count": 5,
+  "description": "",
+  "link": "https://yachtkid.ro/category/premii/",
+  "name": "Premii",
+  "slug": "premii",
+  "taxonomy": "category",
+  "parent": 0,
+  "meta": [],
+  "acf": [],
+  "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v28.7 - https://yoast.com/product/yoast-seo-wordpress/ -->\n<title>Arhive Premii - YachtKID</title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" />\n<link rel=\"canonical\" href=\"https://yachtkid.ro/category/premii/\" />\n<meta property=\"og:locale\" content=\"ro_RO\" />\n<meta property=\"og:type\" content=\"article\" />\n<meta property=\"og:title\" content=\"Arhive Premii - YachtKID\" />\n<meta property=\"og:url\" content=\"https://yachtkid.ro/category/premii/\" />\n<meta property=\"og:site_name\" content=\"YachtKID\" />\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n<script type=\"application/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/yachtkid.ro\\/category\\/premii\\/\",\"url\":\"https:\\/\\/yachtkid.ro\\/category\\/premii\\/\",\"name\":\"Arhive Premii - YachtKID\",\"isPartOf\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/category\\/premii\\/#breadcrumb\"},\"inLanguage\":\"ro-RO\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/yachtkid.ro\\/category\\/premii\\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Prima pagină\",\"item\":\"https:\\/\\/yachtkid.ro\\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Premii\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\",\"url\":\"https:\\/\\/yachtkid.ro\\/\",\"name\":\"YachtKID\",\"description\":\"Life at a different level\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\\/\\/yachtkid.ro\\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"ro-RO\"}]}</script>\n<!-- / Yoast SEO plugin. -->",
+  "yoast_head_json": {
+   "title": "Arhive Premii - YachtKID",
+   "robots": {
+    "index": "index",
+    "follow": "follow",
+    "max-snippet": "max-snippet:-1",
+    "max-image-preview": "max-image-preview:large",
+    "max-video-preview": "max-video-preview:-1"
+   },
+   "canonical": "https://yachtkid.ro/category/premii/",
+   "og_locale": "ro_RO",
+   "og_type": "article",
+   "og_title": "Arhive Premii - YachtKID",
+   "og_url": "https://yachtkid.ro/category/premii/",
+   "og_site_name": "YachtKID",
+   "twitter_card": "summary_large_image",
+   "schema": {
+    "@context": "https://schema.org",
+    "@graph": [
+     {
+      "@type": "CollectionPage",
+      "@id": "https://yachtkid.ro/category/premii/",
+      "url": "https://yachtkid.ro/category/premii/",
+      "name": "Arhive Premii - YachtKID",
+      "isPartOf": {
+       "@id": "https://yachtkid.ro/#website"
+      },
+      "breadcrumb": {
+       "@id": "https://yachtkid.ro/category/premii/#breadcrumb"
+      },
+      "inLanguage": "ro-RO"
+     },
+     {
+      "@type": "BreadcrumbList",
+      "@id": "https://yachtkid.ro/category/premii/#breadcrumb",
+      "itemListElement": [
+       {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Prima pagină",
+        "item": "https://yachtkid.ro/"
+       },
+       {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Premii"
+       }
+      ]
+     },
+     {
+      "@type": "WebSite",
+      "@id": "https://yachtkid.ro/#website",
+      "url": "https://yachtkid.ro/",
+      "name": "YachtKID",
+      "description": "Life at a different level",
+      "potentialAction": [
+       {
+        "@type": "SearchAction",
+        "target": {
+         "@type": "EntryPoint",
+         "urlTemplate": "https://yachtkid.ro/?s={search_term_string}"
+        },
+        "query-input": {
+         "@type": "PropertyValueSpecification",
+         "valueRequired": true,
+         "valueName": "search_term_string"
+        }
+       }
+      ],
+      "inLanguage": "ro-RO"
+     }
+    ]
+   }
+  },
+  "_links": {
+   "self": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories/38",
+     "targetHints": {
+      "allow": [
+       "GET"
+      ]
+     }
+    }
+   ],
+   "collection": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/categories"
+    }
+   ],
+   "about": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/taxonomies/category"
+    }
+   ],
+   "wp:post_type": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/posts?categories=38"
+    }
+   ],
+   "curies": [
+    {
+     "name": "wp",
+     "href": "https://api.w.org/{rel}",
+     "templated": true
+    }
+   ]
+  }
+ }
+]

@@ -1,0 +1,215 @@
+[
+ {
+  "id": 2,
+  "name": "Yacht KID Echipa Tehnica",
+  "url": "",
+  "description": "",
+  "link": "https://yachtkid.ro/author/dwf_romeo/",
+  "slug": "dwf_romeo",
+  "avatar_urls": {
+   "24": "https://secure.gravatar.com/avatar/8a5ba09f5a1ebba7205532b5d299ca2f35f3d10c1df758fb3ce3710a92719bfb?s=24&d=mm&r=g",
+   "48": "https://secure.gravatar.com/avatar/8a5ba09f5a1ebba7205532b5d299ca2f35f3d10c1df758fb3ce3710a92719bfb?s=48&d=mm&r=g",
+   "96": "https://secure.gravatar.com/avatar/8a5ba09f5a1ebba7205532b5d299ca2f35f3d10c1df758fb3ce3710a92719bfb?s=96&d=mm&r=g",
+   "128": "https://secure.gravatar.com/avatar/8a5ba09f5a1ebba7205532b5d299ca2f35f3d10c1df758fb3ce3710a92719bfb?s=128&d=mm&r=g"
+  },
+  "meta": [],
+  "acf": [],
+  "yoast_head": null,
+  "yoast_head_json": null,
+  "_links": {
+   "self": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/users/2",
+     "targetHints": {
+      "allow": [
+       "GET"
+      ]
+     }
+    }
+   ],
+   "collection": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/users"
+    }
+   ]
+  }
+ },
+ {
+  "id": 3,
+  "name": "Yacht KID Technical Team",
+  "url": "",
+  "description": "",
+  "link": "https://yachtkid.ro/author/radu_fwd/",
+  "slug": "radu_fwd",
+  "avatar_urls": {
+   "24": "https://secure.gravatar.com/avatar/f7764e91e0e447d8242eaa4f503c2a1c294cf7382dbc059054e3e068b8808ae2?s=24&d=mm&r=g",
+   "48": "https://secure.gravatar.com/avatar/f7764e91e0e447d8242eaa4f503c2a1c294cf7382dbc059054e3e068b8808ae2?s=48&d=mm&r=g",
+   "96": "https://secure.gravatar.com/avatar/f7764e91e0e447d8242eaa4f503c2a1c294cf7382dbc059054e3e068b8808ae2?s=96&d=mm&r=g",
+   "128": "https://secure.gravatar.com/avatar/f7764e91e0e447d8242eaa4f503c2a1c294cf7382dbc059054e3e068b8808ae2?s=128&d=mm&r=g"
+  },
+  "meta": [],
+  "acf": [],
+  "yoast_head": null,
+  "yoast_head_json": null,
+  "_links": {
+   "self": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/users/3",
+     "targetHints": {
+      "allow": [
+       "GET"
+      ]
+     }
+    }
+   ],
+   "collection": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/users"
+    }
+   ]
+  }
+ },
+ {
+  "id": 1,
+  "name": "YachtKID",
+  "url": "https://yachtkid.ro",
+  "description": "",
+  "link": "https://yachtkid.ro/author/s360_yachtkid/",
+  "slug": "s360_yachtkid",
+  "avatar_urls": {
+   "24": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=24&d=mm&r=g",
+   "48": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=48&d=mm&r=g",
+   "96": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=96&d=mm&r=g",
+   "128": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=128&d=mm&r=g"
+  },
+  "meta": [],
+  "acf": [],
+  "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v28.7 - https://yoast.com/product/yoast-seo-wordpress/ -->\n<title>YachtKID, autor la YachtKID</title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" />\n<link rel=\"canonical\" href=\"https://yachtkid.ro/author/s360_yachtkid/\" />\n<meta property=\"og:locale\" content=\"ro_RO\" />\n<meta property=\"og:type\" content=\"profile\" />\n<meta property=\"og:title\" content=\"YachtKID, autor la YachtKID\" />\n<meta property=\"og:url\" content=\"https://yachtkid.ro/author/s360_yachtkid/\" />\n<meta property=\"og:site_name\" content=\"YachtKID\" />\n<meta property=\"og:image\" content=\"https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=500&d=mm&r=g\" />\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n<script type=\"application/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"ProfilePage\",\"@id\":\"https:\\/\\/yachtkid.ro\\/author\\/s360_yachtkid\\/\",\"url\":\"https:\\/\\/yachtkid.ro\\/author\\/s360_yachtkid\\/\",\"name\":\"YachtKID, autor la YachtKID\",\"isPartOf\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/author\\/s360_yachtkid\\/#breadcrumb\"},\"inLanguage\":\"ro-RO\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\\/\\/yachtkid.ro\\/author\\/s360_yachtkid\\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/yachtkid.ro\\/author\\/s360_yachtkid\\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Prima pagină\",\"item\":\"https:\\/\\/yachtkid.ro\\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Arhive pentru YachtKID\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/yachtkid.ro\\/#website\",\"url\":\"https:\\/\\/yachtkid.ro\\/\",\"name\":\"YachtKID\",\"description\":\"Life at a different level\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\\/\\/yachtkid.ro\\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"ro-RO\"},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/yachtkid.ro\\/#\\/schema\\/person\\/92f22fbc97e43c7e196834186c8d3014\",\"name\":\"YachtKID\",\"image\":{\"@type\":\"ImageObject\",\"inLanguage\":\"ro-RO\",\"@id\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=96&d=mm&r=g\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=96&d=mm&r=g\",\"contentUrl\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=96&d=mm&r=g\",\"caption\":\"YachtKID\"},\"sameAs\":[\"https:\\/\\/yachtkid.ro\"],\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/yachtkid.ro\\/author\\/s360_yachtkid\\/\"}}]}</script>\n<!-- / Yoast SEO plugin. -->",
+  "yoast_head_json": {
+   "title": "YachtKID, autor la YachtKID",
+   "robots": {
+    "index": "index",
+    "follow": "follow",
+    "max-snippet": "max-snippet:-1",
+    "max-image-preview": "max-image-preview:large",
+    "max-video-preview": "max-video-preview:-1"
+   },
+   "canonical": "https://yachtkid.ro/author/s360_yachtkid/",
+   "og_locale": "ro_RO",
+   "og_type": "profile",
+   "og_title": "YachtKID, autor la YachtKID",
+   "og_url": "https://yachtkid.ro/author/s360_yachtkid/",
+   "og_site_name": "YachtKID",
+   "og_image": [
+    {
+     "url": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=500&d=mm&r=g",
+     "type": "",
+     "width": "",
+     "height": ""
+    }
+   ],
+   "twitter_card": "summary_large_image",
+   "schema": {
+    "@context": "https://schema.org",
+    "@graph": [
+     {
+      "@type": "ProfilePage",
+      "@id": "https://yachtkid.ro/author/s360_yachtkid/",
+      "url": "https://yachtkid.ro/author/s360_yachtkid/",
+      "name": "YachtKID, autor la YachtKID",
+      "isPartOf": {
+       "@id": "https://yachtkid.ro/#website"
+      },
+      "breadcrumb": {
+       "@id": "https://yachtkid.ro/author/s360_yachtkid/#breadcrumb"
+      },
+      "inLanguage": "ro-RO",
+      "potentialAction": [
+       {
+        "@type": "ReadAction",
+        "target": [
+         "https://yachtkid.ro/author/s360_yachtkid/"
+        ]
+       }
+      ]
+     },
+     {
+      "@type": "BreadcrumbList",
+      "@id": "https://yachtkid.ro/author/s360_yachtkid/#breadcrumb",
+      "itemListElement": [
+       {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Prima pagină",
+        "item": "https://yachtkid.ro/"
+       },
+       {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Arhive pentru YachtKID"
+       }
+      ]
+     },
+     {
+      "@type": "WebSite",
+      "@id": "https://yachtkid.ro/#website",
+      "url": "https://yachtkid.ro/",
+      "name": "YachtKID",
+      "description": "Life at a different level",
+      "potentialAction": [
+       {
+        "@type": "SearchAction",
+        "target": {
+         "@type": "EntryPoint",
+         "urlTemplate": "https://yachtkid.ro/?s={search_term_string}"
+        },
+        "query-input": {
+         "@type": "PropertyValueSpecification",
+         "valueRequired": true,
+         "valueName": "search_term_string"
+        }
+       }
+      ],
+      "inLanguage": "ro-RO"
+     },
+     {
+      "@type": "Person",
+      "@id": "https://yachtkid.ro/#/schema/person/92f22fbc97e43c7e196834186c8d3014",
+      "name": "YachtKID",
+      "image": {
+       "@type": "ImageObject",
+       "inLanguage": "ro-RO",
+       "@id": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=96&d=mm&r=g",
+       "url": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=96&d=mm&r=g",
+       "contentUrl": "https://secure.gravatar.com/avatar/d9bd1bc3d77a316b4b859c22694ad630043c420d2c395e5e219ee804ff424ae0?s=96&d=mm&r=g",
+       "caption": "YachtKID"
+      },
+      "sameAs": [
+       "https://yachtkid.ro"
+      ],
+      "mainEntityOfPage": {
+       "@id": "https://yachtkid.ro/author/s360_yachtkid/"
+      }
+     }
+    ]
+   }
+  },
+  "_links": {
+   "self": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/users/1",
+     "targetHints": {
+      "allow": [
+       "GET"
+      ]
+     }
+    }
+   ],
+   "collection": [
+    {
+     "href": "https://yachtkid.ro/wp-json/wp/v2/users"
+    }
+   ]
+  }
+ }
+]

@@ -1,0 +1,615 @@
+{
+ "count_api": 51,
+ "cards_on_pages": 24,
+ "orphan_cards": [],
+ "inline_quotes": [
+  {
+   "on": "/comunitate/",
+   "who": "Rezident YACHT KID",
+   "quote": "Am fost atrași de designul modern și de calitatea construcției, dar ceea ce ne-a cucerit cu adevărat la YACHT KID este comunitatea. Oamenii sunt deschiși și pri"
+  },
+  {
+   "on": "/comunitate/",
+   "who": "Rezident YACHT KID",
+   "quote": "De când ne-am mutat la YACHT KID, viața noastră s-a schimbat în bine. Comunitatea este unită și plină de oameni prietenoși, iar facilitățile din apropiere – sup"
+  },
+  {
+   "on": "/comunitate/",
+   "who": "Rezident YACHT KID",
+   "quote": "YACHT KID este cu adevărat o comunitate premium. De la arhitectură și finisaje, până la la facilitățile comune bine întreținute și serviciile de calitate, fieca"
+  },
+  {
+   "on": "/en/community/",
+   "who": "YACHT KID Resident",
+   "quote": "We were attracted by the modern design and the quality of the construction, but what really won us over at YACHT KID is the community. The people are open and w"
+  },
+  {
+   "on": "/en/community/",
+   "who": "YACHT KID Resident",
+   "quote": "Since we moved to YACHT KID, our lives have improved. The community is growing and full of friendly people, and the nearby amenities – supermarkets, green space"
+  },
+  {
+   "on": "/en/community/",
+   "who": "YACHT KID Resident",
+   "quote": "YACHT KID is truly a modern community. From its architecture and finishes to the well-maintained common areas and high-quality services, every detail is thought"
+  },
+  {
+   "on": "/prezentare/",
+   "who": "Rezident YACHT KID",
+   "quote": "Am fost atrași de designul modern și de calitatea construcției, dar ceea ce ne-a cucerit cu adevărat la YACHT KID este comunitatea. Oamenii sunt deschiși și pri"
+  },
+  {
+   "on": "/prezentare/",
+   "who": "Rezident YACHT KID",
+   "quote": "De când ne-am mutat la YACHT KID, viața noastră s-a schimbat în bine. Comunitatea este unită și plină de oameni prietenoși, iar facilitățile din apropiere – sup"
+  },
+  {
+   "on": "/prezentare/",
+   "who": "Rezident YACHT KID",
+   "quote": "YACHT KID este cu adevărat o comunitate premium. De la arhitectură și finisaje, până la la facilitățile comune bine întreținute și serviciile de calitate, fieca"
+  },
+  {
+   "on": "/programeaza-o-vizionare/",
+   "who": "Rezident YACHT KID",
+   "quote": "Am fost atrași de designul modern și de calitatea construcției, dar ceea ce ne-a cucerit cu adevărat la YACHT KID este comunitatea. Oamenii sunt deschiși și pri"
+  },
+  {
+   "on": "/programeaza-o-vizionare/",
+   "who": "Rezident YACHT KID",
+   "quote": "De când ne-am mutat la YACHT KID, viața noastră s-a schimbat în bine. Comunitatea este unită și plină de oameni prietenoși, iar facilitățile din apropiere – sup"
+  },
+  {
+   "on": "/programeaza-o-vizionare/",
+   "who": "Rezident YACHT KID",
+   "quote": "YACHT KID este cu adevărat o comunitate premium. De la arhitectură și finisaje, până la la facilitățile comune bine întreținute și serviciile de calitate, fieca"
+  }
+ ],
+ "items": [
+  {
+   "wp_id": 1960,
+   "slug": "georgiana-p",
+   "name": "Georgiana P",
+   "date": "2026-09-17T15:10:22",
+   "featured_media": null,
+   "single_page": "/testimonial/georgiana-p/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1959,
+   "slug": "putineanu-valeriu",
+   "name": "Putineanu Valeriu",
+   "date": "2026-09-17T15:10:22",
+   "featured_media": null,
+   "single_page": "/testimonial/putineanu-valeriu/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1958,
+   "slug": "tibi-costache",
+   "name": "Tibi Costache",
+   "date": "2026-09-17T15:10:22",
+   "featured_media": null,
+   "single_page": "/testimonial/tibi-costache/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1957,
+   "slug": "alexandru-vladimir-draghici",
+   "name": "Alexandru Vladimir Draghici",
+   "date": "2026-09-17T15:10:22",
+   "featured_media": null,
+   "single_page": "/testimonial/alexandru-vladimir-draghici/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1956,
+   "slug": "diana-roata",
+   "name": "Diana Roata",
+   "date": "2026-09-17T15:10:22",
+   "featured_media": null,
+   "single_page": "/testimonial/diana-roata/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1955,
+   "slug": "marco-wahba",
+   "name": "Marco WAHBA",
+   "date": "2026-09-17T15:10:22",
+   "featured_media": null,
+   "single_page": "/testimonial/marco-wahba/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1954,
+   "slug": "pavel-daniel",
+   "name": "Pavel Daniel",
+   "date": "2026-09-17T15:10:22",
+   "featured_media": null,
+   "single_page": "/testimonial/pavel-daniel/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1953,
+   "slug": "nady-wasef",
+   "name": "NADY WASEF",
+   "date": "2026-09-17T15:10:21",
+   "featured_media": null,
+   "single_page": "/testimonial/nady-wasef/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1952,
+   "slug": "anatolie-untila",
+   "name": "anatolie untila",
+   "date": "2026-09-17T15:10:21",
+   "featured_media": null,
+   "single_page": "/testimonial/anatolie-untila/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1951,
+   "slug": "andrei-protiuc",
+   "name": "Andrei Proțiuc",
+   "date": "2026-09-17T15:10:21",
+   "featured_media": null,
+   "single_page": "/testimonial/andrei-protiuc/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1950,
+   "slug": "paul-oprea",
+   "name": "Paul Oprea",
+   "date": "2026-09-17T15:10:21",
+   "featured_media": null,
+   "single_page": "/testimonial/paul-oprea/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1949,
+   "slug": "andreea-moise",
+   "name": "Andreea Moise",
+   "date": "2026-09-17T15:10:21",
+   "featured_media": null,
+   "single_page": "/testimonial/andreea-moise/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1948,
+   "slug": "matei-talambuta",
+   "name": "Matei Talambuta",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/matei-talambuta/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1947,
+   "slug": "melania-farcas",
+   "name": "Melania Farcaş",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/melania-farcas/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1946,
+   "slug": "denisa-visan",
+   "name": "Denisa Visan",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/denisa-visan/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1945,
+   "slug": "diana-godeanu",
+   "name": "Diana Godeanu",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/diana-godeanu/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1944,
+   "slug": "hemanta-shrestha",
+   "name": "hemanta Shrestha",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/hemanta-shrestha/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1943,
+   "slug": "razvan-marica",
+   "name": "Razvan Marica",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/razvan-marica/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1942,
+   "slug": "andreea-taranu",
+   "name": "Andreea Taranu",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/andreea-taranu/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1941,
+   "slug": "irina-oprea",
+   "name": "Irina Oprea",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/irina-oprea/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1940,
+   "slug": "cristina-cojocaru",
+   "name": "Cristina Cojocaru",
+   "date": "2026-09-17T15:10:20",
+   "featured_media": null,
+   "single_page": "/testimonial/cristina-cojocaru/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1939,
+   "slug": "andreea-colbu",
+   "name": "Andreea Colbu",
+   "date": "2026-09-17T15:10:19",
+   "featured_media": null,
+   "single_page": "/testimonial/andreea-colbu/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1938,
+   "slug": "claudia-elena",
+   "name": "Claudia Elena",
+   "date": "2026-09-17T15:10:19",
+   "featured_media": null,
+   "single_page": "/testimonial/claudia-elena/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1937,
+   "slug": "ilie-constantin",
+   "name": "Ilie Constantin",
+   "date": "2026-09-17T15:10:19",
+   "featured_media": null,
+   "single_page": "/testimonial/ilie-constantin/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1936,
+   "slug": "realluckylucian",
+   "name": "RealLuckyLucian",
+   "date": "2026-09-17T15:10:19",
+   "featured_media": null,
+   "single_page": "/testimonial/realluckylucian/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1935,
+   "slug": "andreea-radu",
+   "name": "Andreea Radu",
+   "date": "2026-09-17T15:10:19",
+   "featured_media": null,
+   "single_page": "/testimonial/andreea-radu/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1934,
+   "slug": "elena-tutza",
+   "name": "Elena Tutza",
+   "date": "2026-09-17T15:10:19",
+   "featured_media": null,
+   "single_page": "/testimonial/elena-tutza/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1933,
+   "slug": "elena-hison",
+   "name": "elena hison",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/elena-hison/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1932,
+   "slug": "ileana-popa",
+   "name": "Ileana Popa",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/ileana-popa/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1931,
+   "slug": "anto-maria",
+   "name": "Anto Maria",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/anto-maria/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1930,
+   "slug": "ana-micu",
+   "name": "Ana Micu",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/ana-micu/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1929,
+   "slug": "darius-cordunianu",
+   "name": "Darius Cordunianu",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/darius-cordunianu/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1928,
+   "slug": "ana-badita",
+   "name": "Ana Badita",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/ana-badita/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1927,
+   "slug": "clinica-dr-nicolau",
+   "name": "Clinica Dr. Nicolau",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/clinica-dr-nicolau/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1926,
+   "slug": "marinela-ovedenie",
+   "name": "Marinela Ovedenie",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/marinela-ovedenie/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1925,
+   "slug": "bogdan-tefian-gesller",
+   "name": "Bogdan Tefian Gesller",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/bogdan-tefian-gesller/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1924,
+   "slug": "corina-calin",
+   "name": "Corina Calin",
+   "date": "2026-09-17T15:10:18",
+   "featured_media": null,
+   "single_page": "/testimonial/corina-calin/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1923,
+   "slug": "mincu-daniel",
+   "name": "mincu daniel",
+   "date": "2026-09-17T15:10:17",
+   "featured_media": null,
+   "single_page": "/testimonial/mincu-daniel/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1922,
+   "slug": "tamara-tudose",
+   "name": "Tamara Tudose",
+   "date": "2026-09-17T15:10:17",
+   "featured_media": null,
+   "single_page": "/testimonial/tamara-tudose/",
+   "shown_on": [],
+   "text": null
+  },
+  {
+   "wp_id": 1921,
+   "slug": "marius-enache",
+   "name": "Marius Enache",
+   "date": "2026-09-17T15:10:17",
+   "featured_media": null,
+   "single_page": "/testimonial/marius-enache/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Elegant!"
+  },
+  {
+   "wp_id": 1920,
+   "slug": "mavrig-dragos",
+   "name": "Mavrig Dragos",
+   "date": "2026-09-17T15:10:17",
+   "featured_media": null,
+   "single_page": "/testimonial/mavrig-dragos/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Cel mai interesant proiect din zonă – aștept cu nerăbdare să-l văd finalizat."
+  },
+  {
+   "wp_id": 1919,
+   "slug": "owusu-kwasi-sarkodie",
+   "name": "Owusu Kwasi Sarkodie",
+   "date": "2026-09-17T15:10:17",
+   "featured_media": null,
+   "single_page": "/testimonial/owusu-kwasi-sarkodie/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Vă asigur că nu există alt loc de locuit decât Yacht Kids, acum în Piperà, mai mult confort ca niciodată."
+  },
+  {
+   "wp_id": 1918,
+   "slug": "cosmin-mihaila",
+   "name": "Cosmin Mihaila",
+   "date": "2026-09-17T15:10:17",
+   "featured_media": null,
+   "single_page": "/testimonial/cosmin-mihaila/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Sunt proprietar la Yacht Kid de o lună și sunt încă proprietar, investiția dovedindu-și deja valoarea, arătând o oportunitate reală de profit net de aproximativ 60.000 €, bazată pe un potențial cumpărător existent.\nYacht Kid este unul dintre cele mai premium dezvoltări rezidențiale din București, perfect poziționat pe malul lacului, în zona Florească.\nProiectul oferă un stil de viață autentic de resort, cu patru piscine private exterioare cu vedere la lac, servicii de concierge, inclusiv livrare în cameră, o zonă de recepție premium, securitate 24/7 și o experiență hotelieră, cu patru lifturi pe etaj și zone comune interioare și exterioare complet monitorizate.\nClădirea se remarcă în mod clar prin calitatea excepțională a construcției. Fiecare etaj este construit folosind plăci structurale de calitate superioară, completate de ferestre franceze cu geam triplu, izolație termică și fonică excelentă, pompe de căldură, încălzire pe gaz pentru eficiență a costurilor, un rating energetic de clasă A, tavane Barisol, băi din granit și sisteme inteligente de descurajare a păsărilor pe acoperiș. Chiar și apartamentele orientate spre nord mențin un confort și o eficiență remarcabile. Toate finisajele și materialele sunt cu adevărat premium.\nLa parter, rezidenții beneficiază de un salon de coafură care oferă servicii de conturare a sprâncenelor, manichiură și tunsori pentru bărbați, cafeneaua de specialitate Fabriq, supermarketul Froo și multe alte servicii aflate în prezent în dezvoltare. Acestea includ buticuri de modă, servicii de wellness, studiouri Pilates, centre de bronzare și multe altele. Zona se află într-o transformare rapidă, cu noi școli publice și grădinițe planificate de Sectorul 2, Muzeul Aviației aflat în prezent în renovare, un hotel în construcție peste drum și un centru IT puternic în apropiere.\nLocația este excepțională, oferind vedere directă la lac și, în curând, acces direct la Parcul Tei, proximitatea față de promenadă, centre spa, restaurante, patinoar"
+  },
+  {
+   "wp_id": 1917,
+   "slug": "florenzi-iordache",
+   "name": "Florenzi Iordache",
+   "date": "2026-09-17T15:10:16",
+   "featured_media": null,
+   "single_page": "/testimonial/florenzi-iordache/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Excelent"
+  },
+  {
+   "wp_id": 1916,
+   "slug": "andreea-nucea",
+   "name": "Andreea Nucea",
+   "date": "2026-09-17T15:10:16",
+   "featured_media": null,
+   "single_page": "/testimonial/andreea-nucea/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Impecabil!!!! 🤍✨ Felicitări …"
+  },
+  {
+   "wp_id": 1915,
+   "slug": "daniel-coman",
+   "name": "Daniel Coman",
+   "date": "2026-09-17T15:10:16",
+   "featured_media": null,
+   "single_page": "/testimonial/daniel-coman/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Complex rezidențial de top, unde calitatea este pe primul loc!"
+  },
+  {
+   "wp_id": 1914,
+   "slug": "andreea-andrusca",
+   "name": "Andreea Andrusca",
+   "date": "2026-09-17T15:10:16",
+   "featured_media": null,
+   "single_page": "/testimonial/andreea-andrusca/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Pozitie foarte buna, proiect premium, randament excelent!"
+  },
+  {
+   "wp_id": 1913,
+   "slug": "elena-gionete",
+   "name": "Elena Gionete",
+   "date": "2026-09-17T15:10:15",
+   "featured_media": null,
+   "single_page": "/testimonial/elena-gionete/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Totul la Superlativ👏Felicitari dezvoltatorului Bogdan Ghiță.👍 …"
+  },
+  {
+   "wp_id": 1911,
+   "slug": "cosmin-bardan",
+   "name": "Cosmin Bardan",
+   "date": "2026-09-17T15:10:15",
+   "featured_media": null,
+   "single_page": "/testimonial/cosmin-bardan/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Am descoperit un complex rezidențial modern situat lângă un lac din București, ideal pentru cei care caută liniște, design de top și o investiție sigură. …"
+  },
+  {
+   "wp_id": 1910,
+   "slug": "daniela-dascalu",
+   "name": "Daniela Dascalu",
+   "date": "2026-09-17T15:10:15",
+   "featured_media": null,
+   "single_page": "/testimonial/daniela-dascalu/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "Totul la superlativ! Recomand cu mare drag!"
+  },
+  {
+   "wp_id": 1909,
+   "slug": "cezar-antonie",
+   "name": "Cezar Antonie",
+   "date": "2026-09-17T15:10:15",
+   "featured_media": null,
+   "single_page": "/testimonial/cezar-antonie/",
+   "shown_on": [
+    "/testimoniale/",
+    "/en/testimonials/"
+   ],
+   "text": "O locație superbă in plina dezvoltare…"
+  }
+ ]
+}

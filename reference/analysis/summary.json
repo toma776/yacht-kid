@@ -1,0 +1,142 @@
+{
+ "generated_at": "2026-10-27T07:32:29.419Z",
+ "snapshot": "2026-10-27T07:29:09.357Z",
+ "pages": {
+  "total": 157,
+  "live": 156,
+  "by_kind": {
+   "post:ro": 26,
+   "post:en": 16,
+   "author:en": 1,
+   "other:ro": 1,
+   "page:ro": 17,
+   "page:en": 15,
+   "other:en": 1,
+   "testimonial:ro": 51,
+   "template:ro": 11,
+   "template:en": 9,
+   "category:en": 3,
+   "category:ro": 4,
+   "author:ro": 1
+  }
+ },
+ "bilingual": {
+  "value_mismatches": 25,
+  "unlinked_candidates": 2,
+  "missing_en": 14,
+  "missing_ro": 2
+ },
+ "translations": {
+  "pairs": 33,
+  "ro_only": 67,
+  "en_only": 3,
+  "asymmetric": 0
+ },
+ "layout": {
+  "header_variants": 2,
+  "footer_variants": 2
+ },
+ "links": {
+  "ok": 1033,
+  "redirecționează": 1
+ },
+ "media": {
+  "in_api": 576,
+  "api_total_header": 591,
+  "note": "15 elemente apar în X-WP-Total, dar nu sunt listate public (probabil atașate la conținut privat)",
+  "used": 354,
+  "unused": 222,
+  "images_without_alt": 62,
+  "identical_files": 17,
+  "total_mb": 714,
+  "referenced_but_not_in_library": 1
+ },
+ "values": {
+  "suprafață_mp": [
+   "10,000 sqm (24 pag.)",
+   "10.000 mp (5 pag.)",
+   "61.9 MP (1 pag.)",
+   "87.6 MP (1 pag.)",
+   "136 MP (1 pag.)"
+  ],
+  "premii_număr": [
+   "cinci competiții (2 pag.)",
+   "5 competiții (1 pag.)"
+  ],
+  "telefon": [
+   "0739085331 (23 pag.)"
+  ],
+  "email": [
+   "contact@yachtkid.ro (21 pag.)"
+  ],
+  "adresă": [
+   "Str. Anton Holban 6, București 077190 (8 pag.)",
+   "Str. Anton Holban 6, YachtKID îți oferă privilegiul de a locui la doar câțiva pași de malul lacului, ferit de zgomotul traficului (1 pag.)",
+   "Str. Anton Holban 6, o stradă liniștită, dar la mai puțin de 5 minute de Bulevardul Fabrica de Glucoză și de Autostrada Urbană A3. Polul de business Pipera este la 7 minute (1 pag.)",
+   "Str. Anton Holban nr. 6, București, cod poștal 077190 (1 pag.)",
+   "Str. Anton Holban nr. 6, București, postal code 077190 (1 pag.)"
+  ],
+  "cost_ron_mp": [
+   "6 RON/mp (1 pag.)"
+  ],
+  "preț_eur": [
+   "350.000 € + TVA (2 pag.)",
+   "210.000 € + TVA (1 pag.)",
+   "690.000 € + TVA (1 pag.)",
+   "390.000 € + TVA (1 pag.)",
+   "1.495.000 € + TVA (1 pag.)",
+   "390.000 € (1 pag.)",
+   "1.450.000 € (1 pag.)",
+   "690.000 € (1 pag.)"
+  ]
+ },
+ "mentions": {
+  "Fabriq": "afacere-comunitate: 16 pag.",
+  "Ministry of Beauty": "afacere-comunitate: 15 pag.",
+  "Froo": "afacere-comunitate: 33 pag.",
+  "Florit": "afacere-comunitate: 31 pag.",
+  "Amcor": "afacere-comunitate: 14 pag.",
+  "Aura Pavel": "afacere-comunitate: 12 pag.",
+  "hot pilates": "afacere-comunitate: 18 pag.",
+  "German Design Awards": "premiu: 8 pag.",
+  "Iconic Awards": "premiu: 27 pag.",
+  "Built Design Awards": "premiu: 8 pag.",
+  "SHARE Architecture Awards": "premiu: 8 pag.",
+  "Saint-Gobain Trophy": "premiu: 8 pag.",
+  "Saint-Gobain": "furnizor-tehnologie: 16 pag.",
+  "ISO CHEMIE": "furnizor-tehnologie: 2 pag.",
+  "INCERC": "furnizor-tehnologie: 13 pag.",
+  "Barrisol": "furnizor-tehnologie: 2 pag.",
+  "Barisol": "furnizor-tehnologie: 2 pag.",
+  "Bogdan Ghiță": "persoană: 4 pag.",
+  "Bogdan Ghita": "persoană: 4 pag.",
+  "Lacul Tei": "loc: 39 pag.",
+  "Floreasca": "loc: 9 pag.",
+  "Pipera": "loc: 20 pag.",
+  "Fabrica de Glucoză": "loc: 15 pag.",
+  "Fabrica de Glucoza": "loc: 15 pag.",
+  "Muzeul Aviației": "loc: 1 pag.",
+  "Anton Holban": "loc: 18 pag.",
+  "Sector 2": "loc: 3 pag.",
+  "Sectorul 2": "loc: 1 pag.",
+  "Barbu Văcărescu": "loc: 5 pag."
+ },
+ "testimonials": {
+  "api": 51,
+  "shown": 12,
+  "orphan_cards": 0,
+  "inline_quotes": 12
+ },
+ "posts": {
+  "total": 42,
+  "by_category": {
+   "noutati:ro": 21,
+   "news:en": 11,
+   "awards:en": 5,
+   "premii:ro": 5
+  }
+ },
+ "repeated_paragraphs": 56,
+ "shared_sections": 29,
+ "forms": 5
+}

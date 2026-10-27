@@ -1,0 +1,32 @@
+{
+ "summary": {
+  "ok": 1033,
+  "redirecționează": 1
+ },
+ "broken": [],
+ "redirects": [
+  {
+   "on": "/de-ce-sa-locuiesti-in-floreasca/",
+   "href": "https://yachtkid.ro/salonul-exclusivist-mob-ministry-of-beauty-se-alatura-comunitatii-yacht-kid",
+   "to": "https://yachtkid.ro/salonul-exclusivist-mob-ministry-of-beauty-se-alatura-comunitatii-yacht-kid/"
+  }
+ ],
+ "external_hosts": {
+  "www.comunicate.mediafax.biz": 2,
+  "www.facebook.com": 4,
+  "www.instagram.com": 2,
+  "www.linkedin.com": 2,
+  "www.antena3.ro": 2,
+  "bltawards.com": 2,
+  "architectureprize.com": 2,
+  "www.youtube.com": 6,
+  "cookiedatabase.org": 74,
+  "stripe.com": 2,
+  "business.safety.google": 2,
+  "policies.google.com": 2,
+  "legal.hubspot.com": 2,
+  "anpc.ro": 2,
+  "reclamatiisal.anpc.ro": 2
+ },
+ "special": {}
+}
