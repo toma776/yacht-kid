@@ -14,7 +14,9 @@
     "analyze": "node scripts/analyze.mjs",
     "schema": "node scripts/schema.mjs",
     "test": "node --test --disable-warning=ExperimentalWarning",
-    "import:turso": "node --env-file=.env.local scripts/import.mjs"
+    "import:turso": "node --env-file=.env.local scripts/import.mjs",
+    "mirror": "node scripts/mirror.mjs",
+    "mirror:serve": "node scripts/mirror-serve.mjs"
   },
   "dependencies": {
     "@libsql/client": "0.18.0",
