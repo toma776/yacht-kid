@@ -216,7 +216,12 @@ function init(signal) {
       chapters.classList.toggle('is-paused', !run);
       if (run) schedule(left); else if (timer) { clearTimeout(timer); timer = null; left = Math.max(400, left - (Date.now() - started)); }
     };
-    items.forEach((li, n) => on(li.querySelector('button'), 'click', () => { auto = false; clearTimeout(timer); chapters.classList.remove('is-playing'); show(n); }));
+    // Click pe capitolul deschis („−”) îl închide; fotografia rămâne a lui până se deschide altul
+    const close = li => { li.classList.remove('is-active'); li.querySelector('button').setAttribute('aria-expanded', 'false'); };
+    items.forEach((li, n) => on(li.querySelector('button'), 'click', () => {
+      auto = false; clearTimeout(timer); chapters.classList.remove('is-playing');
+      if (n === current && li.classList.contains('is-active')) close(li); else show(n);
+    }));
     on(chapters, 'mouseenter', () => { held = true; sync(); });
     on(chapters, 'mouseleave', () => { held = false; sync(); });
     on(chapters, 'focusin', () => { held = true; sync(); });

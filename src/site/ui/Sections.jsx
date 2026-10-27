@@ -12,7 +12,8 @@ const Arrow = () => <Icon id="arrow"/>;
 // Pictograma unui avantaj, după cuvintele din titlu (desenele sunt în sprite, titlurile în Brain)
 const ICONS = [[/fa[țt]ad|facade/i, 'facade'], [/material/i, 'material'], [/piscin|pool/i, 'pool'], [/fonic|sound/i, 'sound'], [/promenad/i, 'promenade'],
   [/aerisit|airy/i, 'air'], [/paz[aă]|cctv|security/i, 'shield'], [/comercial/i, 'shop'], [/energie|energy|consum/i, 'energy'], [/incend|fire/i, 'fire'],
-  [/condens/i, 'drop'], [/termic|thermal/i, 'thermal'], [/eficien|efficien/i, 'leaf']];
+  [/condens/i, 'drop'], [/termic|thermal/i, 'thermal'], [/eficien|efficien/i, 'leaf'],
+  [/loca[țt]i|location/i, 'location'], [/vizibil|visib/i, 'visibility'], [/flexib/i, 'layout'], [/investi|profitab/i, 'growth']];
 const iconFor = t => ICONS.find(([rx]) => rx.test(t ?? ''))?.[1] ?? 'leaf';
 
 async function buttons(ctx, s, values) {
