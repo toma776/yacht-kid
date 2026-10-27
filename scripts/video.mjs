@@ -6,7 +6,7 @@
 // și scrie în Brain câmpurile media.duration, media.poster și media.renditions, cu istoric și proveniență.
 // Originalele (4K HEVC, peste limita de 100 MB a GitHub) rămân în snapshot, în afara git.
 // Necesită ffmpeg (winget install Gyan.FFmpeg).   node scripts/video.mjs [--force]
-import {execFileSync} from 'node:child_process';
+import {execFileSync, spawnSync} from 'node:child_process';
 import {existsSync, mkdirSync, readdirSync, statSync, unlinkSync} from 'node:fs';
 import {basename, join} from 'node:path';
 import {openDb, prepare} from '../src/core/db.mjs';
@@ -48,11 +48,27 @@ function describe(file) {
   return {width: v.width, height: v.height, bytes, kbps: dur ? Math.round(bytes * 8 / dur / 1000) : null};
 }
 
-function encode(src, out, r, {vertical, hasAudio}) {
+// Benzile negre „de cinema” (letterbox) din cadru: într-un hero pe tot ecranul, banda de sus pare un antet închis.
+// Se citește cropdetect în trei puncte ale clipului și se păstrează cadrul cel mai larg (o scenă întunecată nu taie mai mult);
+// se decupează doar dacă benzile sunt clare (peste 3% din înălțime).
+function letterbox(src, dur, w, h) {
+  const at = t => {
+    const r = spawnSync(FFMPEG, ['-v', 'info', '-ss', String(t), '-i', src, '-t', '6', '-vf', 'cropdetect=limit=0.1:round=2:reset=0', '-an', '-f', 'null', '-'], {encoding: 'utf8', maxBuffer: 64 * 1024 * 1024});
+    const all = [...(r.stderr ?? '').matchAll(/crop=(\d+):(\d+):(\d+):(\d+)/g)];
+    return all.length ? all.at(-1).slice(1).map(Number) : null;
+  };
+  const found = [.25, .5, .75].map(k => at(dur * k)).filter(Boolean);
+  if (!found.length) return null;
+  const top = Math.min(...found.map(c => c[3])), bottom = Math.max(...found.map(c => c[3] + c[1]));
+  const ch = bottom - top;
+  return ch < h * .97 && ch > h * .5 ? {w, h: ch - (ch % 2), x: 0, y: top - (top % 2)} : null;
+}
+
+function encode(src, out, r, {vertical, hasAudio, crop}) {
   const scale = vertical ? `scale='min(${r.short},iw)':-2` : `scale=-2:'min(${r.short},ih)'`;
   const audio = hasAudio ? ['-c:a', 'aac', '-b:a', `${r.audio}k`, '-ac', '2'] : ['-an'];
   run(FFMPEG, ['-y', '-v', 'error', '-i', src, '-map', '0:v:0', ...(hasAudio ? ['-map', '0:a:0'] : []), '-map_metadata', '-1',
-    '-vf', `${scale}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'slow', '-crf', String(r.crf),
+    '-vf', `${crop ? `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y},` : ''}${scale}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'slow', '-crf', String(r.crf),
     '-maxrate', `${r.maxrate}k`, '-bufsize', `${r.maxrate * 2}k`, '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709',
     '-movflags', '+faststart', ...audio, out]);
 }
@@ -115,7 +131,8 @@ for (const m of videos) {
   const dur = +info.format.duration || 0;
   const rot = Math.abs(+(v.side_data_list?.find(x => x.rotation != null)?.rotation ?? v.tags?.rotate ?? 0));
   const [w, h] = rot === 90 || rot === 270 ? [v.height, v.width] : [v.width, v.height];
-  const vertical = h > w, short = Math.min(w, h);
+  const crop = letterbox(src, dur, w, h);
+  const vertical = h > w, short = Math.min(w, crop?.h ?? h);
   const t0 = Date.now();
 
   const renditions = [];
@@ -124,9 +141,9 @@ for (const m of videos) {
     const out = files[r.quality];
     if (FORCE || !existsSync(out)) {
       // Un original H.264 8-bit care încape deja în 1080p nu se recomprimă: doar +faststart
-      if (r.quality === '1080p' && v.codec_name === 'h264' && short <= 1080 && v.pix_fmt === 'yuv420p')
+      if (!crop && r.quality === '1080p' && v.codec_name === 'h264' && short <= 1080 && v.pix_fmt === 'yuv420p')
         run(FFMPEG, ['-y', '-v', 'error', '-i', src, '-map', '0', '-c', 'copy', '-map_metadata', '-1', '-movflags', '+faststart', out]);
-      else encode(src, out, r, {vertical, hasAudio});
+      else encode(src, out, r, {vertical, hasAudio, crop});
     }
     renditions.push({quality: r.quality, file: `/video/${basename(out)}`, ...describe(out)});
   }
