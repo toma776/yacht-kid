@@ -67,7 +67,7 @@ export async function renderPublic(lang, segments) {
   const sections = ['pagini', 'locuinte'].includes(hit.key) ? await sectionsOf(ctx, hit.key, hit.id) : [];
   const composed = sections.length > 0;
   // Fără hero, antetul e opac și conținutul coboară sub el de la prima randare (nu abia după JS)
-  const hero = sections[0]?.kind === 'hero';
+  const hero = sections[0]?.kind === 'hero' && sections[0].variant !== 'card';  // hero-ul „card” nu stă sub antet
   return (
     <>
       <IconSprite/>

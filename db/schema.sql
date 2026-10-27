@@ -396,6 +396,8 @@ CREATE TABLE IF NOT EXISTS "sections" (
   "limit" INTEGER,
   "form_id" INTEGER REFERENCES "forms"(id) ON DELETE SET NULL,
   "video_start" INTEGER,
+  "variant" TEXT CHECK ("variant" IS NULL OR "variant" IN ('ecran', 'card')),
+  "brochure_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   search TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
@@ -412,6 +414,8 @@ CREATE INDEX IF NOT EXISTS "ix_sections_unit_type_id" ON "sections"("unit_type_i
 CREATE INDEX IF NOT EXISTS "ix_sections_post_category_id" ON "sections"("post_category_id");
 
 CREATE INDEX IF NOT EXISTS "ix_sections_form_id" ON "sections"("form_id");
+
+CREATE INDEX IF NOT EXISTS "ix_sections_brochure_id" ON "sections"("brochure_id");
 
 CREATE TABLE IF NOT EXISTS "menus" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

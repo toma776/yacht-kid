@@ -31,8 +31,73 @@ function mediaVideo(m, quality) {
   return {src: r?.file ?? `/media/${m?.id}/`, poster: m?.poster};
 }
 
-async function Hero({ctx, s, values, next}) {
+// Hero-ul „card” (homepage): fotografia într-un card rotunjit, cu harta și biroul de vânzări sus, titlul, suprafața și
+// prețul de pornire (calculate din tipurile de locuințe) și, peste marginea de jos, cardul broșurii (PDF, WhatsApp, email)
+async function HeroCard({ctx, s, values, chrome, video}) {
+  const L = values.__labels ?? {}, f = chrome.firma, lang = ctx.lang;
+  const [b1, b2] = await buttons(ctx, s, values);
+  const units = await ctx.within('Hero', 'suprafața și prețul de pornire', () =>
+    ctx.query('locuinte', {fields: ['kind', 'area_min', 'price_from'], where: `e.kind != 'comercial'`}));
+  const minArea = Math.min(...units.map(u => u.area_min).filter(Boolean)), minPrice = Math.min(...units.map(u => u.price_from).filter(Boolean));
+  const vat = units.find(u => u.price_from === minPrice)?.vat_excluded;
+  const pdf = s.brochure ? ctx.media(s.brochure) : null;
+  const ask = encodeURIComponent(L['brosura-mesaj'] ?? 'Bună ziua! Aș dori să primesc broșura YACHT KID.');
+  const heading = fillTokens(s.heading ?? '', values);
+  const full = mediaVideo(video, '1080p');
+  return (
+    <section className="hero-card-wrap" aria-labelledby="hero-title">
+      <div className="wrap hero-card-grid">
+        <div className="hero-card on-dark">
+          {s.image && <img className="hero-card-img" src={ctx.media(s.image)} alt="" fetchPriority="high"/>}
+          <div className="hero-card-top">
+            {f?.maps && <a className="hero-card-map" href={f.maps} target="_blank" rel="noopener"><Icon id="pin" size={18}/>{L['vezi-pe-harta'] ?? 'Vezi pe hartă'}</a>}
+            {f?.address && <p className="hero-card-office"><span>{L['birou-vanzari'] ?? 'Birou de vânzări'}</span>{f.address}</p>}
+          </div>
+          <div className="hero-card-body">
+            {s.eyebrow && <p className="status reveal"><span className="status-dot"/>{fillTokens(s.eyebrow, values)}</p>}
+            <h1 className="display hero-card-title reveal" id="hero-title" style={{'--d': '80ms'}}>{heading}</h1>
+            {s.text && <p className="subhead reveal" style={{'--d': '140ms'}}>{fillTokens(strip(s.text), values)}</p>}
+            <dl className="hero-card-facts reveal" style={{'--d': '200ms'}}>
+              {Number.isFinite(minArea) && <div><dt>{L['suprafata-de-la'] ?? 'Suprafețe de la'}</dt><dd>{formatNumber(minArea, lang)} m²</dd></div>}
+              {Number.isFinite(minPrice) && <div><dt>{L['preturi-de-la'] ?? 'Prețuri de la'}</dt><dd>{formatMoney(minPrice, 'EUR', lang)}{vat ? <small> {L.tva ?? '+ TVA'}</small> : null}</dd></div>}
+            </dl>
+            <div className="hero-actions reveal" style={{'--d': '260ms'}}>
+              <Btn b={b1}/>
+              {b2 && <Btn b={{...b2, video: video && b2.to === '#video'}} cls="btn btn--glass"/>}
+            </div>
+          </div>
+        </div>
+        {(pdf || f) && (
+          <aside className="brochure-card reveal" style={{'--d': '320ms'}} aria-labelledby="brochure-title">
+            <div className="brochure-mock" aria-hidden="true">
+              <span className="brochure-page brochure-page--back"/>
+              <span className="brochure-page brochure-page--cover" style={s.image ? {'--cover': `url('${ctx.media(s.image)}')`} : undefined}>
+                <img src="/media/1/" alt=""/><b>{L['brosura-coperta'] ?? 'Prezentare generală'}</b>
+              </span>
+            </div>
+            <p className="brochure-title" id="brochure-title">{L['brosura-titlu'] ?? 'Broșura YACHT KID'}</p>
+            <div className="brochure-actions">
+              {pdf && <a className="btn btn--ghost" href={pdf} target="_blank" rel="noopener" download>{L['brosura-descarca'] ?? 'Descarcă broșura'} <span className="btn-icon"><Icon id="arrow"/></span></a>}
+              {f?.whatsapp && <a className="btn btn--whatsapp" href={`${f.whatsapp}?text=${ask}`} target="_blank" rel="noopener"><Icon id="whatsapp" size={20}/>{L['brosura-whatsapp'] ?? 'Primește pe WhatsApp'}</a>}
+              {f?.email && <a className="btn btn--navy" href={`mailto:${f.email}?subject=${encodeURIComponent(L['brosura-titlu'] ?? 'Broșura YACHT KID')}&body=${ask}`}><Icon id="mail" size={20}/>{L['brosura-email'] ?? 'Primește pe email'}</a>}
+            </div>
+          </aside>
+        )}
+        {s.next && <a className="hero-card-next" href={`#${s.next}`}>{L['hero-continut'] ?? 'Descoperă YACHT KID'} <Arrow/></a>}
+      </div>
+      {video && (
+        <dialog className="video-dialog" data-video-dialog aria-label={b2?.label}>
+          <button className="dialog-close" type="button" data-video-close aria-label="×"><Icon id="close" size={24}/></button>
+          <video controls playsInline preload="none" poster={full.poster} data-video-full><source src={full.src} type="video/mp4"/></video>
+        </dialog>
+      )}
+    </section>
+  );
+}
+
+async function Hero({ctx, s, values, next, chrome}) {
   const video = s.video ? await ctx.item('media', s.video, 'media') : null;
+  if (s.variant === 'card') return HeroCard({ctx, s: {...s, next}, values, chrome, video});
   const [b1, b2] = await buttons(ctx, s, values);
   const heading = fillTokens(s.heading ?? '', values);
   const [first, ...rest] = heading.split(' ');
@@ -570,7 +635,7 @@ export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) 
     run = i && sections[i - 1].kind === 'text' && s.kind === 'text' ? run + 1 : 0;
     const C = KINDS[s.kind];
     if (!C) continue;
-    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} run={run} next={sections[i + 1]?.anchor || null}/>);
+    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} run={run} next={sections.slice(i + 1).find(x => x.anchor)?.anchor ?? null}/>);
   }
   return out;
 }

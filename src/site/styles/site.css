@@ -455,7 +455,9 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 .spec-list .icon { width: 30px; height: 30px; }
 .spec-list .h3 { font-size: clamp(1.125rem, 1rem + .7vw, 1.625rem); font-weight: 300; letter-spacing: 0; }
 @media (max-width: 900px) {
-  .comfort-grid { grid-template-columns: 1fr; }
+  .comfort-grid { grid-template-columns: minmax(0, 1fr); }
+  .comfort-copy { min-width: 0; }
+  .comfort-copy .btn { white-space: normal; max-width: 100%; }
   .comfort-copy { position: static; }
   .spec-list li { grid-template-columns: 40px 36px 1fr; padding: 22px 0; }
 }
@@ -909,3 +911,72 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 /* „Alte apartamente” și contactul au același fundal: un singur spațiu între ele, nu două spații de secțiune */
 .unit-others { padding-bottom: clamp(40px, 4.5vw, 72px); }
 .unit-others + .contact { padding-top: 0; }
+
+/* Hero-ul „card” (homepage): fotografia într-un card rotunjit; broșura stă peste marginea lui de jos, în dreapta */
+/* Jos: loc pentru cardul broșurii, care iese sub fotografie (~45% din înălțimea lui), plus placa secțiunii următoare */
+.hero-card-wrap { padding-top: 8px; padding-bottom: calc(clamp(40px, 4vw, 72px) + var(--r-band)); }
+.hero-card-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: auto auto; }
+.hero-card { position: relative; grid-column: 1 / -1; grid-row: 1; min-height: min(78svh, 760px); display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; overflow: hidden; border-radius: var(--r-band); color: #fff; isolation: isolate; }
+.hero-card-img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
+.hero-card::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(100deg, rgb(20 32 68 / .82) 0%, rgb(32 54 108 / .6) 38%, rgb(32 54 108 / .12) 70%, rgb(32 54 108 / 0) 100%), linear-gradient(0deg, rgb(20 32 68 / .45) 0%, transparent 40%); }
+.hero-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding: clamp(24px, 3.4vw, 48px) clamp(24px, 5vw, 80px) 0; }
+.hero-card-map { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: #fff; color: var(--navy); font-size: .9375rem; font-weight: 600; box-shadow: 0 8px 24px rgb(0 0 0 / .14); transition: transform var(--t) var(--ease); }
+.hero-card-map svg { color: var(--coral); }
+.hero-card-map:hover { transform: translateY(-2px); }
+.hero-card-office { max-width: 30ch; text-align: right; font-size: .8125rem; line-height: 1.5; color: #fff; text-shadow: 0 1px 8px rgb(0 0 0 / .3); }
+.hero-card-office span { display: block; opacity: .75; }
+.hero-card-body { align-self: end; display: grid; gap: clamp(16px, 2vw, 26px); justify-items: start; padding: clamp(24px, 3vw, 40px) clamp(24px, 5vw, 80px) clamp(32px, 4.4vw, 64px); max-width: calc(100% - 360px); }
+.hero-card-title { font-size: clamp(2.25rem, 1.3rem + 3vw, 4.25rem); line-height: 1.04; max-width: 15ch; }
+.hero-card-body .subhead { max-width: 34ch; color: #eef1fa; }
+.hero-card-facts { display: flex; flex-wrap: wrap; gap: 14px clamp(28px, 4vw, 56px); }
+.hero-card-facts dt { font-size: .8125rem; color: #d5dcef; }
+.hero-card-facts dd { margin: 0; font-size: clamp(1.25rem, 1rem + .9vw, 1.75rem); font-weight: 700; letter-spacing: .02em; }
+.hero-card-facts dd small { font-size: .55em; font-weight: 600; color: var(--coral-light); }
+.brochure-card { grid-column: 2; grid-row: 1 / span 2; align-self: end; position: relative; z-index: 2; margin: 0 clamp(16px, 3vw, 44px) 0 0; transform: translateY(45%); display: grid; gap: 16px; padding: 120px 24px 24px; border-radius: var(--r-l) var(--r-l) var(--r-l) var(--r-band); background: var(--paper); box-shadow: 0 30px 70px rgb(20 32 68 / .22); text-align: center; }
+.brochure-mock { position: absolute; left: 50%; top: -96px; width: 240px; height: 200px; translate: -50% 0; perspective: 800px; }
+.brochure-page { position: absolute; top: 0; width: 120px; height: 168px; border-radius: 4px 10px 10px 4px; box-shadow: 0 18px 36px rgb(20 32 68 / .28); }
+.brochure-page--back { left: 104px; background: #fff linear-gradient(180deg, var(--porcelain) 0 46%, #fff 46% 100%); transform: rotateY(-14deg) rotate(4deg); border: 1px solid var(--line); }
+.brochure-page--back::after { content: ''; position: absolute; left: 14px; right: 14px; top: 92px; height: 52px; background: repeating-linear-gradient(180deg, var(--line-strong) 0 2px, transparent 2px 9px); }
+.brochure-page--cover { left: 18px; display: grid; align-content: space-between; justify-items: start; padding: 12px; overflow: hidden; color: #fff; background: var(--navy) var(--cover, none) center / cover; transform: rotateY(12deg) rotate(-5deg); }
+.brochure-page--cover::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(32 54 108 / .15), rgb(20 32 68 / .85)); }
+.brochure-page--cover img, .brochure-page--cover b { position: relative; }
+.brochure-page--cover img { width: 56px; }
+.brochure-page--cover b { font-size: .6875rem; letter-spacing: .08em; text-transform: uppercase; text-align: left; line-height: 1.3; }
+.brochure-title { font-size: 1.375rem; font-weight: 700; color: var(--navy); line-height: 1.2; }
+.brochure-actions { display: grid; gap: 10px; }
+.brochure-actions .btn { justify-content: center; width: 100%; }
+.btn--whatsapp { background: #25d366; border-color: #25d366; color: #fff; }
+.btn--whatsapp:hover { background: #1fb457; border-color: #1fb457; }
+.brochure-actions .btn svg { width: 20px; height: 20px; }
+.hero-card-next { grid-column: 1; grid-row: 2; justify-self: end; margin: clamp(20px, 2.4vw, 32px) clamp(24px, 3vw, 48px) 0 0; display: inline-flex; align-items: center; gap: 12px; font-size: .875rem; color: var(--ink-2); }
+.hero-card-next svg { width: 40px; height: 14px; }
+@media (max-width: 1100px) {
+  .hero-card-grid { grid-template-columns: 1fr; }
+  .hero-card-body { max-width: none; }
+  .brochure-card { grid-column: 1; grid-row: 2; justify-self: center; width: min(100%, 420px); margin: -40px 0 0; transform: none; padding-top: 150px; margin-top: 110px; }
+  .hero-card-next { grid-row: 3; justify-self: center; margin-right: 0; }
+}
+@media (max-width: 640px) {
+  .hero-card-wrap { padding-top: 4px; }
+  .hero-card { min-height: 640px; border-radius: var(--r-l); }
+  .hero-card-top { flex-direction: column; }
+  .hero-card-office { text-align: left; }
+  .hero-card-title { font-size: 1.875rem; }
+  .hero-card-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ===================== SITE STATIC =====================
+   Decizia clientului: fără efecte. Nicio tranziție sau animație, nimic care apare la derulare, nicio mărire sau
+   ridicare la hover; schimbările de stare (meniuri, acordeoane, butoane) se fac pe loc. Regula stă la final, ca să
+   le acopere pe toate cele de mai sus. */
+html { scroll-behavior: auto !important; }
+*, *::before, *::after { transition: none !important; animation: none !important; }
+.reveal { opacity: 1 !important; transform: none !important; }
+.frame img, .frame video, .hero-media video, .hero-media img { transform: none !important; translate: none !important; }
+.hero-inner { translate: none !important; opacity: 1 !important; }
+.hero-media::before { opacity: 0 !important; }
+[data-depth], [data-drift] g { translate: none !important; transform: none !important; }
+.other-units a:hover, .hero-card-map:hover, .unit-video-play:hover, .proof-item a:hover .proof-logo, .link-arrow:hover,
+.feature:hover .icon, .business > a:hover .frame img, .photo:hover img { transform: none !important; translate: none !important; }
+.link-arrow:hover { gap: 10px; background-size: 100% 2px; }
+.site-header.is-hidden { transform: none !important; }

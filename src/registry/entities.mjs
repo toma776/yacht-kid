@@ -323,7 +323,10 @@ export const ENTITIES = [
       {key: 'limit', label: 'Câte', type: 'int', kinds: ['articole', 'premii', 'afaceri']},
       {key: 'form', label: 'Formular', type: 'ref', target: 'formulare', kinds: ['formular', 'cta'], rel: 'conține formularul', inverseLabel: 'Secțiuni'},
       {key: 'video_start', label: 'Video: pornește de la (secunde)', type: 'int', min: 0, kinds: ['hero'],
-       help: 'Același video poate deschide pagini diferite din momente diferite.'}
+       help: 'Același video poate deschide pagini diferite din momente diferite.'},
+      {key: 'variant', label: 'Aspect', type: 'select', options: ['ecran', 'card'], kinds: ['hero'],
+       help: '„ecran” = video/fotografie pe tot ecranul (standardul paginilor); „card” = fotografie într-un card, cu cifre și broșura (homepage).'},
+      {key: 'brochure', label: 'Broșura (PDF)', type: 'image', kinds: ['hero'], help: 'Pentru aspectul „card”: descărcare, WhatsApp, email.'}
     ],
     // Standardul hero-ului (homepage, Tehnologie, Comunitate, Spații comerciale): un ecran, titlul în cel mult 3 rânduri,
     // subtitlul în cel mult 2. Textele mai lungi întind hero-ul peste ecran, deci se opresc aici.

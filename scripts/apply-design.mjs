@@ -29,21 +29,28 @@ async function upsert(key, metaKey, {base = {}, tr = {}, links, status, ai = {}}
 }
 
 // ---------- 1. Imaginea lipsă din bibliotecă (piscina privată, capitolul 2 din Despre): era în snapshot, nefolosită pe site-ul vechi
-async function ensureMedia(file, alt) {
+async function ensureMedia(file, alt, mime = 'image/jpeg') {
   const exists = await one(db, 'SELECT id FROM media WHERE filename = ?', [file]);
   if (exists) return exists.id;
   const body = await readFile(join(process.cwd(), 'reference', 'snapshot', 'media', file));
   const sha = createHash('sha1').update(body).digest('hex');
   const size = (b => { for (let i = 2; i < b.length - 9;) { if (b[i] !== 0xff) { i++; continue; } const m = b[i + 1], len = b.readUInt16BE(i + 2); if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) return [b.readUInt16BE(i + 7), b.readUInt16BE(i + 5)]; i += 2 + len; } return [null, null]; })(body);
+  // Fișierele din setul foto profesional (foto/…) vin din Drive, nu de pe site-ul vechi: aceeași cheie (drive:<id>),
+  // aceeași sursă și aceleași texte alternative ca scripts/import-photos.mjs, ca un import ulterior să nu le dubleze
+  const photo = file.startsWith('foto/') ? JSON.parse(await readFile(join(process.cwd(), 'reference', 'foto', 'photos.json'), 'utf8')).find(p => p.file === file) : null;
+  const legacy = photo ? null : `https://yachtkid.ro/wp-content/uploads/${file}`;
+  const natural = photo ? `drive:${photo.drive_id}` : `media:${sha}`;
+  const [srcKind, srcUrl, srcTitle] = photo ? ['document', 'https://drive.google.com/drive/folders/1hr3CDb26XWG2rf5PJB_o_-QefiglGy-e', 'Google Drive · Photo (Exterior, Interior)'] : ['site', legacy, file];
   const tx = await db.transaction('write');
   try {
-    const r = await tx.execute({sql: `INSERT INTO media (filename, sha1, mime, width, height, bytes, legacy_url, created_at, updated_at, created_by, updated_by) VALUES (?, ?, 'image/jpeg', ?, ?, ?, ?, ?, ?, ?, ?)`,
-      args: [file, sha, size[0], size[1], body.length, `https://yachtkid.ro/wp-content/uploads/${file}`, now, now, USER, USER]});
+    const r = await tx.execute({sql: `INSERT INTO media (filename, sha1, mime, width, height, bytes, legacy_url, created_at, updated_at, created_by, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [file, sha, mime, ...(mime === 'image/jpeg' ? size : [null, null]), body.length, legacy, now, now, USER, USER]});
     const id = Number(r.lastInsertRowid);
-    await tx.execute({sql: 'INSERT INTO media_translations (entity_id, lang, alt, updated_at) VALUES (?, ?, ?, ?)', args: [id, 'ro', alt, now]});
-    await tx.execute({sql: 'INSERT OR IGNORE INTO import_keys (entity, natural_key, entity_id, at) VALUES (?, ?, ?, ?)', args: ['media', `media:${sha}`, id, now]});
-    const src = await tx.execute({sql: `INSERT INTO sources (kind, url, title, method, snapshot_file, status, created_at) VALUES ('site', ?, ?, 'download', ?, 200, ?) ON CONFLICT (url) DO UPDATE SET title = excluded.title RETURNING id`,
-      args: [`https://yachtkid.ro/wp-content/uploads/${file}`, file, `snapshot/media/${file}`, now]});
+    await tx.execute({sql: 'INSERT INTO media_translations (entity_id, lang, alt, updated_at) VALUES (?, ?, ?, ?)', args: [id, 'ro', photo?.alt_ro ?? alt, now]});
+    if (photo?.alt_en) await tx.execute({sql: 'INSERT INTO media_translations (entity_id, lang, alt, updated_at) VALUES (?, ?, ?, ?)', args: [id, 'en', photo.alt_en, now]});
+    await tx.execute({sql: 'INSERT OR IGNORE INTO import_keys (entity, natural_key, entity_id, at) VALUES (?, ?, ?, ?)', args: ['media', natural, id, now]});
+    const src = await tx.execute({sql: `INSERT INTO sources (kind, url, title, method, snapshot_file, status, created_at) VALUES (?, ?, ?, 'download', ?, 200, ?) ON CONFLICT (url) DO UPDATE SET title = excluded.title RETURNING id`,
+      args: [srcKind, srcUrl, srcTitle, `snapshot/media/${file}`, now]});
     for (const f of ['filename', 'sha1', 'mime']) await tx.execute({sql: `INSERT OR REPLACE INTO provenance (entity, entity_id, field, lang, source_id, method, certainty, created_at) VALUES ('media', ?, ?, '', ?, 'download', 'confirmed', ?)`, args: [id, f, src.rows[0].id, now]});
     await tx.execute({sql: `INSERT INTO audit_log (at, user_name, action, entity, entity_id, label, changes) VALUES (?, ?, 'create', 'media', ?, ?, '{}')`, args: [now, USER, id, file]});
     await tx.commit();
@@ -80,7 +87,9 @@ const M = {facade: await mediaId('2024/10/YachtKID-Exterior-51.jpg'), colaj: awa
   curte: await mediaId('2024/10/poza-yacht-website-v1-final.jpg'), premiu: await mediaId('2024/10/yacht-kid-premiu-masterprize.jpg'),
   piscina: await mediaId('2025/02/Poza-Colaj-3-edit-v1.jpg'), heroImg: await mediaId('2024/10/homapage-hero-section-1-edit-scaled-1.jpg'),
   lifestyle: await mediaId('2024/10/homepage-hero-section.jpg'), hartaRo: await mediaId('2025/01/ro-yacht-kid-harta.jpg'), hartaEn: await mediaId('2025/01/en-yacht-kid-harta-v2.jpg'),
-  video: await mediaId('2026/09/Video-Yacht-Kid-Iunie-26-H264.mp4')};
+  video: await mediaId('2026/09/Video-Yacht-Kid-Iunie-26-H264.mp4'), heroCard: await mediaId('foto/exterior/_SNY8957-HDR.jpg') ?? await ensureMedia('foto/exterior/_SNY8957-HDR.jpg', 'Fațada YACHT KID cu balcoanele în val, sub cer senin'),
+  brochure: await ensureMedia('2024/12/Prezentare-Generala-YACHT-KID.pdf', 'Prezentare generală YACHT KID (PDF)', 'application/pdf')};
+if (!M.heroCard) console.warn('  ! foto/exterior/_SNY8957-HDR.jpg lipsește din bază (rulează scripts/import-photos.mjs); hero-ul folosește fotografia veche');
 
 // ---------- 4. Etichetele interfeței (RO / EN)
 const LABELS = {
@@ -105,6 +114,13 @@ const LABELS = {
   'contact-titlu': ['Hai să facem primul pas spre locuința ta de vis!', 'Let’s take the first step towards your dream home!'],
   'contact-text': ['Fie că îți dorești să programezi o vizionare, să primești detalii suplimentare sau pur și simplu să descoperi de ce Yacht KID este alegerea perfectă pentru tine, suntem la un click distanță.', 'Whether you want to schedule a viewing, receive additional details or simply discover why Yacht KID is the perfect choice for you, we are just a click away.'],
   'citeste-mai-multe': ['Citește mai multe despre YACHT KID', 'Read more about YACHT KID'],
+  // Hero-ul „card” de pe homepage
+  'vezi-pe-harta': ['Vezi pe hartă', 'View on the map'], 'birou-vanzari': ['Birou de vânzări', 'Sales office'],
+  'suprafata-de-la': ['Suprafețe de la', 'Areas from'], 'preturi-de-la': ['Prețuri de la', 'Prices from'],
+  'brosura-titlu': ['Broșura YACHT KID', 'YACHT KID brochure'], 'brosura-coperta': ['Prezentare generală', 'General presentation'],
+  'brosura-descarca': ['Descarcă broșura', 'Download the brochure'], 'brosura-whatsapp': ['Primește pe WhatsApp', 'Get it on WhatsApp'], 'brosura-email': ['Primește pe email', 'Get it by email'],
+  'brosura-mesaj': ['Bună ziua! Aș dori să primesc broșura YACHT KID.', 'Hello! I would like to receive the YACHT KID brochure.'],
+  'hero-continut': ['Descoperă YACHT KID', 'Discover YACHT KID'],
   cuprins: ['Cuprins', 'Contents'], 'alte-articole': ['Alte articole', 'More articles'], 'min-citire': ['min de citit', 'min read'],
   'articol-cta-titlu': ['Vino să vezi YACHT KID', 'Come and see YACHT KID'],
   'articol-cta-text': ['Programează o vizionare și descoperă locuințele de lângă parc.', 'Book a viewing and discover the homes by the park.'],
@@ -205,7 +221,9 @@ const feat = async titles => Promise.all(titles.map(t => idByTitle('features', '
 const btn = (label, to, extra = {}) => ({label, to, ...extra});
 const fig = (media, alt, caption) => `<figure><img data-media="${media}" alt="${alt}"><figcaption>${caption}</figcaption></figure>`;
 const SECTIONS = [
-  {key: 'hero', kind: 'hero', base: {video: M.video, image: M.heroImg},
+  // Hero-ul „card”: fotografia cu balcoanele-val (setul foto profesional; dacă baza nu o are încă, rămâne cea veche)
+  // și broșura „Prezentare generală” de pe site-ul vechi; video-ul rămâne pentru butonul „Video de prezentare”
+  {key: 'hero', kind: 'hero', base: {video: M.video, image: M.heroCard ?? M.heroImg, variant: 'card', brochure: M.brochure},
     ro: {eyebrow: 'Ultimele apartamente disponibile', heading: 'Experimentează un nou standard de viață', text: '<p>Descoperă locuința care îți schimbă perspectiva asupra luxului.</p>',
       buttons: [btn('Solicită ofertă', '#contact'), btn('Video de prezentare', '#video')]},
     en: {eyebrow: 'Last available apartments', heading: 'Experience a new standard of living', text: '<p>Discover the home that changes your perspective on luxury.</p>',

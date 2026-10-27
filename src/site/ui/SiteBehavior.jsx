@@ -8,24 +8,22 @@ import {useEffect} from 'react';
 function init(signal) {
   const on = (el, type, fn, opts = {}) => el?.addEventListener(type, fn, {...opts, signal});
   const cleanups = [];
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Site static (decizia clientului): fără apariții la derulare, parallax, capitole care se schimbă singure, derulare
+  // animată sau antet care se ascunde; interacțiunile (meniuri, acordeoane, galerie, video) rămân, dar fără animație
+  const reduced = true;
   const header = document.querySelector('[data-header]');
   const hero = document.querySelector('.hero');
   if (!header) return () => {};
 
-  // ---------- Antetul: transparent peste hero, bandă albă după; se ascunde la coborâre și revine la urcare.
+  // ---------- Antetul: transparent peste hero, bandă albă după (rămâne mereu pe ecran).
   // Fără hero (paginile interioare), antetul e bandă albă de la început.
   if (!hero) document.body.classList.add('no-hero');
-  let lastY = scrollY;
   function onScroll() {
     const y = scrollY;
     const pastHero = hero ? y > hero.offsetHeight - 120 : y > 120;
     const megaOpen = header.classList.contains('mega-open');
     header.classList.toggle('is-solid', !hero || megaOpen || (y > 40 && (pastHero || y > innerHeight * .5)));
     document.body.classList.toggle('past-hero', !hero || y > innerHeight * .6);
-    header.classList.toggle('is-hidden', !megaOpen && pastHero && y > lastY + 4 && !document.body.classList.contains('menu-open'));
-    if (y < lastY - 4 || !pastHero) header.classList.remove('is-hidden');
-    lastY = y;
   }
   on(window, 'scroll', onScroll, {passive: true});
   onScroll();
@@ -130,11 +128,8 @@ function init(signal) {
   }
 
   // ---------- Apariția la derulare
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
-  }, {rootMargin: '0px 0px -8% 0px', threshold: .08});
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  cleanups.push(() => io.disconnect());
+  // (site static: totul e vizibil de la început)
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-in'));
 
   // ---------- Parallax, pe mai multe straturi (doar transform/translate, un singur requestAnimationFrame):
   //  · hero: video-ul se mărește și coboară, titlul urcă și se stinge, un voal navy se adâncește;
@@ -178,13 +173,7 @@ function init(signal) {
     update();
   }
 
-  // ---------- Video: fundalul din hero mai lent (cadrele curg calm), fereastra de prezentare cu sunet
-  const heroVideo = document.querySelector('[data-hero-video]');
-  if (heroVideo) {
-    if (reduced) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
-    const rate = () => { heroVideo.playbackRate = .7; };
-    rate(); on(heroVideo, 'loadedmetadata', rate); on(heroVideo, 'play', rate);
-  }
+  // ---------- Video: fereastra de prezentare cu sunet (fundalul din hero rulează la viteza normală)
   const dialog = document.querySelector('[data-video-dialog]');
   const full = document.querySelector('[data-video-full]');
   if (dialog && full) {
