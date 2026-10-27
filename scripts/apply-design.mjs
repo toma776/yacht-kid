@@ -398,7 +398,14 @@ const chaptersHtml = (lang, statement) => `<blockquote><p>${statement}</p></bloc
 const communityGallery = [];
 // Fără 10 (lacul, singura fotografie de exterior): grila rămâne uniformă, iar lacul e deja în capitolul „Alei verzi”
 for (const n of [1, 2, 3, 4, 5, 6, 7, 8, 9]) communityGallery.push(await mediaId(`2024/11/yacht-kid-comunitate-${n}.jpg`));
+// Cele trei citate anonime de pe pagina veche, apoi #6 (Daniel Coman), cerut explicit; ID-urile sunt aceleași local
+// și pe Turso (importul e determinist), iar scriptul se oprește dacă #6 lipsește sau nu e publicat
 const residents = (await all(db, `SELECT id FROM testimonials WHERE anonymous = 1 AND quote IS NOT NULL ORDER BY id`)).map(r => r.id);
+const EXTRA_TESTIMONIALS = [6];
+for (const id of EXTRA_TESTIMONIALS) {
+  if (!(await one(db, `SELECT 1 FROM testimonials WHERE id = ? AND status = 'published' AND quote IS NOT NULL`, [id]))) throw new Error(`Testimonialul #${id} lipsește sau nu e publicat`);
+  if (!residents.includes(id)) residents.push(id);
+}
 const COMMUNITY = [
   {key: 'comunitate-despre', kind: 'text', anchor: 'despre',
     ro: {eyebrow: 'Comunitate', heading: 'Mai mult decât un loc de trai',
