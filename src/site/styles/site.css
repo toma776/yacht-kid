@@ -464,8 +464,14 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 .lifestyle-frame { aspect-ratio: 21 / 9; min-height: 420px; }
 .lifestyle-frame img { height: 118%; }
 .lifestyle-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgb(32 54 108 / .82) 0%, rgb(32 54 108 / .2) 60%, rgb(32 54 108 / 0)); }
-.lifestyle-caption { position: absolute; z-index: 1; left: clamp(28px, 6vw, 96px); bottom: clamp(28px, 6vw, 88px); right: 28px; display: grid; gap: var(--stack-3); justify-items: start; color: var(--paper); }
-@media (max-width: 760px) { .lifestyle-frame { aspect-ratio: 3 / 4; min-height: 0; } .lifestyle-frame::after { background: linear-gradient(0deg, rgb(32 54 108 / .88) 0%, rgb(32 54 108 / 0) 70%); } }
+/* Placa următoare (subsolul) urcă cu --r-band peste secțiune: banda păstrează spațiul, ca butonul să nu fie acoperit */
+.lifestyle { padding-bottom: calc(var(--r-band) + clamp(24px, 4vw, 56px)); }
+/* Spațierea benzii: eticheta lipită de titlu, titlul strâns, butonul despărțit clar de titlu */
+.lifestyle-caption { position: absolute; z-index: 1; left: clamp(28px, 6vw, 96px); bottom: clamp(32px, 6vw, 88px); right: 28px; display: grid; justify-items: start; color: var(--paper); }
+.lifestyle-caption .eyebrow { margin-bottom: clamp(12px, 1.2vw, 16px); }
+.lifestyle-caption .h2 { margin: 0; max-width: 24ch; line-height: 1.1; text-wrap: balance; }
+.lifestyle-caption .btn { margin-top: clamp(24px, 2.6vw, 36px); }
+@media (max-width: 760px) { .lifestyle-frame { aspect-ratio: 3 / 4; min-height: 0; } .lifestyle-frame::after { background: linear-gradient(0deg, rgb(32 54 108 / .92) 0%, rgb(32 54 108 / .7) 45%, rgb(32 54 108 / 0) 80%); } }
 
 /* ===================== 10. CONTACT ===================== */
 .contact { padding-bottom: calc(var(--section) + var(--r-band)); }

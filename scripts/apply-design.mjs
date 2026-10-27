@@ -401,9 +401,12 @@ for (const n of [1, 2, 3, 4, 5, 6, 7, 8, 9]) communityGallery.push(await mediaId
 // Cele trei citate anonime de pe pagina veche, apoi #6 (Daniel Coman), cerut explicit; ID-urile sunt aceleași local
 // și pe Turso (importul e determinist), iar scriptul se oprește dacă #6 lipsește sau nu e publicat
 const residents = (await all(db, `SELECT id FROM testimonials WHERE anonymous = 1 AND quote IS NOT NULL ORDER BY id`)).map(r => r.id);
-const EXTRA_TESTIMONIALS = [6];
-for (const id of EXTRA_TESTIMONIALS) {
+// Traducerea EN e cea propusă de utilizator (altfel pagina EN arată citatul în română)
+const EXTRA_TESTIMONIALS = {6: 'A top-tier residential complex where quality always comes first!'};
+for (const [key, en] of Object.entries(EXTRA_TESTIMONIALS)) {
+  const id = +key;
   if (!(await one(db, `SELECT 1 FROM testimonials WHERE id = ? AND status = 'published' AND quote IS NOT NULL`, [id]))) throw new Error(`Testimonialul #${id} lipsește sau nu e publicat`);
+  await saveEntity(db, 'testimoniale', id, {tr: {en: {quote_translated: en}}}, {user: USER});
   if (!residents.includes(id)) residents.push(id);
 }
 const COMMUNITY = [
