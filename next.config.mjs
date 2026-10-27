@@ -19,7 +19,7 @@ export default {
   // [[...segments]] a site-ului (care altfel ar răspunde 404); fără MEDIA_BASE_URL (local), nimic.
   async rewrites() {
     const base = process.env.MEDIA_BASE_URL;
-    return {afterFiles: base ? [{source: '/brand/:path*', destination: `${base}/brand/:path*`}] : []};
+    return {afterFiles: base ? [{source: '/brand/:path(.*)', destination: `${base}/brand/:path`}] : []};
   },
   // Nimic de pe *.vercel.app nu intră în Google (site-ul de test); pe domeniul real se indexează doar site-ul public.
   // Antetul, nu robots.txt: un Disallow l-ar împiedica pe Google să vadă noindex și ar putea lista totuși adresele.
