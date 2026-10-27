@@ -274,8 +274,10 @@ async function ContactForm({ctx, s, values, chrome}) {
   const L = chrome.labels, f = chrome.firma;
   const form = s.form ? await ctx.item('formulare', s.form) : null;
   const labels = Object.fromEntries((form?.field_labels ?? []).map(l => [l.name, l]));
+  // Câmpurile pe jumătate de rând; dacă sunt în număr impar, primul ia rândul întreg, ca grila să nu rămână cu un gol
+  const pairs = (form?.fields ?? []).filter(x => !['textarea', 'checkbox'].includes(x.type)).length;
   const types = form?.fields?.some(x => x.options_from === 'locuinte')
-    ? await ctx.query('locuinte', {fields: ['kind', 'price_from'], order: 'e.price_from'}) : [];
+    ? await ctx.query('locuinte', {fields: ['kind', 'price_from'], where: `e.kind != 'comercial'`, order: 'e.price_from'}) : [];  // spațiile comerciale au formularul lor
   const paras = (await rich(ctx, s.text, values)).match(/<p>[\s\S]*?<\/p>/g) ?? [];
   const input = (x, l, span) => {
     const id = `f-${x.name}`, label = `${l?.label ?? x.name}${x.required ? ' *' : ''}`;
@@ -285,7 +287,7 @@ async function ContactForm({ctx, s, values, chrome}) {
       return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><select id={id} name={x.name} required={x.required} defaultValue=""><option value="" disabled>{l?.placeholder ?? ''}</option>{opts.map(o => <option key={o}>{o}</option>)}</select></div>;
     }
     if (x.type === 'textarea') return <div key={x.name} className="field span-2"><label htmlFor={id}>{label}</label><textarea id={id} name={x.name} rows={3} required={x.required}/></div>;
-    return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} autoComplete={{name: 'name', email: 'email', phone: 'tel'}[x.name]}/></div>;
+    return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;
   };
   return (
     <section className="contact floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
@@ -304,8 +306,8 @@ async function ContactForm({ctx, s, values, chrome}) {
         </div>
         {form && (
           <form className="form-card reveal" style={{'--d': '120ms'}} action="#" method="post" noValidate data-form>
-            <div className="form-head"><h3 className="h3">{L['formular-contact'] ?? form.name}</h3>{form.intro && <p className="muted">{form.intro}</p>}</div>
-            <div className="form-grid">{form.fields.map((x, i) => input(x, labels[x.name], x.name === 'name'))}</div>
+            <div className="form-head"><h3 className="h3">{L[`formular-${form.handle}`] ?? L['formular-contact'] ?? form.name}</h3>{form.intro && <p className="muted">{form.intro}</p>}</div>
+            <div className="form-grid">{form.fields.map((x, i) => input(x, labels[x.name], i === 0 && pairs % 2 === 1))}</div>
             <div className="form-foot">
               <button className="btn btn--navy" type="submit">{form.submit_label ?? L['trimite']} <span className="btn-icon"><Arrow/></span></button>
               <p className="form-note muted" role="status" aria-live="polite" data-form-note data-pending={L['formular-in-lucru'] ?? ''}/>

@@ -92,6 +92,7 @@ const LABELS = {
   'citeste-articolul': ['Citește articolul', 'Read article'], apartamente: ['Apartamente', 'Apartments'], suprafata: ['Suprafață', 'Area'], etaj: ['Etaj', 'Floor'],
   bai: ['Băi', 'Bathrooms'], terasa: ['Terasă', 'Terrace'], balcon: ['Balcon', 'Balcony'], da: ['Da', 'Yes'], 'pret-de-la': ['Preț de la', 'Starting from'],
   'formular-contact': ['Formular contact', 'Contact form'], trimite: ['Trimite solicitare', 'Send request'],
+  'formular-comercial': ['Cerere pentru spațiu comercial', 'Commercial space enquiry'],
   'acord-date': ['Sunt de acord cu prelucrarea datelor personale, conform politicii de confidențialitate.', 'I agree to the processing of personal data, according to the privacy policy.'],
   'formular-in-lucru': ['Formularul nu trimite încă date: trimiterea vine cu cererile din Brain.', 'The form does not send data yet: sending comes with the requests in the Brain.']
 };
@@ -273,6 +274,40 @@ const WHY = {
   ro: '<p>Bucură-te de o investiție imobiliară sigură și rentabilă, într-o comunitate selectă, care îți garantează un randament atractiv și un venit pasiv stabil. Cu un design inovator, spații modernizate și o locație de excepție, YACHT KID este alegerea perfectă pentru cei care vor să își diversifice portofoliul și să își dezvolte afacerea într-un mediu exclusivist.</p><p>Indiferent dacă vrei să deschizi un magazin de lux, un showroom modern, un spațiu dedicat serviciilor premium, sau să faci o investiție sigură, aici găsești cadrul ideal pentru succes.</p><p>Alege un spațiu care îți crește afacerea și îți maximizează investiția. Alege YACHT KID.</p>',
   en: '<p>Join an exclusive community that guarantees attractive returns and stable passive income. With innovative design, modernized spaces, and a premium location, YACHT KID is the ideal choice for those looking to diversify their portfolio and expand their business in a high-end environment.</p><p>Whether you’re planning to open a luxury boutique, an exclusive showroom, a premium service space, or secure a profitable investment, this is the perfect setting for success.</p><p>Choose a space that accelerates your business growth and maximizes your investment. Choose YACHT KID.</p>'
 };
+// Formularul pentru afaceri (nu pentru cei care caută un apartament): firmă, domeniu, suprafață, scop.
+// Structura e una; etichetele EN sunt traduse de AI (de verificat), ca restul textelor noi.
+const fl = (name, label, placeholder = null, options = null) => ({name, label, placeholder, options});
+const businessForm = await upsert('formulare', 'formular:comercial', {
+  base: {name: 'Formular spații comerciale', handle: 'comercial', success_page: await idBySlug('pages', 'multumim'), notify: [],
+    fields: [
+      {name: 'name', type: 'text', required: true}, {name: 'company', type: 'text', required: false},
+      {name: 'email', type: 'email', required: true}, {name: 'phone', type: 'tel', required: true},
+      {name: 'domeniu', type: 'select', required: true}, {name: 'suprafata', type: 'select', required: false},
+      {name: 'scop', type: 'select', required: true},
+      {name: 'mesaj', type: 'textarea', required: false}, {name: 'consent', type: 'checkbox', required: true}
+    ].map(f => ({options_from: null, options: null, ...f}))},
+  tr: {ro: {
+    intro: 'Pentru antreprenori și investitori interesați de spațiile de la parterul YACHT KID.',
+    submit_label: 'Trimite cererea',
+    field_labels: [
+      fl('name', 'Nume și prenume'), fl('company', 'Companie / brand'), fl('email', 'Email'), fl('phone', 'Telefon'),
+      fl('domeniu', 'Domeniul afacerii', 'Alegeți domeniul', ['Retail / magazin', 'Cafenea, restaurant (HoReCa)', 'Beauty & wellness', 'Servicii medicale', 'Birou / servicii profesionale', 'Altul']),
+      fl('suprafata', 'Suprafața dorită', 'Alegeți suprafața', ['Până la 100 m²', '100 – 150 m²', 'Peste 150 m²', 'Încă nu știu']),
+      fl('scop', 'Vă interesează spațiul pentru', 'Alegeți o opțiune', ['Propria afacere', 'Investiție (închiriere)']),
+      fl('mesaj', 'Spuneți-ne despre afacerea dumneavoastră'), fl('consent', 'Sunt de acord cu prelucrarea datelor personale, conform politicii de confidențialitate.')
+    ]}},
+  ai: {
+    intro: 'For entrepreneurs and investors interested in the ground-floor spaces at YACHT KID.',
+    submit_label: 'Send enquiry',
+    field_labels: [
+      fl('name', 'Full name'), fl('company', 'Company / brand'), fl('email', 'Email'), fl('phone', 'Phone'),
+      fl('domeniu', 'Business sector', 'Choose a sector', ['Retail / shop', 'Café, restaurant (HoReCa)', 'Beauty & wellness', 'Medical services', 'Office / professional services', 'Other']),
+      fl('suprafata', 'Preferred area', 'Choose an area', ['Up to 100 sqm', '100 – 150 sqm', 'Over 150 sqm', 'Not sure yet']),
+      fl('scop', 'Interested in', 'Choose an option', ['Opening my own business', 'Investment (to let)']),
+      fl('mesaj', 'Tell us about your business'), fl('consent', 'I agree to the processing of personal data, according to the privacy policy.')
+    ]}
+});
+
 const COMMERCIAL = [
   {key: 'comercial-hero', kind: 'hero', base: {video: lifestyleVideo},
     ro: {eyebrow: 'Spații comerciale', heading: 'Extinde-ți afacerea într-o locație de top din nordul Bucureștiului!',
@@ -289,7 +324,7 @@ const COMMERCIAL = [
   {key: 'comercial-branduri', kind: 'afaceri', anchor: 'branduri', base: {business_filter: 'toate'},
     ro: {eyebrow: 'Comunitate', heading: 'Branduri deja prezente în comunitatea Yacht Kid'},
     en: {eyebrow: 'Community', heading: 'Join Leading Brands Already at YACHT KID Community'}},
-  {key: 'comercial-contact', kind: 'formular', anchor: 'contact', base: {form: contactForm},
+  {key: 'comercial-contact', kind: 'formular', anchor: 'contact', base: {form: businessForm},
     ro: {eyebrow: 'Contact', heading: 'Alege YACHT KID pentru afacerea ta!', text: '<p>Alege un spațiu care îți crește afacerea și îți maximizează investiția.</p>'},
     en: {eyebrow: 'Contact', heading: 'Choose YACHT KID', text: '<p>Choose a space that accelerates your business growth and maximizes your investment.</p>'}}
 ];
