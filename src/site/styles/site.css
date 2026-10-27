@@ -684,7 +684,7 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .photo:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
 /* Banda de fotografii (galerie „Bandă îngustă”): pătrate pe un rând, pe toată lățimea ecranului. Prima fotografie
    pornește de la marginea coloanei paginii; derularea e a vizitatorului (scroll-snap), săgețile sunt doar ajutor */
-.strip { padding-block: clamp(8px, 1.5vw, 24px) clamp(40px, 5vw, 72px); --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
+.strip { padding-block: clamp(8px, 1.5vw, 24px) 0; --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
 .strip-track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge); scrollbar-width: none; overscroll-behavior-x: contain; }
 .strip-track::-webkit-scrollbar { display: none; }
 .strip-track:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
@@ -699,6 +699,8 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .strip-prev svg { rotate: 180deg; }
 .strip-btn:disabled { opacity: .35; cursor: default; }
 @media (hover: none) { .strip-nav { display: none; } }
+/* Despre urmează pe același fundal: spațiul de sus al lui nu se mai adună cu cel al benzii */
+.strip + .about { padding-top: clamp(48px, 5vw, 72px); }
 .lightbox { width: min(1280px, 94vw); max-height: 92vh; padding: 0; border: 0; background: none; overflow: visible; }
 .lightbox::backdrop { background: rgb(32 54 108 / .92); backdrop-filter: blur(6px); }
 .lightbox img { display: block; max-width: 100%; max-height: 82vh; margin-inline: auto; border-radius: var(--r-l); object-fit: contain; }
