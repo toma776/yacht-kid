@@ -329,7 +329,7 @@ async function UnitSpec({ctx, s, values}) {
     [L['pret-de-la'] ?? 'Preț de la', u.price_from ? formatMoney(u.price_from, 'EUR', lang) : '', u.vat_excluded ? (L.tva ?? '+ TVA') : null]
   ].filter(([, v]) => v);
   return (
-    <section className="facts slab bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+    <section className="facts facts--spec slab bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
         <div className="section-head"><Head s={s} values={values} id={`t-${s.id}`}/></div>
         <ul className="facts-grid" style={{'--cols': tiles.length}}>
