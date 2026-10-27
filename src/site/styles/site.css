@@ -908,9 +908,11 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
   .other-units a { grid-template-columns: 1fr; }
   .other-units .frame { aspect-ratio: 16 / 10; }
 }
-/* „Alte apartamente” și contactul au același fundal: un singur spațiu între ele, nu două spații de secțiune */
+/* „Alte apartamente” (alb) se termină mai strâns: contactul de după, pe gri, își are propriul spațiu de sus */
 .unit-others { padding-bottom: clamp(40px, 4.5vw, 72px); }
-.unit-others + .contact { padding-top: 0; }
+/* Contactul pe gri, după apartamentele pe alb: spațiul lui normal sus. Jos, placa următoare (Articole) urcă cu --r-band
+   peste el; spațiul o acoperă, ca formularul să nu rămână lipit de ea */
+.contact:has(+ .slab) { padding-bottom: calc(var(--section) * .6 + var(--r-band)); }
 
 /* Hero-ul „card” (homepage): fotografia într-un card rotunjit; broșura stă peste marginea lui de jos, în dreapta */
 /* Jos: loc pentru cardul broșurii, care iese sub fotografie (~45% din înălțimea lui), plus placa secțiunii următoare */
