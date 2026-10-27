@@ -41,7 +41,6 @@ async function HeroCard({ctx, s, values, chrome, video}) {
     ctx.query('locuinte', {fields: ['kind', 'area_min', 'price_from'], where: `e.kind != 'comercial'`}));
   const minArea = Math.min(...units.map(u => u.area_min).filter(Boolean)), minPrice = Math.min(...units.map(u => u.price_from).filter(Boolean));
   const vat = units.find(u => u.price_from === minPrice)?.vat_excluded;
-  const pdf = s.brochure ? ctx.media(s.brochure) : null;
   const ask = encodeURIComponent(L['brosura-mesaj'] ?? 'Bună ziua! Aș dori să primesc broșura YACHT KID.');
   const heading = fillTokens(s.heading ?? '', values);
   const full = mediaVideo(video, '1080p');
@@ -68,7 +67,7 @@ async function HeroCard({ctx, s, values, chrome, video}) {
             </div>
           </div>
         </div>
-        {(pdf || f) && (
+        {(f?.whatsapp || f?.email) && (
           <aside className="brochure-card reveal" style={{'--d': '320ms'}} aria-labelledby="brochure-title">
             <div className="brochure-mock" aria-hidden="true">
               <span className="brochure-page brochure-page--back"/>
@@ -78,7 +77,6 @@ async function HeroCard({ctx, s, values, chrome, video}) {
             </div>
             <p className="brochure-title" id="brochure-title">{L['brosura-titlu'] ?? 'Broșura YACHT KID'}</p>
             <div className="brochure-actions">
-              {pdf && <a className="btn btn--ghost" href={pdf} target="_blank" rel="noopener" download>{L['brosura-descarca'] ?? 'Descarcă broșura'} <span className="btn-icon"><Icon id="arrow"/></span></a>}
               {f?.whatsapp && <a className="btn btn--whatsapp" href={`${f.whatsapp}?text=${ask}`} target="_blank" rel="noopener"><Icon id="whatsapp" size={20}/>{L['brosura-whatsapp'] ?? 'Primește pe WhatsApp'}</a>}
               {f?.email && <a className="btn btn--navy" href={`mailto:${f.email}?subject=${encodeURIComponent(L['brosura-titlu'] ?? 'Broșura YACHT KID')}&body=${ask}`}><Icon id="mail" size={20}/>{L['brosura-email'] ?? 'Primește pe email'}</a>}
             </div>
