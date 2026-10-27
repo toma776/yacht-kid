@@ -453,6 +453,12 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 .lifestyle-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgb(32 54 108 / .82) 0%, rgb(32 54 108 / .2) 60%, rgb(32 54 108 / 0)); }
 /* Placa următoare (subsolul) urcă cu --r-band peste secțiune: banda păstrează spațiul, ca butonul să nu fie acoperit */
 .lifestyle { padding-bottom: clamp(24px, 4vw, 56px); }  /* subsolul nu mai urcă peste ultima secțiune */
+/* După o secțiune cu alt fundal (testimonialele navy din Comunitate), banda e o placă proprie, ca .slab:
+   urcă peste secțiunea de dinainte cu capetele rotunjite și are spațiu deasupra cadrului */
+:is(.bg-navy, .bg-paper, .bg-shell) + .lifestyle {
+  position: relative; z-index: 1; margin-top: calc(var(--r-band) * -1); padding-top: clamp(40px, 5vw, 72px);
+  border-radius: var(--r-band) var(--r-band) 0 0; box-shadow: var(--shadow-slab);
+}
 /* Spațierea benzii: eticheta lipită de titlu, titlul strâns, butonul despărțit clar de titlu */
 .lifestyle-caption { position: absolute; z-index: 1; left: clamp(28px, 6vw, 96px); bottom: clamp(32px, 6vw, 88px); right: 28px; display: grid; justify-items: start; color: var(--paper); }
 .lifestyle-caption .eyebrow { margin-bottom: clamp(12px, 1.2vw, 16px); }
