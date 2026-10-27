@@ -195,6 +195,19 @@ function init(signal) {
     on(dialog, 'close', () => full.pause());
   }
 
+  // ---------- Cuprinsul articolului: marchează secțiunea citită acum (cea mai de sus care a trecut de antet)
+  const toc = document.querySelector('[data-toc]');
+  if (toc) {
+    const links = new Map([...toc.querySelectorAll('a[href^="#"]')].map(a => [a.getAttribute('href').slice(1), a]));
+    const parts = [...document.querySelectorAll('[data-toc-section]')];
+    const mark = () => {
+      const at = parts.filter(s => s.getBoundingClientRect().top < innerHeight * .35).pop();
+      links.forEach((a, id) => a.classList.toggle('is-current', id === at?.id));
+    };
+    on(window, 'scroll', mark, {passive: true});
+    mark();
+  }
+
   // ---------- Galeria: fotografia mare într-un dialog, cu înainte/înapoi (butoane, săgețile tastaturii) și Esc
   const box = document.querySelector('[data-lightbox]');
   if (box) {

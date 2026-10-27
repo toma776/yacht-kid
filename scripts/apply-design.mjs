@@ -93,6 +93,9 @@ const LABELS = {
   bai: ['Băi', 'Bathrooms'], terasa: ['Terasă', 'Terrace'], balcon: ['Balcon', 'Balcony'], da: ['Da', 'Yes'], 'pret-de-la': ['Preț de la', 'Starting from'],
   'formular-contact': ['Formular contact', 'Contact form'], trimite: ['Trimite solicitare', 'Send request'],
   'formular-comercial': ['Cerere pentru spațiu comercial', 'Commercial space enquiry'],
+  cuprins: ['Cuprins', 'Contents'], 'alte-articole': ['Alte articole', 'More articles'], 'min-citire': ['min de citit', 'min read'],
+  'articol-cta-titlu': ['Vino să vezi YACHT KID', 'Come and see YACHT KID'],
+  'articol-cta-text': ['Programează o vizionare și descoperă locuințele de lângă parc.', 'Book a viewing and discover the homes by the park.'],
   'acord-date': ['Sunt de acord cu prelucrarea datelor personale, conform politicii de confidențialitate.', 'I agree to the processing of personal data, according to the privacy policy.'],
   'formular-in-lucru': ['Formularul nu trimite încă date: trimiterea vine cu cererile din Brain.', 'The form does not send data yet: sending comes with the requests in the Brain.']
 };

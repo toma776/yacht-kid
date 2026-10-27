@@ -13,6 +13,10 @@ import {IconSprite, Icon} from './ui/Icons.jsx';
 import {Header, Footer} from './ui/Chrome.jsx';
 import {Sections, sectionsOf, PostList} from './ui/Sections.jsx';
 import SiteBehavior from './ui/SiteBehavior.jsx';
+import {Article} from './ui/Article.jsx';
+
+// Articolele cu macheta nouă (cuprins, secțiuni numerotate, întrebări frecvente în acordeon, sidebar); de extins după probă
+const NEW_ARTICLE_LAYOUT = new Set([26]);
 
 export const pathFrom = (lang, segments = []) => localPath(lang, ...segments.map(decodeURIComponent));
 
@@ -57,6 +61,8 @@ async function Body({ctx, kind, rec, values, chrome}) {
       );
     }
     case 'articole':
+      // Macheta nouă, deocamdată doar pe articolele din listă (de probă); restul păstrează macheta simplă
+      if (NEW_ARTICLE_LAYOUT.has(rec.id)) return <Article ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
       return (
         <article className="wrap page-body">
           <header className="page-head">
