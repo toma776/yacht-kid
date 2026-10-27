@@ -11,6 +11,7 @@ import {createHash} from 'node:crypto';
 import {join} from 'node:path';
 import {entity, field, hasStatus, hasTranslations, relation, relTable} from '../registry/derive.mjs';
 import {columnOf} from '../core/schema.mjs';
+import {trFingerprint} from '../core/fingerprint.mjs';
 import {decode, text, attr, mainOf, metaOf, byHeading, paragraphs, images, uploadKey, sanitize, roundTrip, fold, squash} from './html.mjs';
 import {PARTNERS, AWARDS, BUSINESSES, FACTS, LABELS, PAGE_TEMPLATES, FORM_FIELD_RENAMES, FORM_FIELD_ALIASES} from './curated.mjs';
 
@@ -62,7 +63,8 @@ class Writer {
     for (const n of [natural, ...aliases]) await this.run('INSERT OR IGNORE INTO import_keys (entity, natural_key, entity_id, at) VALUES (?, ?, ?, ?)', [key, n, id, this.now]);
     if (hasTranslations(key)) {
       // Amprenta textului RO din momentul traducerii: când RO se schimbă, traducerea apare „învechită” (§1.10)
-      const fp = tr.ro ? sha1(JSON.stringify(tr.ro)) : null;
+      const roCols = tr.ro && Object.fromEntries(Object.entries(tr.ro).map(([k, v]) => [columnOf(field(key, k)), this.enc(key, k, v)]));
+      const fp = trFingerprint(key, roCols);
       for (const [lang, t] of Object.entries(tr)) {
         if (!t) continue;
         const tc = Object.fromEntries(Object.entries(t).filter(([, v]) => v !== undefined).map(([k, v]) => [columnOf(field(key, k)), this.enc(key, k, v)]));
