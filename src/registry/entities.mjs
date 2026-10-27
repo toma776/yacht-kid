@@ -49,7 +49,13 @@ export const ENTITIES = [
       {key: 'schedule', label: 'Program', type: 'text', ...T},
       {key: 'address_label', label: 'Adresa, cum se afișează', type: 'text', ...T,
        help: 'Doar forma; strada, orașul și codul vin din câmpurile de mai sus prin {adresa}.'},
-      {key: 'social', label: 'Rețele sociale', type: 'links'}
+      {key: 'social', label: 'Rețele sociale', type: 'links'},
+      // Pentru harta 3D (secțiunile text cu „Harta 3D”): punctul proiectului și volumul clădirii, din OpenStreetMap (scripts/harta-locatie.mjs)
+      {key: 'latitude', label: 'Latitudine', type: 'number', help: 'Punctul proiectului pe hartă (OpenStreetMap).'},
+      {key: 'longitude', label: 'Longitudine', type: 'number'},
+      {key: 'building_levels', label: 'Etaje', type: 'int', help: 'Înălțimea volumului de pe harta 3D (~3,2 m pe etaj).'},
+      {key: 'building_footprint', label: 'Conturul clădirii', type: 'table', readonly: true, intern: true,
+       help: 'Poligonul GeoJSON al clădirii din OpenStreetMap; se reface cu `npm run harta`.'}
     ],
     tokens: {
       telefon: {field: 'phone'}, email: {field: 'email'}, program: {field: 'schedule'},
@@ -94,6 +100,25 @@ export const ENTITIES = [
       {key: 'group', label: 'Grup', type: 'select', list: true, options: ['structura', 'anvelopa', 'interior', 'intretinere']},
       {key: 'suppliers', label: 'Furnizori și certificări', type: 'refs', target: 'parteneri', ordered: true,
        rel: 'e furnizată de', inverseLabel: 'Tehnologii', only: p => hasRole(p, 'furnizor', 'certificare')}
+    ]
+  },
+  {
+    // Punctele de interes din jurul proiectului, pentru harta 3D (secțiunile text cu „Harta 3D”). Coordonatele vin din OpenStreetMap;
+    // distanța, minutele și traseul pe jos se calculează pe străzile reale cu OSRM (`npm run harta`), nu se scriu de mână.
+    key: 'repere', table: 'places', label: 'Puncte de interes', one: 'Punct de interes',
+    category: 'proiect', color: '#3a8f7b', icon: 'map-pin',
+    title: 'name',
+    fields: [
+      {key: 'name', label: 'Nume', type: 'text', required: true, max: 80, list: true, ...T},
+      {key: 'category_name', label: 'Categorie', type: 'text', max: 40, list: true, ...T, help: '„Transport”, „Cumpărături”, „Natură”.'},
+      {key: 'icon', label: 'Pictogramă', type: 'select', required: true, options: ['metro', 'mall', 'shop', 'park', 'gym', 'cafe'], default: 'park'},
+      {key: 'latitude', label: 'Latitudine', type: 'number', required: true},
+      {key: 'longitude', label: 'Longitudine', type: 'number', required: true},
+      {key: 'distance_m', label: 'Distanța pe jos (m)', type: 'int', readonly: true, list: true},
+      {key: 'walk_min', label: 'Pe jos (min)', type: 'int', readonly: true, list: true},
+      {key: 'drive_min', label: 'Cu mașina (min)', type: 'int', readonly: true},
+      {key: 'walk_route', label: 'Traseul pe jos', type: 'table', readonly: true, intern: true, help: 'Coordonatele traseului, desenat pe hartă la hover.'},
+      {key: 'osm', label: 'Sursa în OpenStreetMap', type: 'text', intern: true, readonly: true}
     ]
   },
   {
@@ -306,6 +331,12 @@ export const ENTITIES = [
       {key: 'text', label: 'Text', type: 'richtext', ...T},
       {key: 'buttons', label: 'Butoane', type: 'links', ...T},
       {key: 'image', label: 'Imagine', type: 'image', kinds: ['hero', 'text', 'cta']},
+      // Harta 3D pe o secțiune text (Locație): un câmp nou, nu un fel nou de secțiune — o coloană se adaugă sigur pe
+      // orice bază (ALTER), pe când o opțiune nouă în `kind` ar cere reconstruirea tabelului (regula CHECK)
+      {key: 'show_map', label: 'Harta 3D', type: 'boolean', kinds: ['text'],
+       help: 'În locul imaginii din dreapta: harta 3D cu punctele de interes. Imaginea rămâne până se încarcă harta și pe dispozitivele fără WebGL.'},
+      {key: 'places', label: 'Puncte de interes', type: 'refs', target: 'repere', ordered: true, kinds: ['text'],
+       rel: 'arată pe hartă', inverseLabel: 'Secțiuni', help: 'Pentru Harta 3D. Gol = toate punctele de interes publicate.'},
       {key: 'video', label: 'Video', type: 'image', kinds: ['hero', 'video']},
       {key: 'unit_type', label: 'Tipul de locuință', type: 'ref', target: 'locuinte', kinds: ['fisa-tehnica'],
        rel: 'arată fișa', inverseLabel: 'Secțiuni'},

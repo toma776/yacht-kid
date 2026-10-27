@@ -279,7 +279,7 @@ const SECTIONS = [
     en: {eyebrow: 'Apartments', heading: 'Apartments Collection', text: '<p>Discover our exclusive collection of luxury apartments, where timeless design, high-end finishes, and exceptional comfort come together to create the ultimate living experience.</p>'}},
   // Galeria „arhitectura” (premiile cu trei fotografii) a ieșit de pe homepage: banda de premii spune deja asta.
   // Secțiunea rămâne în Brain, nelegată, și se poate pune înapoi din /manage.
-  {key: 'locatie', kind: 'text', anchor: 'locatie',
+  {key: 'locatie', kind: 'text', anchor: 'locatie', base: {show_map: true},
     ro: {eyebrow: 'Locație', heading: 'Locație premium pe malul lacului, cu deschidere către parc', buttons: [btn('Solicită ofertă', '#contact')],
       text: '<p>Amplasat în zona de nord a capitalei, YACHT KID oferă acces rapid la diverse parcuri, centre comerciale, restaurante de top, săli de fitness și multe altele.</p><p>Ansamblul beneficiază de toate facilitățile necesare pentru un stil de viață modern și confortabil, fiind poziționat ideal pentru a îmbina eleganța cu comoditatea zilnică.</p><p>{adresa}</p>'
         + `<figure><img data-media="${M.hartaRo}" alt="Harta zonei: YACHT KID pe Str. Anton Holban 6, lângă Lacul Tei, Metrou Pipera, Promenada Mall, Kaufland, World Class Caro și Clubul Pescariu Sports &amp; SPA"></figure>`},

@@ -96,6 +96,10 @@ CREATE TABLE IF NOT EXISTS "company" (
   "phone" TEXT,
   "email" TEXT,
   "social" TEXT CHECK ("social" IS NULL OR json_valid("social")),
+  "latitude" REAL,
+  "longitude" REAL,
+  "building_levels" INTEGER,
+  "building_footprint" TEXT CHECK ("building_footprint" IS NULL OR json_valid("building_footprint")),
   search TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
@@ -176,6 +180,28 @@ CREATE TABLE IF NOT EXISTS "technologies" (
 CREATE INDEX IF NOT EXISTS "ix_technologies_image_id" ON "technologies"("image_id");
 
 CREATE INDEX IF NOT EXISTS "ix_technologies_status" ON "technologies"(status);
+
+CREATE TABLE IF NOT EXISTS "places" (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
+  draft TEXT CHECK (draft IS NULL OR json_valid(draft)),
+  published_at TEXT,
+  "icon" TEXT DEFAULT 'park' CHECK ("icon" IS NULL OR "icon" IN ('metro', 'mall', 'shop', 'park', 'gym', 'cafe')),
+  "latitude" REAL,
+  "longitude" REAL,
+  "distance_m" INTEGER,
+  "walk_min" INTEGER,
+  "drive_min" INTEGER,
+  "walk_route" TEXT CHECK ("walk_route" IS NULL OR json_valid("walk_route")),
+  "osm" TEXT,
+  search TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE INDEX IF NOT EXISTS "ix_places_status" ON "places"(status);
 
 CREATE TABLE IF NOT EXISTS "partners" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -389,6 +415,7 @@ CREATE TABLE IF NOT EXISTS "sections" (
   "kind" TEXT CHECK ("kind" IS NULL OR "kind" IN ('hero', 'text', 'fisa-tehnica', 'alte-locuinte', 'avantaje', 'tehnologii', 'afaceri', 'premii', 'testimoniale', 'cifre', 'galerie', 'video', 'articole', 'formular', 'cta', 'card-niveluri')),
   "anchor" TEXT,
   "image_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
+  "show_map" INTEGER NOT NULL DEFAULT 0 CHECK ("show_map" IN (0, 1)),
   "video_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   "unit_type_id" INTEGER REFERENCES "unit_types"(id) ON DELETE SET NULL,
   "business_filter" TEXT CHECK ("business_filter" IS NULL OR "business_filter" IN ('toate', 'membri-card')),
@@ -537,6 +564,18 @@ CREATE TABLE IF NOT EXISTS "technologies_translations" (
   "title" TEXT,
   "summary" TEXT,
   "description" TEXT,
+  source_fp TEXT,
+  translated_at TEXT,
+  translated_by TEXT,
+  updated_at TEXT NOT NULL,
+  PRIMARY KEY (entity_id, lang)
+);
+
+CREATE TABLE IF NOT EXISTS "places_translations" (
+  entity_id INTEGER NOT NULL REFERENCES "places"(id) ON DELETE CASCADE,
+  lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
+  "name" TEXT,
+  "category_name" TEXT,
   source_fp TEXT,
   translated_at TEXT,
   translated_by TEXT,
@@ -856,6 +895,21 @@ CREATE TABLE IF NOT EXISTS "rel_pages_sections" (
 );
 
 CREATE INDEX IF NOT EXISTS "ix_rel_pages_sections_dst" ON "rel_pages_sections"(dst_id);
+
+CREATE TABLE IF NOT EXISTS "rel_sections_places" (
+  src_id INTEGER NOT NULL REFERENCES "sections"(id) ON DELETE CASCADE,
+  dst_id INTEGER NOT NULL REFERENCES "places"(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'inferred', 'unverified')),
+  confidence REAL,
+  source_id INTEGER REFERENCES sources(id) ON DELETE SET NULL,
+  note TEXT,
+  attrs TEXT CHECK (attrs IS NULL OR json_valid(attrs)),
+  created_at TEXT, created_by TEXT,
+  PRIMARY KEY (src_id, dst_id)
+);
+
+CREATE INDEX IF NOT EXISTS "ix_rel_sections_places_dst" ON "rel_sections_places"(dst_id);
 
 CREATE TABLE IF NOT EXISTS "rel_sections_features" (
   src_id INTEGER NOT NULL REFERENCES "sections"(id) ON DELETE CASCADE,

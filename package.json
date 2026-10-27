@@ -18,7 +18,9 @@
     "import:turso": "node --env-file=.env.local scripts/import.mjs",
     "mirror": "node scripts/mirror.mjs",
     "mirror:serve": "node scripts/mirror-serve.mjs",
-    "video": "node scripts/video.mjs"
+    "video": "node scripts/video.mjs",
+    "harta": "node scripts/harta-locatie.mjs && node scripts/harta-brain.mjs",
+    "harta:brain": "node scripts/harta-brain.mjs"
   },
   "dependencies": {
     "@libsql/client": "0.18.0",

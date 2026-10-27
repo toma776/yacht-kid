@@ -4,6 +4,7 @@ import {formatNumber, formatRange, formatMoney} from '../../registry/langs.mjs';
 import {fillTokens, rich} from '../rich.mjs';
 import {unitCard, resolveTo} from '../chrome.mjs';
 import {Icon} from './Icons.jsx';
+import LocationMap from './LocationMap.jsx';
 
 const strip = html => (html ?? '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const num = i => String(i + 1).padStart(2, '0');
@@ -206,6 +207,9 @@ async function Text({ctx, s, values, run}) {
   const body = html.replace(`<p>${values.adresa}</p>`, '').replace(/<figure>[\s\S]*?<\/figure>/, '');
   const [b1] = await buttons(ctx, s, values);
   const dark = s.anchor === 'locatie';
+  // „Harta 3D”: aceeași așezare, cu harta în dreapta; imaginea (din text sau a secțiunii) rămâne de rezervă
+  const map = s.show_map ? await mapData(ctx, s) : null;
+  const fallback = (figImg || s.image) ? {src: figImg ?? ctx.media(s.image), alt: figImg ? figAlt : s.heading ?? ''} : null;
   return (
     <section className={`location floor ${dark ? 'bg-navy on-dark' : 'bg-porcelain'} slab`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap location-grid">
@@ -215,10 +219,29 @@ async function Text({ctx, s, values, run}) {
           {address && <address className="address reveal" style={{'--d': '200ms'}}><Icon id="pin" size={20}/>{values.adresa}</address>}
           {b1 && <a className="btn reveal" style={{'--d': '240ms'}} href={b1.href}>{b1.label} <span className="btn-icon"><Arrow/></span></a>}
         </div>
-        {(figImg || s.image) && <figure className="frame location-map reveal" style={{'--d': '120ms'}}><img src={figImg ?? ctx.media(s.image)} alt={figImg ? figAlt : s.heading ?? ''} loading="lazy"/></figure>}
+        {map
+          ? <div className="reveal" style={{'--d': '120ms'}}><LocationMap {...map} lang={ctx.lang} fallback={fallback}/></div>
+          : fallback && <figure className="frame location-map reveal" style={{'--d': '120ms'}}><img src={fallback.src} alt={fallback.alt} loading="lazy"/></figure>}
       </div>
     </section>
   );
+}
+
+// Datele hărții 3D: proiectul din Date firmă, punctele de interes alese în secțiune (sau toate cele publicate),
+// logo-ul alb pentru pinul proiectului. Fără coordonate, secțiunea rămâne cu imaginea.
+async function mapData(ctx, s) {
+  const firma = await ctx.single('firma');
+  if (!firma?.latitude || !firma?.longitude) return null;
+  const chosen = await ctx.links('sectiuni.places', s.id);
+  const places = chosen.length ? chosen : await ctx.within(`Puncte de interes (${s.id})`, 'toate punctele de interes publicate', () =>
+    ctx.query('repere', {fields: ['latitude', 'longitude', 'walk_min'], order: 'e.walk_min'}));
+  const [logo] = await ctx.query('media', {fields: ['filename'], where: 'e.filename = ?', args: ['2024/10/yacht_kid_logo_white.png']});
+  return {
+    home: {lat: firma.latitude, lng: firma.longitude, levels: firma.building_levels, footprint: firma.building_footprint, label: firma.street},
+    pois: places.map(p => ({id: String(p.id), name: p.name, kind: p.category_name, icon: p.icon, lat: p.latitude, lng: p.longitude,
+      distance_m: p.distance_m, walk_min: p.walk_min, drive_min: p.drive_min, walk_route: p.walk_route})),
+    logo: logo ? ctx.media(logo.id) : null
+  };
 }
 
 async function Features({ctx, s, values}) {
