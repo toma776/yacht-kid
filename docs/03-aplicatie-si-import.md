@@ -19,12 +19,8 @@ Alternativa respinsă: Supabase (deja instalat în echipa DWF). Ar fi cerut un g
 
 1. **Instalează integrarea Turso** din Vercel Marketplace pe proiectul `yacht-kid` și creează o bază. Integrarea pune singură `TURSO_DATABASE_URL` și `TURSO_AUTH_TOKEN`. Instalarea înseamnă acceptarea termenilor Turso, deci o faci tu.
 2. **Adaugă `CRON_SECRET`** în variabilele proiectului: o valoare lungă, aleatoare.
-3. **Rulează importul o dată în Turso**, de pe calculatorul tău, cu variabilele de mai sus. Comanda e mai jos.
+3. **Primul import se face pe Vercel.** Pe o bază goală, ruta de cron importă singură snapshot-ul din repo. E de ajuns un clic pe **Run** la Settings → Cron Jobs, sau așteptarea rulării de la 03:00. După primul import, ruta nu mai importă nimic. Alternativa locală e `npm run import:turso`, cu `TURSO_DATABASE_URL` și `TURSO_AUTH_TOKEN` în `.env.local`.
 4. **Fișierele media** nu sunt încă pe Vercel. Propunerea: Vercel Blob, la pasul site-ului. Până atunci, `/media/<id>/` dă 404 pe Vercel.
-
-```bash
-TURSO_DATABASE_URL=libsql://… TURSO_AUTH_TOKEN=… npm run import
-```
 
 **De verificat la prima rulare pe Turso:** local, cheile străine sunt verificate (`PRAGMA foreign_keys = ON`, testat și în tranzacție). Pe Turso, prin HTTP, nu am putut verifica încă. Testul se rulează pe baza din Turso imediat după ce există.
 

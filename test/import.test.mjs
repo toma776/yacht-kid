@@ -115,6 +115,14 @@ test('contextul: pe site doar ce e publicat; jetoanele vin din Date firmă și d
   await assert.rejects(ro.query('articole', {}), /fără scope/);
 });
 
+test('primul import de pe server rulează o singură dată', async () => {
+  const {importIfEmpty} = await import('../src/import/auto.mjs');
+  const d = await fresh();
+  assert.ok((await importIfEmpty(d, {dir})).imported);
+  assert.ok((await importIfEmpty(d, {dir})).skipped);
+  assert.equal((await one(d, `SELECT count(*) n FROM change_events WHERE action = 'import'`)).n, 1);
+});
+
 test('textul bogat: trimiterile devin adresa curentă în limba paginii', async () => {
   const row = await one(db, `SELECT t.content FROM posts_translations t WHERE t.lang = 'ro' AND t.content LIKE '%data-ref="%' LIMIT 1`);
   assert.ok(row, 'există articole cu linkuri interne');
