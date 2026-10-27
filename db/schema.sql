@@ -418,6 +418,7 @@ CREATE TABLE IF NOT EXISTS "sections" (
   "show_map" INTEGER NOT NULL DEFAULT 0 CHECK ("show_map" IN (0, 1)),
   "video_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   "unit_type_id" INTEGER REFERENCES "unit_types"(id) ON DELETE SET NULL,
+  "strip" INTEGER NOT NULL DEFAULT 0 CHECK ("strip" IN (0, 1)),
   "business_filter" TEXT CHECK ("business_filter" IS NULL OR "business_filter" IN ('toate', 'membri-card')),
   "post_category_id" INTEGER REFERENCES "categories"(id) ON DELETE SET NULL,
   "limit" INTEGER,

@@ -204,18 +204,30 @@ function init(signal) {
     }));
   });
 
-  // ---------- Galeria: fotografia mare într-un dialog, cu înainte/înapoi (butoane, săgețile tastaturii) și Esc
-  const box = document.querySelector('[data-lightbox]');
-  if (box) {
+  // ---------- Galeria: fotografia mare într-un dialog, cu înainte/înapoi (butoane, săgețile tastaturii) și Esc.
+  // Pot fi mai multe pe pagină (grila și banda): fiecare dialog ține de butoanele din secțiunea lui
+  document.querySelectorAll('[data-lightbox]').forEach(box => {
     const photos = JSON.parse(box.dataset.lightbox), img = box.querySelector('[data-lightbox-img]'), count = box.querySelector('[data-lightbox-count]');
     let at = 0;
     const show = i => { at = (i + photos.length) % photos.length; img.src = photos[at].src; img.alt = photos[at].alt; count.textContent = `${at + 1} / ${photos.length}`; };
-    document.querySelectorAll('[data-lightbox-open]').forEach(b => on(b, 'click', () => { show(+b.dataset.lightboxOpen); box.showModal(); }));
+    (box.closest('section') ?? document).querySelectorAll('[data-lightbox-open]').forEach(b => on(b, 'click', () => { show(+b.dataset.lightboxOpen); box.showModal(); }));
     box.querySelectorAll('[data-lightbox-step]').forEach(b => on(b, 'click', () => show(at + +b.dataset.lightboxStep)));
     on(box.querySelector('[data-lightbox-close]'), 'click', () => box.close());
     on(box, 'click', e => { if (e.target === box) box.close(); });
     on(box, 'keydown', e => { if (e.key === 'ArrowRight') show(at + 1); if (e.key === 'ArrowLeft') show(at - 1); });
-  }
+  });
+
+  // ---------- Banda de fotografii: săgețile derulează cu aproape un ecran; la capete, săgeata respectivă se stinge
+  document.querySelectorAll('[data-strip]').forEach(track => {
+    const steps = [...track.closest('section').querySelectorAll('[data-strip-step]')];
+    const edges = () => {
+      steps[0].disabled = track.scrollLeft <= 4;
+      steps[1].disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    };
+    steps.forEach(b => on(b, 'click', () => track.scrollBy({left: +b.dataset.stripStep * track.clientWidth * .8, behavior: reduced ? 'auto' : 'smooth'})));
+    on(track, 'scroll', edges, {passive: true});
+    edges();
+  });
 
   // ---------- Capitolele din Despre: unul deschis, cu fotografia lui; se schimbă singure cât timp secțiunea e pe
   // ecran, se opresc la hover/focus și de tot după primul click

@@ -347,6 +347,9 @@ export const ENTITIES = [
        rel: 'citează', inverseLabel: 'Secțiuni', help: 'Gol = toate cele cu „Afișat pe pagina Testimoniale”.'},
       {key: 'gallery', label: 'Galerie', type: 'refs', target: 'media', ordered: true, owned: true, kinds: ['galerie'],
        rel: 'are imaginea', inverseLabel: 'Galerii'},
+      // Un câmp, nu o opțiune nouă în `variant`: o opțiune nouă ar schimba regula CHECK (reconstruirea tabelului)
+      {key: 'strip', label: 'Bandă îngustă', type: 'boolean', kinds: ['galerie'],
+       help: 'Fotografiile pătrate, pe un singur rând, derulat de vizitator (fără mișcare automată). Fiecare se deschide mare la clic.'},
       // Listele calculate: secțiunea spune doar regula, lista vine din Brain (dependență `query` cu scope, §3.2)
       {key: 'business_filter', label: 'Ce afaceri', type: 'select', options: ['toate', 'membri-card'], kinds: ['afaceri']},
       {key: 'post_category', label: 'Din categoria', type: 'ref', target: 'categorii', kinds: ['articole'],

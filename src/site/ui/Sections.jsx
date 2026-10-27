@@ -3,6 +3,7 @@
 import {formatNumber, formatRange, formatMoney} from '../../registry/langs.mjs';
 import {fillTokens, rich} from '../rich.mjs';
 import {unitCard, resolveTo} from '../chrome.mjs';
+import Image from 'next/image';
 import {Icon} from './Icons.jsx';
 import LocationMap from './LocationMap.jsx';
 
@@ -334,19 +335,52 @@ export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel}) {
         </ul>
         {list.length > shown.length && <button type="button" className="btn btn--ghost photos-all" data-lightbox-open={shown.length}>{allLabel ?? 'Toate fotografiile'} ({list.length}) <span className="btn-icon"><Arrow/></span></button>}
       </div>
-      <dialog className="lightbox" data-lightbox={JSON.stringify(list)} aria-label={s.heading ?? ''}>
-        <button className="dialog-close" type="button" data-lightbox-close aria-label="×"><Icon id="close" size={24}/></button>
-        <button className="lightbox-nav lightbox-prev" type="button" data-lightbox-step="-1" aria-label="←"><Arrow/></button>
-        <img alt="" data-lightbox-img/>
-        <button className="lightbox-nav lightbox-next" type="button" data-lightbox-step="1" aria-label="→"><Arrow/></button>
-        <p className="lightbox-count num" data-lightbox-count/>
-      </dialog>
+      <Lightbox list={list} label={s.heading}/>
+    </section>
+  );
+}
+
+// Fotografia mare, cu înainte/înapoi; SiteBehavior o leagă de butoanele [data-lightbox-open] din aceeași secțiune
+const Lightbox = ({list, label}) => (
+  <dialog className="lightbox" data-lightbox={JSON.stringify(list)} aria-label={label ?? ''}>
+    <button className="dialog-close" type="button" data-lightbox-close aria-label="×"><Icon id="close" size={24}/></button>
+    <button className="lightbox-nav lightbox-prev" type="button" data-lightbox-step="-1" aria-label="←"><Arrow/></button>
+    <img alt="" data-lightbox-img/>
+    <button className="lightbox-nav lightbox-next" type="button" data-lightbox-step="1" aria-label="→"><Arrow/></button>
+    <p className="lightbox-count num" data-lightbox-count/>
+  </dialog>
+);
+
+// Banda îngustă: fotografii pătrate pe un rând, pe toată lățimea ecranului. Se derulează doar de vizitator
+// (degetul, rotița, săgețile), cu opriri pe fiecare fotografie; miniaturile vin redimensionate de next/image.
+function PhotoStrip({ctx, s, values, imgs}) {
+  const list = imgs.map(m => ({src: ctx.media(m.id), alt: m.alt ?? ''}));
+  const label = s.heading ? fillTokens(s.heading, values) : 'YACHT KID';
+  return (
+    <section className="strip bg-porcelain" id={s.anchor || undefined} aria-label={label}>
+      <div className="strip-track" data-strip tabIndex={0}>
+        <ul>
+          {list.map((p, i) => (
+            <li key={i}>
+              <button type="button" className="frame strip-photo" data-lightbox-open={i} aria-label={p.alt || `${i + 1} / ${list.length}`}>
+                <Image src={p.src} alt={p.alt} width={480} height={480} sizes="(max-width: 560px) 150px, 224px" quality={70}/>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="wrap strip-nav">
+        <button type="button" className="strip-btn strip-prev" data-strip-step="-1" aria-label="←"><Arrow/></button>
+        <button type="button" className="strip-btn" data-strip-step="1" aria-label="→"><Arrow/></button>
+      </div>
+      <Lightbox list={list} label={label}/>
     </section>
   );
 }
 
 async function Gallery({ctx, s, values}) {
   const imgs = await ctx.links('sectiuni.gallery', s.id);
+  if (s.strip) return PhotoStrip({ctx, s, values, imgs});
   if (imgs.length > 3) return PhotoGrid({ctx, s, values, imgs});
   const [b1] = await buttons(ctx, s, values);
   const [a, b, c] = imgs;

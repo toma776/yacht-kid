@@ -682,6 +682,23 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .photo-grid li:first-child .photo { aspect-ratio: auto; }
 .photo:hover img { transform: scale(1.04); }
 .photo:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+/* Banda de fotografii (galerie „Bandă îngustă”): pătrate pe un rând, pe toată lățimea ecranului. Prima fotografie
+   pornește de la marginea coloanei paginii; derularea e a vizitatorului (scroll-snap), săgețile sunt doar ajutor */
+.strip { padding-block: clamp(8px, 1.5vw, 24px) clamp(40px, 5vw, 72px); --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
+.strip-track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge); scrollbar-width: none; overscroll-behavior-x: contain; }
+.strip-track::-webkit-scrollbar { display: none; }
+.strip-track:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
+.strip-track ul { display: flex; gap: clamp(8px, .9vw, 14px); width: max-content; padding-inline: var(--edge); }
+.strip-track li { scroll-snap-align: start; }
+.strip-photo { display: block; width: clamp(150px, 15.5vw, 224px); aspect-ratio: 1; padding: 0; border: 0; border-radius: var(--r-m); cursor: zoom-in; background: var(--glass); }
+.strip-photo img { width: 100%; height: 100%; object-fit: cover; }
+.strip-photo:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+.strip-nav { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+.strip-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); background: none; color: var(--navy); display: grid; place-items: center; cursor: pointer; }
+.strip-btn svg { width: 16px; height: 16px; }
+.strip-prev svg { rotate: 180deg; }
+.strip-btn:disabled { opacity: .35; cursor: default; }
+@media (hover: none) { .strip-nav { display: none; } }
 .lightbox { width: min(1280px, 94vw); max-height: 92vh; padding: 0; border: 0; background: none; overflow: visible; }
 .lightbox::backdrop { background: rgb(32 54 108 / .92); backdrop-filter: blur(6px); }
 .lightbox img { display: block; max-width: 100%; max-height: 82vh; margin-inline: auto; border-radius: var(--r-l); object-fit: contain; }
