@@ -437,9 +437,14 @@
       <address class="address reveal" style="--d:200ms"><svg width="20" height="20"><use href="#i-pin"/></svg>Str. Anton Holban 6, București 077190</address>
       <a class="btn reveal" style="--d:240ms" href="#contact">Solicită ofertă <span class="btn-icon"><svg><use href="#i-arrow"/></svg></span></a>
     </div>
-    <figure class="frame location-map reveal" style="--d:120ms">
-      <img src="/wp-content/uploads/2025/01/ro-yacht-kid-harta.jpg" alt="Harta zonei: YACHT KID pe Str. Anton Holban 6, lângă Lacul Tei, Metrou Pipera, Promenada Mall, Kaufland, World Class Caro și Clubul Pescariu Sports & SPA" loading="lazy" width="1024" height="554">
-    </figure>
+    <!-- Harta 3D (harta/map.js): imaginea desenată rămâne până se încarcă harta și pe dispozitivele fără WebGL -->
+    <div class="location-visual reveal" style="--d:120ms">
+      <figure class="frame location-map" data-map="harta/locatie.json">
+        <img class="map-fallback" src="/wp-content/uploads/2025/01/ro-yacht-kid-harta.jpg" alt="Harta zonei: YACHT KID pe Str. Anton Holban 6, lângă Lacul Tei, Metrou Pipera, Promenada Mall, Kaufland, World Class Caro și Clubul Pescariu Sports & SPA" loading="lazy" width="1024" height="554">
+        <div class="map-canvas" role="region" aria-label="Hartă 3D interactivă a zonei YACHT KID"></div>
+      </figure>
+      <ul class="poi-list" data-poi-list aria-label="În apropiere, pe jos"></ul>
+    </div>
   </div>
 </section>
 
@@ -638,5 +643,6 @@
 </dialog>
 
 <script src="home.js" defer></script>
+<script src="harta/map.js" type="module"></script>
 </body>
 </html>

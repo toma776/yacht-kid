@@ -1,7 +1,7 @@
 // Punctele de interes din jurul YACHT KID, pentru harta 3D din secțiunea Locație (design/homepage/harta/).
 // Coordonatele vin din OpenStreetMap (nodurile/căile notate mai jos); distanța și timpul pe jos și cu mașina sunt
 // calculate pe străzile reale cu OSRM (routing.openstreetmap.de, FOSSGIS), împreună cu traseul pe jos (desenat la hover),
-// iar conturul clădirii YACHT KID vine din Overpass, pentru volumul evidențiat; totul o singură dată, la rulare:
+// iar conturul clădirii YACHT KID vine din API-ul OpenStreetMap, pentru volumul evidențiat; totul o singură dată, la rulare:
 // harta citește doar fișierul generat, fără cereri de rutare de la vizitatori.
 //   node scripts/harta-locatie.mjs
 import {writeFileSync} from 'node:fs';
@@ -38,22 +38,13 @@ for (const p of POIS) {
   delete p.walkTo;
   console.log(`  ✓ ${p.name}: ${foot.m} m · ${foot.min} min pe jos · ${car.min} min cu mașina`);
 }
-// Conturul clădirii (calea OSM a lui HOME), ca poligon GeoJSON; înălțimea din building:levels (~3,2 m pe etaj)
-// Serverele Overpass sunt des supraîncărcate: încearcă pe rând oglinzile
-async function overpass(query) {
-  for (const host of ['https://overpass-api.de', 'https://lz4.overpass-api.de', 'https://overpass.kumi.systems'])
-    for (let i = 0; i < 2; i++) {
-      const r = await fetch(`${host}/api/interpreter`, {method: 'POST', headers: {'user-agent': UA, 'content-type': 'application/x-www-form-urlencoded'}, body: 'data=' + encodeURIComponent(query)});
-      if (r.ok) return r.json();
-      await sleep(3000);
-    }
-  throw new Error('Overpass nu răspunde');
-}
-const ov = await overpass(`[out:json];way(${HOME.osm.split('/')[1]});out geom tags;`);
-const way = ov.elements[0];
+// Conturul clădirii, din API-ul OpenStreetMap (calea HOME.osm cu nodurile ei); înălțimea din building:levels (~3,2 m pe etaj)
+const full = await (await fetch(`https://api.openstreetmap.org/api/0.6/${HOME.osm}/full.json`, {headers: {'user-agent': UA}})).json();
+const way = full.elements.find(e => e.type === 'way');
+const nodes = new Map(full.elements.filter(e => e.type === 'node').map(n => [n.id, n]));
 HOME.levels = +way.tags['building:levels'] || 10;
-HOME.footprint = {type: 'Polygon', coordinates: [way.geometry.map(p => [+p.lon.toFixed(7), +p.lat.toFixed(7)])]};
-console.log(`  ✓ clădirea: ${way.geometry.length} puncte, ${HOME.levels} etaje`);
+HOME.footprint = {type: 'Polygon', coordinates: [way.nodes.map(id => [+nodes.get(id).lon.toFixed(7), +nodes.get(id).lat.toFixed(7)])]};
+console.log(`  ✓ clădirea: ${way.nodes.length} puncte, ${HOME.levels} etaje`);
 const out = {generated: new Date().toISOString().slice(0, 10), source: 'OpenStreetMap (ODbL) · rute OSRM, routing.openstreetmap.de', home: HOME, pois: POIS};
 writeFileSync('design/homepage/harta/locatie.json', JSON.stringify(out, null, 1));
 console.log('design/homepage/harta/locatie.json');
