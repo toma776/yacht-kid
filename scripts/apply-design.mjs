@@ -397,7 +397,8 @@ const COMMUNITY_CH = [
 const chaptersHtml = (lang, statement) => `<blockquote><p>${statement}</p></blockquote>` +
   COMMUNITY_CH.map(([fig, ro, en]) => { const [t, p] = lang === 'ro' ? ro : en; return `<h3>${t}</h3><p>${p}</p>${fig}`; }).join('');
 const communityGallery = [];
-for (const n of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) communityGallery.push(await mediaId(`2024/11/yacht-kid-comunitate-${n}.jpg`));
+// Fără 10 (lacul, singura fotografie de exterior): grila rămâne uniformă, iar lacul e deja în capitolul „Alei verzi”
+for (const n of [1, 2, 3, 4, 5, 6, 7, 8, 9]) communityGallery.push(await mediaId(`2024/11/yacht-kid-comunitate-${n}.jpg`));
 const residents = (await all(db, `SELECT id FROM testimonials WHERE anonymous = 1 AND quote IS NOT NULL ORDER BY id`)).map(r => r.id);
 const COMMUNITY = [
   {key: 'comunitate-despre', kind: 'text', anchor: 'despre',
