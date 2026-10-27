@@ -13,5 +13,15 @@ export default {
       './reference/analysis/*.json'
     ]
   },
-  poweredByHeader: false
+  poweredByHeader: false,
+  // Nimic de pe *.vercel.app nu intră în Google (site-ul de test); pe domeniul real se indexează doar site-ul public.
+  // Antetul, nu robots.txt: un Disallow l-ar împiedica pe Google să vadă noindex și ar putea lista totuși adresele.
+  async headers() {
+    const noindex = [{key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive'}];
+    return [
+      {source: '/:path*', has: [{type: 'host', value: '.*\\.vercel\\.app'}], headers: noindex},
+      {source: '/manage/:path*', headers: noindex},
+      {source: '/api/:path*', headers: noindex}
+    ];
+  }
 };

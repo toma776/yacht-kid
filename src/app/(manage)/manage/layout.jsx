@@ -1,4 +1,4 @@
-import {isLocalRequest} from '../../../manage/guard.mjs';
+import {canManageRequest, isLocalRequest} from '../../../manage/guard.mjs';
 import {getDb, one} from '../../../core/db.mjs';
 import {ENTITIES} from '../../../registry/entities.mjs';
 import {legaturiDeVerificat} from '../../../manage/data.mjs';
@@ -20,7 +20,8 @@ async function counts(db) {
 }
 
 export default async function ManageLayout({children}) {
-  const local = await isLocalRequest();
+  const local = await canManageRequest();
+  const onVercel = !(await isLocalRequest());
   const db = await getDb();
   const n = local ? await counts(db) : {};
   const groups = [
@@ -48,7 +49,7 @@ export default async function ManageLayout({children}) {
             <a className="logo" href="/manage/"><span className="logo-mark">YK</span><span><b>YACHT KID</b><small>Brain · panou de administrare</small></span></a>
             {local && <Nav groups={groups}/>}
             <div className="side-card">
-              <div className="side-status"><i className={local ? '' : 'ro'}></i><span>{local ? `Local · ${turso ? 'baza Turso' : 'data/brain.db'}` : 'Doar local, până la autentificare'}</span></div>
+              <div className="side-status"><i className={local ? '' : 'ro'}></i><span>{!local ? 'Doar local, până la autentificare' : onVercel ? 'Vercel · deschis fără autentificare' : `Local · ${turso ? 'baza Turso' : 'data/brain.db'}`}</span></div>
               <div className="side-links"><a href="/" target="_blank" rel="noopener">Site ↗</a><a href="/en/" target="_blank" rel="noopener">EN ↗</a><a href="https://yacht-kid.vercel.app/" target="_blank" rel="noopener">Vercel ↗</a></div>
             </div>
           </aside>
