@@ -1,6 +1,6 @@
 // Fișierele media, după ID (§3.9: ID-ul rămâne la înlocuire, ?v= schimbă adresa).
-// Local, fișierele vin din snapshot. Pe Vercel stau în Vercel Blob, sub `media/<filename>` (urcate de scripts/media-to-blob.mjs):
-// ruta redirecționează la adresa publică din MEDIA_BASE_URL.
+// Local, fișierele vin din snapshot. Pe Vercel stau într-un spațiu de stocare public (Cloudflare R2, urcate de
+// scripts/media-to-r2.mjs; înainte Vercel Blob), sub `media/<filename>`: ruta redirecționează la MEDIA_BASE_URL + cheie.
 import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {getDb, one} from '../../../core/db.mjs';
