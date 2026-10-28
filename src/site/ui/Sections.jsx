@@ -640,9 +640,7 @@ async function Testimonials({ctx, s, values}) {
     ctx.query('testimoniale', {fields: ['featured'], where: 'e.featured = 1', order: 'e.id'}));
   const [b1] = await buttons(ctx, s, values);
   const text = t => (t.quote_lang === ctx.lang ? t.quote : t.quote_translated || t.quote) ?? '';
-  // Un citat lung se arată tăiat (6 rânduri); „Citește tot” îl desfășoară, fără JavaScript
-  const LONG = 240;
-  const more = ctx.lang === 'en' ? 'Read more' : 'Citește tot';
+  // Citatele apar întregi (fără „Citește tot”)
   return (
     <section className="testimonials floor bg-navy on-dark slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
@@ -653,10 +651,7 @@ async function Testimonials({ctx, s, values}) {
         <ul className="quote-grid">
           {list.filter(t => text(t)).map((t, i) => (
             <li key={t.id} className="quote-card reveal" style={{'--d': `${(i % 3) * 80}ms`}}>
-              <blockquote className={text(t).length > LONG ? 'is-long' : undefined}>
-                <p>{text(t)}</p>
-                {text(t).length > LONG && <details className="quote-more"><summary>{more}</summary><p>{text(t)}</p></details>}
-              </blockquote>
+              <blockquote><p>{text(t)}</p></blockquote>
               <p className="quote-author"><b>{t.author}</b>{t.role && <span>{t.role}</span>}</p>
             </li>
           ))}

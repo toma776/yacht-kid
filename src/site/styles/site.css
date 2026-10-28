@@ -733,14 +733,6 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .quote-card blockquote { margin: 0; }
 .quote-card blockquote::before { content: '\201C'; display: block; height: 18px; font-size: 2.25rem; line-height: 1; font-weight: 700; color: var(--coral); }
 .quote-card blockquote p { font-size: .9375rem; line-height: 1.55; color: #e6eaf5; }
-/* Citatul lung: tăiat la 6 rânduri; deschis, se arată întreg */
-.quote-card blockquote.is-long > p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
-.quote-card blockquote:has(.quote-more[open]) > p { display: none; }
-.quote-more summary { margin-top: 8px; cursor: pointer; font-size: .8125rem; font-weight: 600; letter-spacing: .03em; color: var(--coral-light); list-style: none; }
-.quote-more summary::-webkit-details-marker { display: none; }
-.quote-more[open] summary { order: 2; }
-.quote-more[open] { display: flex; flex-direction: column; }
-.quote-more[open] summary { margin-top: 10px; }
 .quote-author { display: grid; gap: 1px; padding-top: 12px; border-top: 1px solid rgb(255 255 255 / .14); font-size: .8125rem; line-height: 1.4; }
 .quote-author b { color: #fff; font-weight: 700; letter-spacing: .02em; }
 .quote-author span { color: var(--on-plinth-2); }
