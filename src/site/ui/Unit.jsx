@@ -47,7 +47,7 @@ export async function UnitPage({ctx, rec, title, chrome}) {
           <div className="unit-actions">
             <a className="btn" href="#contact">{L['solicita-oferta']} <span className="btn-icon"><Arrow/></span></a>
             {/* Al doilea buton: vizionarea (pagina cu formularul), aceeași țintă ca în meniu și în subsol; video-ul rămâne în Despre */}
-            <a className="btn btn--ghost" href={chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref}>{L['programeaza-vizionare'] ?? 'Programează vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>
+            <a className="btn btn--ghost" href={chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>
           </div>
         </div>
         {rec.hero_image && <figure className="frame frame--band unit-cover"><img src={ctx.media(rec.hero_image)} alt={title}/></figure>}

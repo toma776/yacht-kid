@@ -148,7 +148,7 @@ function MobileMenu({chrome, items}) {
         </section>
       </div>
       <div className="mm-bar">
-        <a className="btn mm-bar-main" href={units?.aside?.cta?.href ?? chrome.contactHref}><span>{L['programeaza-vizionare'] ?? 'Programează vizionare'}</span> <span className="btn-icon"><Icon id="calendar"/></span></a>
+        <a className="btn mm-bar-main" href={units?.aside?.cta?.href ?? chrome.contactHref}><span>{L['programeaza-vizionare'] ?? 'Programează o vizionare'}</span> <span className="btn-icon"><Icon id="calendar"/></span></a>
         {f && <a className="mm-bar-ic" href={`tel:${f.phone}`} aria-label={`${L.telefon ?? 'Telefon'}: ${f.phoneLabel}`}><Icon id="phone" size={20}/></a>}
         {f && <a className="mm-bar-ic" href={f.whatsapp} aria-label={L['scrie-ne-whatsapp'] ?? 'WhatsApp'}><Icon id="whatsapp" size={20}/></a>}
       </div>
