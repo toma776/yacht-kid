@@ -5,7 +5,7 @@ import {createEntity, StoreError} from '../../../core/store.mjs';
 
 export const dynamic = 'force-dynamic';
 
-const MAX = {name: 120, role: 80, quote: 2000, email: 200};
+const MAX = {name: 120, quote: 2000, email: 200};
 const clean = (v, n) => String(v ?? '').replace(/\s+\n/g, '\n').trim().slice(0, n);
 // Cel mult 5 trimiteri pe oră de la aceeași adresă (în memoria instanței: frână, nu garanție)
 const recent = new Map();
@@ -23,18 +23,15 @@ export async function POST(request) {
   // Câmpul ascuns „website” e capcana pentru roboți: completat = acceptăm în tăcere, nu salvăm nimic
   if (body.website) return Response.json({ok: true});
   const lang = body.lang === 'en' ? 'en' : 'ro';
-  const anonymous = body.anonymous === true || body.anonymous === 'on';
-  const name = clean(body.name, MAX.name), role = clean(body.role, MAX.role), quote = clean(body.quote, MAX.quote), email = clean(body.email, MAX.email);
-  if (!name || quote.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !(body.consent === true || body.consent === 'on'))
+  // Formularul cere doar numele și experiența; emailul rămâne opțional (dacă îl adaugă cineva în formular)
+  const name = clean(body.name, MAX.name), quote = clean(body.quote, MAX.quote), email = clean(body.email, MAX.email) || null;
+  if (!name || quote.length < 20 || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) || !(body.consent === true || body.consent === 'on'))
     return Response.json({error: 'invalid'}, {status: 422});
 
   try {
-    // Numele real rămâne în istoric și în email; pe site, cine a cerut anonimatul apare ca „Rezident YACHT KID”
     const id = await createEntity(await getDb(), 'testimoniale', {
-      base: {author: anonymous ? (lang === 'en' ? 'YACHT KID resident' : 'Rezident YACHT KID') : name, anonymous: anonymous ? 1 : 0,
-        quote, quote_lang: lang, source: 'site', email, given_on: new Date().toISOString().slice(0, 10), featured: 0},
-      tr: role ? {[lang]: {role}} : {}
-    }, {user: anonymous ? `Formular site (${name})` : 'Formular site'});
+      base: {author: name, anonymous: 0, quote, quote_lang: lang, source: 'site', email, given_on: new Date().toISOString().slice(0, 10), featured: 0}
+    }, {user: 'Formular site'});
     recent.set(ip, [...hits, now]);
     return Response.json({ok: true, id});
   } catch (e) {

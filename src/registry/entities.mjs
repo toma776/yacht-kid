@@ -259,7 +259,7 @@ export const ENTITIES = [
       {key: 'quote_translated', label: 'Traducere', type: 'textarea', ...T,
        help: 'Opțional. Pe site apare marcată ca traducere; lipsește = se afișează originalul.'},
       {key: 'source', label: 'Sursa', type: 'select', options: ['google', 'site', 'interviu', 'altul']},
-      {key: 'email', label: 'Email', type: 'email', help: 'Din formularul de pe site, pentru verificare. Nu apare pe site.'},
+      {key: 'email', label: 'Email', type: 'email', help: 'Opțional, din formularul de pe site. Nu apare pe site.'},
       {key: 'given_on', label: 'Data', type: 'date'},
       {key: 'featured', label: 'Afișat pe pagina Testimoniale', type: 'boolean', list: true},
       LEGACY
