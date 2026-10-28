@@ -5,7 +5,7 @@
 
 /* ---------- Tokeni (§2, §4, §5) ---------- */
 .site {
-  --section: clamp(96px, 11vw, 176px);
+  --section: clamp(56px, 6vw, 96px);   /* un singur spațiu între secțiuni, pe toate paginile (vezi „Ritm vertical”) */
   --r-l: clamp(16px, 1.6vw, 24px);
   --r-m: 12px;
   --r-s: 6px;
@@ -142,7 +142,6 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
 .site .field label { letter-spacing: .12em; }
 
 /* ---------- Subsol (§8.10): antracit, intră cu raza de balcon ---------- */
-.site main > section:last-child, .site .unit-page > section:last-child { padding-bottom: calc(var(--section) * .6 + var(--r-band)); }
 .site .site-footer { margin-top: calc(var(--r-band) * -1); border-radius: var(--r-band) var(--r-band) 0 0; z-index: 1; }
 
 /* ---------- Hero clasic (Tehnologie, Comunitate…): aceleași reguli ca hero-ul homepage-ului ---------- */
@@ -184,12 +183,24 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
 /* ---------- Subsol: eticheta „PDF” fără alb pe coral (§2.4); coralul rămâne contur ---------- */
 .site .ft-brochure span { background: none; border: 1px solid var(--coral-light); color: var(--coral-light); }
 
-/* ---------- Pagini fără hero care încep cu o secțiune (Contact): secțiunea urcă sub antet, cu fundalul ei,
-   în loc de fâșia goală a paginii (main.no-hero) peste spațiul ei de sus ---------- */
-.site main.no-hero:has(> section.floor:first-child) { padding-top: 0; }
-.site main.no-hero > section.floor:first-child { padding-top: calc(72px + clamp(40px, 5vw, 80px)); }
 
 /* ---------- Formular: câmpurile de pe același rând aliniate, chiar dacă o etichetă trece pe două rânduri;
    eticheta stă jos, lângă câmpul ei ---------- */
 .site .form-grid > .field { grid-template-rows: 1fr auto; }
 .site .form-grid > .field > label { align-self: end; }
+
+/* ---------- Ritm vertical: același spațiu sus și jos la fiecare secțiune, pe toate paginile ----------
+   Înlocuiește corecțiile punctuale din site.css (facts, strip, comfort + voices, contact, unit-others…).
+   :not(.hero)… ridică specificitatea peste ele; hero-urile și antetul paginii de apartament își păstrează așezarea. */
+.site :is(main, .unit-page) > section:not(.hero):not(.hero-card-wrap):not(.unit-intro) { padding-block: var(--section); }
+/* Două secțiuni vecine cu același fundal: un singur spațiu între ele, nu două */
+.site :is(main, .unit-page) > section:is(.bg-porcelain + .bg-porcelain, .bg-paper + .bg-paper, .bg-navy + .bg-navy):not(.hero):not(.hero-card-wrap):not(.unit-intro) { padding-top: 0; }
+/* Fără suprapuneri: plăcile nu mai urcă peste secțiunea de dinainte… */
+.site .slab, .site :is(.bg-navy, .bg-paper, .bg-shell) + .lifestyle { margin-top: 0; border-radius: 0; box-shadow: none; }
+.site .unit-facts { margin-bottom: 0; }
+/* …cu excepția celor două tranziții de balcon (§5): hero → conținut și conținut → subsol */
+.site .hero-card-wrap + .facts, .site .hero + section { position: relative; z-index: 1; margin-top: calc(var(--r-band) * -1); border-radius: var(--r-band) var(--r-band) 0 0; }
+.site :is(main, .unit-page) > section:last-child:not(.hero):not(.hero-card-wrap):not(.unit-intro) { padding-bottom: calc(var(--section) + var(--r-band)); }
+/* Pagină fără hero care începe cu o secțiune (Contact): secțiunea urcă sub antet, cu fundalul ei */
+.site main.no-hero:has(> section:first-child) { padding-top: 0; }
+.site main.no-hero > section:first-child:not(.hero):not(.hero-card-wrap):not(.unit-intro) { padding-top: calc(72px + var(--section)); }
