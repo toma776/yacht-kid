@@ -20,6 +20,8 @@ function init(signal) {
   function onScroll() {
     const y = scrollY;
     document.body.classList.toggle('past-hero', !hero || y > innerHeight * .6);
+    // Pentru macheta de probă (.v2), unde antetul e transparent peste hero până la prima derulare
+    document.body.classList.toggle('is-scrolled', y > 40);
   }
   on(window, 'scroll', onScroll, {passive: true});
   onScroll();

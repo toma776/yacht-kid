@@ -50,7 +50,9 @@ async function Body({ctx, kind, rec, values, chrome}) {
   }
 }
 
-export async function renderPublic(lang, segments) {
+// variant: o machetă de probă (ruta /varianta/), aceeași pagină din aceleași date, într-un container cu stilurile ei
+// (styles/v2.css, toate sub .v2); site-ul nu e atins până nu se decide aplicarea ei
+export async function renderPublic(lang, segments, {variant} = {}) {
   const db = await getDb();
   const path = pathFrom(lang, segments);
   const hit = await resolvePath(db, path);
@@ -70,7 +72,7 @@ export async function renderPublic(lang, segments) {
   const hero = sections[0]?.kind === 'hero';
   // Paginile tipurilor de apartamente au secțiunile cu colțuri drepte (fără Spații comerciale, tot un tip de locuință)
   const unitPage = hit.key === 'locuinte' && rec?.kind !== 'comercial';
-  return (
+  const page = (
     <>
       <IconSprite/>
       <a className="skip" href="#continut">{chrome.labels['sari-la-continut'] ?? 'Sari la conținut'}</a>
@@ -82,6 +84,7 @@ export async function renderPublic(lang, segments) {
       <SiteBehavior/>
     </>
   );
+  return variant ? <div className={variant} data-variant={variant}>{page}</div> : page;
 }
 
 export async function metadataFor(lang, segments) {
