@@ -155,7 +155,7 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
 /* ---------- Tehnologii: listă cu linii, nu tablă cu colțuri asimetrice; pictograme simple, navy ---------- */
 .site .tech-grid { gap: 0 clamp(32px, 4vw, 64px); border: 0; border-radius: 0; background: none; overflow: visible; }
 .site .tech-card { padding: 28px 0; border-top: 1px solid var(--line); }
-.site .tech-card:not(:nth-child(3n+1)) { border-left: 0; }
+.site .tech-grid .tech-card { border-left: 0; }  /* și în grilele pe 2 coloane de pe ecrane mici */
 .site .tech-icon { width: auto; height: auto; place-items: start; border: 0; border-radius: 0; background: none; }
 .site .tech-icon .icon { color: var(--navy); }
 .site .tech-points .icon { padding: 0; border: 0; background: none; }
