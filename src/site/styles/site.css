@@ -658,7 +658,8 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .proof-head .link-arrow { font-size: .8125rem; }
 .proof-list { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); border-block: 1px solid var(--line); }
 .proof-item + .proof-item { border-left: 1px solid var(--line); }
-.proof-item a { display: grid; justify-items: center; gap: 14px; padding: 26px 14px 22px; height: 100%; transition: background var(--t) var(--ease-soft); }
+/* Un premiu fără articol și fără pagină oficială e <div>, nu <a>: aceeași așezare, fără hover */
+.proof-item > :is(a, div) { display: grid; justify-items: center; align-content: start; gap: 14px; padding: 26px 14px 22px; height: 100%; transition: background var(--t) var(--ease-soft); }
 .proof-logo {
   display: block; width: 100%; max-width: 128px; height: 52px; background: var(--navy); opacity: .82;
   -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat;
