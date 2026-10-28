@@ -13,7 +13,6 @@ import {IconSprite} from './ui/Icons.jsx';
 import {Header, Footer} from './ui/Chrome.jsx';
 import {Sections, sectionsOf, PostList} from './ui/Sections.jsx';
 import SiteBehavior from './ui/SiteBehavior.jsx';
-import {variantText} from './variants.mjs';
 import {Article} from './ui/Article.jsx';
 import {UnitPage} from './ui/Unit.jsx';
 
@@ -51,9 +50,7 @@ async function Body({ctx, kind, rec, values, chrome}) {
   }
 }
 
-// variant: o machetă de probă (ruta /varianta/), aceeași pagină din aceleași date, într-un container cu stilurile ei
-// (styles/v2.css, toate sub .v2); site-ul nu e atins până nu se decide aplicarea ei
-export async function renderPublic(lang, segments, {variant} = {}) {
+export async function renderPublic(lang, segments) {
   const db = await getDb();
   const path = pathFrom(lang, segments);
   const hit = await resolvePath(db, path);
@@ -79,13 +76,14 @@ export async function renderPublic(lang, segments, {variant} = {}) {
       <a className="skip" href="#continut">{chrome.labels['sari-la-continut'] ?? 'Sari la conținut'}</a>
       <Header chrome={chrome} solid/>
       <main id="continut" className={[hero ? null : 'no-hero', unitPage ? 'unit-page' : null].filter(Boolean).join(' ') || undefined}>
-        {composed ? <Sections ctx={ctx} owner={hit.key} pageId={hit.id} values={values} chrome={chrome} over={variantText(variant, lang)}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
+        {composed ? <Sections ctx={ctx} owner={hit.key} pageId={hit.id} values={values} chrome={chrome}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
       </main>
       <Footer chrome={chrome}/>
       <SiteBehavior/>
     </>
   );
-  return variant ? <div className={variant} data-variant={variant}>{page}</div> : page;
+  // Containerul paginii: stilurile din DESIGN.md (styles/design.css) stau toate sub .site
+  return <div className="site">{page}</div>;
 }
 
 export async function metadataFor(lang, segments) {

@@ -1,0 +1,185 @@
+/* Registrul din DESIGN.md („liniștea unei case pe malul apei”), peste system.css și site.css, pe toate paginile publice.
+   Totul stă sub .site (containerul paginii din PublicPage): aceleași componente, alte valori ale tokenilor și alte reguli
+   de folosire. Rămân deliberat pe dinafară mișcarea de la §9 (site-ul e static, decizia clientului) și unificarea
+   breakpoint-urilor de la §4.1. */
+
+/* ---------- Tokeni (§2, §4, §5) ---------- */
+.site {
+  --section: clamp(96px, 11vw, 176px);
+  --r-l: clamp(16px, 1.6vw, 24px);
+  --r-m: 12px;
+  --r-s: 6px;
+  --ink-hover: #2a4384;
+  --shadow-slab: none;
+}
+/* Fundalul principal: alb-porțelan; --porcelain rămâne fundalul alternativ de secțiune */
+body:has(> .site) { background: var(--gray-light); }
+.site :focus-visible { outline: 2px solid var(--periwinkle-light); outline-offset: 3px; }
+
+/* ---------- Tipografie (§3) ---------- */
+.site .eyebrow { letter-spacing: .16em; }
+.site .body { line-height: 1.7; }
+/* Linia de accent: bronz, 2px, 48px, sub titlu */
+.site .ruled::after { width: 48px; background: var(--coral); }
+/* „+ TVA” și unitățile: label mic, în --navy-3, nu în coral */
+.site .fact-value small, .site .hero-card-facts dd small { color: var(--navy-3); }
+.site .on-dark .fact-value small, .site .hero-card-facts dd small { color: rgb(255 255 255 / .7); }
+
+/* ---------- Butoane (§8.1): navy, fără discul cu săgeată, coralul nu e fundal ---------- */
+.site .btn {
+  --btn-bg: var(--navy); --btn-fg: #fff; --btn-bd: var(--navy);
+  gap: 10px; height: 52px; padding: 0 28px; font-size: .9375rem; font-weight: 600; letter-spacing: .02em;
+}
+.site .btn:hover { --btn-bg: var(--ink-hover); --btn-bd: var(--ink-hover); }
+.site .btn .btn-icon { width: auto; height: auto; background: none; color: inherit; border-radius: 0; }
+.site .btn .btn-icon svg { width: 16px; height: 16px; }
+.site .btn:hover .btn-icon { transform: none; }
+.site .btn:active { transform: none; }
+/* Secondary: transparent, contur fin */
+.site .btn--ghost, .site .btn--navy.btn--secondary { --btn-bg: transparent; --btn-fg: var(--navy); --btn-bd: var(--line-strong); }
+.site .btn--ghost:hover { --btn-bg: transparent; --btn-bd: var(--navy); }
+/* Primary on dark (pe foto, pe navy): alb cu text navy */
+.site .on-dark .btn:not(.btn--glass):not(.btn--ghost), .site .lifestyle-caption .btn { --btn-bg: #fff; --btn-fg: var(--navy); --btn-bd: #fff; }
+.site .on-dark .btn:not(.btn--glass):not(.btn--ghost):hover, .site .lifestyle-caption .btn:hover { --btn-bg: var(--gray-light); --btn-bd: var(--gray-light); }
+/* Ghost on dark: al doilea CTA peste foto */
+.site .btn--glass, .site .on-dark .btn--ghost { --btn-bg: rgb(255 255 255 / .1); --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .4); }
+.site .btn--glass:hover, .site .on-dark .btn--ghost:hover { --btn-bg: rgb(255 255 255 / .18); --btn-bd: #fff; }
+/* Text link: sublinie 1px coral, scurtă, care se întinde la hover */
+.site .link-arrow { background-size: 32px 1px; padding-bottom: 5px; }
+.site .link-arrow:hover { background-size: 100% 1px; }
+@media (max-width: 767px) { .site .btn { height: 48px; padding: 0 22px; } }
+
+/* ---------- Header (§8.2): transparent peste hero, porțelan cu blur după derulare ---------- */
+/* Doar pe paginile cu hero: fără hero (main.no-hero, pus de server), antetul e porțelan de la început */
+.site .site-header.is-solid { background: rgb(251 251 251 / .86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
+body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header.is-solid:not(.mega-open) { background: transparent; color: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; }
+body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-open) .logo-light { opacity: 1; }
+body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-open) .logo-dark { opacity: 0; }
+body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-open) .nav-pill { background: rgb(255 255 255 / .14); }
+.site .nav > ul > li > a, .site .nav > ul > li > button { font-size: .875rem; font-weight: 500; letter-spacing: .02em; }
+/* Un singur buton în antet, Secondary (nu coral) */
+.site .header-cta { --btn-bg: transparent; --btn-fg: var(--navy); --btn-bd: var(--line-strong); height: 44px; padding: 0 20px; }
+.site .header-cta:hover { --btn-bg: transparent; --btn-bd: var(--navy); }
+body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-open) .header-cta { --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .5); }
+body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-open) .header-cta:hover { --btn-bd: #fff; }
+
+/* ---------- Hero (§8.3): full-bleed sub antet, display Light, gradient de jos, fără punct pulsând ---------- */
+.site .hero-card-wrap { padding-top: 0; }
+.site .hero-card { min-height: min(100vh, 980px); min-height: min(100svh, 980px); padding-top: 72px; }
+/* Gradientul antracit de jos din §7, întins până la 80%: fotografia hero e deschisă (fațadă albă, cer), iar titlul
+   urcă până la ~35% din înălțime; cu 55% jumătatea lui de sus ar rămâne fără contrast */
+.site .hero-card::before { background: linear-gradient(to top, #24262ecc 0%, rgb(36 38 46 / .55) 50%, transparent 80%), linear-gradient(to bottom, rgb(36 38 46 / .35) 0%, transparent 22%); }
+.site .hero-card-title { font-size: var(--fs-display); font-weight: 300; letter-spacing: -.01em; line-height: 1.04; max-width: 14ch; }
+.site .hero-card-body .subhead { color: #fff; font-size: var(--fs-lead); max-width: 40ch; }
+.site .hero-card-facts dd { font-weight: 300; letter-spacing: -.02em; font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem); }
+.site .hero-card-facts dt { color: rgb(255 255 255 / .75); }
+.site .status { height: auto; padding: 0; gap: 0; background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none; font-size: var(--fs-label); letter-spacing: .16em; text-transform: uppercase; color: var(--coral-light); }
+.site .status-dot { display: none; }
+/* Broșura: plutește peste foto (singura umbră permisă), rază unitară; fără WhatsApp în primul ecran */
+.site .brochure-card { border-radius: var(--r-l); box-shadow: var(--shadow-float); }
+.site .brochure-actions .btn--whatsapp { display: none; }
+.site .brochure-actions .btn--navy { --btn-bg: transparent; --btn-fg: var(--navy); --btn-bd: var(--line-strong); }
+.site .brochure-actions .btn--navy:hover { --btn-bg: transparent; --btn-bd: var(--navy); }
+@media (max-width: 1100px) { .site .hero-card { min-height: 0; } }
+
+/* ---------- Secțiuni: raza de balcon doar la 2 tranziții (hero → conținut, conținut → subsol) ---------- */
+.site .slab { border-radius: 0; box-shadow: none; }
+.site .facts.slab { border-radius: var(--r-band) var(--r-band) 0 0; }
+/* Fără colțuri asimetrice pe carduri și imagini (rezervate tranzițiilor) */
+.site .frame--band { border-radius: var(--r-l); }
+.site .mega-units li:first-child .mega-frame, .site .mega-topics li:first-child .mega-topic-frame, .site .mega-map .mega-topic-frame { border-radius: var(--r-m); }
+
+/* ---------- Cifre-cheie (§8.4): fără carduri, linii de 1px, cifra în Light ---------- */
+.site .fact-value { font-weight: 300; letter-spacing: -.02em; }
+
+/* ---------- Premii (§8.7): logo-uri navy 60% → 100% la hover ---------- */
+.site .proof-logo { opacity: .6; }
+.site .proof-item a:hover { background: none; }
+.site .proof-item a:hover .proof-logo { background: var(--navy); opacity: 1; transform: none; }
+
+/* ---------- Avantaje (§4 densitate): 8 elemente devin o listă pe două coloane, nu o grilă de carduri ---------- */
+.site .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(40px, 6vw, 112px); }
+.site .feature {
+  display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 20px; row-gap: 4px; align-items: start;
+  padding: 26px 0; background: none; border-radius: 0; border-top: 1px solid var(--line);
+}
+.site .feature::after { display: none; }
+.site .feature .icon { grid-row: span 2; width: 28px; height: 28px; padding: 0; background: none; box-shadow: none; color: var(--navy); stroke-width: 1.3; }
+.site .feature .h3 { padding-top: 2px; font-size: var(--fs-h3); font-weight: 600; }
+.site .feature-text { grid-column: 2; }
+@media (max-width: 767px) {
+  .site .features-grid { grid-template-columns: minmax(0, 1fr); }
+  .site .feature { padding: 20px 0; }
+}
+
+/* ---------- Colecția (§8.5): imagini 4:3, fără umbră și fără bordură ---------- */
+.site .unit-frame { aspect-ratio: 4 / 3; border-radius: var(--r-l); }
+
+/* ---------- Confort: tot o listă cu linii, nu plăcuțe cu umbră ---------- */
+.site .spec-list { gap: 0 clamp(24px, 3vw, 48px); }
+.site .spec-list li { min-height: 0; padding: 20px 0; background: none; border-radius: 0; box-shadow: none; border-top: 1px solid var(--line); }
+.site .spec-list .num { display: none; }
+.site .spec-list .icon { padding: 0; width: 26px; height: 26px; background: none; box-shadow: none; color: var(--navy); stroke-width: 1.3; }
+.site .spec-list .h3 { font-weight: 600; }
+
+/* ---------- Imagini (§7): fără voaluri navy opace, gradient antracit de jos pentru text ---------- */
+.site .lifestyle-frame::after { background: linear-gradient(to top, #24262ecc 0%, transparent 55%), linear-gradient(90deg, rgb(36 38 46 / .45) 0%, transparent 55%); }
+.site .location-map { box-shadow: none; }
+.site .strip-photo, .site .photo { border-radius: var(--r-m); }
+
+/* ---------- Testimoniale: cardul navy cu rază de card, nu de bandă ---------- */
+.site .voice-card { border-radius: var(--r-l); }
+.site .voices-stack::before, .site .voices-stack::after { border-radius: var(--r-l); }
+
+/* ---------- Formulare (§8.8): câmpuri pe hârtie, contur, 52px, label deasupra ---------- */
+.site .form-card { box-shadow: none; border: 1px solid var(--line); }
+.site .field input, .site .field select, .site .field textarea {
+  height: 52px; padding: 0 16px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--r-m);
+}
+.site .field textarea { height: auto; min-height: 120px; padding: 14px 16px; }
+.site .field select { padding-right: 40px; }
+.site .field input:focus, .site .field select:focus, .site .field textarea:focus { border-color: var(--navy); }
+.site .field label { letter-spacing: .12em; }
+
+/* ---------- Subsol (§8.10): antracit, intră cu raza de balcon ---------- */
+.site main > section:last-child, .site .unit-page > section:last-child { padding-bottom: calc(var(--section) * .6 + var(--r-band)); }
+.site .site-footer { margin-top: calc(var(--r-band) * -1); border-radius: var(--r-band) var(--r-band) 0 0; z-index: 1; }
+
+/* ---------- Hero clasic (Tehnologie, Comunitate…): aceleași reguli ca hero-ul homepage-ului ---------- */
+.site .hero { min-height: min(100vh, 980px); min-height: min(100svh, 980px); }
+.site .hero-title { font-weight: 300; letter-spacing: -.01em; }
+.site .hero-media::after { background: linear-gradient(to top, #24262ecc 0%, rgb(36 38 46 / .55) 50%, transparent 80%), linear-gradient(to bottom, rgb(36 38 46 / .35) 0%, transparent 22%); }
+.site .hero-media::before { display: none; }
+/* Tranziția de balcon hero → conținut (a doua e conținut → subsol) */
+.site .hero + section { position: relative; z-index: 1; margin-top: calc(var(--r-band) * -1); border-radius: var(--r-band) var(--r-band) 0 0; }
+
+/* ---------- Tehnologii: listă cu linii, nu tablă cu colțuri asimetrice; pictograme simple, navy ---------- */
+.site .tech-grid { gap: 0 clamp(32px, 4vw, 64px); border: 0; border-radius: 0; background: none; overflow: visible; }
+.site .tech-card { padding: 28px 0; border-top: 1px solid var(--line); }
+.site .tech-card:not(:nth-child(3n+1)) { border-left: 0; }
+.site .tech-icon { width: auto; height: auto; place-items: start; border: 0; border-radius: 0; background: none; }
+.site .tech-icon .icon { color: var(--navy); }
+.site .tech-points .icon { padding: 0; border: 0; background: none; }
+.site .supplier-list a:hover .supplier-mask { background: var(--navy); }
+
+/* ---------- Pagina de apartament ---------- */
+.site .unit-intro .display { font-weight: 300; letter-spacing: -.01em; }
+/* Iconul din etichetă: fără disc coral cu alb (contrast insuficient) */
+.site .unit-pill .icon { background: var(--porcelain); color: var(--coral-ink); }
+/* Fișa: cifre fără card, despărțite de linii (§8.4) */
+.site .unit-facts { border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; overflow: visible; }
+.site .unit-facts > div { padding-inline: clamp(16px, 1.8vw, 26px); }
+.site .unit-facts > div:first-child { padding-left: 0; }
+/* Fără card, prima coloană a fiecărui rând stă pe marginea textului (6 / 3 / 2 coloane, ca în site.css) */
+@media (max-width: 1000px) { .site .unit-facts > div:nth-child(3n+1) { padding-left: 0; } }
+@media (max-width: 640px) { .site .unit-facts > div:nth-child(3n+1) { padding-left: clamp(16px, 1.8vw, 26px); } .site .unit-facts > div:nth-child(odd) { padding-left: 0; } }
+.site .unit-facts dd { font-weight: 300; letter-spacing: -.01em; font-size: clamp(1.125rem, 1rem + .6vw, 1.625rem); }
+.site .unit-facts dd small { color: var(--navy-3); }
+/* Butonul de play: alb cu navy, nu coral cu alb */
+.site .unit-video-play { background: #fff; color: var(--navy); box-shadow: var(--shadow-float); }
+/* Celelalte apartamente: card pe hârtie, fără bordură, fără umbră și fără ridicare */
+.site .other-units a { border: 0; }
+.site .other-units a:hover { box-shadow: none; transform: none; }
+
+/* ---------- Subsol: eticheta „PDF” fără alb pe coral (§2.4); coralul rămâne contur ---------- */
+.site .ft-brochure span { background: none; border: 1px solid var(--coral-light); color: var(--coral-light); }

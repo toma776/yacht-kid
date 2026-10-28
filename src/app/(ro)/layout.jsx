@@ -1,5 +1,6 @@
 import '../../site/styles/system.css';
 import '../../site/styles/site.css';
+import '../../site/styles/design.css';
 
 // Rădăcina site-ului în română (fără prefix): html lang corect pentru fiecare limbă (§1.10).
 // Stilurile sunt cele din designul aprobat (design/system.css și design/homepage/home.css), portate în src/site/styles/.

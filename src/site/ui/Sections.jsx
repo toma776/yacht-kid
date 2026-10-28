@@ -240,8 +240,7 @@ async function mapData(ctx, s) {
 }
 
 async function Features({ctx, s, values}) {
-  const over = values.__over?.avantaje;
-  const items = (await ctx.links('sectiuni.features', s.id)).map(f => (over?.[f.id] ? {...f, ...over[f.id]} : f));
+  const items = await ctx.links('sectiuni.features', s.id);
   const comfort = items.length && items.every(f => f.group === 'confort');
   if (!comfort) {
     // Textul secțiunii (dacă există): primul paragraf ca lead lângă titlu, restul sub el
@@ -728,11 +727,9 @@ async function Posts({ctx, s, values, first}) {
 const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-locuinte': Collection, galerie: Gallery, cta: Cta, formular: ContactForm, articole: Posts,
   'fisa-tehnica': UnitSpec, afaceri: Businesses, premii: Awards, testimoniale: Testimonials, tehnologii: Technologies};
 
-// over: textele unei machete de probă (variants.mjs), puse peste secțiuni și avantaje doar la randarea ei
-export async function Sections({ctx, owner = 'pagini', pageId, values, chrome, over = null}) {
-  const sections = (await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId)))
-    .map(s => (over?.sectiuni?.[s.id] ? {...s, ...over.sectiuni[s.id]} : s));
-  const v = {...values, __labels: chrome.labels, __over: over};
+export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) {
+  const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId));
+  const v = {...values, __labels: chrome.labels};
   const out = [];
   let run = 0;
   for (const [i, s] of sections.entries()) {
