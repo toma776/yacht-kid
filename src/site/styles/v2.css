@@ -50,17 +50,18 @@ body:has(> .v2) { background: var(--gray-light); }
 @media (max-width: 767px) { .v2 .btn { height: 48px; padding: 0 22px; } }
 
 /* ---------- Header (§8.2): transparent peste hero, porțelan cu blur după derulare ---------- */
+/* Doar pe paginile cu hero: fără hero (main.no-hero, pus de server), antetul e porțelan de la început */
 .v2 .site-header.is-solid { background: rgb(251 251 251 / .86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
-body:not(.is-scrolled) .v2 .site-header.is-solid:not(.mega-open) { background: transparent; color: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; }
-body:not(.is-scrolled) .v2 .site-header:not(.mega-open) .logo-light { opacity: 1; }
-body:not(.is-scrolled) .v2 .site-header:not(.mega-open) .logo-dark { opacity: 0; }
-body:not(.is-scrolled) .v2 .site-header:not(.mega-open) .nav-pill { background: rgb(255 255 255 / .14); }
+body:not(.is-scrolled) .v2:not(:has(> main.no-hero)) .site-header.is-solid:not(.mega-open) { background: transparent; color: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; }
+body:not(.is-scrolled) .v2:not(:has(> main.no-hero)) .site-header:not(.mega-open) .logo-light { opacity: 1; }
+body:not(.is-scrolled) .v2:not(:has(> main.no-hero)) .site-header:not(.mega-open) .logo-dark { opacity: 0; }
+body:not(.is-scrolled) .v2:not(:has(> main.no-hero)) .site-header:not(.mega-open) .nav-pill { background: rgb(255 255 255 / .14); }
 .v2 .nav > ul > li > a, .v2 .nav > ul > li > button { font-size: .875rem; font-weight: 500; letter-spacing: .02em; }
 /* Un singur buton în antet, Secondary (nu coral) */
 .v2 .header-cta { --btn-bg: transparent; --btn-fg: var(--navy); --btn-bd: var(--line-strong); height: 44px; padding: 0 20px; }
 .v2 .header-cta:hover { --btn-bg: transparent; --btn-bd: var(--navy); }
-body:not(.is-scrolled) .v2 .site-header:not(.mega-open) .header-cta { --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .5); }
-body:not(.is-scrolled) .v2 .site-header:not(.mega-open) .header-cta:hover { --btn-bd: #fff; }
+body:not(.is-scrolled) .v2:not(:has(> main.no-hero)) .site-header:not(.mega-open) .header-cta { --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .5); }
+body:not(.is-scrolled) .v2:not(:has(> main.no-hero)) .site-header:not(.mega-open) .header-cta:hover { --btn-bd: #fff; }
 
 /* ---------- Hero (§8.3): full-bleed sub antet, display Light, gradient de jos, fără punct pulsând ---------- */
 .v2 .hero-card-wrap { padding-top: 0; }
@@ -141,5 +142,41 @@ body:not(.is-scrolled) .v2 .site-header:not(.mega-open) .header-cta:hover { --bt
 .v2 .field label { letter-spacing: .12em; }
 
 /* ---------- Subsol (§8.10): antracit, intră cu raza de balcon ---------- */
-.v2 main > :last-child { padding-bottom: calc(var(--section) + var(--r-band)); }
+.v2 main > section:last-child, .v2 .unit-page > section:last-child { padding-bottom: calc(var(--section) * .6 + var(--r-band)); }
 .v2 .site-footer { margin-top: calc(var(--r-band) * -1); border-radius: var(--r-band) var(--r-band) 0 0; z-index: 1; }
+
+/* ---------- Hero clasic (Tehnologie, Comunitate…): aceleași reguli ca hero-ul homepage-ului ---------- */
+.v2 .hero { min-height: min(100vh, 980px); min-height: min(100svh, 980px); }
+.v2 .hero-title { font-weight: 300; letter-spacing: -.01em; }
+.v2 .hero-media::after { background: linear-gradient(to top, #24262ecc 0%, rgb(36 38 46 / .55) 50%, transparent 80%), linear-gradient(to bottom, rgb(36 38 46 / .35) 0%, transparent 22%); }
+.v2 .hero-media::before { display: none; }
+/* Tranziția de balcon hero → conținut (a doua e conținut → subsol) */
+.v2 .hero + section { position: relative; z-index: 1; margin-top: calc(var(--r-band) * -1); border-radius: var(--r-band) var(--r-band) 0 0; }
+
+/* ---------- Tehnologii: listă cu linii, nu tablă cu colțuri asimetrice; pictograme simple, navy ---------- */
+.v2 .tech-grid { gap: 0 clamp(32px, 4vw, 64px); border: 0; border-radius: 0; background: none; overflow: visible; }
+.v2 .tech-card { padding: 28px 0; border-top: 1px solid var(--line); }
+.v2 .tech-card:not(:nth-child(3n+1)) { border-left: 0; }
+.v2 .tech-icon { width: auto; height: auto; place-items: start; border: 0; border-radius: 0; background: none; }
+.v2 .tech-icon .icon { color: var(--navy); }
+.v2 .tech-points .icon { padding: 0; border: 0; background: none; }
+.v2 .supplier-list a:hover .supplier-mask { background: var(--navy); }
+
+/* ---------- Pagina de apartament ---------- */
+.v2 .unit-intro .display { font-weight: 300; letter-spacing: -.01em; }
+/* Iconul din etichetă: fără disc coral cu alb (contrast insuficient) */
+.v2 .unit-pill .icon { background: var(--porcelain); color: var(--coral-ink); }
+/* Fișa: cifre fără card, despărțite de linii (§8.4) */
+.v2 .unit-facts { border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; overflow: visible; }
+.v2 .unit-facts > div { padding-inline: clamp(16px, 1.8vw, 26px); }
+.v2 .unit-facts > div:first-child { padding-left: 0; }
+/* Fără card, prima coloană a fiecărui rând stă pe marginea textului (6 / 3 / 2 coloane, ca în site.css) */
+@media (max-width: 1000px) { .v2 .unit-facts > div:nth-child(3n+1) { padding-left: 0; } }
+@media (max-width: 640px) { .v2 .unit-facts > div:nth-child(3n+1) { padding-left: clamp(16px, 1.8vw, 26px); } .v2 .unit-facts > div:nth-child(odd) { padding-left: 0; } }
+.v2 .unit-facts dd { font-weight: 300; letter-spacing: -.01em; font-size: clamp(1.125rem, 1rem + .6vw, 1.625rem); }
+.v2 .unit-facts dd small { color: var(--navy-3); }
+/* Butonul de play: alb cu navy, nu coral cu alb */
+.v2 .unit-video-play { background: #fff; color: var(--navy); box-shadow: var(--shadow-float); }
+/* Celelalte apartamente: card pe hârtie, fără bordură, fără umbră și fără ridicare */
+.v2 .other-units a { border: 0; }
+.v2 .other-units a:hover { box-shadow: none; transform: none; }
