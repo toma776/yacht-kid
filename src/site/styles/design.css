@@ -210,3 +210,22 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
    încet decât pagina, marginea ei de sus rămâne deasupra zonei vizibile a cardului, deci nu apare niciun gol ---------- */
 .site .hero-card-img { transform: translate3d(0, calc(var(--hero-p, 0) * 50%), 0); will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .site .hero-card-img { transform: none; } }
+
+/* ---------- Fișa apartamentului: valorile rămân în coloana lor ----------
+   Coloanele au cel puțin lățimea valorii (restul spațiului se împarte egal), cifrele sunt mai mici, iar „+ TVA” stă pe
+   același rând cu prețul, ca toate valorile să fie pe aceeași linie. Sub 1240px, 3 coloane (în site.css: sub 1000px). */
+@media (min-width: 641px) {
+  .site .unit-facts { grid-template-columns: repeat(var(--n, 6), minmax(max-content, 1fr)); }
+  .site .unit-facts dd small { display: inline; margin: 0 0 0 .35em; }
+}
+.site .unit-facts dd { font-size: clamp(1.0625rem, .95rem + .4vw, 1.375rem); }
+@media (min-width: 641px) and (max-width: 1240px) {
+  .site .unit-facts { grid-template-columns: repeat(3, minmax(max-content, 1fr)); }
+  .site .unit-facts > div:nth-child(n) { border-left: 1px solid var(--line); border-top: 0; padding-left: clamp(16px, 1.8vw, 26px); }
+  .site .unit-facts > div:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+  .site .unit-facts > div:nth-child(n+4) { border-top: 1px solid var(--line); }
+}
+/* Eticheta și valoarea stau sus în celulă: o celulă vecină mai înaltă (prețul cu „+ TVA” dedesubt) nu le mai coboară */
+.site .unit-facts > div { align-content: start; }
+/* Telefon: despărțitoarele sunt doar pe stânga, deci fără spațiu la dreapta celulelor (valorile încap în 2 coloane) */
+@media (max-width: 640px) { .site .unit-facts > div { padding-right: 0; } }
