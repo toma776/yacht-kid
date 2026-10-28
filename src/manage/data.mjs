@@ -130,9 +130,16 @@ export async function listRows(db, key) {
       title: titleOf(key, rec, rec), titleEn: t.en && field(key, e.title).translatable ? t.en[columnOf(field(key, e.title))] : null,
       thumb: thumbField?.type === 'image' ? mediaUrl(b[columnOf(thumbField)]) : key === 'media' && /^image\//.test(b.mime) ? mediaUrl(b.id) : null,
       meta, langs: tr ? LANGS.filter(l => t[l]) : null, outdated: outdated.has(b.id), inferred: inferred[b.id] ?? 0,
+      pending: awaitsApproval(key, b),
       paths: publicPaths(key, rec, Object.fromEntries(Object.entries(t).map(([l, x]) => [l, view(key, b, x)])))
     };
   });
+}
+
+// O ciornă venită din site (entity.approve.when) așteaptă „Aprobă” în panou
+export function awaitsApproval(key, base) {
+  const a = entity(key)?.approve;
+  return !!a && base.status === 'draft' && Object.entries(a.when).every(([k, v]) => base[k] === v);
 }
 
 function view(key, base, trRow) {

@@ -290,12 +290,26 @@ function init(signal) {
   // ---------- „Sus” din subsol
   document.querySelectorAll('[data-to-top]').forEach(a => on(a, 'click', e => { e.preventDefault(); scrollTo({top: 0, behavior: reduced ? 'auto' : 'smooth'}); }));
 
-  // ---------- Formularul: deocamdată doar validează; trimiterea vine cu cererile din Brain
-  document.querySelectorAll('[data-form]').forEach(form => on(form, 'submit', e => {
+  // ---------- Formularul: cele cu data-endpoint trimit (testimonialul); restul doar validează până vin cererile din Brain
+  document.querySelectorAll('[data-form]').forEach(form => on(form, 'submit', async e => {
     e.preventDefault();
     const note = form.querySelector('[data-form-note]');
     if (!form.checkValidity()) { form.reportValidity(); return; }
-    if (note) note.textContent = note.dataset.pending ?? '';
+    if (!form.dataset.endpoint) { if (note) note.textContent = note.dataset.pending ?? ''; return; }
+    const button = form.querySelector('[type="submit"]');
+    const data = {lang: form.dataset.lang};
+    new FormData(form).forEach((v, k) => { data[k] = v; });
+    button.disabled = true;
+    try {
+      const r = await fetch(form.dataset.endpoint, {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(data)});
+      if (!r.ok) throw new Error(String(r.status));
+      form.reset();
+      if (note) { note.textContent = note.dataset.done ?? ''; note.classList.add('is-done'); }
+    } catch {
+      if (note) note.textContent = note.dataset.error ?? '';
+    } finally {
+      button.disabled = false;
+    }
   }));
 
   return () => { cleanups.forEach(f => f()); clearTimeout(megaTimer); };

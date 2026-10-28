@@ -247,6 +247,8 @@ export const ENTITIES = [
     key: 'testimoniale', table: 'testimonials', label: 'Testimoniale', one: 'Testimonial',
     category: 'comunitate', color: '#9b59b6', icon: 'quote', assume: 'A5',
     title: 'author',
+    // Cele trimise din formularul de pe Comunitate intră ca ciorne; „Aprobă” le publică (și pe pagina Testimoniale)
+    approve: {when: {source: 'site'}, set: {featured: 1}},
     fields: [
       {key: 'author', label: 'Autor', type: 'text', required: true, max: 120, list: true, help: 'Pentru citatele anonime: „Rezident YACHT KID”.'},
       {key: 'anonymous', label: 'Anonim', type: 'boolean'},
@@ -257,6 +259,7 @@ export const ENTITIES = [
       {key: 'quote_translated', label: 'Traducere', type: 'textarea', ...T,
        help: 'Opțional. Pe site apare marcată ca traducere; lipsește = se afișează originalul.'},
       {key: 'source', label: 'Sursa', type: 'select', options: ['google', 'site', 'interviu', 'altul']},
+      {key: 'email', label: 'Email', type: 'email', help: 'Din formularul de pe site, pentru verificare. Nu apare pe site.'},
       {key: 'given_on', label: 'Data', type: 'date'},
       {key: 'featured', label: 'Afișat pe pagina Testimoniale', type: 'boolean', list: true},
       LEGACY
@@ -362,6 +365,8 @@ export const ENTITIES = [
       {key: 'facts', label: 'Cifre', type: 'refs', target: 'cifre', ordered: true, kinds: ['cifre', 'hero'], rel: 'arată', inverseLabel: 'Secțiuni'},
       {key: 'testimonials', label: 'Testimoniale', type: 'refs', target: 'testimoniale', ordered: true, kinds: ['testimoniale'],
        rel: 'citează', inverseLabel: 'Secțiuni', help: 'Gol = toate cele cu „Afișat pe pagina Testimoniale”.'},
+      {key: 'with_submitted', label: 'Adaugă testimonialele trimise din site', type: 'boolean', kinds: ['testimoniale'],
+       help: 'După cele alese, apar și cele trimise prin formularul de testimoniale, odată aprobate (cele mai noi întâi).'},
       {key: 'gallery', label: 'Galerie', type: 'refs', target: 'media', ordered: true, owned: true, kinds: ['galerie'],
        rel: 'are imaginea', inverseLabel: 'Galerii'},
       // Un câmp, nu o opțiune nouă în `variant`: o opțiune nouă ar schimba regula CHECK (reconstruirea tabelului)

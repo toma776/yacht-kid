@@ -3,8 +3,9 @@ import {notFound} from 'next/navigation';
 import {getDb} from '../../../../../../../core/db.mjs';
 import {entity, hasStatus, field} from '../../../../../../../registry/derive.mjs';
 import {ASSUMPTIONS} from '../../../../../../../registry/assumptions.mjs';
-import {record, fieldSchema, refOptions, provenanceOf, historyOf, whereUsed} from '../../../../../../../manage/data.mjs';
+import {record, fieldSchema, refOptions, provenanceOf, historyOf, whereUsed, awaitsApproval} from '../../../../../../../manage/data.mjs';
 import Editor from '../../../../../../../manage/ui/Editor.jsx';
+import Approve from '../../../../../../../manage/ui/Approve.jsx';
 
 const TABS = [['', 'Detalii'], ['unde-apare', 'Unde apare'], ['surse', 'Surse'], ['istoric', 'Istoric']];
 const CERT = {confirmed: ['ok', 'confirmată'], inferred: ['warn', 'dedusă'], unverified: ['bad', 'neverificată'], unrecoverable: ['bad', 'nerecuperabilă']};
@@ -34,6 +35,7 @@ export default async function Fisa({params}) {
           <h1>{rec.title}{rec.status && <span className={`st ${rec.status}`}>{STATUS[rec.status]}</span>}</h1>
         </div>
         {Object.entries(rec.paths).map(([l, p]) => <a key={l} className="btn sm" href={p} target="_blank" rel="noopener">{l.toUpperCase()} {p} ↗</a>)}
+        {awaitsApproval(tip, {...rec.values, status: rec.status}) && <div className="toolbar" style={{margin: 0}}><span className="tag gold">trimis din site</span><Approve tip={tip} id={rec.id} set={e.approve.set}/></div>}
       </div>
       <nav className="subtabs">{TABS.map(([k, l]) => <a key={k} href={href(k)} className={t === k ? 'on' : ''}>{l}{n[k] ? <span>{n[k]}</span> : null}</a>)}</nav>
 

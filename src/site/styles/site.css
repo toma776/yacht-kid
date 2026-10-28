@@ -504,6 +504,8 @@ body.menu-open .dock { transform: translateY(calc(100% + 24px)); }
 .span-2 { grid-column: span 2; }
 .form-foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .form-note { font-size: var(--fs-small); }
+.form-note.is-done { color: var(--navy); font-weight: 600; }
+.form-card .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 @media (max-width: 1000px) { .contact-grid { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } .span-2 { grid-column: auto; } }
 

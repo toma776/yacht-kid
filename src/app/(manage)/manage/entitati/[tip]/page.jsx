@@ -7,8 +7,9 @@ import {CATEGORIES} from '../../../../../registry/entities.mjs';
 import {listRows} from '../../../../../manage/data.mjs';
 import ListFilter from '../../../../../manage/ui/ListFilter.jsx';
 import NewButton from '../../../../../manage/ui/NewButton.jsx';
+import Approve from '../../../../../manage/ui/Approve.jsx';
 
-const FILTERS = [['', 'Toate'], ['publicate', 'Publicate'], ['ciorne', 'Ciorne'], ['fara-en', 'Fără EN'], ['invechite', 'EN învechit'], ['de-verificat', 'De verificat']];
+const FILTERS = [['', 'Toate'], ['de-aprobat', 'De aprobat'], ['publicate', 'Publicate'], ['ciorne', 'Ciorne'], ['fara-en', 'Fără EN'], ['invechite', 'EN învechit'], ['de-verificat', 'De verificat']];
 const STATUS = {published: 'publicat', draft: 'ciornă', archived: 'arhivat'};
 const initials = s => String(s ?? '?').replace(/[^\p{L}\p{N} ]/gu, '').split(/\s+/).filter(Boolean).map(x => x[0]).slice(0, 2).join('').toUpperCase();
 
@@ -20,7 +21,7 @@ export default async function Lista({params, searchParams}) {
   const db = await getDb();
   const all = await listRows(db, tip);
   const PRED = {
-    '': () => true, publicate: r => r.status === 'published', ciorne: r => r.status === 'draft',
+    '': () => true, 'de-aprobat': r => r.pending, publicate: r => r.status === 'published', ciorne: r => r.status === 'draft',
     'fara-en': r => r.langs && !r.langs.includes('en'), invechite: r => r.outdated, 'de-verificat': r => r.inferred > 0
   };
   const rows = all.filter(PRED[f] ?? PRED['']);
@@ -56,7 +57,7 @@ export default async function Lista({params, searchParams}) {
             <div className="acts">
               {r.inferred ? <span className="tag gold">{r.inferred} de verificat</span> : null}
               {r.langs && <span className="lang">{['ro', 'en'].map(l => <span key={l} className={!r.langs.includes(l) ? 'off' : l === 'en' && r.outdated ? 'old' : ''} title={!r.langs.includes(l) ? 'fără traducere' : l === 'en' && r.outdated ? 'traducere învechită' : 'tradus'}>{l.toUpperCase()}</span>)}</span>}
-              {r.status && <span className={`st ${r.status}`}>{STATUS[r.status]}</span>}
+              {r.pending ? <><span className="tag gold">trimis din site</span><Approve tip={tip} id={r.id} set={e.approve.set}/></> : r.status && <span className={`st ${r.status}`}>{STATUS[r.status]}</span>}
             </div>
           </a>
         ))}
