@@ -354,27 +354,30 @@ const Lightbox = ({list, label}) => (
   </dialog>
 );
 
-// Banda îngustă: fotografii pătrate pe un rând, pe toată lățimea ecranului. Se derulează doar de vizitator
-// (degetul, rotița, săgețile), cu opriri pe fiecare fotografie; miniaturile vin redimensionate de next/image.
+// Banda îngustă: fotografii pătrate pe un rând, în coloana de conținut a paginii (aliniată cu secțiunile din jur).
+// Se derulează de vizitator (degetul, rotița, săgețile), cu opriri pe fiecare fotografie; miniaturile vin
+// redimensionate de next/image.
 function PhotoStrip({ctx, s, values, imgs}) {
   const list = imgs.map(m => ({src: ctx.media(m.id), alt: m.alt ?? ''}));
   const label = s.heading ? fillTokens(s.heading, values) : 'YACHT KID';
   return (
     <section className="strip bg-porcelain" id={s.anchor || undefined} aria-label={label}>
-      <div className="strip-track" data-strip tabIndex={0}>
-        <ul>
-          {list.map((p, i) => (
-            <li key={i}>
-              <button type="button" className="frame strip-photo" data-lightbox-open={i} aria-label={p.alt || `${i + 1} / ${list.length}`}>
-                <Image src={p.src} alt={p.alt} width={480} height={480} sizes="(max-width: 560px) 150px, 224px" quality={70}/>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="wrap strip-nav">
-        <button type="button" className="strip-btn strip-prev" data-strip-step="-1" aria-label="←"><Arrow/></button>
-        <button type="button" className="strip-btn" data-strip-step="1" aria-label="→"><Arrow/></button>
+      <div className="wrap">
+        <div className="strip-track" data-strip tabIndex={0}>
+          <ul>
+            {list.map((p, i) => (
+              <li key={i}>
+                <button type="button" className="frame strip-photo" data-lightbox-open={i} aria-label={p.alt || `${i + 1} / ${list.length}`}>
+                  <Image src={p.src} alt={p.alt} width={480} height={480} sizes="(max-width: 560px) 150px, 224px" quality={70}/>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="strip-nav">
+          <button type="button" className="strip-btn strip-prev" data-strip-step="-1" aria-label="←"><Arrow/></button>
+          <button type="button" className="strip-btn" data-strip-step="1" aria-label="→"><Arrow/></button>
+        </div>
       </div>
       <Lightbox list={list} label={label}/>
     </section>

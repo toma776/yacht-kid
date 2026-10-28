@@ -242,7 +242,9 @@ function init(signal) {
       steps[0].disabled = track.scrollLeft <= 4;
       steps[1].disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
     };
-    steps.forEach(b => on(b, 'click', () => track.scrollBy({left: +b.dataset.stripStep * track.clientWidth * .8, behavior: reduced ? 'auto' : 'smooth'})));
+    // Derulare lină la săgeți (excepție de la site-ul static, cerută explicit); instant cu „reduce motion”
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    steps.forEach(b => on(b, 'click', () => track.scrollBy({left: +b.dataset.stripStep * track.clientWidth * .8, behavior: smooth ? 'smooth' : 'auto'})));
     on(track, 'scroll', edges, {passive: true});
     edges();
   });

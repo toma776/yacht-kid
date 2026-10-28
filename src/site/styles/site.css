@@ -689,13 +689,13 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .photo-grid li:first-child .photo { aspect-ratio: auto; }
 .photo:hover img { transform: scale(1.04); }
 .photo:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
-/* Banda de fotografii (galerie „Bandă îngustă”): pătrate pe un rând, pe toată lățimea ecranului. Prima fotografie
-   pornește de la marginea coloanei paginii; derularea e a vizitatorului (scroll-snap), săgețile sunt doar ajutor */
-.strip { padding-block: clamp(8px, 1.5vw, 24px) 0; --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
-.strip-track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge); scrollbar-width: none; overscroll-behavior-x: contain; }
+/* Banda de fotografii (galerie „Bandă îngustă”): pătrate pe un rând, în coloana de conținut a paginii, aliniată cu
+   secțiunile din jur; derularea e a vizitatorului (scroll-snap), săgețile sunt doar ajutor */
+.strip { padding-block: clamp(8px, 1.5vw, 24px) 0; }
+.strip-track { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
 .strip-track::-webkit-scrollbar { display: none; }
 .strip-track:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
-.strip-track ul { display: flex; gap: clamp(8px, .9vw, 14px); width: max-content; padding-inline: var(--edge); }
+.strip-track ul { display: flex; gap: clamp(8px, .9vw, 14px); width: max-content; }
 .strip-track li { scroll-snap-align: start; }
 .strip-photo { display: block; width: clamp(150px, 15.5vw, 224px); aspect-ratio: 1; padding: 0; border: 0; border-radius: var(--r-m); cursor: zoom-in; background: var(--glass); }
 .strip-photo img { width: 100%; height: 100%; object-fit: cover; }
