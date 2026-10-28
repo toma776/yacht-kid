@@ -99,11 +99,9 @@
 .mega-topic-text small { display: block; margin-top: 2px; font-size: .8125rem; line-height: 1.5; color: var(--ink-2); }
 .mega-topic:hover .mega-topic-ic, .mega-topic:focus-visible .mega-topic-ic { background: var(--navy); color: #fff; }
 .mega-topic:hover .mega-topic-frame img { transform: scale(1.05); }
-/* Cardul hărții: harta zonei (navy), cu eticheta „Hartă 3D”; duce la harta interactivă din homepage */
+/* Cardul hărții: harta zonei (navy); duce la harta interactivă din homepage */
 .mega-map .mega-topic-frame { position: relative; border-top-right-radius: var(--r-l); background: var(--navy); }
 .mega-map .mega-topic-frame img { object-position: 55% 40%; }
-.mega-map-tag { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 10px; border-radius: var(--r-pill); background: #fff; color: var(--navy); font-size: .75rem; font-weight: 700; letter-spacing: .04em; box-shadow: 0 8px 20px rgb(20 32 68 / .3); }
-.mega-map-tag svg { color: var(--coral); }
 
 /* Voalul de sub placă */
 .mega-scrim { position: fixed; inset: 0; z-index: 45; background: rgb(32 54 108 / .28); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); opacity: 0; visibility: hidden; transition: opacity var(--t) var(--ease), visibility 0s linear var(--t); }

@@ -50,7 +50,7 @@ function MegaTopics({item, chrome}) {
       ))}
       {map && (
         <li><a className="mega-topic mega-map" href={map.href} data-mega-close>
-          <span className="frame mega-topic-frame">{map.image && <img src={map.image} alt="" decoding="async" loading="lazy"/>}<span className="mega-map-tag"><Icon id="pin" size={16}/>{L['harta-3d'] ?? 'Hartă 3D'}</span></span>
+          <span className="frame mega-topic-frame">{map.image && <img src={map.image} alt="" decoding="async" loading="lazy"/>}</span>
           <span className="mega-topic-text"><span className="mega-topic-ic"><Icon id="location" size={22}/></span><span><b>{L['harta-interactiva'] ?? 'Harta interactivă'}</b><small>{L['harta-interactiva-text'] ?? 'Lacul, parcul și tot ce e în jur, pe harta 3D.'}</small></span></span>
         </a></li>
       )}
