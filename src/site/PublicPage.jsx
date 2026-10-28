@@ -13,6 +13,7 @@ import {IconSprite} from './ui/Icons.jsx';
 import {Header, Footer} from './ui/Chrome.jsx';
 import {Sections, sectionsOf, PostList} from './ui/Sections.jsx';
 import SiteBehavior from './ui/SiteBehavior.jsx';
+import {variantText} from './variants.mjs';
 import {Article} from './ui/Article.jsx';
 import {UnitPage} from './ui/Unit.jsx';
 
@@ -78,7 +79,7 @@ export async function renderPublic(lang, segments, {variant} = {}) {
       <a className="skip" href="#continut">{chrome.labels['sari-la-continut'] ?? 'Sari la conținut'}</a>
       <Header chrome={chrome} solid/>
       <main id="continut" className={[hero ? null : 'no-hero', unitPage ? 'unit-page' : null].filter(Boolean).join(' ') || undefined}>
-        {composed ? <Sections ctx={ctx} owner={hit.key} pageId={hit.id} values={values} chrome={chrome}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
+        {composed ? <Sections ctx={ctx} owner={hit.key} pageId={hit.id} values={values} chrome={chrome} over={variantText(variant, lang)}/> : <Body ctx={ctx} kind={hit.key} rec={rec} values={values} chrome={chrome}/>}
       </main>
       <Footer chrome={chrome}/>
       <SiteBehavior/>
