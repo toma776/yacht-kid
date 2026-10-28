@@ -188,3 +188,8 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
    în loc de fâșia goală a paginii (main.no-hero) peste spațiul ei de sus ---------- */
 .site main.no-hero:has(> section.floor:first-child) { padding-top: 0; }
 .site main.no-hero > section.floor:first-child { padding-top: calc(72px + clamp(40px, 5vw, 80px)); }
+
+/* ---------- Formular: câmpurile de pe același rând aliniate, chiar dacă o etichetă trece pe două rânduri;
+   eticheta stă jos, lângă câmpul ei ---------- */
+.site .form-grid > .field { grid-template-rows: 1fr auto; }
+.site .form-grid > .field > label { align-self: end; }
