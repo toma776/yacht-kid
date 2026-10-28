@@ -244,7 +244,9 @@ function init(signal) {
     };
     // Derulare lină la săgeți (excepție de la site-ul static, cerută explicit); instant cu „reduce motion”
     const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    steps.forEach(b => on(b, 'click', () => track.scrollBy({left: +b.dataset.stripStep * track.clientWidth * .8, behavior: smooth ? 'smooth' : 'auto'})));
+    // data-strip-page (caruselul de testimoniale): un ecran întreg, adică următoarele 4 carduri
+    const page = track.hasAttribute('data-strip-page') ? 1 : .8;
+    steps.forEach(b => on(b, 'click', () => track.scrollBy({left: +b.dataset.stripStep * track.clientWidth * page, behavior: smooth ? 'smooth' : 'auto'})));
     on(track, 'scroll', edges, {passive: true});
     edges();
   });

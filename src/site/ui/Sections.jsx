@@ -641,6 +641,12 @@ async function Testimonials({ctx, s, values}) {
   const [b1] = await buttons(ctx, s, values);
   const text = t => (t.quote_lang === ctx.lang ? t.quote : t.quote_translated || t.quote) ?? '';
   // Citatele apar întregi (fără „Citește tot”)
+  const cards = list.filter(t => text(t)).map((t, i) => (
+    <li key={t.id} className="quote-card reveal" style={{'--d': `${(i % 4) * 80}ms`}}>
+      <blockquote><p>{text(t)}</p></blockquote>
+      <p className="quote-author"><b>{t.author}</b>{t.role && <span>{t.role}</span>}</p>
+    </li>
+  ));
   return (
     <section className="testimonials floor bg-navy on-dark slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
@@ -648,14 +654,16 @@ async function Testimonials({ctx, s, values}) {
           <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
           {b1 && <a className="link-arrow reveal" style={{'--d': '160ms'}} href={b1.href}>{b1.label} <Arrow/></a>}
         </div>
-        <ul className="quote-grid">
-          {list.filter(t => text(t)).map((t, i) => (
-            <li key={t.id} className="quote-card reveal" style={{'--d': `${(i % 3) * 80}ms`}}>
-              <blockquote><p>{text(t)}</p></blockquote>
-              <p className="quote-author"><b>{t.author}</b>{t.role && <span>{t.role}</span>}</p>
-            </li>
-          ))}
-        </ul>
+        {cards.length > 4 ? (
+          // Peste 4: carusel cu câte 4 la vedere și săgeți (aceeași derulare ca banda de fotografii)
+          <>
+            <div className="quote-track" data-strip data-strip-page tabIndex={0}><ul className="quote-row">{cards}</ul></div>
+            <div className="strip-nav">
+              <button type="button" className="strip-btn strip-prev" data-strip-step="-1" aria-label="←"><Arrow/></button>
+              <button type="button" className="strip-btn" data-strip-step="1" aria-label="→"><Arrow/></button>
+            </div>
+          </>
+        ) : <ul className="quote-grid">{cards}</ul>}
       </div>
     </section>
   );

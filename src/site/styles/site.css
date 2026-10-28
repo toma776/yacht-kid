@@ -736,6 +736,15 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
 .quote-author { display: grid; gap: 1px; padding-top: 12px; border-top: 1px solid rgb(255 255 255 / .14); font-size: .8125rem; line-height: 1.4; }
 .quote-author b { color: #fff; font-weight: 700; letter-spacing: .02em; }
 .quote-author span { color: var(--on-plinth-2); }
+/* Peste 4 testimoniale: carusel, câte 4 la vedere (2 pe tabletă, unul și ceva pe telefon), carduri de aceeași înălțime */
+.quote-track { --gap: 14px; margin-top: var(--stack-4); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.quote-track::-webkit-scrollbar { display: none; }
+.quote-track:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
+.quote-row { display: flex; gap: var(--gap); }
+.quote-row .quote-card { flex: 0 0 calc((100% - 3 * var(--gap)) / 4); margin: 0; scroll-snap-align: start; align-content: space-between; }
+.testimonials .strip-btn { color: #fff; border-color: rgb(255 255 255 / .3); }
+@media (max-width: 1000px) { .quote-row .quote-card { flex-basis: calc((100% - var(--gap)) / 2); } }
+@media (max-width: 560px) { .quote-row .quote-card { flex-basis: 85%; } }
 
 /* Tehnologie: repere, cardurile tehnologiilor (pictogramă, titlu, rezumat) și banda furnizorilor */
 .tech-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: var(--stack-5); border: 1px solid var(--line); border-radius: var(--r-l) var(--r-l) var(--r-band) var(--r-l); overflow: hidden; background: var(--porcelain); }
