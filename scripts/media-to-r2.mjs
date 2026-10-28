@@ -4,10 +4,9 @@
 // MEDIA_BASE_URL + cheie, deci pe Vercel se schimbă doar MEDIA_BASE_URL (adresa publică a bucket-ului).
 // Rulare: node --env-file=.env.r2.local scripts/media-to-r2.mjs [--dry]   (se poate relua: sare peste ce există deja)
 //   .env.r2.local: R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_PUBLIC_URL (opțional, doar afișat)
-import {readFile, readdir, stat} from 'node:fs/promises';
-import {join, extname} from 'node:path';
+import {readFile, stat} from 'node:fs/promises';
 import {AwsClient} from 'aws4fetch';
-import {openDb, all} from '../src/core/db.mjs';
+import {mediaFiles} from './media-files.mjs';
 
 const dry = process.argv.includes('--dry');
 const {R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_PUBLIC_URL} = process.env;
@@ -16,18 +15,7 @@ if (!dry && !(R2_ACCOUNT_ID && R2_ACCESS_KEY_ID && R2_SECRET_ACCESS_KEY && R2_BU
   process.exit(1);
 }
 
-// Aceeași listă ca la Vercel Blob: media din Brain (fără video: site-ul folosește variantele din public/video) + brandbook-ul
-const SNAPSHOT = join(process.cwd(), 'reference', 'snapshot', 'media');
-const db = openDb({url: `file:${join(process.cwd(), 'data', 'brain.db')}`});
-const MIME = {'.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.pdf': 'application/pdf'};
-const BRAND = join(process.cwd(), 'public', 'brand');
-const files = [
-  ...(await all(db, `SELECT filename, mime FROM media WHERE mime NOT LIKE 'video/%' ORDER BY id`))
-    .map(m => ({src: join(SNAPSHOT, m.filename), key: `media/${m.filename}`, mime: m.mime})),
-  ...(await readdir(BRAND, {recursive: true, withFileTypes: true})).filter(d => d.isFile() && MIME[extname(d.name).toLowerCase()])
-    .map(d => { const rel = join(d.parentPath, d.name).slice(BRAND.length + 1).replaceAll('\\', '/'); return {src: join(BRAND, rel), key: `brand/${rel}`, mime: MIME[extname(d.name).toLowerCase()]}; })
-];
-db.close();
+const files = await mediaFiles();
 
 if (dry) {
   let bytes = 0, missing = [];

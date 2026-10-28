@@ -16,6 +16,7 @@
     "schema": "node scripts/schema.mjs",
     "test": "node --test --disable-warning=ExperimentalWarning",
     "import:turso": "node --env-file=.env.local scripts/import.mjs",
+    "media:cloudinary": "node --env-file=.env.cloudinary.local scripts/media-to-cloudinary.mjs",
     "media:r2": "node --env-file=.env.r2.local scripts/media-to-r2.mjs",
     "mirror": "node scripts/mirror.mjs",
     "mirror:serve": "node scripts/mirror-serve.mjs",
