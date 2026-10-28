@@ -16,7 +16,9 @@ export async function GET(request, {params}) {
     const base = process.env.MEDIA_BASE_URL;
     if (!base || m.mime.startsWith('video/')) return new Response('Not found', {status: 404});
     const to = `${base}/media/${m.filename.split('/').map(encodeURIComponent).join('/')}`;
-    return new Response(null, {status: 308, headers: {location: to, 'cache-control': 'public, max-age=86400'}});
+    // Browserul ține redirecționarea 5 minute, CDN-ul Vercel o zi (se golește la fiecare deploy): când se schimbă
+    // stocarea (MEDIA_BASE_URL), vizitatorii nu rămân o zi întreagă cu adresa veche
+    return new Response(null, {status: 308, headers: {location: to, 'cache-control': 'public, max-age=300, s-maxage=86400'}});
   }
   try {
     const body = await readFile(join(SNAPSHOT, m.filename));
