@@ -204,3 +204,8 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
 /* Pagină fără hero care începe cu o secțiune (Contact): secțiunea urcă sub antet, cu fundalul ei */
 .site main.no-hero:has(> section:first-child) { padding-top: 0; }
 .site main.no-hero > section:first-child:not(.hero):not(.hero-card-wrap):not(.unit-intro) { padding-top: calc(72px + var(--section)); }
+
+/* ---------- Parallax pe fotografia hero-ului homepage-ului (SiteBehavior scrie --hero-p). Fotografia e mai înaltă
+   cu 16%, ancorată jos, ca deplasarea în jos să nu descopere marginea de sus a cardului ---------- */
+.site .hero-card-img { transform-origin: 50% 100%; transform: translate3d(0, calc(var(--hero-p, 0) * 16%), 0) scale(1.16); will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .site .hero-card-img { transform: none; } }

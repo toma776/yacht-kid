@@ -26,6 +26,21 @@ function init(signal) {
   on(window, 'scroll', onScroll, {passive: true});
   onScroll();
 
+  // ---------- Parallax pe fotografia hero-ului homepage-ului: singura excepție de la site-ul static, cerută explicit.
+  // Fotografia coboară mai încet decât pagina (--hero-p de la 0 la 1 cât hero-ul iese din ecran); oprit la „reduce motion”
+  const heroImg = document.querySelector('.hero-card-img');
+  if (heroImg && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const card = heroImg.closest('.hero-card');
+    let frame = 0;
+    const move = () => {
+      frame = 0;
+      const r = card.getBoundingClientRect();
+      heroImg.style.setProperty('--hero-p', Math.min(1, Math.max(0, -r.top / r.height)).toFixed(4));
+    };
+    on(window, 'scroll', () => { frame ||= requestAnimationFrame(move); }, {passive: true});
+    move();
+  }
+
   // ---------- Pastila navigației: o singură formă alunecă sub intrarea activă
   const nav = document.querySelector('[data-nav]');
   const pill = document.querySelector('[data-nav-pill]');
