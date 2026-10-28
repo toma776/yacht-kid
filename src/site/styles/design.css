@@ -205,7 +205,8 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
 .site main.no-hero:has(> section:first-child) { padding-top: 0; }
 .site main.no-hero > section:first-child:not(.hero):not(.hero-card-wrap):not(.unit-intro) { padding-top: calc(72px + var(--section)); }
 
-/* ---------- Parallax pe fotografia hero-ului homepage-ului (SiteBehavior scrie --hero-p). Fotografia e mai înaltă
-   cu 16%, ancorată jos, ca deplasarea în jos să nu descopere marginea de sus a cardului ---------- */
-.site .hero-card-img { transform-origin: 50% 100%; transform: translate3d(0, calc(var(--hero-p, 0) * 16%), 0) scale(1.16); will-change: transform; }
+/* ---------- Parallax pe fotografia hero-ului homepage-ului (SiteBehavior scrie --hero-p, 0 → 1 cât cardul iese din ecran).
+   Fotografia coboară cu jumătate din derulare, deci merge cu jumătate din viteza paginii. Fără mărire: cât timp merge mai
+   încet decât pagina, marginea ei de sus rămâne deasupra zonei vizibile a cardului, deci nu apare niciun gol ---------- */
+.site .hero-card-img { transform: translate3d(0, calc(var(--hero-p, 0) * 50%), 0); will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .site .hero-card-img { transform: none; } }
