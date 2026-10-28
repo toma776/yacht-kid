@@ -631,10 +631,11 @@ async function VoiceCards({ctx, s, values, list}) {
 
 async function Testimonials({ctx, s, values}) {
   const picked = await ctx.links('sectiuni.testimonials', s.id);
-  // Cele trimise prin formularul de pe site și aprobate în panou (publicate), după cele alese, cele mai noi întâi
+  // Cele trimise prin formularul de pe site și aprobate în panou vin primele, cel mai recent aprobat întâi
+  // (published_at = momentul aprobării), apoi cele alese în secțiune
   const submitted = s.with_submitted ? await ctx.within(`Testimoniale trimise (${s.id})`, 'trimise din site și aprobate', () =>
-    ctx.query('testimoniale', {fields: ['source'], where: `e.source = 'site'`, order: 'e.given_on DESC, e.id DESC'})) : [];
-  const chosen = [...picked, ...submitted.filter(t => !picked.some(p => p.id === t.id))];
+    ctx.query('testimoniale', {fields: ['source'], where: `e.source = 'site'`, order: 'e.published_at DESC, e.id DESC'})) : [];
+  const chosen = [...submitted, ...picked.filter(p => !submitted.some(t => t.id === p.id))];
   if (s.variant === 'card') return VoiceCards({ctx, s, values, list: chosen});
   const list = chosen.length ? chosen : await ctx.within(`Testimoniale (${s.id})`, 'cele afișate pe pagina Testimoniale', () =>
     ctx.query('testimoniale', {fields: ['featured'], where: 'e.featured = 1', order: 'e.id'}));
