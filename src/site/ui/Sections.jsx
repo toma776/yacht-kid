@@ -444,7 +444,9 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
       return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><select id={id} name={x.name} required={x.required} defaultValue={preset && opts.includes(preset) ? preset : ''}><option value="" disabled>{l?.placeholder ?? ''}</option>{opts.map(o => <option key={o}>{o}</option>)}</select></div>;
     }
     if (x.type === 'textarea') return <div key={x.name} className="field span-2"><label htmlFor={id}>{label}</label><textarea id={id} name={x.name} rows={3} required={x.required}/></div>;
-    return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;
+    // Data (vizionarea): de azi încolo
+    const min = x.type === 'date' ? new Date().toISOString().slice(0, 10) : undefined;
+    return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} min={min} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;
   };
   return (
     <section className="contact floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
