@@ -183,3 +183,8 @@ body:not(.is-scrolled) .site:not(:has(> main.no-hero)) .site-header:not(.mega-op
 
 /* ---------- Subsol: eticheta „PDF” fără alb pe coral (§2.4); coralul rămâne contur ---------- */
 .site .ft-brochure span { background: none; border: 1px solid var(--coral-light); color: var(--coral-light); }
+
+/* ---------- Pagini fără hero care încep cu o secțiune (Contact): secțiunea urcă sub antet, cu fundalul ei,
+   în loc de fâșia goală a paginii (main.no-hero) peste spațiul ei de sus ---------- */
+.site main.no-hero:has(> section.floor:first-child) { padding-top: 0; }
+.site main.no-hero > section.floor:first-child { padding-top: calc(72px + clamp(40px, 5vw, 80px)); }

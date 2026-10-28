@@ -23,10 +23,14 @@ async function buttons(ctx, s, values) {
   return Promise.all((s.buttons ?? []).map(async b => ({...b, label: fillTokens(b.label, values), href: await resolveTo(ctx, b.to)})));
 }
 const Btn = ({b, cls = 'btn', icon = 'arrow'}) => b?.href ? <a className={cls} href={b.href} {...(b.video ? {'data-video-open': ''} : {})}>{b.label} <span className="btn-icon"><Icon id={b.video ? 'play' : icon}/></span></a> : null;
-const Head = ({s, values, id, cls = ''}) => <>
-  {s.eyebrow && <p className={`eyebrow reveal ${cls}`}>{fillTokens(s.eyebrow, values)}</p>}
-  {s.heading && <h2 className="h2 ruled reveal" id={id} style={{'--d': '80ms'}}>{fillTokens(s.heading, values)}</h2>}
-</>;
+// h1: secțiunea care deschide o pagină fără hero (Contact) poartă titlul paginii
+const Head = ({s, values, id, cls = '', h1 = false}) => {
+  const H = h1 ? 'h1' : 'h2';
+  return <>
+    {s.eyebrow && <p className={`eyebrow reveal ${cls}`}>{fillTokens(s.eyebrow, values)}</p>}
+    {s.heading && <H className="h2 ruled reveal" id={id} style={{'--d': '80ms'}}>{fillTokens(s.heading, values)}</H>}
+  </>;
+};
 
 function mediaVideo(m, quality) {
   const r = (m?.renditions ?? []).find(x => x.quality === quality) ?? m?.renditions?.[0];
@@ -423,7 +427,7 @@ async function Cta({ctx, s, values}) {
 }
 
 // preset: opțiunea aleasă dinainte într-un select (pe pagina unui apartament, tipul lui)
-export async function ContactForm({ctx, s, values, chrome, preset}) {
+export async function ContactForm({ctx, s, values, chrome, preset, first = false}) {
   const L = chrome.labels, f = chrome.firma;
   const form = s.form ? await ctx.item('formulare', s.form) : null;
   const labels = Object.fromEntries((form?.field_labels ?? []).map(l => [l.name, l]));
@@ -446,7 +450,7 @@ export async function ContactForm({ctx, s, values, chrome, preset}) {
     <section className="contact floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap contact-grid">
         <div className="contact-copy">
-          <Head s={s} values={values} id={`t-${s.id}`}/>
+          <Head s={s} values={values} id={`t-${s.id}`} h1={first}/>
           {paras[0] && <p className="lead reveal" style={{'--d': '160ms'}}>{strip(paras[0])}</p>}
           {f && (
             <dl className="channels reveal" style={{'--d': '200ms'}}>
