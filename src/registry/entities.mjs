@@ -304,6 +304,18 @@ export const ENTITIES = [
     ]
   },
   {
+    key: 'intrebari', table: 'faqs', label: 'Întrebări frecvente', one: 'Întrebare',
+    category: 'continut', color: '#4a7fbf', icon: 'help-circle',
+    title: 'question',
+    // Adunate din secțiunile „Întrebări frecvente” de la finalul articolelor; o întrebare repetată e una singură, legată de toate articolele
+    fields: [
+      {key: 'question', label: 'Întrebare', type: 'text', required: true, max: 200, list: true, ...T},
+      {key: 'answer', label: 'Răspuns', type: 'richtext', required: true, ...T},
+      {key: 'articles', label: 'Apare în articolele', type: 'refs', target: 'articole', rel: 'apare în', inverseLabel: 'Întrebări frecvente', list: true}
+    ],
+    duplicates: {similar: ['question']}
+  },
+  {
     key: 'pagini', table: 'pages', label: 'Pagini', one: 'Pagină',
     category: 'continut', color: '#1d5fa8', icon: 'layout', assume: ['T3', 'A4'],
     title: 'title',

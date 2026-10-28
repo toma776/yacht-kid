@@ -379,6 +379,20 @@ CREATE TABLE IF NOT EXISTS "testimonials" (
 
 CREATE INDEX IF NOT EXISTS "ix_testimonials_status" ON "testimonials"(status);
 
+CREATE TABLE IF NOT EXISTS "faqs" (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
+  draft TEXT CHECK (draft IS NULL OR json_valid(draft)),
+  published_at TEXT,
+  search TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE INDEX IF NOT EXISTS "ix_faqs_status" ON "faqs"(status);
+
 CREATE TABLE IF NOT EXISTS "pages" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
@@ -712,6 +726,18 @@ CREATE TABLE IF NOT EXISTS "testimonials_translations" (
 
 CREATE INDEX IF NOT EXISTS "ix_testimonials_translations_legacy" ON "testimonials_translations"(legacy_id);
 
+CREATE TABLE IF NOT EXISTS "faqs_translations" (
+  entity_id INTEGER NOT NULL REFERENCES "faqs"(id) ON DELETE CASCADE,
+  lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
+  "question" TEXT,
+  "answer" TEXT,
+  source_fp TEXT,
+  translated_at TEXT,
+  translated_by TEXT,
+  updated_at TEXT NOT NULL,
+  PRIMARY KEY (entity_id, lang)
+);
+
 CREATE TABLE IF NOT EXISTS "pages_translations" (
   entity_id INTEGER NOT NULL REFERENCES "pages"(id) ON DELETE CASCADE,
   lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
@@ -885,6 +911,21 @@ CREATE TABLE IF NOT EXISTS "rel_posts_unit_types" (
 );
 
 CREATE INDEX IF NOT EXISTS "ix_rel_posts_unit_types_dst" ON "rel_posts_unit_types"(dst_id);
+
+CREATE TABLE IF NOT EXISTS "rel_faqs_articles" (
+  src_id INTEGER NOT NULL REFERENCES "faqs"(id) ON DELETE CASCADE,
+  dst_id INTEGER NOT NULL REFERENCES "posts"(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'inferred', 'unverified')),
+  confidence REAL,
+  source_id INTEGER REFERENCES sources(id) ON DELETE SET NULL,
+  note TEXT,
+  attrs TEXT CHECK (attrs IS NULL OR json_valid(attrs)),
+  created_at TEXT, created_by TEXT,
+  PRIMARY KEY (src_id, dst_id)
+);
+
+CREATE INDEX IF NOT EXISTS "ix_rel_faqs_articles_dst" ON "rel_faqs_articles"(dst_id);
 
 CREATE TABLE IF NOT EXISTS "rel_pages_sections" (
   src_id INTEGER NOT NULL REFERENCES "pages"(id) ON DELETE CASCADE,
