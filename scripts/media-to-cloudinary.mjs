@@ -1,17 +1,24 @@
 // Fișierele media → Cloudinary (planul gratuit, fără card), ca site-ul de pe Vercel să le servească în locul Vercel Blob.
 // Adresa Cloudinary păstrează calea: `media/2024/10/foto.jpg` → https://res.cloudinary.com/<cont>/image/upload/media/2024/10/foto.jpg
 // (public_id = calea fără extensie; extensia din adresă alege formatul livrat). Pe Vercel se schimbă doar MEDIA_BASE_URL.
-// Rulare: node --env-file=.env.cloudinary.local scripts/media-to-cloudinary.mjs [--dry]   (se poate relua: sare peste ce există)
-//   .env.cloudinary.local: CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>  (din Dashboard → API Keys)
+// Rulare: node --env-file=.env.cloudinary.local scripts/media-to-cloudinary.mjs [--dry] [--limit N]   (se poate relua: sare peste ce există)
+//   .env.cloudinary.local: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET (din Settings → API Keys)
 import {readFile, stat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {mediaFiles} from './media-files.mjs';
 
 const dry = process.argv.includes('--dry');
-const [, apiKey, apiSecret, cloud] = (process.env.CLOUDINARY_URL ?? '').match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/) ?? [];
-if (!dry && !cloud) { console.error('CLOUDINARY_URL lipsește sau nu are forma cloudinary://<api_key>:<api_secret>@<cloud_name> (vezi .env.cloudinary.local).'); process.exit(1); }
+const limit = +(process.argv[process.argv.indexOf('--limit') + 1] ?? 0) || Infinity;  // doar primele N (pentru o probă)
+// Cheia: cele trei variabile separate sau CLOUDINARY_URL (cloudinary://<api_key>:<api_secret>@<cloud_name>)
+const fromUrl = (process.env.CLOUDINARY_URL ?? '').match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/) ?? [];
+const apiKey = process.env.CLOUDINARY_API_KEY ?? fromUrl[1], apiSecret = process.env.CLOUDINARY_API_SECRET ?? fromUrl[2];
+const cloud = process.env.CLOUDINARY_CLOUD_NAME ?? fromUrl[3];
+if (!dry && (!cloud || !apiKey || !apiSecret || /^LIPESTE/.test(apiSecret))) {
+  console.error('Lipsește cheia Cloudinary: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY și CLOUDINARY_API_SECRET (vezi .env.cloudinary.local).');
+  process.exit(1);
+}
 
-const files = await mediaFiles();
+const files = (await mediaFiles()).slice(0, limit);
 const base = `https://res.cloudinary.com/${cloud ?? '<cloud_name>'}/image/upload`;
 const publicId = key => key.replace(/\.[^./]+$/, '');
 
