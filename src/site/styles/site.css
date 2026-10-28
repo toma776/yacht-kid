@@ -1012,7 +1012,7 @@ html { scroll-behavior: auto !important; }
 .voice-rest { display: grid; gap: 14px; margin-top: 14px; }
 .voice-who { margin: 0; display: grid; justify-items: center; gap: 14px; text-align: center; }
 .voice-avatar { display: grid; place-items: center; width: 168px; height: 168px; border-radius: 50%; background: rgb(255 255 255 / .08); border: 1px solid rgb(255 255 255 / .22); font-size: 3rem; font-weight: 700; letter-spacing: .04em; color: #fff; }
-.voice-avatar svg { width: 64px; height: 64px; color: var(--coral-light); }
+.voice-avatar svg { width: 64px; height: 64px; color: #fff; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
 .voice-who b { display: block; font-size: 1.125rem; }
 .voice-who span:not(.voice-avatar) { display: block; font-size: .875rem; color: var(--on-plinth-2); }
 .voices-pages { display: flex; gap: 10px; margin-top: 36px; }
