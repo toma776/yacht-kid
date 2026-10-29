@@ -350,7 +350,7 @@ export const ENTITIES = [
       {key: 'heading', label: 'Titlu', type: 'text', ...T},
       {key: 'text', label: 'Text', type: 'richtext', ...T},
       {key: 'buttons', label: 'Butoane', type: 'links', ...T},
-      {key: 'image', label: 'Imagine', type: 'image', kinds: ['hero', 'text', 'cta']},
+      {key: 'image', label: 'Imagine', type: 'image', kinds: ['hero', 'text', 'cta', 'avantaje', 'premii']},
       // Harta 3D pe o secțiune text (Locație): un câmp nou, nu un fel nou de secțiune — o coloană se adaugă sigur pe
       // orice bază (ALTER), pe când o opțiune nouă în `kind` ar cere reconstruirea tabelului (regula CHECK)
       {key: 'show_map', label: 'Harta 3D', type: 'boolean', kinds: ['text'],

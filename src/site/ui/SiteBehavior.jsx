@@ -8,11 +8,11 @@ import {useEffect} from 'react';
 function init(signal) {
   const on = (el, type, fn, opts = {}) => el?.addEventListener(type, fn, {...opts, signal});
   const cleanups = [];
-  // Site static (decizia clientului): fără apariții la derulare, parallax, capitole care se schimbă singure, derulare
-  // animată sau antet care se ascunde; interacțiunile (meniuri, acordeoane, galerie, video) rămân, dar fără animație
+  // Redesign: mișcare moderată (apariții discrete, parallax-ul hero-ului, tranziții de meniu); efectele grele rămân
+  // oprite: parallax pe straturi, valuri care curg, capitole care se schimbă singure, antet care se ascunde
   const reduced = true;
   const header = document.querySelector('[data-header]');
-  const hero = document.querySelector('.hero, .hero-card');
+  const hero = document.querySelector('.hero, .hero-card, .lx-hero');
   if (!header) return () => {};
 
   // ---------- Antetul: bandă albă de la început, pe toate paginile (rămâne mereu pe ecran).
@@ -30,7 +30,7 @@ function init(signal) {
   // Fotografia coboară mai încet decât pagina (--hero-p de la 0 la 1 cât hero-ul iese din ecran); oprit la „reduce motion”
   const heroImg = document.querySelector('.hero-card-img');
   if (heroImg && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const card = heroImg.closest('.hero-card');
+    const card = heroImg.closest('.hero-card, .lx-hero');
     let frame = 0;
     const move = () => {
       frame = 0;
@@ -40,6 +40,16 @@ function init(signal) {
     on(window, 'scroll', () => { frame ||= requestAnimationFrame(move); }, {passive: true});
     move();
   }
+
+  // ---------- Colecția (selectorul de tipologii): rândul ales cu mouse-ul sau tastatura aprinde fotografia lui
+  document.querySelectorAll('[data-typo]').forEach(box => {
+    const items = [...box.querySelectorAll('[data-typo-item]')], imgs = [...box.querySelectorAll('[data-typo-img]')];
+    const pick = i => {
+      items.forEach(el => el.classList.toggle('is-active', +el.dataset.typoItem === i));
+      imgs.forEach(el => el.classList.toggle('is-active', +el.dataset.typoImg === i));
+    };
+    items.forEach(el => { on(el, 'mouseenter', () => pick(+el.dataset.typoItem)); on(el, 'focusin', () => pick(+el.dataset.typoItem)); });
+  });
 
   // ---------- Pastila navigației: o singură formă alunecă sub intrarea activă
   const nav = document.querySelector('[data-nav]');
@@ -140,9 +150,16 @@ function init(signal) {
     }, {passive: true});
   }
 
-  // ---------- Apariția la derulare
-  // (site static: totul e vizibil de la început)
-  document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-in'));
+  // ---------- Apariția la derulare (redesign): elementele de sub primul ecran urcă discret o singură dată, când intră
+  // în ecran. Hero-ul nu are .reveal (titlul, prețul și acțiunile apar imediat); cu „mișcare redusă” totul e vizibil
+  const reveals = [...document.querySelectorAll('.reveal')];
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) reveals.forEach(el => el.classList.add('is-in'));
+  else {
+    document.documentElement.classList.add('motion');
+    const io = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), {rootMargin: '0px 0px -8% 0px'});
+    reveals.forEach(el => (el.getBoundingClientRect().top < innerHeight ? el.classList.add('is-in') : io.observe(el)));
+    cleanups.push(() => io.disconnect());
+  }
 
   // ---------- Parallax, pe mai multe straturi (doar transform/translate, un singur requestAnimationFrame):
   //  · hero: video-ul se mărește și coboară, titlul urcă și se stinge, un voal navy se adâncește;

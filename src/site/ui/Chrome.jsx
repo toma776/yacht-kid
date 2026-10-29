@@ -91,7 +91,9 @@ export function Header({chrome, solid = false}) {
           </nav>
           <div className="header-actions">
             <Langs chrome={chrome}/>
-            <a className="btn btn--sm header-cta" href={chrome.contactHref}>{L['solicita-oferta']} <span className="btn-icon"><Arrow/></span></a>
+            {chrome.firma && <a className="header-phone" href={`tel:${chrome.firma.phone}`} aria-label={`${L.telefon ?? 'Telefon'}: ${chrome.firma.phoneLabel}`}><Icon id="phone" size={16}/><span>{chrome.firma.phoneLabel}</span></a>}
+            {/* Intenția avansată (vizionarea) stă mereu la vedere; oferta rămâne în hero, în secțiuni și în subsol */}
+            <a className="btn btn--sm header-cta" href={chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'}</a>
             <button className="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span/><span/><span className="sr-only" data-label-open={L.meniu ?? 'Meniu'} data-label-close={L['inchide-meniul'] ?? 'Închide meniul'}>{L.meniu ?? 'Meniu'}</span></button>
           </div>
         </div>

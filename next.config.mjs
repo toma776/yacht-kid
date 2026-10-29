@@ -14,6 +14,8 @@ export default {
     ]
   },
   poweredByHeader: false,
+  // Banda de fotografii cere 70 (fișiere mai mici, aceeași calitate vizibilă la 224px); 75 e implicitul Next
+  images: {qualities: [70, 75]},
   // Brandbook-ul clientului (public/brand/) nu e în repo, deci nici pe Vercel: acolo /brand/* vine din Blob
   // (urcat de scripts/media-to-blob.mjs). „afterFiles” = doar dacă fișierul nu există în public/, dar înaintea rutei
   // [[...segments]] a site-ului (care altfel ar răspunde 404); fără MEDIA_BASE_URL (local), nimic.
