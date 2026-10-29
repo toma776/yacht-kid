@@ -79,8 +79,8 @@ body:has(> .site) { background: var(--paper); }
 .site .btn--glass, .site .on-dark .btn--ghost { --btn-bg: rgb(255 255 255 / .06); --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .55); backdrop-filter: none; -webkit-backdrop-filter: none; }
 .site .btn--glass:hover, .site .on-dark .btn--ghost:hover { --btn-bg: rgb(255 255 255 / .14); --btn-bd: #fff; --btn-fg: #fff; }
 /* Butonul principal pe fundal închis: alb */
-.site .on-dark .btn:not(.btn--glass):not(.btn--ghost):not(.btn--accent) { --btn-bg: #fff; --btn-fg: var(--navy); --btn-bd: #fff; }
-.site .on-dark .btn:not(.btn--glass):not(.btn--ghost):not(.btn--accent):hover { --btn-bg: var(--paper); --btn-bd: var(--paper); }
+.site .on-dark .btn:not(.btn--glass):not(.btn--ghost):not(.btn--accent):not(.ft-biz) { --btn-bg: #fff; --btn-fg: var(--navy); --btn-bd: #fff; }
+.site .on-dark .btn:not(.btn--glass):not(.btn--ghost):not(.btn--accent):not(.ft-biz):hover { --btn-bg: var(--paper); --btn-bd: var(--paper); }
 .site .btn--sm { height: 44px; padding: 0 18px; font-size: .8125rem; }
 /* Text link: sublinie coral scurtă care se întinde */
 .site .link-arrow { gap: 10px; padding-bottom: 6px; background-size: 28px 1px; letter-spacing: .06em; transition: background-size var(--t) var(--ease), gap var(--t) var(--ease); }
@@ -409,6 +409,9 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
 .site .site-footer { padding-top: clamp(56px, 6vw, 88px); }
 .site .ft-logo img { width: 112px; }
 .site .ft-actions .btn--glass { --btn-bd: rgb(255 255 255 / .4); }
+/* Butonul pentru spațiile comerciale: alt public, deci alt contur (coral deschis), nu încă un buton alb */
+.site .on-dark .btn.ft-biz { --btn-bg: transparent; --btn-fg: #fff; --btn-bd: var(--coral-light); }
+.site .on-dark .btn.ft-biz:hover { --btn-bg: rgb(249 171 134 / .12); --btn-bd: var(--coral-light); --btn-fg: #fff; }
 .site .ft-brochure span { background: none; border: 1px solid var(--coral-light); color: var(--coral-light); border-radius: 0; }
 .site .ft-social a, .site .anpc img { border-radius: 0; }
 .site .ft-social a:hover { background: none; border-color: var(--coral); color: var(--coral-light); }

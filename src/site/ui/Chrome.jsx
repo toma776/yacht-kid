@@ -163,6 +163,7 @@ export function Footer({chrome}) {
   const SOCIAL = {facebook: 'facebook', instagram: 'instagram', linkedin: 'linkedin'};
   const cols = chrome.footer.filter(g => !g.legal);
   const legal = chrome.footer.find(g => g.legal);
+  const biz = chrome.footer.flatMap(g => g.children ?? []).find(c => /comercial|commercial/.test(c.href));
   return (
     <>
       {/* Subsolul: compact, fără colțuri rotunjite. Sus: marca și acțiunile (ofertă, vizionare, broșură); apoi contactul,
@@ -175,7 +176,8 @@ export function Footer({chrome}) {
             <div className="ft-actions">
               <a className="btn" href={chrome.contactHref}>{L['solicita-oferta']} <span className="btn-icon"><Arrow/></span></a>
               <a className="btn btn--glass" href={chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref}>{L['programeaza-vizionare']} <span className="btn-icon"><Icon id="calendar"/></span></a>
-              {chrome.brochure && <a className="ft-brochure" href={chrome.brochure} target="_blank" rel="noopener" download>{L['brosura-descarca'] ?? 'Descarcă broșura'} <span>PDF</span></a>}
+              {/* Publicul comercial (antreprenori, investitori): direct la formularul de cerere de pe pagina Spații comerciale */}
+              {biz && <a className="btn ft-biz" href={`${biz.href}#contact`}>{L['cta-spatii-comerciale'] ?? (chrome.lang === 'en' ? 'Space for your business' : 'Spațiu pentru afacerea ta')} <span className="btn-icon"><Arrow/></span></a>}
             </div>
           </div>
           <div className="ft-grid">
