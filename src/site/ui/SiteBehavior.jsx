@@ -51,6 +51,15 @@ function init(signal) {
     items.forEach(el => { on(el, 'mouseenter', () => pick(+el.dataset.typoItem)); on(el, 'focusin', () => pick(+el.dataset.typoItem)); });
   });
 
+  // ---------- Articolul schematic: „Pe scurt” deschide capitolul cerut și aduce pagina la el
+  const openChapter = n => {
+    const li = document.querySelector(`.ax-chapters [data-chapter="${n}"]`);
+    if (!li) return;
+    if (!li.classList.contains('is-active')) li.querySelector('button').click();
+    li.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+  };
+  document.querySelectorAll('[data-chapter-open]').forEach(a => on(a, 'click', e => { e.preventDefault(); openChapter(+a.dataset.chapterOpen); }));
+
   // ---------- Pastila navigației: o singură formă alunecă sub intrarea activă
   const nav = document.querySelector('[data-nav]');
   const pill = document.querySelector('[data-nav-pill]');
@@ -291,8 +300,17 @@ function init(signal) {
     };
     // Click pe capitolul deschis („−”) îl închide; fotografia rămâne a lui până se deschide altul
     const close = li => { li.classList.remove('is-active'); li.querySelector('button').setAttribute('aria-expanded', 'false'); };
+    // Articolul (data-chapters-multi): fiecare capitol se deschide și se închide singur, celelalte rămân cum sunt,
+    // ca textul de sub cursor să nu urce când se strânge un capitol de deasupra; fotografia o urmează pe ultima deschisă
+    const multi = chapters.hasAttribute('data-chapters-multi');
     items.forEach((li, n) => on(li.querySelector('button'), 'click', () => {
       auto = false; clearTimeout(timer); chapters.classList.remove('is-playing');
+      if (multi) {
+        const open = !li.classList.contains('is-active');
+        li.classList.toggle('is-active', open); li.querySelector('button').setAttribute('aria-expanded', String(open));
+        if (open) { current = n; figures.forEach((f, k) => { f.classList.toggle('is-active', k === n); f.toggleAttribute('aria-hidden', k !== n); }); }
+        return;
+      }
       if (n === current && li.classList.contains('is-active')) close(li); else show(n);
     }));
     on(chapters, 'mouseenter', () => { held = true; sync(); });

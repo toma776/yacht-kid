@@ -499,3 +499,72 @@ html.motion .site .reveal.is-in { opacity: 1; }
 .site .mega-inner > *, .site .mega.is-open .mega-inner > * { transform: none; transition-duration: 220ms; transition-delay: 0ms; }
 .site .mobile-menu { transition-duration: 350ms; }
 .site .mobile-menu .mm-in { transition-delay: 0ms !important; transform: none !important; }
+
+/* ---------- 24. Articolul schematic (preview) ----------
+   Același limbaj ca secțiunile de capitole: antetul cu titlu și citat, „Pe scurt” ca index numerotat, capitolele ca
+   acordeon cu fotografia alături, întrebările frecvente ca rânduri, apoi alte articole și vizionarea. */
+.site .ax-head { padding-block: calc(72px + clamp(40px, 5vw, 72px)) clamp(40px, 5vw, 72px); }
+.site .ax-head .h2 { font-size: clamp(1.75rem, 1.2rem + 1.7vw, 2.75rem); max-width: 22ch; }
+.site .ax-head .eyebrow a { color: inherit; }
+.site .ax-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: .8125rem; color: var(--ink-3); }
+.site .ax-meta > * + *::before { content: '·'; margin-right: 16px; }
+.site .ax-head .pull { font-size: clamp(1.0625rem, .98rem + .4vw, 1.3125rem); line-height: 1.65; color: var(--coral-ink); }
+.site .ax-brief { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 16px clamp(32px, 5vw, 96px); padding-block: clamp(40px, 4vw, 64px); }
+.site .ax-brief ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 3vw, 48px); border-top: 1px solid var(--navy); }
+.site .ax-brief a { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: baseline; height: 100%; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: .9375rem; font-weight: 600; line-height: 1.45; color: var(--navy); transition: color var(--t) var(--ease); }
+.site .ax-brief a .num { font-size: .75rem; letter-spacing: .1em; color: var(--coral-ink); }
+.site .ax-brief a:hover { color: var(--coral-ink); }
+.site .ax-body { padding-block: clamp(40px, 4vw, 72px) var(--section); }
+.site .ax-chapters { margin-top: 0; }
+.site .ax-chapters .chapter { scroll-margin-top: 96px; }
+.site .ax-chapters .chapter-head button { align-items: start; }
+.site .ax-chapters .chapter-num { padding-top: 6px; }
+.site .ax-text { padding: 0 44px 28px 56px; max-width: 70ch; }
+.site .ax-text > * + * { margin-top: 1em; }
+.site .ax-text p { color: var(--ink-2); line-height: 1.75; }
+.site .ax-text a { color: var(--navy); font-weight: 600; text-decoration: underline; text-decoration-color: var(--coral); text-underline-offset: 3px; }
+.site .ax-check { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; padding: 0; border-top: 1px solid var(--line); }
+.site .ax-check li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: .9375rem; color: var(--navy); }
+.site .ax-check li::before { content: ''; width: 14px; height: 8px; margin-top: 6px; border-left: 1.5px solid var(--coral); border-bottom: 1.5px solid var(--coral); transform: rotate(-45deg); }
+.site .ax-take { margin: 1.4em 0 0; }
+.site .ax-take p { font-size: 1.0625rem; line-height: 1.6; color: var(--coral-ink); }
+.site .ax-stage { aspect-ratio: 4 / 5; }
+/* Întrebările frecvente: aceleași rânduri ca acordeonul de capitole, cu <details> */
+.site .ax-faq { padding-block: var(--section); }
+.site .ax-faq-list { margin-top: clamp(32px, 3vw, 48px); max-width: 960px; border-top: 1px solid var(--navy); }
+.site .ax-faq-list summary { display: grid; grid-template-columns: 44px minmax(0, 1fr) 32px; gap: 12px; align-items: start; padding: 22px 0; cursor: pointer; list-style: none; }
+.site .ax-faq-list summary::-webkit-details-marker { display: none; }
+.site .ax-faq-list .chapter-num { padding-top: 4px; }
+.site .ax-faq-list .chapter-title { font-size: clamp(1rem, .95rem + .3vw, 1.1875rem); }
+.site .ax-faq-list details[open] .chapter-title { color: var(--navy); }
+.site .ax-faq-list details[open] .chapter-icon::before, .site .ax-faq-list details[open] .chapter-icon::after { background: var(--coral); }
+.site .ax-faq-list details[open] .chapter-icon::after { transform: rotate(0deg); }
+.site .ax-end { padding-block: var(--section); }
+.site .ax-end-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px clamp(40px, 6vw, 112px); align-items: start; }
+.site .ax-more { margin-top: 20px; border-top: 1px solid var(--navy); }
+.site .ax-more a { display: grid; grid-template-columns: 40px minmax(0, 1fr) 18px; gap: 12px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--line); color: var(--navy); }
+.site .ax-more .num { font-size: .75rem; letter-spacing: .1em; color: var(--coral-ink); }
+.site .ax-more b { font-weight: 700; letter-spacing: .02em; line-height: 1.4; }
+.site .ax-more svg { width: 16px; height: 16px; color: var(--coral); transition: transform var(--t) var(--ease); }
+.site .ax-more a:hover svg { transform: translateX(3px); }
+.site .ax-cta { display: grid; justify-items: start; gap: 24px; padding-top: 40px; }
+@media (max-width: 900px) {
+  .site .ax-brief, .site .ax-end-grid { grid-template-columns: minmax(0, 1fr); }
+  .site .ax-brief ol { grid-template-columns: minmax(0, 1fr); }
+  .site .ax-stage { display: none; }
+}
+@media (max-width: 560px) {
+  .site .ax-text { padding: 0 0 24px; }
+  .site .ax-check { grid-template-columns: minmax(0, 1fr); }
+  .site .ax-faq-list summary { grid-template-columns: 36px minmax(0, 1fr) 24px; }
+}
+/* Articolul: lista lată în stânga, fotografia în dreapta, în coloana paginii (nu regula capitolelor alternate din v2.css) */
+.site .ax-body .chapters, .site .about.bg-paper.ax-body .chapters { margin: 0 auto; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.site .about.bg-paper.ax-body .chapter-stage { grid-column: 2; grid-row: 1; height: auto; aspect-ratio: 4 / 5; }
+.site .about.bg-paper.ax-body .chapters-copy { grid-column: 1; }
+.site .ax-brief { align-items: start; }
+.site .ax-brief > .eyebrow { padding-top: 14px; }
+@media (max-width: 900px) { .site .ax-body .chapters, .site .about.bg-paper.ax-body .chapters { grid-template-columns: minmax(0, 1fr); } }
+/* Paragrafele articolului nu preiau indentarea paragrafelor de capitol (ax-text o are deja) */
+.site .ax-text p, .site .ax-chapters .chapter-panel .ax-text p { padding: 0; max-width: none; }
+.site .ax-take { padding: 4px 0 4px 24px; }
