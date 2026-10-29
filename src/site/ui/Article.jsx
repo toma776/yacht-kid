@@ -81,7 +81,7 @@ export async function Article({ctx, rec, title, chrome}) {
       )}
 
       <section className="about ax-body bg-paper">
-        <div className="wrap chapters ax-chapters" data-chapters>
+        <div className="wrap chapters ax-chapters" data-chapters data-chapters-multi>
           <div className="chapters-copy">
             <ol className="chapter-list">
               {sections.map((s, i) => (
