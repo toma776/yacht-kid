@@ -8,7 +8,7 @@ import {formatMoney, formatRange} from '../../registry/langs.mjs';
 import {rich, fillTokens} from '../rich.mjs';
 import {unitCard} from '../chrome.mjs';
 import {Icon} from './Icons.jsx';
-import {ContactForm, PhotoGrid, PostList} from './Sections.jsx';
+import {ContactForm, PhotoGrid} from './Sections.jsx';
 
 const Arrow = () => <Icon id="arrow"/>;
 
@@ -33,7 +33,6 @@ export async function UnitPage({ctx, rec, title, chrome}) {
     ctx.query('locuinte', {fields: ['kind', 'price_from'], where: `e.kind != 'comercial' AND e.id != ?`, args: [rec.id], order: 'e.price_from'})))
     .map(t => unitCard(ctx, t.id, L)))).filter(Boolean);
   const [form] = await ctx.query('formulare', {fields: ['handle'], where: `e.handle = 'contact'`, limit: 1});
-  const posts = await ctx.within('Articole', 'cele mai noi', () => ctx.query('articole', {scope: `locuinte:${rec.id}`, order: 'e.published_at DESC', limit: 3}));
   const side = video ? null : gallery[1] ?? gallery[0];
 
   return (
@@ -112,15 +111,6 @@ export async function UnitPage({ctx, rec, title, chrome}) {
 
       {form && ContactForm({ctx, values, chrome, preset: rec.name,
         s: {id: 'unit-contact', anchor: 'contact', form: form.id, eyebrow: 'Contact', heading: L['contact-titlu'], text: L['contact-text'] ? `<p>${L['contact-text']}</p>` : null}})}
-
-      {posts.length > 0 && (
-        <section className="unit-posts floor bg-paper slab" aria-labelledby="unit-posts-title">
-          <div className="wrap">
-            <div className="section-head"><p className="eyebrow">Blog</p><h2 className="h2 ruled" id="unit-posts-title">{L['citeste-mai-multe'] ?? 'Citește mai multe despre YACHT KID'}</h2></div>
-            {await PostList({ctx, posts, labels: L})}
-          </div>
-        </section>
-      )}
     </div>
   );
 }
