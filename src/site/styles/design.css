@@ -528,8 +528,6 @@ html.motion .site .reveal.is-in { opacity: 1; }
 .site .ax-check li::before { content: ''; width: 14px; height: 8px; margin-top: 6px; border-left: 1.5px solid var(--coral); border-bottom: 1.5px solid var(--coral); transform: rotate(-45deg); }
 .site .ax-take { margin: 1.4em 0 0; }
 .site .ax-take p { font-size: 1.0625rem; line-height: 1.6; color: var(--coral-ink); }
-.site .ax-next { margin: 8px 0 0 56px; border: 0; background-color: transparent; cursor: pointer; text-align: left; font-family: inherit; }
-.site .ax-next svg { width: 15px; height: 15px; flex: none; }
 .site .ax-stage { aspect-ratio: 4 / 5; }
 /* Întrebările frecvente: aceleași rânduri ca acordeonul de capitole, cu <details> */
 .site .ax-faq { padding-block: var(--section); }
@@ -557,7 +555,6 @@ html.motion .site .reveal.is-in { opacity: 1; }
 }
 @media (max-width: 560px) {
   .site .ax-text { padding: 0 0 24px; }
-  .site .ax-next { margin-left: 0; }
   .site .ax-check { grid-template-columns: minmax(0, 1fr); }
   .site .ax-faq-list summary { grid-template-columns: 36px minmax(0, 1fr) 24px; }
 }

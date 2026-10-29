@@ -92,7 +92,6 @@ export async function Article({ctx, rec, title, chrome}) {
                   <div className="chapter-panel" id={`ax-panel-${i}`} role="region" aria-labelledby={`ax-btn-${i}`}>
                     <div>
                       <div className="ax-text" dangerouslySetInnerHTML={{__html: chapterBody(s.html)}}/>
-                      {i < sections.length - 1 && <button type="button" className="link-arrow ax-next" data-chapter-next={i + 1}>{en ? 'Next question' : 'Următoarea întrebare'}: {sections[i + 1].title} <Icon id="arrow"/></button>}
                     </div>
                   </div>
                 </li>

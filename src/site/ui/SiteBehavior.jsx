@@ -51,7 +51,7 @@ function init(signal) {
     items.forEach(el => { on(el, 'mouseenter', () => pick(+el.dataset.typoItem)); on(el, 'focusin', () => pick(+el.dataset.typoItem)); });
   });
 
-  // ---------- Articolul schematic: „Pe scurt” și „Următoarea întrebare” deschid capitolul cerut și aduc pagina la el
+  // ---------- Articolul schematic: „Pe scurt” deschide capitolul cerut și aduce pagina la el
   const openChapter = n => {
     const li = document.querySelector(`.ax-chapters [data-chapter="${n}"]`);
     if (!li) return;
@@ -60,7 +60,6 @@ function init(signal) {
     setTimeout(() => li.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'}), 340);
   };
   document.querySelectorAll('[data-chapter-open]').forEach(a => on(a, 'click', e => { e.preventDefault(); openChapter(+a.dataset.chapterOpen); }));
-  document.querySelectorAll('[data-chapter-next]').forEach(b => on(b, 'click', () => openChapter(+b.dataset.chapterNext)));
 
   // ---------- Pastila navigației: o singură formă alunecă sub intrarea activă
   const nav = document.querySelector('[data-nav]');
