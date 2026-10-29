@@ -2,14 +2,12 @@
 // Un fel de secțiune = o machetă. Textul vine din câmpurile secțiunii (pe limbă); listele vin din entitățile legate.
 import {formatNumber, formatRange, formatMoney} from '../../registry/langs.mjs';
 import {fillTokens, rich} from '../rich.mjs';
-import {unitCard, resolveTo} from '../chrome.mjs';
+import {unitCard} from '../chrome.mjs';
 import Image from 'next/image';
 import {Icon} from './Icons.jsx';
 import LocationMap from './LocationMap.jsx';
-
-const strip = html => (html ?? '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-const num = i => String(i + 1).padStart(2, '0');
-const Arrow = () => <Icon id="arrow"/>;
+import {strip, num, Arrow, buttons, Btn, Head, mediaVideo} from './parts.jsx';
+import {composition} from './Compositions.jsx';
 
 // Pictograma unui avantaj, după cuvintele din titlu (desenele sunt în sprite, titlurile în Brain)
 const ICONS = [[/fa[țt]ad|facade/i, 'facade'], [/material/i, 'material'], [/piscin|pool/i, 'pool'], [/fonic|sound/i, 'sound'], [/promenad/i, 'promenade'],
@@ -19,23 +17,6 @@ const ICONS = [[/fa[țt]ad|facade/i, 'facade'], [/material/i, 'material'], [/pis
   [/seism/i, 'shield'], [/între[țt]inere|maintenance/i, 'material']];
 const iconFor = t => ICONS.find(([rx]) => rx.test(t ?? ''))?.[1] ?? 'leaf';
 
-async function buttons(ctx, s, values) {
-  return Promise.all((s.buttons ?? []).map(async b => ({...b, label: fillTokens(b.label, values), href: await resolveTo(ctx, b.to)})));
-}
-const Btn = ({b, cls = 'btn', icon = 'arrow'}) => b?.href ? <a className={cls} href={b.href} {...(b.video ? {'data-video-open': ''} : {})}>{b.label} <span className="btn-icon"><Icon id={b.video ? 'play' : icon}/></span></a> : null;
-// h1: secțiunea care deschide o pagină fără hero (Contact) poartă titlul paginii
-const Head = ({s, values, id, cls = '', h1 = false}) => {
-  const H = h1 ? 'h1' : 'h2';
-  return <>
-    {s.eyebrow && <p className={`eyebrow reveal ${cls}`}>{fillTokens(s.eyebrow, values)}</p>}
-    {s.heading && <H className="h2 ruled reveal" id={id} style={{'--d': '80ms'}}>{fillTokens(s.heading, values)}</H>}
-  </>;
-};
-
-function mediaVideo(m, quality) {
-  const r = (m?.renditions ?? []).find(x => x.quality === quality) ?? m?.renditions?.[0];
-  return {src: r?.file ?? `/media/${m?.id}/`, poster: m?.poster};
-}
 
 // Hero-ul homepage-ului: fotografia arhitecturii pe tot ecranul, titlul, subtitlul și cele două acțiuni; dedesubt, o
 // bandă editorială de date: suprafața și prețul de pornire (calculate din tipurile de locuințe), biroul de vânzări și
@@ -222,7 +203,7 @@ async function Text({ctx, s, values, run}) {
 
 // Datele hărții 3D: proiectul din Date firmă, punctele de interes alese în secțiune (sau toate cele publicate),
 // logo-ul alb pentru pinul proiectului. Fără coordonate, secțiunea rămâne cu imaginea.
-async function mapData(ctx, s) {
+export async function mapData(ctx, s) {
   const firma = await ctx.single('firma');
   if (!firma?.latitude || !firma?.longitude) return null;
   const chosen = await ctx.links('sectiuni.places', s.id);
@@ -446,8 +427,12 @@ async function Cta({ctx, s, values}) {
 const SUBMIT = {testimonial: '/api/testimonial/'};
 
 // preset: opțiunea aleasă dinainte într-un select (pe pagina unui apartament, tipul lui)
-export async function ContactForm({ctx, s, values, chrome, preset, first = false}) {
+export async function ContactForm({ctx, s, values, chrome, preset, first = false, home = false}) {
   const L = chrome.labels, f = chrome.firma;
+  // Finalul homepage-ului (art direction v2): fotografia secțiunii lângă formular, plus vizionarea și broșura
+  const closing = home && s.image;
+  const viewHref = chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href;
+  const ask = encodeURIComponent(L['brosura-mesaj'] ?? 'Bună ziua! Aș dori să primesc broșura YACHT KID.');
   const form = s.form ? await ctx.item('formulare', s.form) : null;
   const labels = Object.fromEntries((form?.field_labels ?? []).map(l => [l.name, l]));
   // Formularele care trimit deja (restul doar validează până vin cererile din Brain); fără blocul de contact alături
@@ -470,10 +455,25 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
     return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} min={min} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;
   };
   return (
-    <section className="contact floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+    <section className={`contact floor bg-porcelain${closing ? ' v2 v2-closing' : ''}`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      {/* Finalul: ansamblul pe toată lățimea, cu titlul, vizionarea și broșura pe partea liniștită a fotografiei; formularul
+          rămâne dedesubt, pe grila paginii */}
+      {closing && (
+        <div className="v2-closing-stage on-dark">
+          <img className="v2-closing-img" src={ctx.media(s.image)} alt="" loading="lazy"/>
+          <div className="wrap v2-closing-copy">
+            <Head s={s} values={values} id={`t-${s.id}`}/>
+            <div className="v2-closing-links">
+              {viewHref && <a className="btn btn--accent" href={viewHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>}
+              {f?.whatsapp && <a className="link-arrow" href={`${f.whatsapp}?text=${ask}`} target="_blank" rel="noopener">{L['brosura-titlu'] ?? 'Broșura YACHT KID'}: {L['brosura-whatsapp'] ?? 'Primește pe WhatsApp'} <Arrow/></a>}
+              {f?.email && <a className="link-arrow" href={`mailto:${f.email}?subject=${encodeURIComponent(L['brosura-titlu'] ?? 'Broșura YACHT KID')}&body=${ask}`}>{L['brosura-titlu'] ?? 'Broșura YACHT KID'}: {L['brosura-email'] ?? 'Primește pe email'} <Arrow/></a>}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="wrap contact-grid">
         <div className="contact-copy">
-          <Head s={s} values={values} id={`t-${s.id}`} h1={first}/>
+          {!closing && <Head s={s} values={values} id={`t-${s.id}`} h1={first}/>}
           {paras[0] && <p className="lead reveal" style={{'--d': '160ms'}}>{strip(paras[0])}</p>}
           {/* Vizionarea: procesul în trei pași; confirmarea folosește exact textul formularului (form.intro), fără promisiuni noi */}
           {form?.handle === 'vizionare' && (
@@ -782,13 +782,15 @@ const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-l
 export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) {
   const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId));
   const v = {...values, __labels: chrome.labels};
+  // Homepage-ul are compoziții proprii (art direction v2), alese după ancora secțiunii; restul paginilor, machetele de bază
+  const home = owner === 'pagini' && ['/', '/en/'].includes(await ctx.href('pagini', pageId));
   const out = [];
   let run = 0;
   for (const [i, s] of sections.entries()) {
     run = i && sections[i - 1].kind === 'text' && s.kind === 'text' ? run + 1 : 0;
-    const C = KINDS[s.kind];
+    const C = (home && composition(s)) || KINDS[s.kind];
     if (!C) continue;
-    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} run={run} next={sections.slice(i + 1).find(x => x.anchor)?.anchor ?? null}/>);
+    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} run={run} index={i} home={home} next={sections.slice(i + 1).find(x => x.anchor)?.anchor ?? null}/>);
   }
   return out;
 }
