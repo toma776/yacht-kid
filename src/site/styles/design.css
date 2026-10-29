@@ -199,8 +199,8 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
 
 /* ---------- 7. Ritmul secțiunilor ---------- */
 /* Același spațiu sus și jos; două secțiuni vecine cu același fundal: un singur spațiu între ele */
-.site :is(main, .unit-page) > section:not(.hero):not(.lx-hero):not(.unit-intro):not(.lx-cta):not(.v2) { padding-block: var(--section); }
-.site :is(main, .unit-page) > section:is(.bg-porcelain + .bg-porcelain, .bg-paper + .bg-paper, .bg-navy + .bg-navy, .bg-plinth + .bg-plinth):not(.hero):not(.lx-hero):not(.unit-intro):not(.v2) { padding-top: 0; }
+.site :is(main, .unit-page) > section:not(.hero):not(.lx-hero):not(.unit-intro):not(.lx-cta) { padding-block: var(--section); }
+.site :is(main, .unit-page) > section:is(.bg-porcelain + .bg-porcelain, .bg-paper + .bg-paper, .bg-navy + .bg-navy, .bg-plinth + .bg-plinth):not(.hero):not(.lx-hero):not(.unit-intro) { padding-top: 0; }
 /* Fără plăci care urcă peste secțiunea de dinainte și fără colțuri de balcon: margini drepte, ca rosturile fațadei */
 .site .slab, .site .hero + section, .site :is(.bg-navy, .bg-paper, .bg-shell) + .lifestyle { margin-top: 0; border-radius: 0; box-shadow: none; }
 .site .site-footer { margin-top: 0; border-radius: 0; }

@@ -427,12 +427,8 @@ async function Cta({ctx, s, values}) {
 const SUBMIT = {testimonial: '/api/testimonial/'};
 
 // preset: opțiunea aleasă dinainte într-un select (pe pagina unui apartament, tipul lui)
-export async function ContactForm({ctx, s, values, chrome, preset, first = false, home = false}) {
+export async function ContactForm({ctx, s, values, chrome, preset, first = false}) {
   const L = chrome.labels, f = chrome.firma;
-  // Finalul homepage-ului (art direction v2): fotografia secțiunii lângă formular, plus vizionarea și broșura
-  const closing = home && s.image;
-  const viewHref = chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href;
-  const ask = encodeURIComponent(L['brosura-mesaj'] ?? 'Bună ziua! Aș dori să primesc broșura YACHT KID.');
   const form = s.form ? await ctx.item('formulare', s.form) : null;
   const labels = Object.fromEntries((form?.field_labels ?? []).map(l => [l.name, l]));
   // Formularele care trimit deja (restul doar validează până vin cererile din Brain); fără blocul de contact alături
@@ -455,25 +451,10 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
     return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} min={min} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;
   };
   return (
-    <section className={`contact floor bg-porcelain${closing ? ' v2 v2-closing' : ''}`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
-      {/* Finalul: ansamblul pe toată lățimea, cu titlul, vizionarea și broșura pe partea liniștită a fotografiei; formularul
-          rămâne dedesubt, pe grila paginii */}
-      {closing && (
-        <div className="v2-closing-stage on-dark">
-          <img className="v2-closing-img" src={ctx.media(s.image)} alt="" loading="lazy"/>
-          <div className="wrap v2-closing-copy">
-            <Head s={s} values={values} id={`t-${s.id}`}/>
-            <div className="v2-closing-links">
-              {viewHref && <a className="btn btn--accent" href={viewHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>}
-              {f?.whatsapp && <a className="link-arrow" href={`${f.whatsapp}?text=${ask}`} target="_blank" rel="noopener">{L['brosura-titlu'] ?? 'Broșura YACHT KID'}: {L['brosura-whatsapp'] ?? 'Primește pe WhatsApp'} <Arrow/></a>}
-              {f?.email && <a className="link-arrow" href={`mailto:${f.email}?subject=${encodeURIComponent(L['brosura-titlu'] ?? 'Broșura YACHT KID')}&body=${ask}`}>{L['brosura-titlu'] ?? 'Broșura YACHT KID'}: {L['brosura-email'] ?? 'Primește pe email'} <Arrow/></a>}
-            </div>
-          </div>
-        </div>
-      )}
+    <section className="contact floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap contact-grid">
         <div className="contact-copy">
-          {!closing && <Head s={s} values={values} id={`t-${s.id}`} h1={first}/>}
+          <Head s={s} values={values} id={`t-${s.id}`} h1={first}/>
           {paras[0] && <p className="lead reveal" style={{'--d': '160ms'}}>{strip(paras[0])}</p>}
           {/* Vizionarea: procesul în trei pași; confirmarea folosește exact textul formularului (form.intro), fără promisiuni noi */}
           {form?.handle === 'vizionare' && (
