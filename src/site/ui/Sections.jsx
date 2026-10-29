@@ -28,7 +28,9 @@ async function HeroCard({ctx, s, values, chrome, video}) {
     ctx.query('locuinte', {fields: ['kind', 'area_min', 'price_from'], where: `e.kind != 'comercial'`}));
   const minArea = Math.min(...units.map(u => u.area_min).filter(Boolean)), minPrice = Math.min(...units.map(u => u.price_from).filter(Boolean));
   const vat = units.find(u => u.price_from === minPrice)?.vat_excluded;
-  const ask = encodeURIComponent(L['brosura-mesaj'] ?? 'Bună ziua! Aș dori să primesc broșura YACHT KID.');
+  const facts = (await ctx.within('Hero', 'parcul și rezistența seismică', () => ctx.query('cifre', {fields: ['token', 'value', 'unit'], where: "e.token IN ('parc', 'seism')"})))
+    .sort((x, y) => ['parc', 'seism'].indexOf(x.token) - ['parc', 'seism'].indexOf(y.token));
+  const UNIT = {ro: {m2: 'm²', procent: '%'}, en: {m2: 'sqm', procent: '%'}}[lang];
   const heading = fillTokens(s.heading ?? '', values);
   const full = mediaVideo(video, '1080p');
   return (
@@ -49,16 +51,8 @@ async function HeroCard({ctx, s, values, chrome, video}) {
         <div className="wrap lx-hero-band-grid">
           {Number.isFinite(minArea) && <div className="lx-datum"><span>{L['suprafata-de-la'] ?? 'Suprafețe de la'}</span><b className="num">{formatNumber(minArea, lang)} m²</b></div>}
           {Number.isFinite(minPrice) && <div className="lx-datum"><span>{L['preturi-de-la'] ?? 'Prețuri de la'}</span><b className="num">{formatMoney(minPrice, 'EUR', lang)}{vat ? <small> {L.tva ?? '+ TVA'}</small> : null}</b></div>}
-          {f?.address && <div className="lx-datum lx-datum--text"><span>{L['birou-vanzari'] ?? 'Birou de vânzări'}</span><p>{f.address}</p></div>}
-          {(f?.whatsapp || f?.email) && (
-            <div className="lx-datum lx-brochure">
-              <span>{L['brosura-titlu'] ?? 'Broșura YACHT KID'}</span>
-              <p>
-                {f?.whatsapp && <a href={`${f.whatsapp}?text=${ask}`} target="_blank" rel="noopener"><Icon id="whatsapp" size={16}/>{L['brosura-whatsapp'] ?? 'Primește pe WhatsApp'}</a>}
-                {f?.email && <a href={`mailto:${f.email}?subject=${encodeURIComponent(L['brosura-titlu'] ?? 'Broșura YACHT KID')}&body=${ask}`}><Icon id="mail" size={16}/>{L['brosura-email'] ?? 'Primește pe email'}</a>}
-              </p>
-            </div>
-          )}
+          {/* Primele două cifre-cheie (parcul, rezistența seismică), cu eticheta lor din Brain; banda de cifre separată nu mai există */}
+          {facts.map(x => <div key={x.id} className="lx-datum"><span>{fillTokens(x.label ?? '', values)}</span><b className="num">{x.unit === 'procent' ? '+' : ''}{formatNumber(x.value, lang)}{x.unit === 'procent' ? '%' : UNIT[x.unit] ? ` ${UNIT[x.unit]}` : ''}</b></div>)}
         </div>
       </div>
       {video && (
