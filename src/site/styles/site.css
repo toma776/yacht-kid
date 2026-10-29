@@ -980,21 +980,11 @@ body.no-hero main, main.no-hero { padding-top: 112px; }
   .hero-card-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ===================== SITE STATIC =====================
-   Decizia clientului: fără efecte. Nicio tranziție sau animație, nimic care apare la derulare, nicio mărire sau
-   ridicare la hover; schimbările de stare (meniuri, acordeoane, butoane) se fac pe loc. Regula stă la final, ca să
-   le acopere pe toate cele de mai sus. */
-html { scroll-behavior: auto !important; }
-*, *::before, *::after { transition: none !important; animation: none !important; }
-.reveal { opacity: 1 !important; transform: none !important; }
-.frame img, .frame video, .hero-media video, .hero-media img { transform: none !important; translate: none !important; }
-.hero-inner { translate: none !important; opacity: 1 !important; }
-.hero-media::before { opacity: 0 !important; }
-[data-depth], [data-drift] g { translate: none !important; transform: none !important; }
-.other-units a:hover, .unit-video-play:hover, .proof-item a:hover .proof-logo, .link-arrow:hover,
-.business > a:hover .frame img, .photo:hover img { transform: none !important; translate: none !important; }
-.link-arrow:hover { gap: 10px; background-size: 100% 2px; }
-.site-header.is-hidden { transform: none !important; }
+/* Mișcarea (apariții, hover, tranziții) e reglată în design.css și se oprește la „mișcare redusă”; efectele grele
+   rămân oprite: parallax-ul pe straturi și valurile care curg (SiteBehavior: reduced) */
+.hero-inner { translate: none; opacity: 1; }
+.hero-media::before { opacity: 0; }
+[data-depth], [data-drift] g { translate: none; transform: none; }
 
 /* Testimonialele „card” (homepage): un card mare navy, cu două contururi decalate în spate (ca un teanc), și paginile */
 /* După tehnologie (același fundal, fără placă între ele) spațiile de jos și de sus se adunau (~230px): sus rămâne puțin */

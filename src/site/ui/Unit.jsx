@@ -43,7 +43,7 @@ export async function UnitPage({ctx, rec, title, chrome}) {
           <p className="eyebrow">{L.apartamente ?? 'Apartamente'}</p>
           <h1 className="display">{title}</h1>
           {rec.intro && <p className="lead">{fillTokens(rec.intro, values)}</p>}
-          {values.intretinere && <p className="unit-pill"><Icon id="energy" className="icon"/>{L['intretinere-doar'] ?? 'Întreținere de doar'} <b>{values.intretinere}</b></p>}
+          {values.intretinere && <p className="unit-pill"><Icon id="maintenance" className="icon"/>{L['intretinere-doar'] ?? 'Mentenanță de la doar'} <b>{values.intretinere}</b></p>}
           <div className="unit-actions">
             <a className="btn" href="#contact">{L['solicita-oferta']} <span className="btn-icon"><Arrow/></span></a>
             {/* Al doilea buton: vizionarea (pagina cu formularul), aceeași țintă ca în meniu și în subsol; video-ul rămâne în Despre */}

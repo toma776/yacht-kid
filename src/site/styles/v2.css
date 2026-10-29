@@ -1,0 +1,57 @@
+/* ==========================================================================
+   YACHT KID — art direction v2, ce a rămas din propunere (peste design.css):
+   · recunoașterea pe ani (homepage, ui/Compositions.jsx);
+   · capitolele paginilor interioare cu fotografia din marginea ecranului, alternând partea; fișele tehnologiilor T-0n.
+   ========================================================================== */
+
+/* ---------- H. Recunoașterea ---------- */
+.site .v2-awards { padding-block: var(--section); }
+.site .v2-awards-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 48px clamp(40px, 6vw, 120px); align-items: start; }
+.site .v2-awards-grid > header { position: sticky; top: 120px; }
+.site .v2-year { display: grid; grid-template-columns: minmax(120px, 3fr) minmax(0, 7fr); gap: 24px; padding-top: 22px; border-top: 1px solid var(--navy); margin-bottom: clamp(40px, 4vw, 64px); }
+.site .v2-year-n { font-size: clamp(3rem, 1.8rem + 3.4vw, 5.75rem); font-weight: 300; line-height: .9; letter-spacing: -.02em; color: var(--navy); }
+.site .v2-year li > :is(a, div) { display: grid; grid-template-columns: minmax(0, 1fr) 110px; column-gap: 24px; row-gap: 4px; padding: 6px 0 26px; }
+.site .v2-year li + li > :is(a, div) { padding-top: 22px; border-top: 1px solid var(--line); }
+.site .v2-year b { font-size: clamp(1.125rem, 1rem + .5vw, 1.5rem); font-weight: 700; letter-spacing: .04em; color: var(--navy); }
+.site .v2-year li span:not(.v2-award-logo) { grid-column: 1; font-size: .9375rem; line-height: 1.55; color: var(--ink-2); }
+.site .v2-award-logo { grid-column: 2; grid-row: 1 / span 2; align-self: center; height: 40px; background: var(--navy); opacity: .5; -webkit-mask: var(--logo) right center / contain no-repeat; mask: var(--logo) right center / contain no-repeat; transition: opacity var(--t) var(--ease); }
+.site .v2-year a:hover b { color: var(--coral-ink); }
+.site .v2-year a:hover .v2-award-logo { opacity: .9; }
+@media (max-width: 900px) {
+  .site .v2-awards-grid, .site .v2-year { grid-template-columns: minmax(0, 1fr); }
+  .site .v2-awards-grid > header { position: static; }
+  .site .v2-year li > :is(a, div) { grid-template-columns: minmax(0, 1fr) 80px; }
+}
+
+
+/* ==========================================================================
+   Paginile interioare: același limbaj, fără să le rescriem
+   · capitolele (Tehnologie, Comunitate, Spații comerciale): fotografia pornește din marginea ecranului, iar capitolele
+     consecutive își schimbă partea (o placă pe porțelan la dreapta, următoarea pe alb la stânga), ca să nu se repete
+     aceeași machetă de trei ori; semnul +/− devine o linie, ca adnotările;
+   · cardurile tehnologiilor își pierd pictogramele în cerc: cod T-0n, ca în dosarul tehnic de pe homepage.
+   ========================================================================== */
+.site main { container-type: inline-size; }
+.site .about { --edge: max(var(--gutter), calc((100cqw - var(--max)) / 2 + var(--gutter))); }
+.site .about .chapters { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); margin-right: calc(var(--edge) * -1); }
+.site .about .chapter-stage { aspect-ratio: auto; height: min(78svh, 760px); }
+.site .about.bg-paper .chapters { margin-right: 0; margin-left: calc(var(--edge) * -1); grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); }
+.site .about.bg-paper .chapter-stage { grid-column: 1; grid-row: 1; }
+.site .about.bg-paper .chapters-copy { grid-column: 2; }
+.site .chapter-icon { border-radius: 0; border: 0; width: 24px; }
+.site .chapter-icon::before, .site .chapter-icon::after { background: var(--navy); }
+.site .chapter.is-active .chapter-icon { background: none; }
+.site .chapter.is-active .chapter-icon::before, .site .chapter.is-active .chapter-icon::after { background: var(--coral); }
+.site .chapter-list { border-top-color: var(--navy); }
+@media (max-width: 900px) {
+  .site .about .chapters, .site .about.bg-paper .chapters { margin-inline: 0; grid-template-columns: minmax(0, 1fr); }
+  .site .about .chapter-stage, .site .about.bg-paper .chapter-stage { grid-column: auto; grid-row: auto; height: auto; aspect-ratio: 4 / 3; }
+  .site .about.bg-paper .chapters-copy { grid-column: auto; }
+}
+/* Cardurile tehnologiilor: fără pictograma în cerc, cu codul T-0n */
+.site .tech-grid { counter-reset: tech; }
+.site .tech-card { counter-increment: tech; }
+.site .tech-card .tech-icon { display: none; }
+.site .tech-card::before { content: 'T-' counter(tech, decimal-leading-zero); font-size: .6875rem; font-weight: 600; letter-spacing: .2em; color: var(--coral-ink); }
+.site .tech-points .icon { display: none; }
+.site .tech-points li { font-size: .875rem; letter-spacing: .04em; }

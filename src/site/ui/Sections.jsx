@@ -2,14 +2,12 @@
 // Un fel de secțiune = o machetă. Textul vine din câmpurile secțiunii (pe limbă); listele vin din entitățile legate.
 import {formatNumber, formatRange, formatMoney} from '../../registry/langs.mjs';
 import {fillTokens, rich} from '../rich.mjs';
-import {unitCard, resolveTo} from '../chrome.mjs';
+import {unitCard} from '../chrome.mjs';
 import Image from 'next/image';
 import {Icon} from './Icons.jsx';
 import LocationMap from './LocationMap.jsx';
-
-const strip = html => (html ?? '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-const num = i => String(i + 1).padStart(2, '0');
-const Arrow = () => <Icon id="arrow"/>;
+import {strip, num, Arrow, buttons, Btn, Head, mediaVideo} from './parts.jsx';
+import {composition} from './Compositions.jsx';
 
 // Pictograma unui avantaj, după cuvintele din titlu (desenele sunt în sprite, titlurile în Brain)
 const ICONS = [[/fa[țt]ad|facade/i, 'facade'], [/material/i, 'material'], [/piscin|pool/i, 'pool'], [/fonic|sound/i, 'sound'], [/promenad/i, 'promenade'],
@@ -19,26 +17,10 @@ const ICONS = [[/fa[țt]ad|facade/i, 'facade'], [/material/i, 'material'], [/pis
   [/seism/i, 'shield'], [/între[țt]inere|maintenance/i, 'material']];
 const iconFor = t => ICONS.find(([rx]) => rx.test(t ?? ''))?.[1] ?? 'leaf';
 
-async function buttons(ctx, s, values) {
-  return Promise.all((s.buttons ?? []).map(async b => ({...b, label: fillTokens(b.label, values), href: await resolveTo(ctx, b.to)})));
-}
-const Btn = ({b, cls = 'btn', icon = 'arrow'}) => b?.href ? <a className={cls} href={b.href} {...(b.video ? {'data-video-open': ''} : {})}>{b.label} <span className="btn-icon"><Icon id={b.video ? 'play' : icon}/></span></a> : null;
-// h1: secțiunea care deschide o pagină fără hero (Contact) poartă titlul paginii
-const Head = ({s, values, id, cls = '', h1 = false}) => {
-  const H = h1 ? 'h1' : 'h2';
-  return <>
-    {s.eyebrow && <p className={`eyebrow reveal ${cls}`}>{fillTokens(s.eyebrow, values)}</p>}
-    {s.heading && <H className="h2 ruled reveal" id={id} style={{'--d': '80ms'}}>{fillTokens(s.heading, values)}</H>}
-  </>;
-};
 
-function mediaVideo(m, quality) {
-  const r = (m?.renditions ?? []).find(x => x.quality === quality) ?? m?.renditions?.[0];
-  return {src: r?.file ?? `/media/${m?.id}/`, poster: m?.poster};
-}
-
-// Hero-ul „card” (homepage): fotografia într-un card rotunjit, cu harta și biroul de vânzări sus, titlul, suprafața și
-// prețul de pornire (calculate din tipurile de locuințe) și, peste marginea de jos, cardul broșurii (PDF, WhatsApp, email)
+// Hero-ul homepage-ului: fotografia arhitecturii pe tot ecranul, titlul, subtitlul și cele două acțiuni; dedesubt, o
+// bandă editorială de date: suprafața și prețul de pornire (calculate din tipurile de locuințe), biroul de vânzări și
+// broșura (cerută pe WhatsApp sau pe email, ca până acum)
 async function HeroCard({ctx, s, values, chrome, video}) {
   const L = values.__labels ?? {}, f = chrome.firma, lang = ctx.lang;
   const [b1, b2] = await buttons(ctx, s, values);
@@ -46,46 +28,32 @@ async function HeroCard({ctx, s, values, chrome, video}) {
     ctx.query('locuinte', {fields: ['kind', 'area_min', 'price_from'], where: `e.kind != 'comercial'`}));
   const minArea = Math.min(...units.map(u => u.area_min).filter(Boolean)), minPrice = Math.min(...units.map(u => u.price_from).filter(Boolean));
   const vat = units.find(u => u.price_from === minPrice)?.vat_excluded;
-  const ask = encodeURIComponent(L['brosura-mesaj'] ?? 'Bună ziua! Aș dori să primesc broșura YACHT KID.');
+  const facts = (await ctx.within('Hero', 'parcul și rezistența seismică', () => ctx.query('cifre', {fields: ['token', 'value', 'unit'], where: "e.token IN ('parc', 'seism')"})))
+    .sort((x, y) => ['parc', 'seism'].indexOf(x.token) - ['parc', 'seism'].indexOf(y.token));
+  const UNIT = {ro: {m2: 'm²', procent: '%'}, en: {m2: 'sqm', procent: '%'}}[lang];
   const heading = fillTokens(s.heading ?? '', values);
   const full = mediaVideo(video, '1080p');
   return (
-    <section className="hero-card-wrap" aria-labelledby="hero-title">
-      <div className="wrap hero-card-grid">
-        <div className="hero-card on-dark">
-          {s.image && <img className="hero-card-img" src={ctx.media(s.image)} alt="" fetchPriority="high"/>}
-          <div className="hero-card-top">
-            {f?.address && <p className="hero-card-office"><span>{L['birou-vanzari'] ?? 'Birou de vânzări'}</span>{f.address}</p>}
-          </div>
-          <div className="hero-card-body">
-            {s.eyebrow && <p className="status reveal"><span className="status-dot"/>{fillTokens(s.eyebrow, values)}</p>}
-            <h1 className="display hero-card-title reveal" id="hero-title" style={{'--d': '80ms'}}>{heading}</h1>
-            {s.text && <p className="subhead reveal" style={{'--d': '140ms'}}>{fillTokens(strip(s.text), values)}</p>}
-            <dl className="hero-card-facts reveal" style={{'--d': '200ms'}}>
-              {Number.isFinite(minArea) && <div><dt>{L['suprafata-de-la'] ?? 'Suprafețe de la'}</dt><dd>{formatNumber(minArea, lang)} m²</dd></div>}
-              {Number.isFinite(minPrice) && <div><dt>{L['preturi-de-la'] ?? 'Prețuri de la'}</dt><dd>{formatMoney(minPrice, 'EUR', lang)}{vat ? <small> {L.tva ?? '+ TVA'}</small> : null}</dd></div>}
-            </dl>
-            <div className="hero-actions reveal" style={{'--d': '260ms'}}>
-              <Btn b={b1}/>
-              {b2 && <Btn b={{...b2, video: video && b2.to === '#video'}} cls="btn btn--glass"/>}
-            </div>
+    <section className="lx-hero" aria-labelledby="hero-title">
+      <div className="hero-card lx-hero-stage on-dark">
+        {s.image && <img className="hero-card-img lx-hero-img" src={ctx.media(s.image)} alt="" fetchPriority="high"/>}
+        <div className="wrap lx-hero-copy">
+          {s.eyebrow && <p className="eyebrow on-dark">{fillTokens(s.eyebrow, values)}</p>}
+          <h1 className="lx-hero-title" id="hero-title">{heading}</h1>
+          {s.text && <p className="lx-hero-sub">{fillTokens(strip(s.text), values)}</p>}
+          <div className="lx-hero-actions">
+            <Btn b={b1} cls="btn btn--light"/>
+            {b2 && <Btn b={{...b2, video: video && b2.to === '#video'}} cls="btn btn--glass" icon="calendar"/>}
           </div>
         </div>
-        {(f?.whatsapp || f?.email) && (
-          <aside className="brochure-card reveal" style={{'--d': '320ms'}} aria-labelledby="brochure-title">
-            <div className="brochure-mock" aria-hidden="true">
-              <span className="brochure-page brochure-page--back"/>
-              <span className="brochure-page brochure-page--cover" style={s.image ? {'--cover': `url('${ctx.media(s.image)}')`} : undefined}>
-                <img src="/media/1/" alt=""/><b>{L['brosura-coperta'] ?? 'Prezentare generală'}</b>
-              </span>
-            </div>
-            <p className="brochure-title" id="brochure-title">{L['brosura-titlu'] ?? 'Broșura YACHT KID'}</p>
-            <div className="brochure-actions">
-              {f?.whatsapp && <a className="btn btn--whatsapp" href={`${f.whatsapp}?text=${ask}`} target="_blank" rel="noopener"><Icon id="whatsapp" size={20}/>{L['brosura-whatsapp'] ?? 'Primește pe WhatsApp'}</a>}
-              {f?.email && <a className="btn btn--navy" href={`mailto:${f.email}?subject=${encodeURIComponent(L['brosura-titlu'] ?? 'Broșura YACHT KID')}&body=${ask}`}><Icon id="mail" size={20}/>{L['brosura-email'] ?? 'Primește pe email'}</a>}
-            </div>
-          </aside>
-        )}
+      </div>
+      <div className="lx-hero-band">
+        <div className="wrap lx-hero-band-grid">
+          {Number.isFinite(minArea) && <div className="lx-datum"><span>{L['suprafata-de-la'] ?? 'Suprafețe de la'}</span><b className="num">{formatNumber(minArea, lang)} m²</b></div>}
+          {Number.isFinite(minPrice) && <div className="lx-datum"><span>{L['preturi-de-la'] ?? 'Prețuri de la'}</span><b className="num">{formatMoney(minPrice, 'EUR', lang)}{vat ? <small> {L.tva ?? '+ TVA'}</small> : null}</b></div>}
+          {/* Primele două cifre-cheie (parcul, rezistența seismică), cu eticheta lor din Brain; banda de cifre separată nu mai există */}
+          {facts.map(x => <div key={x.id} className="lx-datum"><span>{fillTokens(x.label ?? '', values)}</span><b className="num">{x.unit === 'procent' ? '+' : ''}{formatNumber(x.value, lang)}{x.unit === 'procent' ? '%' : UNIT[x.unit] ? ` ${UNIT[x.unit]}` : ''}</b></div>)}
+        </div>
       </div>
       {video && (
         <dialog className="video-dialog" data-video-dialog aria-label={b2?.label}>
@@ -139,11 +107,12 @@ async function Facts({ctx, s, values}) {
     ...facts.map(f => ({value: `${f.unit === 'procent' ? '+' : ''}${formatNumber(f.value, ctx.lang)}`, unit: UNIT[f.unit], label: fillTokens([f.label, f.suffix].filter(Boolean).join(' '), values), num: true})),
     ...(s.buttons ?? []).map(b => ({value: fillTokens(b.value ?? '', values), label: fillTokens(b.label, values), num: /^\d/.test(fillTokens(b.value ?? '', values))}))
   ];
+  // Banda de cifre: antracit, numerale mari despărțite de linii fine (fără carduri, fără pictograme)
   return (
-    <section className="facts slab bg-porcelain" aria-label={s.heading ?? 'YACHT KID'} id={s.anchor || undefined}>
+    <section className="lx-facts bg-plinth on-dark" aria-label={s.heading ?? 'YACHT KID'} id={s.anchor || undefined}>
       <div className="wrap">
-        <ul className="facts-grid">
-          {tiles.map((t, i) => <li key={i} className="fact reveal" style={{'--d': `${i * 80}ms`}}><span className={`fact-value ${t.num ? 'num' : ''}`}>{t.value}{t.unit && <small>{t.unit}</small>}</span><span className="fact-label">{t.label}</span></li>)}
+        <ul className="lx-facts-grid">
+          {tiles.map((t, i) => <li key={i} className="lx-fact reveal" style={{'--d': `${i * 60}ms`}}><span className={`lx-fact-value ${t.num ? 'num' : ''}`}>{t.value}{t.unit && <small>{t.unit}</small>}</span><span className="lx-fact-label">{t.label}</span></li>)}
         </ul>
       </div>
     </section>
@@ -228,7 +197,7 @@ async function Text({ctx, s, values, run}) {
 
 // Datele hărții 3D: proiectul din Date firmă, punctele de interes alese în secțiune (sau toate cele publicate),
 // logo-ul alb pentru pinul proiectului. Fără coordonate, secțiunea rămâne cu imaginea.
-async function mapData(ctx, s) {
+export async function mapData(ctx, s) {
   const firma = await ctx.single('firma');
   if (!firma?.latitude || !firma?.longitude) return null;
   const chosen = await ctx.links('sectiuni.places', s.id);
@@ -248,41 +217,47 @@ async function Features({ctx, s, values}) {
   const comfort = items.length && items.every(f => f.group === 'confort');
   if (!comfort) {
     // Textul secțiunii (dacă există): primul paragraf ca lead lângă titlu, restul sub el
+    // Compoziție editorială: titlul și fotografia secțiunii rămân în stânga cât se derulează lista; avantajele sunt
+    // rânduri numerotate (număr, titlu, explicație), fără pictograme decorative
     const paras = (await rich(ctx, s.text, values)).match(/<p>[\s\S]*?<\/p>/g) ?? [];
     return (
-      <section className="features floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
-        <div className="wrap">
-          <div className="section-head section-head--split">
-            <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
-            {paras.length > 0 && <div className="features-copy reveal" style={{'--d': '160ms'}}>
-              <p className="lead">{strip(paras[0])}</p>
-              {paras.length > 1 && <div className="body" dangerouslySetInnerHTML={{__html: paras.slice(1).join('')}}/>}
-            </div>}
+      <section className="lx-features bg-paper" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+        <div className="wrap lx-features-grid">
+          <div className="lx-features-aside">
+            <Head s={s} values={values} id={`t-${s.id}`}/>
+            {paras.length > 0 && <p className="lead reveal" style={{'--d': '120ms'}}>{strip(paras[0])}</p>}
+            {s.image && <figure className="lx-frame lx-features-img reveal" style={{'--d': '160ms'}}><img src={ctx.media(s.image)} alt="" loading="lazy"/></figure>}
           </div>
-          <ul className="features-grid">
-            {items.map((f, i) => <li key={f.id} className="feature reveal" style={{'--d': `${(i % 4) * 60}ms`}}>
-              <Icon id={iconFor(f.title)} className="icon"/><h3 className="h3">{fillTokens(f.title, values)}</h3>
-              {f.text && <p className="feature-text">{fillTokens(f.text, values)}</p>}
+          <ol className="lx-rows">
+            {items.map((f, i) => <li key={f.id} className="lx-row reveal" style={{'--d': `${(i % 4) * 50}ms`}}>
+              <span className="lx-row-num num">{num(i)}</span>
+              <h3 className="lx-row-title">{fillTokens(f.title, values)}</h3>
+              {f.text && <p className="lx-row-text">{fillTokens(f.text, values)}</p>}
             </li>)}
-          </ul>
+          </ol>
         </div>
       </section>
     );
   }
   const paras = (await rich(ctx, s.text, values)).match(/<p>[\s\S]*?<\/p>/g) ?? [];
   const [b1] = await buttons(ctx, s, values);
+  // Confortul și tehnologia: textul și legătura spre pagina Tehnologie în stânga; în dreapta fotografia secțiunii
+  // (un detaliu real de fațadă) și beneficiile ca listă pe două coloane, cu linii fine
   return (
-    <section className="comfort floor bg-porcelain slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
-      <div className="wrap comfort-grid">
-        <div className="comfort-copy">
+    <section className="lx-comfort bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap lx-comfort-grid">
+        <div className="lx-comfort-copy">
           <Head s={s} values={values} id={`t-${s.id}`}/>
-          {paras[0] && <p className="lead reveal" style={{'--d': '160ms'}}>{strip(paras[0])}</p>}
-          {paras.length > 1 && <div className="body reveal" style={{'--d': '200ms'}} dangerouslySetInnerHTML={{__html: paras.slice(1).join('')}}/>}
-          {b1 && <a className="btn btn--ghost reveal" style={{'--d': '240ms'}} href={b1.href}>{b1.label} <span className="btn-icon"><Arrow/></span></a>}
+          {paras[0] && <p className="lead reveal" style={{'--d': '120ms'}}>{strip(paras[0])}</p>}
+          {paras.length > 1 && <div className="body reveal" style={{'--d': '160ms'}} dangerouslySetInnerHTML={{__html: paras.slice(1).join('')}}/>}
+          {b1 && <a className="btn btn--ghost reveal" style={{'--d': '200ms'}} href={b1.href}>{b1.label} <span className="btn-icon"><Arrow/></span></a>}
         </div>
-        <ol className="spec-list">
-          {items.map((f, i) => <li key={f.id} className="reveal"><span className="num">{num(i)}</span><Icon id={iconFor(f.title)} className="icon"/><h3 className="h3">{f.title}</h3></li>)}
-        </ol>
+        <div className="lx-comfort-side">
+          {s.image && <figure className="lx-frame lx-comfort-img reveal"><img src={ctx.media(s.image)} alt="" loading="lazy"/></figure>}
+          <ol className="lx-spec">
+            {items.map((f, i) => <li key={f.id} className="reveal" style={{'--d': `${(i % 2) * 60}ms`}}><span className="num">{num(i)}</span><h3>{f.title}</h3></li>)}
+          </ol>
+        </div>
       </div>
     </section>
   );
@@ -292,25 +267,42 @@ async function Collection({ctx, s, values}) {
   const L = values.__labels ?? {};
   const types = await ctx.within(`Colecția (${s.id})`, 'tipurile de locuințe publicate', () =>
     ctx.query('locuinte', {fields: ['kind', 'price_from'], where: `e.kind != 'comercial'`, order: 'e.price_from'}));
-  const cards = (await Promise.all(types.map(t => unitCard(ctx, t.id, L)))).filter(Boolean);
+  const cards = (await Promise.all(types.map(async t => {
+    const c = await unitCard(ctx, t.id, L);
+    return c && {...c, terrace: formatRange(t.terrace_min, t.terrace_max, ctx.lang, 'm²'), priceFrom: t.price_from ? formatMoney(t.price_from, 'EUR', ctx.lang) : '', vat: t.vat_excluded};
+  }))).filter(Boolean);
   const lead = strip(await rich(ctx, s.text, values));
+  // Selectorul de tipologii (nu e o listă de unități disponibile): rânduri care se compară ușor (suprafață, terasă,
+  // preț de la) și duc la pagina tipului; pe ecrane mari, fotografia din dreapta urmează rândul ales (hover / focus)
   return (
-    <section className="collection floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+    <section className="lx-collection bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
         <div className="section-head section-head--split">
           <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
-          {lead && <p className="lead reveal" style={{'--d': '160ms'}}>{lead}</p>}
+          {lead && <p className="lead reveal" style={{'--d': '120ms'}}>{lead}</p>}
         </div>
-        <ul className="units">
-          {cards.map((u, i) => (
-            <li key={u.id} className="unit reveal" style={{'--d': `${(i % 2) * 100}ms`}}>
-              <a href={u.href}>
-                <div className="frame unit-frame">{u.image && <img src={u.image} alt={u.name} loading="lazy" data-parallax/>}</div>
-                <div className="unit-meta"><span className="unit-index num">{num(i)}</span><h3 className="h3">{u.name}<small className="unit-spec">{[u.area, u.price].filter(Boolean).join(' · ')}</small></h3><span className="link-arrow">{L['afla-mai-multe'] ?? 'Află mai multe'} <Arrow/></span></div>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="lx-typo" data-typo>
+          <ol className="lx-typo-list">
+            {cards.map((u, i) => (
+              <li key={u.id} className={`lx-typo-item reveal ${i === 0 ? 'is-active' : ''}`} style={{'--d': `${i * 60}ms`}} data-typo-item={i}>
+                <a href={u.href}>
+                  <span className="lx-typo-num num">{num(i)}</span>
+                  <span className="lx-typo-name">{u.name}</span>
+                  <dl className="lx-typo-data">
+                    {u.area && <div><dt>{L.suprafata ?? 'Suprafață'}</dt><dd className="num">{u.area}</dd></div>}
+                    {u.terrace && <div><dt>{L.terasa ?? 'Terasă'}</dt><dd className="num">{u.terrace}</dd></div>}
+                    {u.priceFrom && <div><dt>{L['pret-de-la'] ?? 'Preț de la'}</dt><dd className="num">{u.priceFrom}{u.vat ? <small> {L.tva ?? '+ TVA'}</small> : null}</dd></div>}
+                  </dl>
+                  <span className="lx-typo-go" aria-hidden="true"><Arrow/></span>
+                  {u.image && <span className="lx-typo-thumb"><img src={u.image} alt="" loading="lazy"/></span>}
+                </a>
+              </li>
+            ))}
+          </ol>
+          <div className="lx-typo-stage" aria-hidden="true">
+            {cards.map((u, i) => u.image && <img key={u.id} src={u.image} alt="" loading="lazy" className={i === 0 ? 'is-active' : ''} data-typo-img={i}/>)}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -413,17 +405,14 @@ async function Gallery({ctx, s, values}) {
 
 async function Cta({ctx, s, values}) {
   const [b1] = await buttons(ctx, s, values);
+  // Banda de vizionare: fotografia pe toată lățimea, gradient antracit doar sub text, o singură acțiune
   return (
-    <section className="lifestyle bg-porcelain" id={s.anchor || undefined} aria-label={s.heading ?? ''}>
-      <div className="wrap">
-        <figure className="frame frame--band lifestyle-frame reveal">
-          {s.image && <img src={ctx.media(s.image)} alt="" loading="lazy" data-parallax/>}
-          <figcaption className="lifestyle-caption">
-            {s.eyebrow && <span className="eyebrow on-dark">{s.eyebrow}</span>}
-            {s.heading && <p className="h2">{fillTokens(s.heading, values)}</p>}
-            <Btn b={b1} icon="calendar"/>
-          </figcaption>
-        </figure>
+    <section className="lx-cta on-dark" id={s.anchor || undefined} aria-label={s.heading ?? ''}>
+      {s.image && <img className="lx-cta-img" src={ctx.media(s.image)} alt="" loading="lazy"/>}
+      <div className="wrap lx-cta-inner">
+        {s.eyebrow && <p className="eyebrow on-dark reveal">{s.eyebrow}</p>}
+        {s.heading && <p className="lx-cta-title reveal" style={{'--d': '80ms'}}>{fillTokens(s.heading, values)}</p>}
+        <div className="reveal" style={{'--d': '140ms'}}><Btn b={b1} cls="btn btn--accent" icon="calendar"/></div>
       </div>
     </section>
   );
@@ -461,6 +450,14 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
         <div className="contact-copy">
           <Head s={s} values={values} id={`t-${s.id}`} h1={first}/>
           {paras[0] && <p className="lead reveal" style={{'--d': '160ms'}}>{strip(paras[0])}</p>}
+          {/* Vizionarea: procesul în trei pași; confirmarea folosește exact textul formularului (form.intro), fără promisiuni noi */}
+          {form?.handle === 'vizionare' && (
+            <ol className="lx-steps reveal" style={{'--d': '180ms'}}>
+              <li><b>{L['vizionare-pas-1'] ?? (ctx.lang === 'en' ? 'Choose a date' : 'Alegi data')}</b><span>{L['vizionare-pas-1-text'] ?? (ctx.lang === 'en' ? 'Fill in the form with your preferred day and time slot.' : 'Completezi formularul cu ziua și intervalul preferat.')}</span></li>
+              <li><b>{L['vizionare-pas-2'] ?? (ctx.lang === 'en' ? 'We confirm' : 'Confirmăm programarea')}</b><span>{form.intro ?? ''}</span></li>
+              <li><b>{L['vizionare-pas-3'] ?? (ctx.lang === 'en' ? 'Visit YACHT KID' : 'Vizitezi ansamblul')}</b><span>{(L['birou-vanzari'] ?? 'Birou de vânzări')}: {f?.address}</span></li>
+            </ol>
+          )}
           {f && !endpoint && (
             <dl className="channels reveal" style={{'--d': '200ms'}}>
               <div><dt>Email</dt><dd><a href={`mailto:${f.email}`}><Icon id="mail" size={20}/>{f.email}</a></dd></div>
@@ -556,28 +553,33 @@ async function Awards({ctx, s, values}) {
   if (!awards.length) return null;
   const [b1] = await buttons(ctx, s, values);
   const links = await Promise.all(awards.map(async a => ({a, href: a.article ? await ctx.href('articole', a.article) : null})));
+  // Recunoașterea: o secțiune editorială, nu o colecție de insigne. În stânga titlul și o fotografie a arhitecturii;
+  // în dreapta, o linie pe an: anul, competiția (cu logo-ul ei, monocrom), distincția exactă din Brain
   return (
-    <section className="proof bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
-      <div className="wrap proof-inner">
-        <div className="proof-head reveal">
-          {s.eyebrow && <p className="eyebrow">{fillTokens(s.eyebrow, values)}</p>}
-          {s.heading && <h2 className="proof-title" id={`t-${s.id}`}>{fillTokens(s.heading, values)}</h2>}
+    <section className="lx-awards bg-paper" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <div className="wrap lx-awards-grid">
+        <div className="lx-awards-head">
+          {s.eyebrow && <p className="eyebrow reveal">{fillTokens(s.eyebrow, values)}</p>}
+          {s.heading && <h2 className="h2 ruled reveal" id={`t-${s.id}`} style={{'--d': '80ms'}}>{fillTokens(s.heading, values)}</h2>}
           {b1?.href && <a className="link-arrow" href={b1.href}>{b1.label} <Arrow/></a>}
+          {s.image && <figure className="lx-frame lx-awards-img reveal" style={{'--d': '160ms'}}><img src={ctx.media(s.image)} alt="" loading="lazy"/></figure>}
         </div>
-        <ul className="proof-list reveal" style={{'--d': '120ms', '--n': awards.length}}>
-          {links.map(({a, href}) => {
+        <ol className="lx-awards-list">
+          {links.map(({a, href}, i) => {
             const body = <>
-              <span className="proof-logo" role="img" aria-label={a.competition} style={{'--logo': `url('${ctx.media(a.logo)}')`}}/>
-              <span className="proof-meta"><b>{a.distinction}</b><span className="num">{a.year}</span></span>
+              <span className="lx-award-year num">{a.year}</span>
+              <span className="lx-award-logo" role="img" aria-label={a.competition} style={{'--logo': `url('${ctx.media(a.logo)}')`}}/>
+              <span className="lx-award-text"><b>{a.competition}</b><span>{[a.distinction, a.category_name].filter(Boolean).join(' · ')}</span></span>
+              {(href || a.url) && <span className="lx-award-go" aria-hidden="true"><Arrow/></span>}
             </>;
             // Articolul de pe site despre premiu; altfel pagina oficială a competiției (în tab nou); altfel fără link
             return (
-              <li key={a.id} className="proof-item">
+              <li key={a.id} className="lx-award reveal" style={{'--d': `${i * 50}ms`}}>
                 {href ? <a href={href}>{body}</a> : a.url ? <a href={a.url} target="_blank" rel="noopener">{body}</a> : <div>{body}</div>}
               </li>
             );
           })}
-        </ul>
+        </ol>
       </div>
     </section>
   );
@@ -755,13 +757,15 @@ const KINDS = {hero: Hero, cifre: Facts, text: Text, avantaje: Features, 'alte-l
 export async function Sections({ctx, owner = 'pagini', pageId, values, chrome}) {
   const sections = await ctx.within('Pagina', 'secțiunile paginii', () => ctx.links(`${owner}.sections`, pageId));
   const v = {...values, __labels: chrome.labels};
+  // Homepage-ul are compoziții proprii (art direction v2), alese după ancora secțiunii; restul paginilor, machetele de bază
+  const home = owner === 'pagini' && ['/', '/en/'].includes(await ctx.href('pagini', pageId));
   const out = [];
   let run = 0;
   for (const [i, s] of sections.entries()) {
     run = i && sections[i - 1].kind === 'text' && s.kind === 'text' ? run + 1 : 0;
-    const C = KINDS[s.kind];
+    const C = (home && composition(s)) || KINDS[s.kind];
     if (!C) continue;
-    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} run={run} next={sections.slice(i + 1).find(x => x.anchor)?.anchor ?? null}/>);
+    out.push(<C key={s.id} ctx={ctx} s={s} values={v} chrome={chrome} first={i === 0} run={run} index={i} home={home} next={sections.slice(i + 1).find(x => x.anchor)?.anchor ?? null}/>);
   }
   return out;
 }
