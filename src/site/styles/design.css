@@ -568,3 +568,5 @@ html.motion .site .reveal.is-in { opacity: 1; }
 /* Paragrafele articolului nu preiau indentarea paragrafelor de capitol (ax-text o are deja) */
 .site .ax-text p, .site .ax-chapters .chapter-panel .ax-text p { padding: 0; max-width: none; }
 .site .ax-take { padding: 4px 0 4px 24px; }
+/* Articolul: antetul gri pornește imediat sub antetul site-ului (spațiul pentru antet e deja în .ax-head) */
+.site main.no-hero:has(> .ax), body.no-hero .site main:has(> .ax) { padding-top: 0; }
