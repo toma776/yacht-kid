@@ -279,7 +279,7 @@ async function Collection({ctx, s, values}) {
       <div className="wrap">
         <div className="section-head section-head--split">
           <div><Head s={s} values={values} id={`t-${s.id}`}/></div>
-          {lead && <p className="lead reveal" style={{'--d': '120ms'}}>{lead}</p>}
+          {lead && <blockquote className="pull subhead reveal" style={{'--d': '120ms'}}>{lead}</blockquote>}
         </div>
         <div className="lx-typo" data-typo>
           <ol className="lx-typo-list">

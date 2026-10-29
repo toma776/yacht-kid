@@ -603,3 +603,4 @@ html.motion .site .reveal.is-in { opacity: 1; }
   .site .ft-grid > nav.ft-col:not(:last-child) .ft-links a { font-size: .875rem; line-height: 1.35; }
   .site .anpc a { display: block; padding-block: 5px; }
 }
+.site .section-head--split .pull { max-width: 52ch; }
