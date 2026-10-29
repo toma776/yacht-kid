@@ -81,8 +81,8 @@ export async function UnitPage({ctx, rec, title, chrome}) {
         )}
       </section>
 
-      {/* Fundalurile alternează ca în brandbook (gri, alb, navy): galeria e banda navy din mijlocul paginii */}
-      {gallery.length > 0 && PhotoGrid({ctx, values, imgs: gallery, limit: 9, allLabel: L['toate-fotografiile'], tone: 'bg-navy on-dark',
+      {/* Fundalurile alternează: galeria e banda gri dintre secțiunile albe */}
+      {gallery.length > 0 && PhotoGrid({ctx, values, imgs: gallery, limit: 9, allLabel: L['toate-fotografiile'], tone: 'bg-porcelain',
         s: {id: 'unit-galerie', anchor: 'galerie', eyebrow: L.galerie ?? 'Galerie', heading: title}})}
 
       {others.length > 0 && (
