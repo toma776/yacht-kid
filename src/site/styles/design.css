@@ -330,6 +330,8 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
 /* ---------- 13. Locație ---------- */
 .site .location-map, .site .address { border-radius: 0; box-shadow: none; }
 .site .location .h2 { max-width: 16ch; }
+/* Pe telefon, fără lista de repere cu timpi de sub hartă (harta și adresa rămân) */
+@media (max-width: 760px) { .site .poi-list { display: none; } }
 
 /* ---------- 14. Confort și tehnologie (homepage) ---------- */
 .site .lx-comfort-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px clamp(40px, 7vw, 128px); align-items: start; }
