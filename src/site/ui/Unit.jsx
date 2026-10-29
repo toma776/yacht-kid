@@ -50,7 +50,7 @@ export async function UnitPage({ctx, rec, title, chrome}) {
             <a className="btn btn--ghost" href={chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>
           </div>
         </div>
-        {rec.hero_image && <figure className="frame frame--band unit-cover"><img src={ctx.media(rec.hero_image)} alt={title}/></figure>}
+        {rec.hero_image && <figure className="frame frame--band unit-cover"><img src={ctx.media(rec.hero_image)} srcSet={ctx.srcset(rec.hero_image)} sizes="(max-width: 1000px) 100vw, 45vw" alt={title} fetchPriority="high"/></figure>}
       </section>
 
       <div className="wrap">

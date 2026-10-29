@@ -6,6 +6,8 @@ import {join} from 'node:path';
 import {getDb, one} from '../../../core/db.mjs';
 
 const SNAPSHOT = join(process.cwd(), 'reference', 'snapshot', 'media');
+// Lățimile cerute prin ?w= (srcset-ul din context.mjs, ctx.srcset); orice altă valoare se ignoră, ca să nu se creeze variante la cerere
+const WIDTHS = [480, 828, 1200, 1920];
 
 export async function GET(request, {params}) {
   const {id} = await params;
@@ -15,7 +17,11 @@ export async function GET(request, {params}) {
   if (process.env.VERCEL) {
     const base = process.env.MEDIA_BASE_URL;
     if (!base || m.mime.startsWith('video/')) return new Response('Not found', {status: 404});
-    const to = `${base}/media/${m.filename.split('/').map(encodeURIComponent).join('/')}`;
+    // Cloudinary optimizează la livrare: formatul cel mai mic pe care îl acceptă browserul (AVIF/WebP), calitate
+    // automată și, cu ?w=, lățimea cerută (fără mărire peste original). SVG-urile rămân cum sunt.
+    const w = +new URL(request.url).searchParams.get('w');
+    const t = m.mime === 'image/svg+xml' ? '' : `/f_auto,q_auto${WIDTHS.includes(w) ? `,w_${w},c_limit` : ''}`;
+    const to = `${base}${t}/media/${m.filename.split('/').map(encodeURIComponent).join('/')}`;
     // Browserul ține redirecționarea 5 minute, CDN-ul Vercel o zi (se golește la fiecare deploy): când se schimbă
     // stocarea (MEDIA_BASE_URL), vizitatorii nu rămân o zi întreagă cu adresa veche
     return new Response(null, {status: 308, headers: {location: to, 'cache-control': 'public, max-age=300, s-maxage=86400'}});

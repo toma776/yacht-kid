@@ -36,7 +36,7 @@ async function HeroCard({ctx, s, values, chrome, video}) {
   return (
     <section className="lx-hero" aria-labelledby="hero-title">
       <div className="hero-card lx-hero-stage on-dark">
-        {s.image && <img className="hero-card-img lx-hero-img" src={ctx.media(s.image)} alt="" fetchPriority="high"/>}
+        {s.image && <img className="hero-card-img lx-hero-img" src={ctx.media(s.image)} srcSet={ctx.srcset(s.image)} sizes="100vw" alt="" fetchPriority="high" decoding="async"/>}
         <div className="wrap lx-hero-copy">
           {s.eyebrow && <p className="eyebrow on-dark">{fillTokens(s.eyebrow, values)}</p>}
           <h1 className="lx-hero-title" id="hero-title">{heading}</h1>
@@ -76,7 +76,7 @@ async function Hero({ctx, s, values, next, chrome}) {
     <section className="hero on-dark" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden="true">
         {video ? <video autoPlay muted loop playsInline preload="metadata" poster={bg.poster ?? ctx.media(s.image)} data-hero-video><source src={s.video_start ? `${bg.src}#t=${s.video_start}` : bg.src} type="video/mp4"/></video>
-          : s.image && <img src={ctx.media(s.image)} alt=""/>}
+          : s.image && <img src={ctx.media(s.image)} srcSet={ctx.srcset(s.image)} sizes="100vw" alt="" fetchPriority="high"/>}
       </div>
       <div className="hero-inner wrap">
         {s.eyebrow && <p className="status reveal"><span className="status-dot"/>{fillTokens(s.eyebrow, values)}</p>}

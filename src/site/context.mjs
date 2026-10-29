@@ -94,6 +94,12 @@ export function createContext(db, lang, {preview = false} = {}) {
       if (!id) return null;
       dep('media', 'media', id);
       return `/media/${id}/`;
+    },
+
+    // Variantele pe lățimi pentru imaginile mari (hero): pe Vercel, Cloudinary le livrează redimensionate și optimizate
+    srcset(id) {
+      if (!id) return null;
+      return [480, 828, 1200, 1920].map(w => `/media/${id}/?w=${w} ${w}w`).join(', ');
     }
   };
   return ctx;
