@@ -189,7 +189,7 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
   .site .lx-datum b { font-size: 1.25rem; white-space: nowrap; }
 }
 /* Parallax discret pe fotografia hero (SiteBehavior scrie --hero-p): coboară cu o treime din derulare */
-.site .hero-card-img { transform: translate3d(0, calc(var(--hero-p, 0) * 9%), 0); will-change: transform; }
+.site .hero-card-img { transform: translate3d(0, calc(var(--hero-p, 0) * 4%), 0); will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .site .hero-card-img { transform: none; } }
 
 /* Hero-ul paginilor interioare (Tehnologie, Comunitate): aceeași fotografie pe tot ecranul, titlu Bold */
@@ -475,9 +475,27 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
 
 /* ---------- 22. Mișcare ---------- */
 /* Apariție discretă la derulare (doar sub primul ecran; SiteBehavior adaugă .motion pe <html> dacă nu e „mișcare redusă”) */
-html.motion .site .reveal { opacity: 0; transform: translateY(18px); transition: opacity 900ms var(--ease), transform 900ms var(--ease); transition-delay: var(--d, 0ms); }
-html.motion .site .reveal.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .site *, .site *::before, .site *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
   .site .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------- 23. Mișcare redusă la minimum ----------
+   Efectele rămân, dar scurte și discrete: aparițiile sunt doar o estompare (fără alunecare și fără cascadă), fără
+   zoom pe fotografii la hover și fără „respirația” lentă a imaginilor din capitole; meniurile, acordeoanele și
+   schimbările de imagine durează ~0,2–0,35 s. Parallax-ul hero-ului rămâne, la jumătate (secțiunea 6). */
+.site { --t: 220ms; --t-slow: 450ms; }
+html.motion .site .reveal { opacity: 0; transform: none; transition: opacity 450ms var(--ease); transition-delay: 0ms; }
+html.motion .site .reveal.is-in { opacity: 1; }
+.site a:hover .frame img, .site a.frame:hover img, .site .business > a:hover .frame img, .site .mega-unit:hover .mega-frame img, .site .mega-topic:hover .mega-topic-frame img, .site .other-units a:hover .frame img { transform: none; }
+.site .chapter-figure img, .site .chapter-figure.is-active img { transform: none; transition: none; }
+.site .chapter-figure { transition: opacity 350ms var(--ease); }
+.site .chapter-panel { transition-duration: 300ms; }
+.site .chapter.is-active .chapter-panel p { transition-delay: 0ms; transition-duration: 300ms; transform: none; }
+.site .chapter-panel p { transform: none; }
+.site .lx-typo-stage img { transform: none; transition: opacity 350ms var(--ease); }
+.site .lx-typo-item a::before { transition-duration: 300ms; }
+.site .mega, .site .mega.is-open { transition-duration: 320ms; }
+.site .mega-inner > *, .site .mega.is-open .mega-inner > * { transform: none; transition-duration: 220ms; transition-delay: 0ms; }
+.site .mobile-menu { transition-duration: 350ms; }
+.site .mobile-menu .mm-in { transition-delay: 0ms !important; transform: none !important; }
