@@ -221,7 +221,7 @@ async function Features({ctx, s, values}) {
     // rânduri numerotate (număr, titlu, explicație), fără pictograme decorative
     const paras = (await rich(ctx, s.text, values)).match(/<p>[\s\S]*?<\/p>/g) ?? [];
     return (
-      <section className="lx-features bg-paper" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+      <section className={`lx-features bg-paper${items.length <= 5 ? " lx-features--short" : ""}`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
         <div className="wrap lx-features-grid">
           <div className="lx-features-aside">
             <Head s={s} values={values} id={`t-${s.id}`}/>

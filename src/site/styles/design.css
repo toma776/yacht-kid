@@ -268,6 +268,8 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
 .site .lx-features-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px clamp(40px, 7vw, 128px); align-items: start; }
 .site .lx-features-aside { display: grid; gap: 22px; justify-items: start; position: sticky; top: 112px; }
 .site .lx-features-img { width: 100%; aspect-ratio: 4 / 5; margin-top: 12px; }
+/* Puține avantaje (Spații comerciale): fotografia mai lată, ca să se termine odată cu lista, fără gol dedesubt */
+.site .lx-features--short .lx-features-img { aspect-ratio: 4 / 3; }
 .site .lx-rows { border-top: 1px solid var(--navy); }
 .site .lx-row { display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 20px; row-gap: 8px; padding: 30px 0; border-bottom: 1px solid var(--line); }
 .site .lx-row-num { grid-row: span 2; font-size: .8125rem; font-weight: 600; letter-spacing: .14em; color: var(--coral-ink); padding-top: 4px; }
