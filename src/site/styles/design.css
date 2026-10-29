@@ -570,3 +570,36 @@ html.motion .site .reveal.is-in { opacity: 1; }
 .site .ax-take { padding: 4px 0 4px 24px; }
 /* Articolul: antetul gri pornește imediat sub antetul site-ului (spațiul pentru antet e deja în .ax-head) */
 .site main.no-hero:has(> .ax), body.no-hero .site main:has(> .ax) { padding-top: 0; }
+
+/* ---------- 25. Subsolul pe telefon: o coloană, fiecare legătură un rând de 44px (atingere sigură) ---------- */
+@media (max-width: 640px) {
+  .site .site-footer { padding-top: 40px; }
+  .site .ft-top-row { gap: 20px; }
+  .site .ft-actions { display: grid; gap: 10px; }
+  .site .ft-actions .btn { width: 100%; height: 52px; }
+  .site .ft-grid { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: 8px 24px; }
+  .site .ft-grid > .ft-col { display: block; padding: 22px 0 6px; border-top: 1px solid var(--line-light); }
+  .site .ft-grid > .ft-col:first-child { border-top: 0; }
+  .site .ft-h { margin-bottom: 6px; }
+  .site .ft-links, .site .ft-contact { display: grid; gap: 0; font-size: .9375rem; }
+  .site .ft-grid > .ft-col:last-child .ft-links { display: grid; }
+  .site .ft-links a, .site .ft-contact li, .site .ft-maps { display: flex; align-items: center; min-height: 44px; }
+  .site .ft-links li + li, .site .ft-contact li + li { border-top: 1px solid rgb(255 255 255 / .07); }
+  .site .ft-contact a { flex: 1; min-height: 44px; display: flex; align-items: center; }
+  .site .ft-hours { margin-top: 10px; font-size: .875rem; }
+  .site .ft-address { font-size: .9375rem; }
+  .site .ft-social { gap: 10px; margin-top: 10px; }
+  .site .ft-social a { width: 44px; height: 44px; }
+  .site .ft-bottom { gap: 18px; padding-top: 22px; }
+  .site .ft-bottom-actions { justify-content: space-between; }
+  .site .ft-bottom-actions .langs a, .site .ft-top { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 10px; }
+  .site .anpc img { width: 140px; }
+}
+@media (max-width: 640px) {
+  /* Apartamente și Proiectul alăturate (rânduri tot de 44px); contactul, biroul și informațiile legale pe toată lățimea */
+  .site .ft-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 20px; }
+  .site .ft-grid > .ft-col { grid-column: 1 / -1; }
+  .site .ft-grid > nav.ft-col:not(:last-child) { grid-column: auto; }
+  .site .ft-grid > nav.ft-col:not(:last-child) .ft-links a { font-size: .875rem; line-height: 1.35; }
+  .site .anpc a { display: block; padding-block: 5px; }
+}
