@@ -5,6 +5,7 @@
 //   alături, un sidebar care rămâne pe ecran: cuprinsul (cu secțiunea curentă), alte articole, îndemnul la vizionare.
 import {rich} from '../rich.mjs';
 import {Icon} from './Icons.jsx';
+import {Lightbox} from './Sections.jsx';
 
 const strip = html => (html ?? '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 const slug = t => strip(t).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
@@ -45,6 +46,87 @@ const chapterBody = html => html
 const figureOf = html => { const f = html.match(/<figure>([\s\S]*?)<\/figure>/)?.[1]; return f ? {src: f.match(/src="([^"]+)"/)?.[1], alt: f.match(/alt="([^"]*)"/)?.[1] ?? ''} : null; };
 const two = i => String(i + 1).padStart(2, '0');
 
+// Blocurile comune celor două machete
+const FaqBlock = ({faq, en}) => (
+  <section id={faq.id} className="about ax-faq bg-porcelain">
+    <div className="wrap">
+      <p className="eyebrow">{en ? 'FAQ' : 'Întrebări frecvente'}</p>
+      <h2 className="h2 ruled">{faq.title}</h2>
+      <div className="chapter-list ax-faq-list">
+        {faq.qa.map((x, i) => (
+          <details key={i} className="chapter" open={i === 0}>
+            <summary className="chapter-head"><span className="chapter-num num">{two(i)}</span><span className="chapter-title">{x.q}</span><span className="chapter-icon" aria-hidden="true"/></summary>
+            <div className="ax-text" dangerouslySetInnerHTML={{__html: x.a}}/>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const EndBlock = ({others, L, viewHref}) => (
+  <section className="ax-end bg-paper">
+    <div className="wrap ax-end-grid">
+      {others.length > 0 && (
+        <div>
+          <p className="eyebrow">{L['alte-articole'] ?? 'Alte articole'}</p>
+          <ol className="ax-more">{others.map(({p, href}, i) => <li key={p.id}><a href={href}><span className="num">{two(i)}</span><b>{p.title}</b><Icon id="arrow"/></a></li>)}</ol>
+        </div>
+      )}
+      <div className="ax-cta">
+        <blockquote className="pull subhead">{L['articol-cta-text'] ?? 'Programează o vizionare și descoperă locuințele de lângă parc.'}</blockquote>
+        <a className="btn" href={viewHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>
+      </div>
+    </div>
+  </section>
+);
+
+// Textul unei știri: rămâne în ordinea lui, cu legăturile și pozele la locul lor. Coperta nu se repetă în text;
+// pozele vecine (sau grupate în WordPress) devin o galerie care se deschide în fotografia mare.
+function newsBody(html, coverSrc) {
+  const photos = [];
+  const body = html
+    .replace(/<blockquote>\s*<\/blockquote>|<p>(?:\s|&nbsp;)*<\/p>/g, '')
+    .replace(/<figure>\s*((?:<figure>[\s\S]*?<\/figure>\s*)+)<\/figure>/g, '$1')
+    .replace(/<figure>\s*<img\b[^>]*>\s*<\/figure>/g, m => (coverSrc && m.includes('src="' + coverSrc + '"') ? '' : m))
+    .replace(/(?:<figure>(?:(?!<\/?figure>)[\s\S])*<\/figure>\s*)+/g, run => {
+      const items = [...run.matchAll(/<figure>((?:(?!<\/?figure>)[\s\S])*)<\/figure>/g)].map(m => {
+        const i = photos.length, alt = m[1].match(/alt="([^"]*)"/)?.[1] ?? '';
+        photos.push({src: m[1].match(/src="([^"]+)"/)?.[1], alt});
+        return '<li><button type="button" class="frame photo" data-lightbox-open="' + i + '" aria-label="' + (alt || i + 1) + '">' + m[1].replace('<img', '<img loading="lazy"') + '</button></li>';
+      });
+      return '<ul class="nx-gallery nx-gallery--' + (items.length === 4 ? 2 : Math.min(items.length, 3)) + '">' + items.join('') + '</ul>';
+    })
+    .replace(/<ul>/g, '<ul class="ax-check">')
+    .replace(/<\/ul>\s*<p>([^<]{0,170})<\/p>/g, '</ul><blockquote class="pull ax-take"><p>$1</p></blockquote>');
+  return {body, photos};
+}
+
+// Macheta de știre: pentru articolele fără capitole (anunțuri de afaceri, premii), unde nu are ce să se împartă
+function NewsArticle({ctx, rec, title, html, faq, category, categoryHref, minutes, others, viewHref, L}) {
+  const {body, photos} = newsBody(html, rec.image ? ctx.media(rec.image) : null);
+  return (
+    <article className="ax nx">
+      <header className="nx-head bg-porcelain">
+        <div className="wrap nx-head-grid">
+          <div>
+            <p className="eyebrow">{categoryHref ? <a href={categoryHref}>{category?.name ?? 'Blog'}</a> : (category?.name ?? 'Blog')}</p>
+            <h1 className="h2 ruled">{title}</h1>
+            <p className="ax-meta">{rec.published_at && <time dateTime={rec.published_at}>{dateOf(rec.published_at, ctx.lang)}</time>}<span>{minutes} {L['min-citire'] ?? 'min de citit'}</span></p>
+          </div>
+          {rec.image && <div className="nx-cover"><img src={ctx.media(rec.image)} srcSet={ctx.srcset(rec.image)} sizes="(max-width: 900px) 100vw, 45vw" alt="" fetchPriority="high"/></div>}
+        </div>
+      </header>
+      <section className="nx-body bg-paper" aria-label={title}>
+        <div className="wrap nx-text" dangerouslySetInnerHTML={{__html: body}}/>
+        {photos.length > 0 && <Lightbox list={photos} label={title}/>}
+      </section>
+      {faq && <FaqBlock faq={faq} en={ctx.lang === 'en'}/>}
+      <EndBlock others={others} L={L} viewHref={viewHref}/>
+    </article>
+  );
+}
+
 // Macheta schematică (preview): antetul ca o secțiune de capitol (titlu cu linie, introducerea ca citat), „Pe scurt” cu
 // întrebările articolului, capitolele ca acordeon (unul deschis, fotografia alături, „Următoarea întrebare”),
 // întrebările frecvente în același stil, apoi alte articole și vizionarea. Textul din Brain rămâne neschimbat.
@@ -59,6 +141,11 @@ export async function Article({ctx, rec, title, chrome}) {
     where: 'e.id != ?', args: [rec.id], order: 'e.published_at DESC', limit: 3}))).map(async p => ({p, href: await ctx.href('articole', p.id)})));
   const cover = rec.image ? {src: ctx.media(rec.image), alt: ''} : null;
   const viewHref = chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref;
+  // Fără cel puțin două capitole, schema nu are ce să structureze: textul rămâne întreg, ca știre
+  if (sections.length < 2) {
+    const body = intro + sections.map(s => '<h2>' + s.title + '</h2>' + s.html).join('');
+    return <NewsArticle ctx={ctx} rec={rec} title={title} html={body} faq={faq} category={category} categoryHref={categoryHref} minutes={minutes} others={others} viewHref={viewHref} L={L}/>;
+  }
   const introText = strip(intro);
   return (
     <article className="ax">
@@ -108,37 +195,9 @@ export async function Article({ctx, rec, title, chrome}) {
         </div>
       </section>
 
-      {faq && (
-        <section id={faq.id} className="about ax-faq bg-porcelain">
-          <div className="wrap">
-            <p className="eyebrow">{en ? 'FAQ' : 'Întrebări frecvente'}</p>
-            <h2 className="h2 ruled">{faq.title}</h2>
-            <div className="chapter-list ax-faq-list">
-              {faq.qa.map((x, i) => (
-                <details key={i} className="chapter" open={i === 0}>
-                  <summary className="chapter-head"><span className="chapter-num num">{two(i)}</span><span className="chapter-title">{x.q}</span><span className="chapter-icon" aria-hidden="true"/></summary>
-                  <div className="ax-text" dangerouslySetInnerHTML={{__html: x.a}}/>
-                </details>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {faq && <FaqBlock faq={faq} en={en}/>}
 
-      <section className="ax-end bg-paper">
-        <div className="wrap ax-end-grid">
-          {others.length > 0 && (
-            <div>
-              <p className="eyebrow">{L['alte-articole'] ?? 'Alte articole'}</p>
-              <ol className="ax-more">{others.map(({p, href}, i) => <li key={p.id}><a href={href}><span className="num">{two(i)}</span><b>{p.title}</b><Icon id="arrow"/></a></li>)}</ol>
-            </div>
-          )}
-          <div className="ax-cta">
-            <blockquote className="pull subhead">{L['articol-cta-text'] ?? 'Programează o vizionare și descoperă locuințele de lângă parc.'}</blockquote>
-            <a className="btn" href={viewHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>
-          </div>
-        </div>
-      </section>
+      <EndBlock others={others} L={L} viewHref={viewHref}/>
     </article>
   );
 }

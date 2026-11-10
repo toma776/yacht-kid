@@ -336,7 +336,7 @@ export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel, ton
 }
 
 // Fotografia mare, cu înainte/înapoi; SiteBehavior o leagă de butoanele [data-lightbox-open] din aceeași secțiune
-const Lightbox = ({list, label}) => (
+export const Lightbox = ({list, label}) => (
   <dialog className="lightbox" data-lightbox={JSON.stringify(list)} aria-label={label ?? ''}>
     <button className="dialog-close" type="button" data-lightbox-close aria-label="×"><Icon id="close" size={24}/></button>
     <button className="lightbox-nav lightbox-prev" type="button" data-lightbox-step="-1" aria-label="←"><Arrow/></button>

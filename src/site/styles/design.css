@@ -557,6 +557,35 @@ html.motion .site .reveal.is-in { opacity: 1; }
   .site .ax-check { grid-template-columns: minmax(0, 1fr); }
   .site .ax-faq-list summary { grid-template-columns: 36px minmax(0, 1fr) 24px; }
 }
+/* Articolul fără capitole (știri despre afaceri, premii): titlul și coperta alături, apoi textul întreg, cu galeriile la locul lor.
+   Coperta își păstrează proporțiile: multe sunt pătrate, verticale sau logouri, care nu suportă o tăiere lată. */
+.site .nx-head { padding-block: calc(72px + clamp(40px, 5vw, 72px)) clamp(40px, 5vw, 72px); }
+.site .nx-head-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px clamp(40px, 6vw, 96px); align-items: center; }
+.site .nx-head .h2 { font-size: clamp(1.75rem, 1.2rem + 1.7vw, 2.75rem); }
+.site .nx-head .eyebrow a { color: inherit; }
+.site .nx-cover img { display: block; width: 100%; max-height: 560px; object-fit: contain; object-position: center; }
+.site .nx-body { padding-block: clamp(48px, 5vw, 80px) var(--section); }
+.site .nx-text > * { max-width: 72ch; }
+.site .nx-text > * + * { margin-top: 1.1em; }
+.site .nx-text > p:first-child { max-width: 58ch; font-size: clamp(1.0625rem, .98rem + .4vw, 1.3125rem); line-height: 1.6; color: var(--navy); }
+.site .nx-text p, .site .nx-text li { line-height: 1.75; }
+.site .nx-text p { color: var(--ink-2); }
+.site .nx-text a { color: var(--navy); font-weight: 600; text-decoration: underline; text-decoration-color: var(--coral); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.site .nx-text h2 { margin-top: 1.8em; font-size: clamp(1.1875rem, 1.1rem + .4vw, 1.4375rem); font-weight: 700; line-height: 1.4; color: var(--navy); }
+.site .nx-text h3 { margin-top: 1.8em; font-size: 1.125rem; font-weight: 700; line-height: 1.4; color: var(--navy); }
+.site .nx-text blockquote:not(.pull) { padding-left: 1.25em; border-left: 2px solid var(--coral); }
+.site .nx-text > .nx-gallery { display: grid; gap: 12px; max-width: none; margin-block: clamp(28px, 3vw, 44px); padding: 0; list-style: none; }
+.site .nx-text > .nx-gallery--1 { grid-template-columns: minmax(0, 1fr); max-width: 72ch; }
+.site .nx-gallery--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.site .nx-gallery--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.site .nx-gallery .photo { display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in; aspect-ratio: 4 / 3; }
+.site .nx-gallery--1 .photo { aspect-ratio: auto; }
+.site .nx-gallery img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.site .nx-gallery--1 img { height: auto; }
+@media (max-width: 900px) {
+  .site .nx-head-grid { grid-template-columns: minmax(0, 1fr); }
+  .site .nx-gallery--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 /* Articolul: lista lată în stânga, fotografia în dreapta, în coloana paginii (nu regula capitolelor alternate din v2.css) */
 .site .ax-body .chapters, .site .about.bg-paper.ax-body .chapters { margin: 0 auto; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 .site .about.bg-paper.ax-body .chapter-stage { grid-column: 2; grid-row: 1; height: auto; aspect-ratio: 4 / 5; }
