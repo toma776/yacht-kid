@@ -4,6 +4,7 @@
 //   „Întrebări frecvente” (ultima secțiune, întrebări în <strong> + răspuns în <p>) ca acordeon;
 //   alături, un sidebar care rămâne pe ecran: cuprinsul (cu secțiunea curentă), alte articole, îndemnul la vizionare.
 import {rich} from '../rich.mjs';
+import {one} from '../../core/db.mjs';
 import {Icon} from './Icons.jsx';
 import {Lightbox} from './Sections.jsx';
 
@@ -39,11 +40,20 @@ export function splitArticle(html) {
 
 // Conținutul unui capitol: paragrafele (cu legăturile lor), listele ca bife, fraza scurtă de după o listă ca citat
 // cu linia coral; figura capitolului se scoate (stă în coloana din dreapta)
-const chapterBody = html => html
-  .replace(/<figure>[\s\S]*?<\/figure>/g, '')
-  .replace(/<ul>/g, '<ul class="ax-check">')
+// Listele ca bife: pe două coloane doar când toate rândurile sunt scurte; un rând lung (titlu + explicație) cere toată lățimea
+const checklist = html => html.replace(/<ul>([\s\S]*?)<\/ul>/g, (m, inner) => {
+  const long = [...inner.matchAll(/<li>([\s\S]*?)<\/li>/g)].some(x => strip(x[1]).length > 90);
+  return `<ul class="ax-check${long ? ' ax-check--long' : ''}">${inner}</ul>`;
+});
+// Tabelele vin din WordPress ambalate în <figure>: devin un bloc al lor (cu derulare pe lățime pe mobil), ca să nu fie
+// luate drept fotografii; figurile goale dispar
+const tables = html => html
+  .replace(/<figure>\s*(<table[\s\S]*?<\/table>)\s*<\/figure>/g, '<div class="ax-table">$1</div>')
+  .replace(/<figure>\s*<\/figure>/g, '');
+const chapterBody = html => checklist(tables(html)
+  .replace(/<figure>[\s\S]*?<\/figure>/g, ''))
   .replace(/<\/ul>\s*<p>([^<]{0,170})<\/p>/g, '</ul><blockquote class="pull ax-take"><p>$1</p></blockquote>');
-const figureOf = html => { const f = html.match(/<figure>([\s\S]*?)<\/figure>/)?.[1]; return f ? {src: f.match(/src="([^"]+)"/)?.[1], alt: f.match(/alt="([^"]*)"/)?.[1] ?? ''} : null; };
+const figureOf = html => { const f = html.match(/<figure>(\s*<img[\s\S]*?)<\/figure>/)?.[1]; return f ? {src: f.match(/src="([^"]+)"/)?.[1], alt: f.match(/alt="([^"]*)"/)?.[1] ?? ''} : null; };
 const two = i => String(i + 1).padStart(2, '0');
 
 // Blocurile comune celor două machete
@@ -85,7 +95,7 @@ const EndBlock = ({others, L, viewHref}) => (
 // pozele vecine (sau grupate în WordPress) devin o galerie care se deschide în fotografia mare.
 function newsBody(html, coverSrc) {
   const photos = [];
-  const body = html
+  const body = tables(html)
     .replace(/<blockquote>\s*<\/blockquote>|<p>(?:\s|&nbsp;)*<\/p>/g, '')
     .replace(/<figure>\s*((?:<figure>[\s\S]*?<\/figure>\s*)+)<\/figure>/g, '$1')
     .replace(/<figure>\s*<img\b[^>]*>\s*<\/figure>/g, m => (coverSrc && m.includes('src="' + coverSrc + '"') ? '' : m))
@@ -96,15 +106,16 @@ function newsBody(html, coverSrc) {
         return '<li><button type="button" class="frame photo" data-lightbox-open="' + i + '" aria-label="' + (alt || i + 1) + '">' + m[1].replace('<img', '<img loading="lazy"') + '</button></li>';
       });
       return '<ul class="nx-gallery nx-gallery--' + (items.length === 4 ? 2 : Math.min(items.length, 3)) + '">' + items.join('') + '</ul>';
-    })
-    .replace(/<ul>/g, '<ul class="ax-check">')
-    .replace(/<\/ul>\s*<p>([^<]{0,170})<\/p>/g, '</ul><blockquote class="pull ax-take"><p>$1</p></blockquote>');
-  return {body, photos};
+    });
+  return {body: checklist(body).replace(/<\/ul>\s*<p>([^<]{0,170})<\/p>/g, '</ul><blockquote class="pull ax-take"><p>$1</p></blockquote>'), photos};
 }
 
 // Macheta de știre: pentru articolele fără capitole (anunțuri de afaceri, premii), unde nu are ce să se împartă
-function NewsArticle({ctx, rec, title, html, faq, category, categoryHref, minutes, others, viewHref, L}) {
+function NewsArticle({ctx, rec, title, html, faq, category, categoryHref, minutes, others, viewHref, L, business, bizHref}) {
   const {body, photos} = newsBody(html, rec.image ? ctx.media(rec.image) : null);
+  const en = ctx.lang === 'en';
+  // Imaginea firmei apare în card doar dacă nu e chiar coperta articolului; logo-ul, când există, are întâietate
+  const bizImg = business && (business.logo || (business.image !== rec.image ? business.image : null));
   return (
     <article className="ax nx">
       <header className="nx-head bg-porcelain">
@@ -119,6 +130,23 @@ function NewsArticle({ctx, rec, title, html, faq, category, categoryHref, minute
       </header>
       <section className="nx-body bg-paper" aria-label={title}>
         <div className="wrap nx-text" dangerouslySetInnerHTML={{__html: body}}/>
+        {business && (
+          <div className="wrap">
+            <aside className={`nx-biz${bizImg ? '' : ' nx-biz--plain'}`} aria-label={business.name}>
+              {bizImg && <span className={`frame nx-biz-img${business.logo ? ' is-logo' : ''}`}><img src={ctx.media(bizImg)} alt={business.name} loading="lazy"/></span>}
+              <div className="nx-biz-copy">
+                <p className="eyebrow">{business.state === 'in-curand' ? (en ? 'Opening soon at YACHT KID' : 'În curând la YACHT KID') : (en ? 'Now at YACHT KID' : 'Deja în comunitate')}</p>
+                <h2 className="h3">{business.name}</h2>
+                {business.tagline && <p className="nx-biz-tagline">{business.tagline}</p>}
+                {business.description && <p className="nx-biz-desc">{business.description}</p>}
+                <p className="nx-biz-links">
+                  {business.website && <a className="link-arrow" href={business.website} target="_blank" rel="noopener">{en ? 'Website' : 'Site-ul oficial'} <Icon id="arrow"/></a>}
+                  {bizHref && <a className="link-arrow" href={bizHref}>{en ? 'All community businesses' : 'Toate afacerile din comunitate'} <Icon id="arrow"/></a>}
+                </p>
+              </div>
+            </aside>
+          </div>
+        )}
         {photos.length > 0 && <Lightbox list={photos} label={title}/>}
       </section>
       {faq && <FaqBlock faq={faq} en={ctx.lang === 'en'}/>}
@@ -144,7 +172,19 @@ export async function Article({ctx, rec, title, chrome}) {
   // Fără cel puțin două capitole, schema nu are ce să structureze: textul rămâne întreg, ca știre
   if (sections.length < 2) {
     const body = intro + sections.map(s => '<h2>' + s.title + '</h2>' + s.html).join('');
-    return <NewsArticle ctx={ctx} rec={rec} title={title} html={body} faq={faq} category={category} categoryHref={categoryHref} minutes={minutes} others={others} viewHref={viewHref} L={L}/>;
+    // Afacerea anunțată: legătura vine din Brain (dedusă din text, ca în secțiunea de afaceri), iar cardul duce la lista
+    // tuturor afacerilor, pe pagina care o conține
+    const [business] = await ctx.within('Afacerea anunțată', `articolul ${rec.id}`, () => ctx.query('afaceri', {scope: `articole:${rec.id}`, limit: 1,
+      where: 'EXISTS (SELECT 1 FROM rel_posts_businesses r WHERE r.src_id = ? AND r.dst_id = e.id)', args: [rec.id]}));
+    let bizHref = null;
+    if (business) {
+      const [page] = await ctx.query('pagini', {scope: `articole:${rec.id}`, limit: 1,
+        where: `EXISTS (SELECT 1 FROM rel_pages_sections r JOIN sections s ON s.id = r.dst_id WHERE r.src_id = e.id AND s.kind = 'afaceri')`});
+      const anchor = page && (await one(ctx.db, `SELECT s.anchor FROM rel_pages_sections r JOIN sections s ON s.id = r.dst_id WHERE r.src_id = ? AND s.kind = 'afaceri'`, [page.id]))?.anchor;
+      const href = page ? await ctx.href('pagini', page.id) : null;
+      bizHref = href && anchor ? `${href}#${anchor}` : href;
+    }
+    return <NewsArticle ctx={ctx} rec={rec} title={title} html={body} faq={faq} category={category} categoryHref={categoryHref} minutes={minutes} others={others} viewHref={viewHref} L={L} business={business} bizHref={bizHref}/>;
   }
   const introText = strip(intro);
   return (

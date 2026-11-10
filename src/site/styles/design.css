@@ -523,8 +523,19 @@ html.motion .site .reveal.is-in { opacity: 1; }
 .site .ax-text p { color: var(--ink-2); line-height: 1.75; }
 .site .ax-text a { color: var(--navy); font-weight: 600; text-decoration: underline; text-decoration-color: var(--coral); text-underline-offset: 3px; }
 .site .ax-check { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; padding: 0; border-top: 1px solid var(--line); }
-.site .ax-check li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: .9375rem; color: var(--navy); }
-.site .ax-check li::before { content: ''; width: 14px; height: 8px; margin-top: 6px; border-left: 1.5px solid var(--coral); border-bottom: 1.5px solid var(--coral); transform: rotate(-45deg); }
+/* Bifa stă în stânga, iar textul rândului curge normal: un rând cu <strong> sau link rămâne o frază, nu se rupe pe celule */
+.site .ax-check li { position: relative; padding: 12px 0 12px 32px; border-bottom: 1px solid var(--line); font-size: .9375rem; line-height: 1.6; color: var(--navy); }
+.site .ax-check li::before { content: ''; position: absolute; left: 2px; top: 19px; width: 14px; height: 8px; border-left: 1.5px solid var(--coral); border-bottom: 1.5px solid var(--coral); transform: rotate(-45deg); }
+.site .ax-check--long { grid-template-columns: minmax(0, 1fr); }
+/* Tabelele din text: antet navy subțire, rânduri cu linie, derulare pe lățime când nu încap (mobil) */
+.site .ax-table { overflow-x: auto; margin-block: 1.4em; border-top: 1px solid var(--navy); }
+.site .ax-table table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: .875rem; line-height: 1.55; }
+.site .ax-table th, .site .ax-table td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.site .ax-table th { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); }
+.site .ax-table td { color: var(--ink-2); }
+.site .ax-table td:first-child { font-weight: 600; color: var(--navy); }
+.site .ax-check--long li { color: var(--ink-2); }
+.site .ax-check li strong { color: var(--navy); }
 .site .ax-take { margin: 1.4em 0 0; }
 .site .ax-take p { font-size: 1.0625rem; line-height: 1.6; color: var(--coral-ink); }
 .site .ax-stage { aspect-ratio: 4 / 5; }
@@ -582,6 +593,22 @@ html.motion .site .reveal.is-in { opacity: 1; }
 .site .nx-gallery--1 .photo { aspect-ratio: auto; }
 .site .nx-gallery img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .site .nx-gallery--1 img { height: auto; }
+/* Cardul afacerii anunțate, la finalul textului: imaginea (sau logo-ul) alături de nume, domeniu și trimiterea la toate afacerile */
+.site .nx-biz { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 24px clamp(24px, 3vw, 40px); align-items: center; max-width: 72ch; margin-top: clamp(40px, 4vw, 64px); padding: clamp(20px, 2.4vw, 28px); border: 1px solid var(--line); border-left: 3px solid var(--coral); background: var(--white, #fff); }
+.site .nx-biz--plain { grid-template-columns: minmax(0, 1fr); }
+.site .nx-biz-img { display: block; aspect-ratio: 4 / 3; }
+.site .nx-biz-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.site .nx-biz-img.is-logo img { object-fit: contain; padding: 12px; }
+.site .nx-biz-copy { display: grid; gap: 8px; justify-items: start; }
+.site .nx-biz .h3 { font-size: clamp(1.1875rem, 1.1rem + .4vw, 1.4375rem); color: var(--navy); }
+.site .nx-biz-tagline { color: var(--ink-2); }
+.site .nx-biz-desc { color: var(--ink-2); line-height: 1.7; }
+.site .nx-biz-links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 8px; }
+.site .nx-biz-links .link-arrow { font-size: .8125rem; font-weight: 700; text-transform: uppercase; color: var(--navy); }
+.site .nx-biz-links svg { width: 14px; height: 14px; color: var(--coral); }
+@media (max-width: 560px) {
+  .site .nx-biz { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 900px) {
   .site .nx-head-grid { grid-template-columns: minmax(0, 1fr); }
   .site .nx-gallery--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
