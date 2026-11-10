@@ -186,7 +186,10 @@ export async function Article({ctx, rec, title, chrome}) {
     }
     return <NewsArticle ctx={ctx} rec={rec} title={title} html={body} faq={faq} category={category} categoryHref={categoryHref} minutes={minutes} others={others} viewHref={viewHref} L={L} business={business} bizHref={bizHref}/>;
   }
-  const introText = strip(intro);
+  // În citatul din antet stă doar primul paragraf al introducerii; restul rămâne text obișnuit, sub antet
+  const firstP = intro.match(/<p>[\s\S]*?<\/p>/)?.[0] ?? '';
+  const introText = strip(firstP || intro);
+  const introRest = firstP ? chapterBody(intro.replace(firstP, '')) : '';
   return (
     <article className="ax">
       <header className="about ax-head bg-porcelain">
@@ -199,6 +202,8 @@ export async function Article({ctx, rec, title, chrome}) {
           {introText && <div className="about-statement"><blockquote className="pull subhead">{introText}</blockquote></div>}
         </div>
       </header>
+
+      {strip(introRest) && <div className="wrap ax-text ax-lead" dangerouslySetInnerHTML={{__html: introRest}}/>}
 
       {sections.length > 1 && (
         <nav className="wrap ax-brief" aria-label={en ? 'In short' : 'Pe scurt'}>
