@@ -186,10 +186,15 @@ export async function Article({ctx, rec, title, chrome}) {
     }
     return <NewsArticle ctx={ctx} rec={rec} title={title} html={body} faq={faq} category={category} categoryHref={categoryHref} minutes={minutes} others={others} viewHref={viewHref} L={L} business={business} bizHref={bizHref}/>;
   }
-  // În citatul din antet stă doar primul paragraf al introducerii; restul rămâne text obișnuit, sub antet
+  // În citatul din antet stă doar începutul introducerii: frazele primului paragraf, cât încap în ~320 de caractere.
+  // Restul paragrafului și celelalte paragrafe rămân text obișnuit, sub antet (introducerile nu au legături de pierdut)
   const firstP = intro.match(/<p>[\s\S]*?<\/p>/)?.[0] ?? '';
-  const introText = strip(firstP || intro);
-  const introRest = firstP ? chapterBody(intro.replace(firstP, '')) : '';
+  const sentences = strip(firstP || intro).split(/(?<=[.!?…])\s+(?=[A-ZĂÂÎȘȚ„"])/);
+  let take = 0, len = 0;
+  while (take < sentences.length && (take === 0 || len + sentences[take].length <= 320)) len += sentences[take++].length + 1;
+  const introText = sentences.slice(0, take).join(' ');
+  const tail = sentences.slice(take).join(' ');
+  const introRest = firstP ? chapterBody((tail ? `<p>${tail}</p>` : '') + intro.replace(firstP, '')) : '';
   return (
     <article className="ax">
       <header className="about ax-head bg-porcelain">
