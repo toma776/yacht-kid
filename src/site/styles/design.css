@@ -144,13 +144,15 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
 .site .lx-hero .hero-card::before {
   content: ''; position: absolute; inset: 0; z-index: -1;
   background: linear-gradient(to top, rgb(20 32 68 / .78) 0%, rgb(20 32 68 / .38) 38%, rgb(20 32 68 / 0) 66%),
-              linear-gradient(90deg, rgb(20 32 68 / .42) 0%, rgb(20 32 68 / .18) 45%, rgb(20 32 68 / 0) 70%),
+              linear-gradient(90deg, rgb(20 32 68 / .7) 0%, rgb(20 32 68 / .56) 32%, rgb(20 32 68 / .26) 54%, rgb(20 32 68 / 0) 74%),
               linear-gradient(to bottom, rgb(36 38 46 / .42) 0%, rgb(36 38 46 / 0) 24%);
 }
 .site .lx-hero-img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 112%; object-fit: cover; object-position: 50% 42%; }
 .site .lx-hero-copy { display: grid; justify-items: start; gap: 20px; padding-block: 140px clamp(48px, 6vw, 88px); }
-/* Eticheta de deasupra titlului: culorile ei (coral deschis, valuri albastre), cu o umbră fină pentru fotografia deschisă */
-.site .lx-hero-copy .eyebrow { text-shadow: 0 1px 2px rgb(20 32 68 / .55), 0 0 18px rgb(20 32 68 / .45); }
+/* Eticheta de deasupra titlului: culorile ei (coral deschis, valuri albastre). Peste cerul deschis al fotografiei, un halou navy
+   strâns în jurul literelor (nu o cutie) o ține lizibilă; valurile primesc aceeași umbră */
+.site .lx-hero-copy .eyebrow { font-weight: 700; text-shadow: 0 0 1px rgb(20 32 68 / .9), 0 0 4px rgb(20 32 68 / .85), 0 0 10px rgb(20 32 68 / .7), 0 0 22px rgb(20 32 68 / .55); }
+.site .lx-hero-copy .eyebrow::before { filter: drop-shadow(0 0 3px rgb(20 32 68 / .9)) drop-shadow(0 0 10px rgb(20 32 68 / .6)); }
 .site .lx-hero-title { font-size: var(--fs-display); font-weight: 700; letter-spacing: var(--ls-headline); line-height: 1.06; max-width: 15ch; text-wrap: balance; text-shadow: 0 2px 30px rgb(20 32 68 / .25); }
 .site .lx-hero-sub { font-size: clamp(1.125rem, 1rem + .5vw, 1.5rem); font-weight: 300; line-height: 1.5; max-width: 36ch; color: #eef1fa; }
 .site .lx-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
@@ -176,7 +178,7 @@ body.menu-open .site .site-header .logo-dark { opacity: 0; }
 }
 @media (max-width: 640px) {
   .site .lx-hero .hero-card { min-height: min(86svh, 720px); }
-  .site .lx-hero .hero-card::before { background: linear-gradient(to top, rgb(20 32 68 / .88) 0%, rgb(20 32 68 / .6) 45%, rgb(20 32 68 / .1) 80%), linear-gradient(to bottom, rgb(36 38 46 / .45) 0%, rgb(36 38 46 / 0) 22%); }
+  .site .lx-hero .hero-card::before { background: linear-gradient(to top, rgb(20 32 68 / .88) 0%, rgb(20 32 68 / .66) 45%, rgb(20 32 68 / .28) 70%, rgb(20 32 68 / .1) 85%), linear-gradient(to bottom, rgb(36 38 46 / .45) 0%, rgb(36 38 46 / 0) 22%); }
   .site .lx-hero-copy .eyebrow { letter-spacing: .14em; font-size: .6875rem; line-height: 1.5; }
   .site .lx-hero-copy { gap: 14px; padding-block: 120px 36px; }
   .site .lx-hero-title { font-size: clamp(2rem, 1.2rem + 4.4vw, 2.5rem); letter-spacing: .03em; }
@@ -667,3 +669,50 @@ html.motion .site .reveal.is-in { opacity: 1; }
   .site .anpc a { display: block; padding-block: 5px; }
 }
 .site .section-head--split .pull { max-width: 52ch; }
+
+/* ---------- 26. Consecvență (retușuri) ----------
+   O singură scară pentru fiecare nivel de titlu, interlinie unică pentru textul mic, aceleași butoane pe mobil și desktop,
+   stările de așteptare/dezactivare ale butoanelor, ținte de atingere de minimum 44px pe mobil. Doar tokenii existenți. */
+.site {
+  /* Titlul paginii (fără fotografie): apartamente, blog, pagini simple */
+  --fs-h1: clamp(2rem, 1.3rem + 2.6vw, 3.5rem);
+  /* Titlul lung de pagină (articole, formulare): același corp pe care îl au deja articolele */
+  --fs-h1-long: clamp(1.75rem, 1.2rem + 1.7vw, 2.75rem);
+  /* Titlul mic de card / rând de listă */
+  --fs-h4: 1rem;
+}
+.site :is(.unit-intro, .page-head, .article-head) .display { font-size: var(--fs-h1); }
+.site :is(.ax-head, .nx-head) h1.h2, .site .contact-copy h1.h2 { font-size: var(--fs-h1-long); }
+/* Titlurile de card: nivelul .h3 (20px pe desktop) sau cel mic (16px); spațierea literelor ca la .h3 din sistem */
+.site :is(.lx-row-title, .nx-biz .h3, .other-unit-body .h3) { font-size: var(--fs-h3); letter-spacing: .03em; }
+.site .tech-card .h3 { font-size: var(--fs-h4); letter-spacing: .03em; }
+.site :is(.lx-typo-name, .proof-title) { letter-spacing: .03em; }
+/* Textul de deschidere: corpul .lead peste tot */
+.site .tech-lead, .site .nx-text > p:first-child { font-size: var(--fs-lead); line-height: 1.6; }
+/* Textul mic (15px): o singură interlinie */
+.site :is(.business-tagline, .lx-row-text, .muted, .fact-label, .tech-card p, .feature p) { line-height: 1.6; }
+/* Harta: linie fină, fără umbră grea (regula „linii, nu umbre”) */
+.site .location-visual .location-map, .site .location-map { box-shadow: none; }
+
+/* Butoane: aceeași înălțime pe mobil și desktop; stări de dezactivare și de trimitere în curs */
+@media (max-width: 767px) { .site .btn:not(.btn--sm) { height: 52px; } }
+.site .btn:disabled, .site .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; pointer-events: none; }
+.site .btn[aria-busy="true"] { opacity: .7; cursor: progress; pointer-events: none; }
+.site .btn[aria-busy="true"] .btn-icon { animation: btn-wait 1.1s var(--ease-soft) infinite; }
+@keyframes btn-wait { 50% { transform: translateX(4px); opacity: .4; } }
+.site .btn:focus-visible { outline-offset: 4px; }
+/* Linkul cu săgeată din cardul afacerii: ca celelalte linkuri cu săgeată */
+.site .nx-biz-links .link-arrow { font-size: .875rem; font-weight: 600; text-transform: none; }
+
+/* Mobil: ținte de atingere de minimum 44px și fotografia mare din grilă cu proporția ei înainte să se încarce */
+@media (max-width: 767px) {
+  .site .channels a { min-height: 44px; }
+  .site :is(.ax-head, .nx-head) .eyebrow a { display: inline-flex; align-items: center; min-height: 44px; }
+  .site .photo-grid li:first-child .photo { aspect-ratio: 4 / 3; }
+  .site .check { min-height: 44px; align-items: center; }
+}
+/* Hero-urile interioare (Comunitate, Tehnologie, Spații comerciale): eticheta și subtitlul coral au același halou navy ca pe
+   homepage, pentru fotografiile cu cer deschis */
+.site .hero.on-dark .eyebrow { font-weight: 700; text-shadow: 0 0 1px rgb(20 32 68 / .9), 0 0 4px rgb(20 32 68 / .85), 0 0 10px rgb(20 32 68 / .7), 0 0 22px rgb(20 32 68 / .55); }
+.site .hero.on-dark .eyebrow::before { filter: drop-shadow(0 0 3px rgb(20 32 68 / .9)) drop-shadow(0 0 10px rgb(20 32 68 / .6)); }
+.site .hero.on-dark .hero-sub { text-shadow: 0 0 2px rgb(20 32 68 / .8), 0 0 12px rgb(20 32 68 / .65), 0 0 28px rgb(20 32 68 / .5); }

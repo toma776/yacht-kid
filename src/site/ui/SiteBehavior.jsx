@@ -337,6 +337,7 @@ function init(signal) {
     const data = {lang: form.dataset.lang};
     new FormData(form).forEach((v, k) => { data[k] = v; });
     button.disabled = true;
+    button.setAttribute('aria-busy', 'true');
     try {
       const r = await fetch(form.dataset.endpoint, {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(data)});
       if (!r.ok) throw new Error(String(r.status));
@@ -346,6 +347,7 @@ function init(signal) {
       if (note) note.textContent = note.dataset.error ?? '';
     } finally {
       button.disabled = false;
+      button.removeAttribute('aria-busy');
     }
   }));
 

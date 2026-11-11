@@ -12,7 +12,7 @@
 .site .v2-year-n { font-size: clamp(3rem, 1.8rem + 3.4vw, 5.75rem); font-weight: 300; line-height: .9; letter-spacing: -.02em; color: var(--navy); }
 .site .v2-year li > :is(a, div) { display: grid; grid-template-columns: minmax(0, 1fr) 110px; column-gap: 24px; row-gap: 4px; padding: 6px 0 26px; }
 .site .v2-year li + li > :is(a, div) { padding-top: 22px; border-top: 1px solid var(--line); }
-.site .v2-year b { font-size: clamp(1.125rem, 1rem + .5vw, 1.5rem); font-weight: 700; letter-spacing: .04em; color: var(--navy); }
+.site .v2-year b { font-size: clamp(1.125rem, 1rem + .5vw, 1.5rem); font-weight: 700; letter-spacing: .03em; color: var(--navy); }
 .site .v2-year li span:not(.v2-award-logo) { grid-column: 1; font-size: .9375rem; line-height: 1.55; color: var(--ink-2); }
 .site .v2-award-logo { grid-column: 2; grid-row: 1 / span 2; align-self: center; height: 40px; background: var(--navy); opacity: .5; -webkit-mask: var(--logo) right center / contain no-repeat; mask: var(--logo) right center / contain no-repeat; transition: opacity var(--t) var(--ease); }
 .site .v2-year a:hover b { color: var(--coral-ink); }
