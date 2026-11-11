@@ -328,11 +328,76 @@ function init(signal) {
   document.querySelectorAll('[data-to-top]').forEach(a => on(a, 'click', e => { e.preventDefault(); scrollTo({top: 0, behavior: reduced ? 'auto' : 'smooth'}); }));
 
   // ---------- Formularul: cele cu data-endpoint trimit (testimonialul); restul doar validează până vin cererile din Brain
+  // Erorile stau sub câmpul lor (nu în bulele browserului), cu text clar; datele introduse nu se pierd niciodată.
+  // Telefonul și emailul opționale ([data-one-of]) cer măcar unul dintre ele.
+  const MSG = {
+    ro: {missing: 'Completează acest câmp.', choose: 'Alege o variantă.', name: 'Spune-ne cum te numești.', email: 'Adresa de email nu pare completă (ex. nume@exemplu.ro).',
+      date: 'Alege ziua în care vrei să vii (de azi încolo).', past: 'Alege o zi de azi încolo.', short: n => `Scrie cel puțin ${n} de caractere.`,
+      consent: 'Avem nevoie de acordul tău ca să-ți putem răspunde.', contact: 'Lasă-ne un telefon sau o adresă de email, ca să te putem contacta.'},
+    en: {missing: 'Please fill in this field.', choose: 'Please choose an option.', name: 'Please tell us your name.', email: 'This email address looks incomplete (e.g. name@example.com).',
+      date: 'Choose the day you would like to visit (today or later).', past: 'Choose a day from today onwards.', short: n => `Please write at least ${n} characters.`,
+      consent: 'We need your consent to be able to reply.', contact: 'Leave us a phone number or an email address so we can reach you.'}
+  };
+  const fieldError = (form, name, text) => {
+    const box = form.querySelector(`[data-error-for="${name}"]`);
+    if (box) { box.textContent = text ?? ''; box.hidden = !text; }
+    const controls = name === 'contact' ? form.querySelectorAll('[data-one-of]') : form.querySelectorAll(`[name="${name}"]`);
+    controls.forEach(c => (text ? c.setAttribute('aria-invalid', 'true') : c.removeAttribute('aria-invalid')));
+  };
+  const explain = (el, m) => {
+    const v = el.validity;
+    if (el.type === 'checkbox') return m.consent;
+    if (v.valueMissing) return el.tagName === 'SELECT' ? m.choose : el.type === 'date' ? m.date : el.name === 'name' ? m.name : m.missing;
+    if (v.typeMismatch && el.type === 'email') return m.email;
+    if (v.rangeUnderflow) return m.past;
+    if (v.tooShort) return m.short(el.minLength);
+    return el.validationMessage;
+  };
+  const validate = form => {
+    const m = MSG[form.dataset.lang] ?? MSG.ro;
+    const bad = [];
+    form.querySelectorAll('input:not(.hp), select, textarea').forEach(el => {
+      if (!el.name) return;
+      const ok = el.checkValidity();
+      fieldError(form, el.name, ok ? '' : explain(el, m));
+      if (!ok) bad.push(el);
+    });
+    const pair = [...form.querySelectorAll('[data-one-of]')];
+    if (pair.length) {
+      const none = pair.every(el => !el.value.trim());
+      if (none) { fieldError(form, 'contact', m.contact); bad.push(pair[0]); }
+      else if (!pair.some(el => el.getAttribute('aria-invalid'))) fieldError(form, 'contact', '');
+    }
+    return bad;
+  };
+  document.querySelectorAll('[data-form]').forEach(form => {
+    // La corectare, eroarea câmpului dispare imediat (verificarea completă se face din nou la trimitere)
+    const clear = e => {
+      const el = e.target;
+      if (!el.name || !el.getAttribute('aria-invalid')) return;
+      if (el.checkValidity()) fieldError(form, el.name, '');
+      if (el.dataset.oneOf && el.value.trim()) fieldError(form, 'contact', '');
+    };
+    on(form, 'input', clear);
+    on(form, 'change', clear);
+  });
   document.querySelectorAll('[data-form]').forEach(form => on(form, 'submit', async e => {
     e.preventDefault();
     const note = form.querySelector('[data-form-note]');
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-    if (!form.dataset.endpoint) { if (note) note.textContent = note.dataset.pending ?? ''; return; }
+    const fallback = form.querySelector('[data-form-fallback]');
+    note?.classList.remove('is-done', 'is-error');
+    const bad = validate(form);
+    if (bad.length) {
+      if (note) { note.textContent = note.dataset.invalid ?? ''; note.classList.add('is-error'); }
+      bad[0].focus();
+      return;
+    }
+    // Fără destinație: solicitarea nu pleacă nicăieri; spunem asta deschis și arătăm canalele directe, datele rămân
+    if (!form.dataset.endpoint) {
+      if (note) note.textContent = note.dataset.pending ?? '';
+      if (fallback) fallback.hidden = false;
+      return;
+    }
     const button = form.querySelector('[type="submit"]');
     const data = {lang: form.dataset.lang};
     new FormData(form).forEach((v, k) => { data[k] = v; });
@@ -344,7 +409,7 @@ function init(signal) {
       form.reset();
       if (note) { note.textContent = note.dataset.done ?? ''; note.classList.add('is-done'); }
     } catch {
-      if (note) note.textContent = note.dataset.error ?? '';
+      if (note) { note.textContent = note.dataset.error ?? ''; note.classList.add('is-error'); }
     } finally {
       button.disabled = false;
       button.removeAttribute('aria-busy');

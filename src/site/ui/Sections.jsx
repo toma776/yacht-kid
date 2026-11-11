@@ -446,19 +446,47 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
   const types = form?.fields?.some(x => x.options_from === 'locuinte')
     ? await ctx.query('locuinte', {fields: ['kind', 'price_from'], where: `e.kind != 'comercial'`, order: 'e.price_from'}) : [];  // spațiile comerciale au formularul lor
   const paras = (await rich(ctx, s.text, values)).match(/<p>[\s\S]*?<\/p>/g) ?? [];
+  const en = ctx.lang === 'en', viewing = form?.handle === 'vizionare';
+  // Un canal de contact la alegere: când telefonul și emailul sunt amândouă opționale, măcar unul trebuie completat
+  // (SiteBehavior verifică regula și arată eroarea sub pereche)
+  const byName = Object.fromEntries((form?.fields ?? []).map(x => [x.name, x]));
+  const either = byName.email && byName.phone && !byName.email.required && !byName.phone.required;
+  const lastOfPair = either ? form.fields.filter(x => x.name === 'email' || x.name === 'phone').at(-1).name : null;
+  const optional = <span className="field-opt">{en ? 'optional' : 'opțional'}</span>;
+  // Acordul pentru date: textul rămâne cel din Brain, cu politica de confidențialitate ca legătură
+  const privacy = chrome.footer.find(g => g.legal)?.children?.find(c => /confiden|privacy/i.test(c.href ?? ''))?.href;
+  const consent = (L['acord-date'] ?? '').replace(/(politicii de confidențialitate|privacy policy)/, m => privacy ? `<a href="${privacy}" target="_blank" rel="noopener">${m}</a>` : m);
+  // Fiecare câmp are sub el locul erorii (completat de SiteBehavior, legat prin aria-describedby)
+  const err = name => <p className="field-error" id={`e-${name}`} data-error-for={name} hidden/>;
   const input = (x, l, span) => {
-    const id = `f-${x.name}`, label = `${l?.label ?? x.name}${x.required ? ' *' : ''}`;
-    if (x.type === 'checkbox') return <label key={x.name} className="check span-2"><input type="checkbox" name={x.name} required={x.required}/><span dangerouslySetInnerHTML={{__html: (x.name === 'consent' ? L['acord-date'] : null) ?? l?.label ?? ''}}/></label>;
+    const id = `f-${x.name}`, pair = either && (x.name === 'email' || x.name === 'phone');
+    const described = [pair && 'h-contact', `e-${x.name}`].filter(Boolean).join(' ');
+    const label = <label htmlFor={id}>{l?.label ?? x.name}{x.required ? <span aria-hidden="true"> *</span> : !pair && x.type !== 'checkbox' && <> {optional}</>}</label>;
+    if (x.type === 'checkbox') return <div key={x.name} className="span-2"><label className="check"><input type="checkbox" name={x.name} required={x.required} aria-describedby={`e-${x.name}`}/><span dangerouslySetInnerHTML={{__html: (x.name === 'consent' ? consent : null) || (l?.label ?? '')}}/></label>{err(x.name)}</div>;
     if (x.type === 'select') {
       const opts = x.options_from === 'locuinte' ? types.map(t => t.name) : l?.options ?? [];
-      return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><select id={id} name={x.name} required={x.required} defaultValue={preset && opts.includes(preset) ? preset : ''}><option value="" disabled>{l?.placeholder ?? ''}</option>{opts.map(o => <option key={o}>{o}</option>)}</select></div>;
+      // Opțional: prima variantă („Alegeți…”) se poate păstra; obligatoriu: rămâne doar indicația, nu o alegere
+      return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}>{label}<select id={id} name={x.name} required={x.required} aria-describedby={described} defaultValue={preset && opts.includes(preset) ? preset : ''}><option value="" disabled={x.required}>{l?.placeholder ?? ''}</option>{opts.map(o => <option key={o}>{o}</option>)}</select>{err(x.name)}</div>;
     }
-    if (x.type === 'textarea') return <div key={x.name} className="field span-2"><label htmlFor={id}>{label}</label><textarea id={id} name={x.name} rows={endpoint ? 4 : 3} required={x.required} minLength={endpoint && x.required ? 20 : undefined} maxLength={endpoint ? 2000 : undefined} placeholder={l?.placeholder ?? undefined}/></div>;
+    if (x.type === 'textarea') return <div key={x.name} className="field span-2">{label}<textarea id={id} name={x.name} rows={endpoint ? 4 : 3} required={x.required} minLength={endpoint && x.required ? 20 : undefined} maxLength={endpoint ? 2000 : undefined} placeholder={l?.placeholder ?? undefined} aria-describedby={described}/>{err(x.name)}</div>;
     // Data (vizionarea): de azi încolo
     const min = x.type === 'date' ? new Date().toISOString().slice(0, 10) : undefined;
-    return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} min={min} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;
+    return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}>{label}<input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} min={min} aria-describedby={described} data-one-of={pair ? 'contact' : undefined}
+      autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]} inputMode={x.type === 'tel' ? 'tel' : undefined}/>{err(x.name)}</div>;
   };
-  const en = ctx.lang === 'en', viewing = form?.handle === 'vizionare';
+  // După perechea telefon/email: indicația „unul dintre ele” și eroarea ei
+  const fieldsOf = list => list.flatMap((x, i) => {
+    const el = input(x, labels[x.name], i === 0 && pairs % 2 === 1);
+    if (x.name !== lastOfPair) return [el];
+    return [el, <div key="h-contact" className="span-2 field-pair">
+      <p className="field-hint" id="h-contact">{en ? 'Leave a phone number or an email address, whichever you prefer. One is enough.' : 'Lasă-ne un telefon sau o adresă de email, cum preferi să te contactăm. E suficient unul.'}</p>
+      <p className="field-error" id="e-contact" data-error-for="contact" hidden/>
+    </div>];
+  });
+  // Mesajul după trimitere, când trimiterea va fi activă: vizionarea repetă procesul existent (confirmarea, din form.intro)
+  const done = L[`formular-${form?.handle}-trimis`] ?? (viewing
+    ? `${en ? 'Thank you! We have received your viewing request.' : 'Mulțumim! Am primit solicitarea ta de vizionare.'} ${form?.intro ?? ''}`.trim()
+    : en ? 'Thank you! We have received your message and will get back to you soon.' : 'Mulțumim! Am primit mesajul tău și revenim cât mai curând.');
   // Canalele de contact. Pe pagina de vizionare stau după formular (pe mobil, formularul vine imediat după pași),
   // împreună cu drumul înapoi spre apartamente și spre pagina de contact
   const channels = f && !endpoint && (
@@ -493,13 +521,22 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
           <form className="form-card reveal" style={{'--d': '120ms'}} action={endpoint ?? '#'} method="post" noValidate data-form
             data-endpoint={endpoint} data-lang={ctx.lang}>
             <div className="form-head"><FormTitle className="h3">{L[`formular-${form.handle}`] ?? L['formular-contact'] ?? form.name}</FormTitle>{form.intro && <p className="muted">{form.intro}</p>}</div>
-            <div className="form-grid">{form.fields.map((x, i) => input(x, labels[x.name], i === 0 && pairs % 2 === 1))}</div>
+            <p className="form-required"><span aria-hidden="true">* </span>{en ? 'Required fields; everything else is optional.' : 'Câmpuri obligatorii; restul sunt opționale.'}</p>
+            <div className="form-grid">{fieldsOf(form.fields)}</div>
             {/* Capcana pentru roboți: ascunsă oamenilor, completată doar de scripturi */}
             {endpoint && <input className="hp" type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"/>}
             <div className="form-foot">
               <button className="btn btn--navy" type="submit">{form.submit_label ?? L['trimite']} <span className="btn-icon"><Arrow/></span></button>
-              <p className="form-note muted" role="status" aria-live="polite" data-form-note data-pending={L['formular-in-lucru'] ?? ''}
-                data-done={L[`formular-${form.handle}-trimis`] ?? ''} data-error={L['formular-eroare'] ?? ''}/>
+              <p className="form-note" role="status" aria-live="polite" data-form-note data-pending={L['formular-in-lucru'] ?? ''}
+                data-done={done} data-error={L['formular-eroare'] ?? ''} data-invalid={en ? 'Please check the highlighted fields.' : 'Verifică, te rog, câmpurile marcate.'}/>
+              {/* Formularele care nu trimit încă: canalele directe, arătate doar după încercarea de trimitere */}
+              {!endpoint && f && (
+                <p className="form-fallback" data-form-fallback hidden>
+                  <a className="link-arrow" href={`tel:${f.phone}`}><Icon id="phone" size={16}/>{f.phoneLabel}</a>
+                  <a className="link-arrow" href={f.whatsapp}><Icon id="whatsapp" size={16}/>{L['scrie-ne-whatsapp'] ?? 'WhatsApp'}</a>
+                  <a className="link-arrow" href={`mailto:${f.email}`}><Icon id="mail" size={16}/>{f.email}</a>
+                </p>
+              )}
             </div>
           </form>
         )}

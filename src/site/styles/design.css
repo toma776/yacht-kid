@@ -780,3 +780,26 @@ html.motion .site .reveal.is-in { opacity: 1; }
   .site .lx-typo-data dd { font-size: .875rem; white-space: normal; }
   .site .lx-typo-data dd small { white-space: nowrap; }
 }
+
+/* ---------- 28. Formulare: obligatoriu / opțional, erori lângă câmp, stări după trimitere ----------
+   Erorile în coral închis (AA pe alb), textul lor sub câmp; câmpul greșit primește linia coral. Mesajul general de sub buton
+   rezumă starea (de verificat, trimis, netrimis), iar canalele directe apar doar când formularul nu poate trimite. */
+.site .form-required { margin: -4px 0 18px; font-size: .8125rem; color: var(--ink-3); }
+.site .form-required span { color: var(--coral-ink); }
+.site .field label span[aria-hidden] { color: var(--coral-ink); }
+.site .field-opt { margin-left: 4px; font-size: .9em; font-weight: 500; letter-spacing: .06em; text-transform: none; color: var(--ink-3); opacity: .85; }
+.site .field-hint { font-size: .8125rem; line-height: 1.5; color: var(--ink-3); }
+.site .field-pair { display: grid; gap: 4px; margin-top: -10px; }
+.site .field-error { margin-top: 6px; font-size: .8125rem; font-weight: 500; line-height: 1.45; color: var(--coral-ink); }
+.site .field-error::before { content: '!'; display: inline-grid; place-items: center; width: 16px; height: 16px; margin-right: 8px; border-radius: 50%; background: var(--coral-ink); color: #fff; font-size: .6875rem; font-weight: 700; vertical-align: 1px; }
+.site .field :is(input, select, textarea)[aria-invalid="true"] { border-color: var(--coral-ink); box-shadow: inset 0 -1px 0 var(--coral-ink); }
+.site .check input[aria-invalid="true"] { outline: 2px solid var(--coral-ink); outline-offset: 2px; }
+.site .form-note { color: var(--ink-2); line-height: 1.55; }
+.site .form-note.is-error { color: var(--coral-ink); font-weight: 600; }
+.site .form-note.is-done { color: var(--navy); font-weight: 600; }
+.site .form-foot { align-items: flex-start; }
+.site .form-foot .form-note:not(:empty) { flex: 1 1 260px; padding-top: 4px; }
+.site .form-fallback { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.site .form-fallback .link-arrow svg { color: var(--coral); }
+.site .form-fallback .link-arrow { min-height: 44px; align-items: center; }
+.site .field-pair:has(.field-error:not([hidden])) .field-hint { display: none; }
