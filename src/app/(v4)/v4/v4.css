@@ -1,5 +1,5 @@
 /* YACHT KID · homepage v4
-   Pagina e o grilă de tile-uri: alb și nuanțe de gri, despărțite de o linie navy subțire (1px).
+   Pagina e o grilă de tile-uri: alb și nuanțe de gri, fără linii între ele: formele se citesc prin rosturi înguste.
    Fiecare tile are un singur colț rotunjit, ca planșeele fațadei; colțul și raza vin din V4.jsx (--rad, .k-*). */
 
 @font-face {
@@ -21,11 +21,12 @@
   --ink: #24262E;
   --ink-2: #4E5462;
   --steel: #7D878E;
-  --page: #FBFBFA;
+  --page: #D9DFE3;   /* „sticla” dintre forme */
+  --gap: 6px;
   --w: #FFFFFF;
-  --g1: #F4F5F6;
-  --g2: #EBEEF0;
-  --g3: #DDE2E5;
+  --g1: #F6F7F8;
+  --g2: #EEF1F2;
+  --g3: #E6EAEC;
   --line: 1px;
   --pad: clamp(20px, 2vw, 32px);
   --row: clamp(108px, 8.6vw, 150px);
@@ -50,7 +51,7 @@ body.v4 {
   position: sticky; top: 0; z-index: 20; height: var(--bar);
   display: flex; align-items: center; gap: 28px; padding: 0 clamp(16px, 2.4vw, 36px);
   background: rgba(255, 255, 255, .92); backdrop-filter: blur(14px) saturate(1.2);
-  border-bottom: var(--line) solid var(--navy);
+
 }
 .logo { font-weight: 700; letter-spacing: .22em; color: var(--navy); font-size: 15px; white-space: nowrap; }
 .logo span { font-weight: 400; }
@@ -79,15 +80,15 @@ a:hover .arr, button:hover .arr { transform: translateX(4px); }
 /* ——— Grila de tile-uri ——— */
 .grid {
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-auto-rows: minmax(var(--row), auto); grid-auto-flow: row dense;
+  grid-auto-rows: minmax(var(--row), auto); grid-auto-flow: row dense; gap: var(--gap);
   max-width: 1680px; margin: 0 auto; padding: 24px clamp(12px, 2vw, 32px) 64px;
-  /* liniile dintre tile-uri: fiecare tile are bordura lui, suprapusă cu 1px peste vecin */
-  padding-right: calc(clamp(12px, 2vw, 32px) + var(--line));
+
+
 }
 .tile {
   position: relative; grid-column: span var(--c); grid-row: span var(--r);
-  margin: 0 calc(-1 * var(--line)) calc(-1 * var(--line)) 0;
-  border: var(--line) solid var(--navy); overflow: hidden;
+
+  overflow: hidden;
   padding: var(--pad); display: flex; flex-direction: column; gap: 12px;
   transition: background-color .3s, opacity .7s var(--ease), transform .7s var(--ease);
 }
