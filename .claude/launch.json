@@ -44,6 +44,11 @@
       "port": 3003
     },
     {
+      "name": "yacht-kid-v3",
+      "url": "http://localhost:3002",
+      "port": 3002
+    },
+    {
       "name": "yacht-kid-existing",
       "url": "http://localhost:3001",
       "port": 3001
