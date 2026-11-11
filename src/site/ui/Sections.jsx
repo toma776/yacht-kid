@@ -214,7 +214,8 @@ export async function mapData(ctx, s) {
 
 async function Features({ctx, s, values}) {
   const items = await ctx.links('sectiuni.features', s.id);
-  const comfort = items.length && items.every(f => f.group === 'confort');
+  // Confortul și tehnologia: lista are beneficii din grupul „confort” (pe homepage, alături de avantajele construcției)
+  const comfort = items.some(f => f.group === 'confort');
   if (!comfort) {
     // Textul secțiunii (dacă există): primul paragraf ca lead lângă titlu, restul sub el
     // Compoziție editorială: titlul și fotografia secțiunii rămân în stânga cât se derulează lista; avantajele sunt
@@ -255,7 +256,7 @@ async function Features({ctx, s, values}) {
         <div className="lx-comfort-side">
           {s.image && <figure className="lx-frame lx-comfort-img reveal"><img src={ctx.media(s.image)} alt="" loading="lazy"/></figure>}
           <ol className="lx-spec">
-            {items.map((f, i) => <li key={f.id} className="reveal" style={{'--d': `${(i % 2) * 60}ms`}}><span className="num">{num(i)}</span><h3>{f.title}</h3></li>)}
+            {items.map((f, i) => <li key={f.id} className="reveal" style={{'--d': `${(i % 2) * 60}ms`}}><span className="num">{num(i)}</span><h3>{fillTokens(f.title, values)}</h3>{f.text && <p>{fillTokens(f.text, values)}</p>}</li>)}
           </ol>
         </div>
       </div>

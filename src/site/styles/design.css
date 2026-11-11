@@ -766,3 +766,17 @@ html.motion .site .reveal.is-in { opacity: 1; }
 @media (max-width: 1000px) {
   .site .contact--viewing .contact-grid { grid-template-areas: "copy" "form" "aside"; grid-template-rows: none; }
 }
+/* Lista confortului și tehnologiei: explicația scurtă a beneficiului (unde există), sub titlu */
+.site .lx-spec p { grid-column: 2; margin-top: -6px; font-size: .875rem; line-height: 1.6; color: var(--ink-2); }
+/* Colecția de apartamente pe mobil (a doua secțiune a homepage-ului): fotografie mai scundă, cele trei cifre pe un rând,
+   ca toate tipurile să încapă în câteva ecrane */
+@media (max-width: 560px) {
+  .site .lx-typo-thumb { aspect-ratio: 2 / 1; }
+  .site .lx-typo-data { grid-template-columns: repeat(3, minmax(0, auto)); justify-content: space-between; gap: 8px 12px; }
+  .site .lx-typo-data dt { letter-spacing: .1em; }
+  .site .lx-typo-data dd { font-size: .9375rem; }
+}
+@media (max-width: 420px) {
+  .site .lx-typo-data dd { font-size: .875rem; white-space: normal; }
+  .site .lx-typo-data dd small { white-space: nowrap; }
+}

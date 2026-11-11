@@ -55,3 +55,22 @@
 .site .tech-card::before { content: 'T-' counter(tech, decimal-leading-zero); font-size: .6875rem; font-weight: 600; letter-spacing: .2em; color: var(--coral-ink); }
 .site .tech-points .icon { display: none; }
 .site .tech-points li { font-size: .875rem; letter-spacing: .04em; }
+
+/* Recunoașterea, varianta compactă (homepage): rânduri scurte în loc de anii-numeral mari; fiecare rând duce la articol */
+.site .v2-awards--compact { padding-block: clamp(56px, 6vw, 96px); }
+.site .v2-awards--compact .v2-awards-grid > header { position: static; }
+.site .v2-list { border-top: 1px solid var(--navy); }
+.site .v2-list li > :is(a, div) { display: grid; grid-template-columns: 56px minmax(0, 1fr) 96px 18px; align-items: center; gap: 4px 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.site .v2-list-year { font-size: .8125rem; font-weight: 600; letter-spacing: .1em; color: var(--coral-ink); }
+.site .v2-list-copy { display: grid; gap: 2px; }
+.site .v2-list-copy b { font-size: 1rem; font-weight: 700; letter-spacing: .03em; line-height: 1.35; color: var(--navy); }
+.site .v2-list-copy span { font-size: .875rem; line-height: 1.5; color: var(--ink-2); }
+.site .v2-list .v2-award-logo { grid-column: auto; grid-row: auto; height: 32px; }
+.site .v2-list-arrow { width: 16px; height: 16px; color: var(--coral); transition: transform var(--t) var(--ease); }
+.site .v2-list a:hover b { color: var(--coral-ink); }
+.site .v2-list a:hover .v2-award-logo { opacity: .9; }
+.site .v2-list a:hover .v2-list-arrow { transform: translateX(3px); }
+@media (max-width: 560px) {
+  .site .v2-list li > :is(a, div) { grid-template-columns: 44px minmax(0, 1fr) 18px; }
+  .site .v2-list .v2-award-logo { display: none; }
+}
