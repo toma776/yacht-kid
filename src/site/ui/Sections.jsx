@@ -79,7 +79,7 @@ async function Hero({ctx, s, values, next, chrome}) {
           : s.image && <img src={ctx.media(s.image)} srcSet={ctx.srcset(s.image)} sizes="100vw" alt="" fetchPriority="high"/>}
       </div>
       <div className="hero-inner wrap">
-        {s.eyebrow && <p className="status reveal"><span className="status-dot"/>{fillTokens(s.eyebrow, values)}</p>}
+        {s.eyebrow && <p className="eyebrow reveal">{fillTokens(s.eyebrow, values)}</p>}
         <h1 className="display hero-title reveal" id="hero-title" style={{'--d': '80ms'}}><span className="mark">{first}</span> {rest.join(' ')}</h1>
         <div className="hero-foot">
           {s.text && <p className="subhead hero-sub reveal" style={{'--d': '160ms'}}>{fillTokens(strip(s.text), values)}</p>}
