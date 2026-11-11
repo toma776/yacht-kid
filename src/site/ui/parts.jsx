@@ -13,6 +13,15 @@ export async function buttons(ctx, s, values) {
 }
 export const Btn = ({b, cls = 'btn', icon = 'arrow'}) => b?.href ? <a className={cls} href={b.href} {...(b.video ? {'data-video-open': ''} : {})}>{b.label} <span className="btn-icon"><Icon id={b.video ? 'play' : icon}/></span></a> : null;
 
+// Firul de navigare al paginilor interioare (apartamente, vizionare, contact): drumul înapoi, ultimul pas e pagina curentă
+export const Crumbs = ({items, lang}) => (
+  <nav className="crumbs" aria-label={lang === 'en' ? 'Breadcrumb' : 'Unde te afli'}>
+    <ol>{items.filter(x => x.label).map((x, i) => <li key={i}>{x.href ? <a href={x.href}>{x.label}</a> : <span aria-current="page">{x.label}</span>}</li>)}</ol>
+  </nav>
+);
+// Adresa paginii de contact din meniul antetului (cealaltă țintă a „Contact”, nu butonul de vizionare)
+export const contactPage = chrome => chrome.header.find(i => /\/contact\/$/.test(i.href ?? ''))?.href ?? null;
+
 // h1: secțiunea care deschide o pagină fără hero (Contact) poartă titlul paginii
 export const Head = ({s, values, id, cls = '', h1 = false}) => {
   const H = h1 ? 'h1' : 'h2';

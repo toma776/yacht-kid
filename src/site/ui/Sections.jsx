@@ -6,7 +6,7 @@ import {unitCard} from '../chrome.mjs';
 import Image from 'next/image';
 import {Icon} from './Icons.jsx';
 import LocationMap from './LocationMap.jsx';
-import {strip, num, Arrow, buttons, Btn, Head, mediaVideo} from './parts.jsx';
+import {strip, num, Arrow, buttons, Btn, Head, mediaVideo, Crumbs, contactPage} from './parts.jsx';
 import {composition} from './Compositions.jsx';
 
 // Pictograma unui avantaj, după cuvintele din titlu (desenele sunt în sprite, titlurile în Brain)
@@ -312,9 +312,13 @@ async function Collection({ctx, s, values}) {
 // Galeria cu mai mult de trei fotografii: grilă, prima mai mare; un click deschide fotografia mare (dialog, cu
 // înainte/înapoi), ca lightbox-ul de pe site-ul vechi
 // limit: câte fotografii stau în grilă (restul doar în lightbox, cu butonul „Toate fotografiile”)
-export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel, tone = 'bg-paper'}) {
+// footer: acțiunile de sub grilă (pagina unui apartament), pe același rând cu „Toate fotografiile”
+export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel, tone = 'bg-paper', footer = null}) {
   const list = imgs.map(m => ({src: ctx.media(m.id), alt: m.alt ?? ''}));
   const shown = list.slice(0, limit);
+  const en = ctx.lang === 'en';
+  // Eticheta fiecărei fotografii: ce arată (alt) și locul ei în galerie
+  const nth = i => `${en ? 'Open photo' : 'Deschide fotografia'} ${i + 1} ${en ? 'of' : 'din'} ${list.length}`;
   return (
     <section className={`photos floor ${tone} slab`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap">
@@ -322,29 +326,38 @@ export function PhotoGrid({ctx, s, values, imgs, limit = Infinity, allLabel, ton
         <ul className="photo-grid">
           {shown.map((p, i) => (
             <li key={i} className="reveal" style={{'--d': `${(i % 4) * 60}ms`}}>
-              <button type="button" className="frame photo" data-lightbox-open={i} aria-label={p.alt || `${i + 1} / ${list.length}`}>
-                <img src={p.src} alt={p.alt} loading="lazy"/>
+              <button type="button" className="frame photo" data-lightbox-open={i} aria-label={p.alt ? `${nth(i)}: ${p.alt}` : nth(i)}>
+                <img src={p.src} alt="" loading="lazy"/>
               </button>
             </li>
           ))}
         </ul>
-        {list.length > shown.length && <button type="button" className="btn btn--ghost photos-all" data-lightbox-open={shown.length}>{allLabel ?? 'Toate fotografiile'} ({list.length}) <span className="btn-icon"><Arrow/></span></button>}
+        {(list.length > shown.length || footer) && (
+          <div className="photos-foot">
+            {list.length > shown.length && <button type="button" className="btn btn--ghost photos-all" data-lightbox-open={shown.length}>{allLabel ?? 'Toate fotografiile'} ({list.length}) <span className="btn-icon"><Arrow/></span></button>}
+            {footer}
+          </div>
+        )}
       </div>
-      <Lightbox list={list} label={s.heading}/>
+      <Lightbox list={list} label={s.heading} lang={ctx.lang}/>
     </section>
   );
 }
 
-// Fotografia mare, cu înainte/înapoi; SiteBehavior o leagă de butoanele [data-lightbox-open] din aceeași secțiune
-export const Lightbox = ({list, label}) => (
-  <dialog className="lightbox" data-lightbox={JSON.stringify(list)} aria-label={label ?? ''}>
-    <button className="dialog-close" type="button" data-lightbox-close aria-label="×"><Icon id="close" size={24}/></button>
-    <button className="lightbox-nav lightbox-prev" type="button" data-lightbox-step="-1" aria-label="←"><Arrow/></button>
-    <img alt="" data-lightbox-img/>
-    <button className="lightbox-nav lightbox-next" type="button" data-lightbox-step="1" aria-label="→"><Arrow/></button>
-    <p className="lightbox-count num" data-lightbox-count/>
-  </dialog>
-);
+// Fotografia mare, cu înainte/înapoi (butoane, săgețile tastaturii) și Esc; SiteBehavior o leagă de butoanele
+// [data-lightbox-open] din aceeași secțiune. Numărătoarea e anunțată cititoarelor de ecran la fiecare pas
+export const Lightbox = ({list, label, lang}) => {
+  const en = lang === 'en';
+  return (
+    <dialog className="lightbox" data-lightbox={JSON.stringify(list)} aria-label={label ?? (en ? 'Gallery' : 'Galerie')}>
+      <button className="dialog-close" type="button" data-lightbox-close aria-label={en ? 'Close gallery' : 'Închide galeria'}><Icon id="close" size={24}/></button>
+      <button className="lightbox-nav lightbox-prev" type="button" data-lightbox-step="-1" aria-label={en ? 'Previous photo' : 'Fotografia anterioară'}><Arrow/></button>
+      <img alt="" data-lightbox-img/>
+      <button className="lightbox-nav lightbox-next" type="button" data-lightbox-step="1" aria-label={en ? 'Next photo' : 'Fotografia următoare'}><Arrow/></button>
+      <p className="lightbox-count num" data-lightbox-count aria-live="polite"/>
+    </dialog>
+  );
+};
 
 // Banda îngustă: fotografii pătrate pe un rând, în coloana de conținut a paginii (aliniată cu secțiunile din jur).
 // Se derulează de vizitator (degetul, rotița, săgețile), cu opriri pe fiecare fotografie; miniaturile vin
@@ -371,7 +384,7 @@ function PhotoStrip({ctx, s, values, imgs}) {
           <button type="button" className="strip-btn" data-strip-step="1" aria-label="→"><Arrow/></button>
         </div>
       </div>
-      <Lightbox list={list} label={label}/>
+      <Lightbox list={list} label={label} lang={ctx.lang}/>
     </section>
   );
 }
@@ -444,10 +457,25 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
     const min = x.type === 'date' ? new Date().toISOString().slice(0, 10) : undefined;
     return <div key={x.name} className={`field ${span ? 'span-2' : ''}`}><label htmlFor={id}>{label}</label><input id={id} name={x.name} type={x.type ?? 'text'} required={x.required} min={min} autoComplete={{name: 'name', email: 'email', phone: 'tel', company: 'organization'}[x.name]}/></div>;
   };
+  const en = ctx.lang === 'en', viewing = form?.handle === 'vizionare';
+  // Canalele de contact. Pe pagina de vizionare stau după formular (pe mobil, formularul vine imediat după pași),
+  // împreună cu drumul înapoi spre apartamente și spre pagina de contact
+  const channels = f && !endpoint && (
+    <dl className="channels reveal" style={{'--d': '200ms'}}>
+      <div><dt>Email</dt><dd><a href={`mailto:${f.email}`}><Icon id="mail" size={20}/>{f.email}</a></dd></div>
+      <div><dt>{L.telefon}</dt><dd><a href={`tel:${f.phone}`}><Icon id="phone" size={20}/>{f.phoneLabel}</a></dd></div>
+      <div><dt>WhatsApp</dt><dd><a href={f.whatsapp}><Icon id="whatsapp" size={20}/>{L['scrie-ne-whatsapp']}</a></dd></div>
+      <div><dt>{L.adresa}</dt><dd><span><Icon id="pin" size={20}/>{f.address}</span></dd></div>
+    </dl>
+  );
+  const contactHref = contactPage(chrome);
+  // Titlul formularului: sub titlul secțiunii (h2) sau, pe pagina care începe cu formularul (h1), un nivel mai jos
+  const FormTitle = first ? 'h2' : 'h3';
   return (
-    <section className="contact floor bg-porcelain" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
+    <section className={`contact floor bg-porcelain ${viewing ? 'contact--viewing' : ''}`} id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>
       <div className="wrap contact-grid">
         <div className="contact-copy">
+          {first && <Crumbs lang={ctx.lang} items={[{label: L['pagina-principala'] ?? 'Pagina principală', href: chrome.home}, {label: viewing ? (L['programeaza-vizionare'] ?? 'Programează o vizionare') : s.eyebrow}]}/>}
           <Head s={s} values={values} id={`t-${s.id}`} h1={first}/>
           {paras[0] && <p className="lead reveal" style={{'--d': '160ms'}}>{strip(paras[0])}</p>}
           {/* Vizionarea: procesul în trei pași; confirmarea folosește exact textul formularului (form.intro), fără promisiuni noi */}
@@ -458,19 +486,12 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
               <li><b>{L['vizionare-pas-3'] ?? (ctx.lang === 'en' ? 'Visit YACHT KID' : 'Vizitezi ansamblul')}</b><span>{(L['birou-vanzari'] ?? 'Birou de vânzări')}: {f?.address}</span></li>
             </ol>
           )}
-          {f && !endpoint && (
-            <dl className="channels reveal" style={{'--d': '200ms'}}>
-              <div><dt>Email</dt><dd><a href={`mailto:${f.email}`}><Icon id="mail" size={20}/>{f.email}</a></dd></div>
-              <div><dt>{L.telefon}</dt><dd><a href={`tel:${f.phone}`}><Icon id="phone" size={20}/>{f.phoneLabel}</a></dd></div>
-              <div><dt>WhatsApp</dt><dd><a href={f.whatsapp}><Icon id="whatsapp" size={20}/>{L['scrie-ne-whatsapp']}</a></dd></div>
-              <div><dt>{L.adresa}</dt><dd><span><Icon id="pin" size={20}/>{f.address}</span></dd></div>
-            </dl>
-          )}
+          {!viewing && channels}
         </div>
         {form && (
           <form className="form-card reveal" style={{'--d': '120ms'}} action={endpoint ?? '#'} method="post" noValidate data-form
             data-endpoint={endpoint} data-lang={ctx.lang}>
-            <div className="form-head"><h3 className="h3">{L[`formular-${form.handle}`] ?? L['formular-contact'] ?? form.name}</h3>{form.intro && <p className="muted">{form.intro}</p>}</div>
+            <div className="form-head"><FormTitle className="h3">{L[`formular-${form.handle}`] ?? L['formular-contact'] ?? form.name}</FormTitle>{form.intro && <p className="muted">{form.intro}</p>}</div>
             <div className="form-grid">{form.fields.map((x, i) => input(x, labels[x.name], i === 0 && pairs % 2 === 1))}</div>
             {/* Capcana pentru roboți: ascunsă oamenilor, completată doar de scripturi */}
             {endpoint && <input className="hp" type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"/>}
@@ -480,6 +501,15 @@ export async function ContactForm({ctx, s, values, chrome, preset, first = false
                 data-done={L[`formular-${form.handle}-trimis`] ?? ''} data-error={L['formular-eroare'] ?? ''}/>
             </div>
           </form>
+        )}
+        {viewing && (
+          <div className="contact-aside">
+            {channels}
+            <nav className="contact-more reveal" aria-label={en ? 'Continue browsing' : 'Continuă'}>
+              <a className="link-arrow" href={`${chrome.home}#apartamente`}>{en ? 'See the apartments' : 'Vezi apartamentele'} <Arrow/></a>
+              {contactHref && <a className="link-arrow" href={contactHref}>{en ? 'Contact page' : 'Pagina de contact'} <Arrow/></a>}
+            </nav>
+          </div>
         )}
       </div>
     </section>

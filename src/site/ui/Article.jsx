@@ -147,7 +147,7 @@ function NewsArticle({ctx, rec, title, html, faq, category, categoryHref, minute
             </aside>
           </div>
         )}
-        {photos.length > 0 && <Lightbox list={photos} label={title}/>}
+        {photos.length > 0 && <Lightbox list={photos} label={title} lang={ctx.lang}/>}
       </section>
       {faq && <FaqBlock faq={faq} en={ctx.lang === 'en'}/>}
       <EndBlock others={others} L={L} viewHref={viewHref}/>

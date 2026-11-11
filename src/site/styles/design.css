@@ -721,3 +721,48 @@ html.motion .site .reveal.is-in { opacity: 1; }
   .site .hero.on-dark .hero-actions { width: 100%; }
   .site .hero.on-dark .hero-actions .btn { flex: 1 1 100%; justify-content: center; }
 }
+
+/* ---------- 27. Paginile interioare: apartamente și vizionare ----------
+   Firul de navigare (drumul înapoi), cuprinsul paginii apartamentului, acțiunile repetate după galerie, iar pe pagina
+   de vizionare formularul imediat după pași, cu canalele și legăturile mai departe sub el */
+.site .crumbs { margin-bottom: clamp(16px, 2vw, 28px); font-size: .8125rem; color: var(--ink-3); }
+.site .crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.site .crumbs li { display: inline-flex; align-items: center; gap: 10px; }
+.site .crumbs li + li::before { content: '/'; color: var(--line-strong); }
+.site .crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--ink-2); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: color var(--t-fast) var(--ease), text-decoration-color var(--t-fast) var(--ease); }
+.site .crumbs a:hover { color: var(--navy); text-decoration-color: var(--coral); }
+.site .crumbs [aria-current] { color: var(--navy); font-weight: 600; }
+.site :is(.contact-copy, .unit-intro-copy) .crumbs { margin-bottom: 0; }
+
+/* Specificațiile: pe mobil două coloane egale, eticheta deasupra valorii; „+ TVA” rămâne lângă preț */
+.site .unit-facts dt { font-size: var(--fs-label); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+.site .unit-facts dd small { margin-left: 6px; font-size: .5em; font-weight: 600; letter-spacing: .06em; white-space: nowrap; }
+/* Cuprinsul paginii: legături text spre secțiuni, sub specificații */
+.site .unit-index { margin-top: clamp(20px, 2vw, 28px); }
+.site .unit-index ul { display: flex; flex-wrap: wrap; gap: 4px clamp(18px, 2.4vw, 36px); }
+.site .unit-index a { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; font-weight: 600; letter-spacing: .04em; color: var(--navy); background: linear-gradient(var(--coral), var(--coral)) 0 calc(100% - 8px)/0 1px no-repeat; transition: background-size var(--t) var(--ease); }
+.site .unit-index a:hover, .site .unit-index a:focus-visible { background-size: 100% 1px; }
+.site .unit-page :is(#caracteristici, #galerie, #alte-apartamente, #contact) { scroll-margin-top: 80px; }
+
+/* Sub galerie: „Toate fotografiile” la stânga, cele două acțiuni la dreapta */
+.site .photos-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: var(--stack-4); }
+.site .photos-foot .photos-all { margin-top: 0; }
+.site .unit-actions--end { margin: 0; }
+@media (max-width: 767px) {
+  .site .unit-actions { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
+  .site .unit-actions .btn { width: 100%; justify-content: center; }
+  .site .photos-foot { flex-direction: column; align-items: stretch; }
+  .site .photos-foot .photos-all { justify-content: center; }
+  .site .unit-index ul { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+  .site .unit-index li { flex: none; }
+}
+
+/* Vizionarea: pe desktop canalele rămân în coloana din stânga, sub pași; pe mobil vin după formular */
+.site .contact--viewing .contact-grid { grid-template-areas: "copy form" "aside form"; grid-template-rows: auto 1fr; }
+.site .contact--viewing .contact-copy { grid-area: copy; }
+.site .contact--viewing .form-card { grid-area: form; }
+.site .contact--viewing .contact-aside { grid-area: aside; display: grid; gap: var(--stack-4); align-content: start; }
+.site .contact-more { display: flex; flex-wrap: wrap; gap: 12px 32px; }
+@media (max-width: 1000px) {
+  .site .contact--viewing .contact-grid { grid-template-areas: "copy" "form" "aside"; grid-template-rows: none; }
+}

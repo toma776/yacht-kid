@@ -1,14 +1,15 @@
 // Pagina unui tip de locuință (2, 3, 4 camere, duplex), construită din Brain, în ordinea paginii vechi, dar așezată nou:
-//   antet în două coloane (titlu, introducere, întreținerea, butoane | coperta) și rândul de caracteristici;
-//   descrierea lângă video (locuinte.video; fără video, o fotografie din galerie);
-//   galeria (primele 9 în grilă, toate în lightbox); celelalte tipuri de locuințe, cu fotografie și buton;
-//   formularul de contact (cu tipul paginii ales deja) și ultimele articole.
+//   firul de navigare; antet în două coloane (titlu, introducere, întreținerea, butoane | coperta), specificațiile
+//   și cuprinsul paginii; descrierea lângă video (locuinte.video; fără video, o fotografie din galerie);
+//   galeria (primele 9 în grilă, toate în lightbox) urmată de aceleași două acțiuni; celelalte tipuri de locuințe;
+//   formularul de contact (cu tipul paginii ales deja).
 // Spațiile comerciale au secțiuni proprii (pagină compusă) și nu trec pe aici.
 import {formatMoney, formatRange} from '../../registry/langs.mjs';
 import {rich, fillTokens} from '../rich.mjs';
 import {unitCard} from '../chrome.mjs';
 import {Icon} from './Icons.jsx';
 import {ContactForm, PhotoGrid} from './Sections.jsx';
+import {Crumbs} from './parts.jsx';
 
 const Arrow = () => <Icon id="arrow"/>;
 
@@ -34,31 +35,51 @@ export async function UnitPage({ctx, rec, title, chrome}) {
     .map(t => unitCard(ctx, t.id, L)))).filter(Boolean);
   const [form] = await ctx.query('formulare', {fields: ['handle'], where: `e.handle = 'contact'`, limit: 1});
   const side = video ? null : gallery[1] ?? gallery[0];
+  const en = lang === 'en';
+  // Cele două acțiuni ale paginii, aceleași peste tot: oferta (formularul de la final, cu tipul ales deja) și vizionarea
+  // (pagina cu formularul, aceeași țintă ca în meniu și în subsol)
+  const viewHref = chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref;
+  const actions = cls => (
+    <div className={`unit-actions ${cls ?? ''}`}>
+      <a className="btn" href="#contact">{L['solicita-oferta']} <span className="btn-icon"><Arrow/></span></a>
+      <a className="btn btn--ghost" href={viewHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>
+    </div>
+  );
+  // Cuprinsul paginii: doar secțiunile care există pe pagina asta
+  const index = [
+    ['caracteristici', L.caracteristici ?? 'Caracteristici'],
+    gallery.length > 0 && ['galerie', `${L.galerie ?? 'Galerie'} (${gallery.length})`],
+    others.length > 0 && ['alte-apartamente', L['alte-apartamente'] ?? 'Alte apartamente YACHT KID'],
+    form && ['contact', 'Contact']
+  ].filter(Boolean);
 
   return (
     <div className="unit-page">
       <section className="unit-intro wrap">
         <div className="unit-intro-copy">
+          <Crumbs lang={lang} items={[{label: L['pagina-principala'] ?? 'Pagina principală', href: chrome.home}, {label: L.apartamente ?? 'Apartamente', href: `${chrome.home}#apartamente`}, {label: title}]}/>
           <p className="eyebrow">{L.apartamente ?? 'Apartamente'}</p>
           <h1 className="display">{title}</h1>
           {rec.intro && <p className="lead">{fillTokens(rec.intro, values)}</p>}
           {values.intretinere && <p className="unit-pill"><Icon id="maintenance" className="icon"/>{L['intretinere-doar'] ?? 'Mentenanță de la doar'} <b>{values.intretinere}</b></p>}
-          <div className="unit-actions">
-            <a className="btn" href="#contact">{L['solicita-oferta']} <span className="btn-icon"><Arrow/></span></a>
-            {/* Al doilea buton: vizionarea (pagina cu formularul), aceeași țintă ca în meniu și în subsol; video-ul rămâne în Despre */}
-            <a className="btn btn--ghost" href={chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <span className="btn-icon"><Icon id="calendar"/></span></a>
-          </div>
+          {actions()}
         </div>
         {rec.hero_image && <figure className="frame frame--band unit-cover"><img src={ctx.media(rec.hero_image)} srcSet={ctx.srcset(rec.hero_image)} sizes="(max-width: 1000px) 100vw, 45vw" alt={title} fetchPriority="high"/></figure>}
       </section>
 
       <div className="wrap">
-        <dl className="unit-facts" style={{'--n': facts(rec, lang, L).length}}>
-          {facts(rec, lang, L).map(([k, label, v, note]) => <div key={k}><dt>{label}</dt><dd className="num">{v}{note && <small>{note}</small>}</dd></div>)}
+        <h2 className="sr-only" id="unit-facts-title">{en ? 'Specifications' : 'Specificații'}</h2>
+        <dl className="unit-facts" style={{'--n': facts(rec, lang, L).length}} aria-labelledby="unit-facts-title">
+          {facts(rec, lang, L).map(([k, label, v, note]) => <div key={k} data-fact={k}><dt>{label}</dt><dd className="num">{v}{note && <small>{note}</small>}</dd></div>)}
         </dl>
+        {index.length > 1 && (
+          <nav className="unit-index" aria-label={en ? 'On this page' : 'Pe această pagină'}>
+            <ul>{index.map(([id, label]) => <li key={id}><a href={`#${id}`}>{label}</a></li>)}</ul>
+          </nav>
+        )}
       </div>
 
-      <section className="unit-about floor bg-paper slab" aria-labelledby="unit-about-title">
+      <section className="unit-about floor bg-paper slab" id="caracteristici" aria-labelledby="unit-about-title">
         <div className="wrap unit-about-grid">
           <div>
             <p className="eyebrow reveal">{L.caracteristici ?? 'Caracteristici'}</p>
@@ -81,11 +102,12 @@ export async function UnitPage({ctx, rec, title, chrome}) {
       </section>
 
       {/* Fundalurile alternează: galeria e banda gri dintre secțiunile albe */}
+      {/* După galerie, aceleași două acțiuni: următorul pas, fără să mai cauți butoanele de sus */}
       {gallery.length > 0 && PhotoGrid({ctx, values, imgs: gallery, limit: 9, allLabel: L['toate-fotografiile'], tone: 'bg-porcelain',
-        s: {id: 'unit-galerie', anchor: 'galerie', eyebrow: L.galerie ?? 'Galerie', heading: title}})}
+        s: {id: 'unit-galerie', anchor: 'galerie', eyebrow: L.galerie ?? 'Galerie', heading: title}, footer: actions('unit-actions--end')})}
 
       {others.length > 0 && (
-        <section className="unit-others floor bg-paper slab" aria-labelledby="unit-others-title">
+        <section className="unit-others floor bg-paper slab" id="alte-apartamente" aria-labelledby="unit-others-title">
           <div className="wrap">
             <div className="section-head section-head--split">
               <div><p className="eyebrow reveal">{L.apartamente ?? 'Apartamente'}</p><h2 className="h2 ruled reveal" id="unit-others-title">{L['alte-apartamente'] ?? 'Alte apartamente YACHT KID'}</h2></div>
