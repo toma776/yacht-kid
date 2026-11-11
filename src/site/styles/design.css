@@ -716,3 +716,8 @@ html.motion .site .reveal.is-in { opacity: 1; }
 .site .hero.on-dark .eyebrow { font-weight: 700; text-shadow: 0 0 1px rgb(20 32 68 / .9), 0 0 4px rgb(20 32 68 / .85), 0 0 10px rgb(20 32 68 / .7), 0 0 22px rgb(20 32 68 / .55); }
 .site .hero.on-dark .eyebrow::before { filter: drop-shadow(0 0 3px rgb(20 32 68 / .9)) drop-shadow(0 0 10px rgb(20 32 68 / .6)); }
 .site .hero.on-dark .hero-sub { text-shadow: 0 0 2px rgb(20 32 68 / .8), 0 0 12px rgb(20 32 68 / .65), 0 0 28px rgb(20 32 68 / .5); }
+/* Hero-urile interioare pe mobil: butoanele pe toată lățimea, unul sub altul, ca pe homepage */
+@media (max-width: 767px) {
+  .site .hero.on-dark .hero-actions { width: 100%; }
+  .site .hero.on-dark .hero-actions .btn { flex: 1 1 100%; justify-content: center; }
+}
