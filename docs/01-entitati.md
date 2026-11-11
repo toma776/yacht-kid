@@ -102,6 +102,8 @@ Prețul e informația cea mai sensibilă de pe site, așa că tipul are `approva
 
 **Afacerile găsite:** MOB – Ministry of Beauty, AMCOR – Complete Dentistry, FABRIQ (Specialty Coffee & Gin Bar), Froo, Florit Hot Pilates, Cabinetul Aura Pavel, TC Joyeria, Ghost Agency. Ultimele două nu au articol.
 
+**Vitrinele afacerilor (11.11.2026):** afacerile au ieșit din blog. O afacere cu slug are pagina ei sub Spații comerciale (`/spatii-comerciale/<afacere>/`, EN `/en/commercial-spaces/<afacere>/`; macheta în `src/site/ui/Business.jsx`): copertă, poveste, „ce găsești aici”, citat, galerie, vizită, vecini și o bandă pentru următoarea afacere, cu cifrele spațiilor comerciale. Conținutul celor 6 afaceri cu articol a fost mutat din articole (`scripts/afaceri-vitrine.mjs`), articolele sunt arhivate, iar adresele lor fac 301 spre vitrine. Relația `articole → afaceri` rămâne în date (o scrie importul), dar site-ul nu o mai folosește.
+
 Pe homepage, lista „cafenea, magazin alimentar, salon, clinică stomatologică **în curs de deschidere**, studio de hot pilates” e scrisă de mână și a rămas în urmă: AMCOR e anunțat ca deschis din februarie 2025. În Brain, lista se generează din `afaceri` (dependență `query`), cu domeniul fiecărei afaceri.
 
 **Testimoniale:**

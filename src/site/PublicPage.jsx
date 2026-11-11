@@ -15,6 +15,7 @@ import {Sections, sectionsOf, PostList} from './ui/Sections.jsx';
 import SiteBehavior from './ui/SiteBehavior.jsx';
 import {Article} from './ui/Article.jsx';
 import {UnitPage} from './ui/Unit.jsx';
+import {BusinessPage} from './ui/Business.jsx';
 
 
 export const pathFrom = (lang, segments = []) => localPath(lang, ...segments.map(decodeURIComponent));
@@ -27,6 +28,9 @@ async function Body({ctx, kind, rec, values, chrome}) {
     case 'locuinte':
       // Tipurile de locuințe: antet, caracteristici, descriere cu video, galerie, celelalte tipuri, contact, articole
       return <UnitPage ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
+    case 'afaceri':
+      // Vitrina afacerii, sub Spații comerciale: coperta, povestea, oferta, galeria, vizita, banda pentru următoarea afacere
+      return <BusinessPage ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
     case 'articole':
       // Macheta articolelor: cuprins, secțiuni numerotate, întrebări frecvente în acordeon, sidebar (ui/Article.jsx)
       return <Article ctx={ctx} rec={rec} title={title} chrome={chrome}/>;
@@ -67,7 +71,8 @@ export async function renderPublic(lang, segments) {
   const sections = ['pagini', 'locuinte'].includes(hit.key) ? await sectionsOf(ctx, hit.key, hit.id) : [];
   const composed = sections.length > 0;
   // Fără hero, antetul e opac și conținutul coboară sub el de la prima randare (nu abia după JS)
-  const hero = sections[0]?.kind === 'hero';
+  // (vitrina unei afaceri are și ea copertă pe toată lățimea)
+  const hero = sections[0]?.kind === 'hero' || hit.key === 'afaceri';
   // Paginile tipurilor de apartamente au secțiunile cu colțuri drepte (fără Spații comerciale, tot un tip de locuință)
   const unitPage = hit.key === 'locuinte' && rec?.kind !== 'comercial';
   const page = (

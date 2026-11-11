@@ -12,7 +12,7 @@ function init(signal) {
   // oprite: parallax pe straturi, valuri care curg, capitole care se schimbă singure, antet care se ascunde
   const reduced = true;
   const header = document.querySelector('[data-header]');
-  const hero = document.querySelector('.hero, .hero-card, .lx-hero');
+  const hero = document.querySelector('.hero, .hero-card, .lx-hero, .biz-hero');
   if (!header) return () => {};
 
   // ---------- Antetul: bandă albă de la început, pe toate paginile (rămâne mereu pe ecran).

@@ -583,11 +583,8 @@ async function Businesses({ctx, s, values}) {
   const list = await ctx.within(`Afaceri (${s.id})`, s.business_filter === 'membri-card' ? 'partenerii Community Card' : 'toate afacerile deschise', () =>
     ctx.query('afaceri', {scope: `sectiuni:${s.id}`, where: `e.state = 'deschis'${s.business_filter === 'membri-card' ? ' AND e.card_member = 1' : ''}`,
       order: 'e.id', limit: s.limit}));
-  const cards = await Promise.all(list.map(async b => {
-    const [post] = await ctx.query('articole', {scope: `afaceri:${b.id}`, order: 'e.published_at DESC', limit: 1,
-      where: 'EXISTS (SELECT 1 FROM rel_posts_businesses r WHERE r.src_id = e.id AND r.dst_id = ?)', args: [b.id]});
-    return {b, href: post ? await ctx.href('articole', post.id) : null};
-  }));
+  // Cardul duce la vitrina afacerii (sub Spații comerciale); fără vitrină, cardul nu e link
+  const cards = await Promise.all(list.map(async b => ({b, href: await ctx.href('afaceri', b.id)})));
   const [b1] = await buttons(ctx, s, values);
   return (
     <section className="businesses floor bg-paper slab" id={s.anchor || undefined} aria-labelledby={`t-${s.id}`}>

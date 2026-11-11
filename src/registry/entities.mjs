@@ -20,6 +20,8 @@ const SEO = [
 // ID-ul din WordPress diferă pe limbă (pagina RO 42, perechea EN 473), deci stă pe traducere.
 const LEGACY = {key: 'legacy_id', label: 'ID în site-ul vechi', type: 'int', intern: true, readonly: true, ...T};
 const slugPath = (...base) => (rec, lang, tr) => (tr?.slug ? localPath(lang, ...base, tr.slug) : null);
+// Slug-ul paginii Spații comerciale pe limbi: sub el stau paginile afacerilor din comunitate
+export const COMMERCIAL_BASE = {ro: 'spatii-comerciale', en: 'commercial-spaces'};
 
 export const CATEGORIES = [
   {key: 'proiect', label: 'Proiect'},
@@ -226,20 +228,38 @@ export const ENTITIES = [
     key: 'afaceri', table: 'businesses', label: 'Afaceri din comunitate', one: 'Afacere',
     category: 'comunitate', color: '#d0643b', icon: 'store', thumb: 'image', mentions: true, aliases: 'aliases', assume: 'A8',
     title: 'name',
-    linkFields: ['name', 'image', 'tagline', 'state'],
+    // Vitrina afacerii stă sub pagina Spații comerciale, nu în blog. Fără slug într-o limbă, afacerea are doar card, nu pagină.
+    // Prima parte a adresei e slug-ul paginii Spații comerciale (locuinte, fel „comercial”); dacă acela se schimbă, se schimbă și aici.
+    public: {path: (rec, lang, tr) => (tr?.slug ? localPath(lang, COMMERCIAL_BASE[lang], tr.slug) : null)},
+    linkFields: ['name', 'slug', 'image', 'tagline', 'state'],
     fields: [
       {key: 'name', label: 'Nume', type: 'text', required: true, max: 120, list: true},
+      {key: 'slug', label: 'Identificator (adresă)', type: 'slug', from: 'name', ...T,
+       help: 'Gol = doar card în „Deja în comunitate”, fără pagină proprie.'},
       {key: 'aliases', label: 'Alte nume', type: 'list', help: 'MOB = Ministry of Beauty; AMCOR = AMCOR Complete Dentistry.'},
       {key: 'tagline', label: 'Domeniu', type: 'text', max: 120, list: true, ...T, help: 'Ce apare sub nume: „Specialty Coffee & Gin Bar”.'},
       {key: 'service', label: 'Ce aduce comunității', type: 'text', max: 60, ...T,
        help: 'Forma scurtă din listele generate: „cafenea”, „clinică stomatologică”.'},
-      {key: 'description', label: 'Descriere', type: 'textarea', ...T},
+      {key: 'description', label: 'Introducere', type: 'textarea', max: 320, ...T, help: 'Fraza mare de sub nume, în coperta paginii.'},
+      {key: 'story', label: 'Povestea', type: 'richtext', ...T, help: 'Textul paginii, fără imagini: fotografiile stau în galerie.'},
+      {key: 'offer', label: 'Ce găsești aici', type: 'list', ...T, help: 'Câte un serviciu sau produs pe rând; „Titlu – detaliu” se afișează pe două niveluri.'},
+      {key: 'quote', label: 'Citat', type: 'textarea', max: 400, ...T, help: 'Vocea fondatorului, fără ghilimele.'},
+      {key: 'quote_author', label: 'Autorul citatului', type: 'text', max: 120, ...T, help: '„Dr. Alex Rugină, coordonatorul echipei medicale”.'},
       {key: 'logo', label: 'Logo', type: 'image'},
       {key: 'image', label: 'Imagine', type: 'image', help: 'Imaginea din cardul afacerii.'},
+      {key: 'hero_image', label: 'Copertă', type: 'image', help: 'Fotografia mare din capul paginii; lipsă = imaginea cardului.'},
+      {key: 'gallery', label: 'Galerie', type: 'refs', target: 'media', ordered: true,
+       rel: 'are imaginea', inverseLabel: 'Galerii de afaceri'},
+      {key: 'location', label: 'Unde, în complex', type: 'text', max: 80, ...T, help: '„Parter, intrarea dinspre lac”.'},
+      {key: 'schedule', label: 'Program', type: 'text', max: 120, ...T},
+      {key: 'phone', label: 'Telefon', type: 'phone'},
       {key: 'website', label: 'Site', type: 'url'},
+      {key: 'social', label: 'Rețele sociale', type: 'links'},
+      {key: 'credits', label: 'Credite', type: 'text', max: 160, ...T, help: '„Design interior: MladinDesignHouse”.'},
       {key: 'state', label: 'Stare', type: 'select', required: true, list: true, options: ['deschis', 'in-curand', 'inchis'], default: 'deschis', assume: 'A7'},
       {key: 'opened_on', label: 'Deschis din', type: 'date'},
-      {key: 'card_member', label: 'Partener Community Card', type: 'boolean'}
+      {key: 'card_member', label: 'Partener Community Card', type: 'boolean'},
+      ...SEO
     ],
     duplicates: {normalize: ['name', 'aliases']}
   },

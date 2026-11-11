@@ -341,7 +341,10 @@ CREATE TABLE IF NOT EXISTS "businesses" (
   "aliases" TEXT CHECK ("aliases" IS NULL OR json_valid("aliases")),
   "logo_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
   "image_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
+  "hero_image_id" INTEGER REFERENCES media(id) ON DELETE SET NULL,
+  "phone" TEXT,
   "website" TEXT,
+  "social" TEXT CHECK ("social" IS NULL OR json_valid("social")),
   "state" TEXT DEFAULT 'deschis' CHECK ("state" IS NULL OR "state" IN ('deschis', 'in-curand', 'inchis')),
   "opened_on" TEXT,
   "card_member" INTEGER NOT NULL DEFAULT 0 CHECK ("card_member" IN (0, 1)),
@@ -355,6 +358,8 @@ CREATE TABLE IF NOT EXISTS "businesses" (
 CREATE INDEX IF NOT EXISTS "ix_businesses_logo_id" ON "businesses"("logo_id");
 
 CREATE INDEX IF NOT EXISTS "ix_businesses_image_id" ON "businesses"("image_id");
+
+CREATE INDEX IF NOT EXISTS "ix_businesses_hero_image_id" ON "businesses"("hero_image_id");
 
 CREATE INDEX IF NOT EXISTS "ix_businesses_status" ON "businesses"(status);
 
@@ -703,15 +708,27 @@ CREATE INDEX IF NOT EXISTS "ix_unit_types_translations_legacy" ON "unit_types_tr
 CREATE TABLE IF NOT EXISTS "businesses_translations" (
   entity_id INTEGER NOT NULL REFERENCES "businesses"(id) ON DELETE CASCADE,
   lang TEXT NOT NULL CHECK (lang IN ('ro', 'en')),
+  "slug" TEXT,
   "tagline" TEXT,
   "service" TEXT,
   "description" TEXT,
+  "story" TEXT,
+  "offer" TEXT CHECK ("offer" IS NULL OR json_valid("offer")),
+  "quote" TEXT,
+  "quote_author" TEXT,
+  "location" TEXT,
+  "schedule" TEXT,
+  "credits" TEXT,
+  "seo_title" TEXT,
+  "seo_description" TEXT,
   source_fp TEXT,
   translated_at TEXT,
   translated_by TEXT,
   updated_at TEXT NOT NULL,
   PRIMARY KEY (entity_id, lang)
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS "ux_businesses_translations_slug" ON "businesses_translations"(lang, slug) WHERE slug IS NOT NULL;
 
 CREATE TABLE IF NOT EXISTS "testimonials_translations" (
   entity_id INTEGER NOT NULL REFERENCES "testimonials"(id) ON DELETE CASCADE,
@@ -868,6 +885,21 @@ CREATE TABLE IF NOT EXISTS "rel_card_tiers_partners" (
 );
 
 CREATE INDEX IF NOT EXISTS "ix_rel_card_tiers_partners_dst" ON "rel_card_tiers_partners"(dst_id);
+
+CREATE TABLE IF NOT EXISTS "rel_businesses_gallery" (
+  src_id INTEGER NOT NULL REFERENCES "businesses"(id) ON DELETE CASCADE,
+  dst_id INTEGER NOT NULL REFERENCES "media"(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'inferred', 'unverified')),
+  confidence REAL,
+  source_id INTEGER REFERENCES sources(id) ON DELETE SET NULL,
+  note TEXT,
+  attrs TEXT CHECK (attrs IS NULL OR json_valid(attrs)),
+  created_at TEXT, created_by TEXT,
+  PRIMARY KEY (src_id, dst_id)
+);
+
+CREATE INDEX IF NOT EXISTS "ix_rel_businesses_gallery_dst" ON "rel_businesses_gallery"(dst_id);
 
 CREATE TABLE IF NOT EXISTS "rel_posts_businesses" (
   src_id INTEGER NOT NULL REFERENCES "posts"(id) ON DELETE CASCADE,
