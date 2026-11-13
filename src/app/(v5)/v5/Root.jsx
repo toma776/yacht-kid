@@ -6,6 +6,7 @@ import './v5-project.css';
 import './v5-features.css';
 import './v5-awards.css';
 import './v5-location.css';
+import './v5-contact.css';
 import './v5.css';
 
 export default function Root({lang, children}) {

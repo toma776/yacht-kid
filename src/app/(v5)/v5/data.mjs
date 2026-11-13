@@ -182,3 +182,52 @@ export async function loadLocation(ctx) {
     fallback: fig ? {src: ctx.media(+fig[1]), alt: fig[2].replace(/&amp;/g, '&')} : s.image ? {src: ctx.media(s.image), alt: ''} : null
   };
 }
+
+// Vizionarea (banda „cta” cu ancora „vizionare”): fotografia, eticheta, titlul și o singură acțiune
+export async function loadViewing(ctx) {
+  const values = await tokenValues(ctx);
+  const [s] = await ctx.query('sectiuni', {scope: 'v5:vizionare', where: "e.anchor = 'vizionare' AND e.kind = 'cta'", order: 'e.id', limit: 1});
+  if (!s) return null;
+  const [b1] = await buttons(ctx, s, values);
+  return {
+    anchor: s.anchor, eyebrow: fillTokens(s.eyebrow ?? '', values), heading: fillTokens(s.heading ?? '', values),
+    image: s.image ? {src: ctx.media(s.image), srcSet: ctx.srcset(s.image)} : null, cta: b1?.href ? b1 : null
+  };
+}
+
+// Contactul: secțiunea „formular” cu ancora „contact” și formularul ei din Brain (câmpurile, etichetele pe limbă,
+// tipurile de apartamente din `locuinte`). Formularul de contact nu trimite încă (ca pe site): doar validează și arată
+// canalele directe, cu textul `formular-in-lucru`.
+export async function loadContact(ctx, chrome) {
+  const values = await tokenValues(ctx);
+  const L = chrome.labels;
+  const [s] = await ctx.query('sectiuni', {scope: 'v5:contact', where: "e.anchor = 'contact' AND e.kind = 'formular'", order: 'e.id', limit: 1});
+  if (!s) return null;
+  const form = s.form ? await ctx.item('formulare', s.form) : null;
+  const labels = Object.fromEntries((form?.field_labels ?? []).map(l => [l.name, l]));
+  const types = form?.fields?.some(x => x.options_from === 'locuinte')
+    ? await ctx.query('locuinte', {fields: ['kind', 'price_from'], where: `e.kind != 'comercial'`, order: 'e.price_from'}) : [];
+  const privacy = chrome.footer.find(g => g.legal)?.children?.find(c => /confiden|privacy/i.test(c.href ?? ''))?.href ?? null;
+  const fields = (form?.fields ?? []).map(x => {
+    const l = labels[x.name] ?? {};
+    return {
+      name: x.name, type: x.type ?? 'text', required: !!x.required, label: l.label ?? x.name, placeholder: l.placeholder ?? '',
+      options: x.options_from === 'locuinte' ? types.map(t => t.name) : (l.options ?? x.options ?? [])
+    };
+  });
+  return {
+    anchor: s.anchor,
+    eyebrow: fillTokens(s.eyebrow ?? '', values),
+    heading: fillTokens(s.heading ?? '', values),
+    lead: s.text ? strip(await rich(ctx, s.text, values)) : '',
+    form: form && {
+      title: L[`formular-${form.handle}`] ?? L['formular-contact'] ?? form.name,
+      intro: form.intro ?? '',
+      submit: form.submit_label ?? L.trimite ?? 'Trimite',
+      consent: L['acord-date'] ?? labels.consent?.label ?? '',
+      privacy,
+      fields
+    },
+    notSent: L['formular-in-lucru'] ?? ''
+  };
+}

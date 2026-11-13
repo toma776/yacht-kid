@@ -23,6 +23,17 @@ export const T = {
     readMore: 'Citește despre premiu',
     officialPage: 'Pagina competiției',
     openMaps: 'Deschide în Google Maps',
+    optional: 'opțional',
+    requiredNote: 'Câmpuri obligatorii; restul sunt opționale.',
+    contactHint: 'Lasă-ne un telefon sau o adresă de email, cum preferi să te contactăm. E suficient unul.',
+    errRequired: 'Completează acest câmp.',
+    errEmail: 'Adresa de email nu pare corectă.',
+    errPhone: 'Numărul de telefon pare incomplet.',
+    errConsent: 'Avem nevoie de acordul tău ca să te putem contacta.',
+    errContact: 'Lasă-ne măcar un telefon sau un email.',
+    errInvalid: 'Verifică, te rog, câmpurile marcate.',
+    phone: 'Telefon',
+    address: 'Adresă',
     placeholder: 'Următoarele secțiuni vin aici.'
   },
   en: {
@@ -48,6 +59,17 @@ export const T = {
     readMore: 'Read about the award',
     officialPage: 'Competition page',
     openMaps: 'Open in Google Maps',
+    optional: 'optional',
+    requiredNote: 'Required fields; everything else is optional.',
+    contactHint: 'Leave a phone number or an email address, whichever you prefer. One is enough.',
+    errRequired: 'Please fill in this field.',
+    errEmail: 'This email address does not look right.',
+    errPhone: 'This phone number looks incomplete.',
+    errConsent: 'We need your consent to be able to contact you.',
+    errContact: 'Please leave at least a phone number or an email.',
+    errInvalid: 'Please check the highlighted fields.',
+    phone: 'Phone',
+    address: 'Address',
     placeholder: 'The next sections go here.'
   }
 };

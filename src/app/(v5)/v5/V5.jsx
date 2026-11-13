@@ -9,8 +9,10 @@ import Project from './Project';
 import Features from './Features';
 import Awards from './Awards';
 import Location from './Location';
+import Viewing from './Viewing';
+import Contact from './Contact';
 
-export default function V5({chrome, hero, collection, project, features, awards, location}) {
+export default function V5({chrome, hero, collection, project, features, awards, location, viewing, contact}) {
   const t = chrome.t;
   return (
     <>
@@ -24,10 +26,8 @@ export default function V5({chrome, hero, collection, project, features, awards,
         <Features data={features}/>
         <Awards data={awards} t={t}/>
         <Location data={location} lang={chrome.lang} maps={chrome.firma?.maps} t={{...t, openMaps: chrome.labels['deschide-maps'] ?? t.openMaps}}/>
-        <section className="v5-placeholder">
-          <p className="v5-eyebrow">Homepage v5</p>
-          <p className="v5-placeholder-title">{t.placeholder}</p>
-        </section>
+        <Viewing data={viewing}/>
+        <Contact data={contact} firma={chrome.firma} labels={chrome.labels} t={t}/>
       </main>
       <Footer chrome={chrome}/>
     </>
