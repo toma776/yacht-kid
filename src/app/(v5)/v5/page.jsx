@@ -1,3 +1,6 @@
+import {getDb} from '../../../core/db.mjs';
+import {createContext} from '../../../site/context.mjs';
+import {loadChrome} from '../../../site/chrome.mjs';
 import V5 from './V5';
 
 export const metadata = {
@@ -6,6 +9,8 @@ export const metadata = {
   robots: {index: false, follow: false}
 };
 
-export default function Page() {
-  return <V5/>;
+// Rama (meniu, subsol, contact) vine din Brain, ca pe site: aceleași meniuri „antet” și „subsol”, aceleași Date firmă
+export default async function Page() {
+  const chrome = await loadChrome(createContext(await getDb(), 'ro'), {ro: '/v5/', en: '/en/'});
+  return <V5 chrome={chrome}/>;
 }
