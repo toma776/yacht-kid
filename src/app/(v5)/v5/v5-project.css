@@ -1,6 +1,6 @@
 /* YACHT KID · v5 · proiectul: titlul și citatul, capitolele alternate, paginile proiectului */
 
-.p5 { background: var(--paper-2); }
+.p5 { background: var(--paper-2); scroll-margin-top: var(--h); }
 .p5-body { padding-top: clamp(72px, 9vw, 128px); padding-bottom: clamp(72px, 9vw, 128px); }
 .p5-head { max-width: 980px; margin-bottom: clamp(48px, 7vw, 96px); }
 .p5-title { margin: 14px 0 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.1; font-weight: 400; letter-spacing: -.02em; text-wrap: balance; }

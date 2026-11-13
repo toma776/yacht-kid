@@ -1,0 +1,77 @@
+/* YACHT KID · v5 · turul prin apartament (Tour.jsx).
+   Fără mișcare: titlul, tipurile și o grilă de fotografii cu numele camerei. Cu mișcare (html.v5-motion): scena
+   rămâne pe ecran, fotografiile sunt una peste alta, iar camera următoare se deschide ca o ușă (--o: 0 → 1), în timp
+   ce camera curentă se apropie (--z: 0 → 1). */
+
+.r5 { position: relative; padding: clamp(72px, 9vw, 128px) 0; background: #0c1430; color: #fff; scroll-margin-top: 0; }
+/* Fără mișcare, titlul și tipurile stau deasupra fotografiilor (în document, fotografiile sunt primele: sunt fundalul scenei) */
+.r5-pin { display: flex; flex-direction: column; }
+.r5-top { order: -1; }
+.r5-eyebrow { color: rgba(255,255,255,.6); }
+.r5-title { margin: 12px 0 0; font-size: clamp(28px, 3.4vw, 46px); line-height: 1.1; font-weight: 400; letter-spacing: -.02em; }
+
+.r5-types { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.v5 .r5-types button { height: 38px; padding: 0 16px; font-size: 13px; font-weight: 600; color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.4); backdrop-filter: blur(8px); background: rgba(12, 20, 48, .25); transition: background .25s, color .25s, box-shadow .25s; }
+.v5 .r5-types button:hover { box-shadow: inset 0 0 0 1px #fff; }
+.v5 .r5-types button[aria-pressed="true"] { background: #fff; color: var(--navy); box-shadow: none; }
+
+.r5-rooms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: var(--max); margin: 36px auto 0; padding: 0 var(--gut); }
+.r5-room { position: relative; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; background: #18244a; }
+.r5-room img { width: 100%; height: 100%; object-fit: cover; }
+.r5-room figcaption { position: absolute; left: 0; bottom: 0; padding: 8px 14px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 600; }
+.r5-shade, .r5-now, .r5-route { display: none; }
+.r5-sum { width: 100%; max-width: var(--max); margin: 36px auto 0; padding: 0 var(--gut); }
+.r5-sum-name { margin: 0; font-size: 18px; font-weight: 500; }
+.r5-sum-meta { margin: 4px 0 18px; font-size: 14px; color: rgba(255,255,255,.75); font-variant-numeric: tabular-nums; }
+
+/* ── Cu mișcare: scena ─────────────────────────────── */
+.v5-motion .r5 { padding: 0; height: calc((var(--n) - 1) * 95vh + 100svh); }
+.v5-motion .r5-pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.v5-motion .r5-rooms { position: absolute; inset: 0; display: block; max-width: none; margin: 0; padding: 0; }
+/* Golul ușii: pornește îngust și puțin mai jos de tavan, în mijloc, și se lărgește până umple ecranul */
+.v5-motion .r5-room { position: absolute; inset: 0; aspect-ratio: auto;
+  clip-path: inset(calc((1 - var(--o, 0)) * 18%) calc((1 - var(--o, 0)) * 50%) 0 calc((1 - var(--o, 0)) * 50%)); }
+.v5-motion .r5-room img { transform: scale(calc(1.02 + var(--z, 0) * .16)); filter: brightness(calc(1 - var(--z, 0) * .4)); will-change: transform; }
+.v5-motion .r5-room figcaption { display: none; }
+.v5-motion .r5-shade { display: block; position: absolute; inset: 0; pointer-events: none; background:
+  linear-gradient(to bottom, rgba(8, 14, 34, .62) 0%, rgba(8, 14, 34, 0) 30%),
+  linear-gradient(to top, rgba(8, 14, 34, .8) 0%, rgba(8, 14, 34, .2) 36%, rgba(8, 14, 34, 0) 56%); }
+
+.v5-motion .r5-top { position: absolute; left: 0; right: 0; top: calc(var(--h) + 12px); }
+.v5-motion .r5-title { font-size: clamp(20px, 2vw, 26px); }
+
+.v5-motion .r5-now { display: grid; gap: 6px; position: absolute; left: max(var(--gut), calc((100% - var(--max)) / 2 + var(--gut))); bottom: clamp(36px, 6vw, 72px); max-width: 60%; }
+.r5-count { font-size: 13px; font-weight: 600; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.r5-count i { font-style: normal; color: rgba(255,255,255,.55); }
+.r5-names { display: grid; }
+.r5-names b { grid-area: 1 / 1; font-size: clamp(44px, 8.5vw, 124px); line-height: .98; font-weight: 400; letter-spacing: -.035em; opacity: 0; transform: translateY(.3em); transition: opacity .45s var(--ease), transform .7s var(--ease); }
+.r5-names b[data-on] { opacity: 1; transform: none; transition-delay: .1s; }
+.r5-hint { margin-top: 10px; font-size: 12px; font-weight: 500; color: rgba(255,255,255,.7); opacity: 0; transition: opacity .4s; }
+.r5-hint[data-on] { opacity: 1; }
+
+/* Traseul camerelor */
+.v5-motion .r5-route { display: grid; gap: 2px; position: absolute; right: max(var(--gut), calc((100% - var(--max)) / 2 + var(--gut))); top: 50%; transform: translateY(-50%); margin: 0; padding: 0; list-style: none; }
+.v5 .r5-route button { display: flex; align-items: center; justify-content: flex-end; gap: 14px; width: 100%; height: 34px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,.6); transition: color .25s; }
+.r5-route button i { display: block; width: 18px; height: 1px; background: currentColor; transition: width .4s var(--ease); }
+.v5 .r5-route button:hover, .v5 .r5-route li[data-done] button { color: rgba(255,255,255,.9); }
+.v5 .r5-route li[data-on] button { color: #fff; font-weight: 600; }
+.r5-route li[data-on] button i { width: 44px; }
+
+.v5-motion .r5-sum { position: absolute; right: max(var(--gut), calc((100% - var(--max)) / 2 + var(--gut))); bottom: clamp(36px, 6vw, 72px); width: auto; max-width: 40%; margin: 0; padding: 0; text-align: right; }
+
+@media (max-width: 1023px) {
+  .r5-rooms { grid-template-columns: repeat(2, 1fr); }
+  .v5-motion .r5 { height: calc((var(--n) - 1) * 80vh + 100svh); }
+  .v5-motion .r5-route { display: none; }
+  .v5-motion .r5-title { display: none; }
+  .v5-motion .r5-types { margin-top: 12px; flex-wrap: nowrap; overflow-x: auto; margin-right: calc(var(--gut) * -1); padding-right: var(--gut); scrollbar-width: none; }
+  .v5-motion .r5-types button { flex: none; }
+  .v5-motion .r5-now { bottom: 116px; max-width: none; right: var(--gut); }
+  .v5-motion .r5-sum { left: var(--gut); right: var(--gut); bottom: 28px; max-width: none; text-align: left; }
+  .v5-motion .r5-sum-name, .v5-motion .r5-sum-meta { display: none; }
+  .v5-motion .r5-sum .v5-btn { width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .r5-rooms { grid-template-columns: 1fr; }
+}

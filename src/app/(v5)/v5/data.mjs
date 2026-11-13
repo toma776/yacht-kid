@@ -57,9 +57,6 @@ export async function loadCollection(ctx, labels, visitHref, t) {
     intro: u.intro ?? '',
     price: u.price_from ? formatMoney(u.price_from, 'EUR', ctx.lang) : null,
     vat: u.vat_excluded ? (labels.tva ?? '+ TVA') : '',
-    // Etajele tipului (0 = parter), pentru modelul 3D din colecție, și eticheta lor
-    floors: u.floor_min != null ? [u.floor_min, u.floor_max ?? u.floor_min] : null,
-    floorsLabel: u.floor_min != null ? `${t.floor} ${u.floor_min === (u.floor_max ?? u.floor_min) ? u.floor_min : `${u.floor_min} – ${u.floor_max}`}` : '',
     specs: [
       {label: labels.suprafata ?? 'Suprafață', value: r(u.area_min, u.area_max, 'm²')},
       {label: labels.terasa ?? 'Terasă', value: r(u.terrace_min, u.terrace_max, 'm²')},
@@ -233,4 +230,37 @@ export async function loadContact(ctx, chrome) {
     },
     notSent: L['formular-in-lucru'] ?? ''
   };
+}
+
+// Turul prin apartament: pentru fiecare tip de locuință, camerele lui, în ordinea în care le-ai străbate, fiecare cu o
+// fotografie reală din galeria tipului (aleasă după eticheta camerei din Media). Nu se inventează nimic: o cameră fără
+// fotografie nu apare, iar fotografiile de detaliu, de apartament gol sau de spații comune nu intră în tur.
+const ROOMS = [['hol', ['hol', 'intrare']], ['living', ['living']], ['dining', ['dining']], ['bucatarie', ['bucătărie']],
+  ['dormitor', ['dormitor']], ['dressing', ['dressing']], ['birou', ['birou']], ['baie', ['baie']], ['terasa', ['terasă']]];
+const NOT_A_ROOM = ['detaliu', 'apartament gol', 'tehnologie', 'logo', 'spațiu comun', 'randare'];
+
+export async function loadTour(ctx, labels, t) {
+  const types = await ctx.query('locuinte', {scope: 'v5:tur', where: "e.kind != 'comercial'", order: 'e.price_from'});
+  const out = [];
+  for (const u of types) {
+    const photos = (await ctx.links('locuinte.gallery', u.id))
+      .filter(m => (m.mime ?? '').startsWith('image/') && !(m.tags ?? []).some(tag => NOT_A_ROOM.includes(tag)));
+    const used = new Set(), rooms = [];
+    for (const [key, tags] of ROOMS) {
+      const fits = photos.filter(m => !used.has(m.id) && (m.tags ?? []).some(tag => tags.includes(tag)));
+      const pick = fits.find(m => m.width >= m.height) ?? fits[0];      // de preferat pe lat: umple ecranul
+      if (!pick) continue;
+      used.add(pick.id);
+      rooms.push({key, label: t.roomNames[key], alt: pick.alt ?? '', image: {src: ctx.media(pick.id), srcSet: ctx.srcset(pick.id)}});
+    }
+    if (rooms.length < 3) continue;
+    out.push({
+      id: u.id, name: u.name, short: u.rooms ? t.rooms(u.rooms) : (u.kind === 'duplex' ? t.duplex : u.name),
+      href: await ctx.href('locuinte', u.id), viewLabel: t.viewType(u.name),
+      area: (u.area_min ?? u.area_max) != null ? formatRange(u.area_min, u.area_max, ctx.lang, 'm²') : '',
+      price: u.price_from ? `${t.from} ${formatMoney(u.price_from, 'EUR', ctx.lang)}${u.vat_excluded ? ` ${labels.tva ?? '+ TVA'}` : ''}` : '',
+      rooms
+    });
+  }
+  return out.length ? {types: out} : null;
 }

@@ -1,16 +1,14 @@
 'use client';
 // Colecția de apartamente v5: un selector de tipologii, nu o listă de unități. Pe desktop, fotografia mare din stânga
 // urmează tipul ales în dreapta (click; fără hover, ca rândurile să nu se miște sub cursor): fotografia nouă intră
-// ca o cortină peste cea veche, iar modelul 3D al clădirii (FloorModel) aprinde etajele pe care se află tipul;
-// tipul ales se deschide cu descrierea, datele și acțiunile.
+// ca o cortină peste cea veche; tipul ales se deschide cu descrierea, datele și acțiunile.
 // Pe mobil, fiecare tip e un card cu fotografia lui, toate deschise.
 import {useState} from 'react';
 import {Icon} from '../../../site/ui/Icons.jsx';
-import FloorModel from './FloorModel';
 
 const num = i => String(i + 1).padStart(2, '0');
 
-export default function Collection({data, building, t: tx}) {
+export default function Collection({data, t: tx}) {
   // on: tipul ales; prev: cel dinainte, care rămâne dedesubt cât intră fotografia nouă
   const [{on: active, prev}, setSel] = useState({on: 0, prev: null});
   const pick = i => setSel(s => i === s.on ? s : {on: i, prev: s.on});
@@ -35,8 +33,6 @@ export default function Collection({data, building, t: tx}) {
                 data-on={i === active || undefined} data-prev={i === prev || undefined}/>
             ))}
             <span className="c5-count"><b>{num(active)}</b> / {num(items.length - 1)}</span>
-            {/* Modelul clădirii, cu etajele tipului ales aprinse */}
-            <FloorModel building={building} floors={items[active].floors} label={items[active].floorsLabel}/>
           </div>
 
           <ol className="c5-list" data-rv>

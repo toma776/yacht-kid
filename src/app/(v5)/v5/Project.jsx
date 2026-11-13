@@ -1,18 +1,21 @@
-// Proiectul v5. Începe cu scena 3D (ProjectScene: clădirea se ridică din planul ei, apoi lumina zilei trece peste ea,
-// lângă titlu, citat și cifre); apoi trei capitole numerotate, fotografia și textul alternând stânga/dreapta
-// (fotografia alunecă ușor în cadru la derulare, cu cifra capitolului pe ea); jos, paginile proiectului.
+// Proiectul v5: un capitol editorial. Sus, titlul și citatul; apoi trei capitole numerotate, fotografia și textul
+// alternând stânga/dreapta (fotografia alunecă ușor în cadru la derulare, cu cifra capitolului pe ea); jos, paginile
+// proiectului.
 import {Icon} from '../../../site/ui/Icons.jsx';
-import ProjectScene from './ProjectScene';
 
 const num = i => String(i + 1).padStart(2, '0');
 
-export default function Project({data, building, t}) {
+export default function Project({data, t}) {
   if (!data) return null;
   return (
     <section className="p5" id={data.anchor} aria-labelledby="p5-title">
-      <ProjectScene data={data} building={building} t={{model3d: t.model3d, daylight: t.daylight}}/>
-
       <div className="h5-wrap p5-body">
+        <header className="p5-head" data-rv>
+          <p className="v5-eyebrow">{data.eyebrow}</p>
+          <h2 className="p5-title" id="p5-title">{data.heading}</h2>
+          {data.quote && <blockquote className="p5-quote"><p>{data.quote}</p></blockquote>}
+        </header>
+
         <ol className="p5-chapters">
           {data.chapters.map((c, i) => (
             <li key={c.title} className="p5-ch" data-rv>
