@@ -129,3 +129,30 @@ export async function loadFeatures(ctx) {
     items
   };
 }
+
+// Premiile: secțiunea „premii” (eticheta, titlul cu {nr_premii}, fotografia) și premiile publicate cu logo, fără lista
+// scurtă (ca jetonul {nr_premii}); ordinea: anul, apoi câștigător → distincție → mențiune. Fiecare duce la articolul
+// de pe site despre premiu sau, altfel, la pagina oficială a competiției.
+export async function loadAwards(ctx) {
+  const values = await tokenValues(ctx);
+  const [s] = await ctx.query('sectiuni', {scope: 'v5:premii', where: "e.kind = 'premii'", order: 'e.id', limit: 1});
+  if (!s) return null;
+  const awards = await ctx.query('premii', {scope: 'v5:premii', where: `e.logo_id IS NOT NULL AND e.result != 'lista-scurta'`,
+    order: `e.year DESC, CASE e.result WHEN 'castigator' THEN 0 WHEN 'distinctie' THEN 1 WHEN 'mentiune' THEN 2 ELSE 3 END, e.id`});
+  const items = await Promise.all(awards.map(async a => {
+    const article = a.article ? await ctx.href('articole', a.article) : null;
+    return {
+      id: a.id, year: a.year, competition: a.competition, distinction: a.distinction ?? '', category: a.category_name ?? '',
+      winner: a.result === 'castigator', logo: ctx.media(a.logo),
+      href: article ?? a.url ?? null, external: !article && !!a.url
+    };
+  }));
+  return {
+    anchor: s.anchor || 'premii',
+    eyebrow: fillTokens(s.eyebrow ?? '', values),
+    heading: fillTokens(s.heading ?? '', values),
+    count: values.nr_premii ?? String(items.length),
+    image: s.image ? {src: ctx.media(s.image), srcSet: ctx.srcset(s.image)} : null,
+    items
+  };
+}

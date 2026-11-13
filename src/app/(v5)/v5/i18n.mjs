@@ -20,6 +20,8 @@ export const T = {
     collectionHeading: 'Colecția de Apartamente',
     city: null,
     projectPages: 'Paginile proiectului',
+    readMore: 'Citește despre premiu',
+    officialPage: 'Pagina competiției',
     placeholder: 'Următoarele secțiuni vin aici.'
   },
   en: {
@@ -42,6 +44,8 @@ export const T = {
     collectionHeading: 'The Apartment Collection',
     city: 'Bucharest',
     projectPages: 'Project pages',
+    readMore: 'Read about the award',
+    officialPage: 'Competition page',
     placeholder: 'The next sections go here.'
   }
 };
