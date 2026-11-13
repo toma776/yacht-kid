@@ -1,0 +1,62 @@
+/* YACHT KID · v5 · hero: fereastra spre ansamblu și banda de date */
+
+.x5 { padding-top: 12px; }
+.x5-stage { position: relative; height: clamp(520px, calc(100svh - var(--h) - 132px), 860px); overflow: hidden; background: var(--navy-d); color: #fff; isolation: isolate; }
+.x5-media, .x5-media img, .x5-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.x5-media img { animation: x5-settle 1.6s var(--ease) backwards; }
+.x5-media { z-index: 0; }
+.x5-shade { position: absolute; inset: 0; z-index: 2; background:
+  linear-gradient(to top, rgba(12, 20, 42, .78) 0%, rgba(12, 20, 42, .35) 38%, rgba(12, 20, 42, 0) 62%),
+  linear-gradient(to right, rgba(12, 20, 42, .35) 0%, rgba(12, 20, 42, 0) 55%); }
+
+.x5-copy { position: absolute; z-index: 3; left: clamp(20px, 4vw, 56px); bottom: clamp(24px, 5vw, 56px); right: clamp(20px, 4vw, 56px); max-width: 760px; }
+.x5-eyebrow { color: rgba(255,255,255,.75); animation: x5-rise .9s var(--ease) .1s backwards; }
+.x5-title { margin: 16px 0 0; font-size: clamp(38px, 6.2vw, 84px); line-height: 1.02; font-weight: 400; letter-spacing: -.025em; text-wrap: balance; animation: x5-rise .9s var(--ease) .2s backwards; }
+.x5-sub { margin: 20px 0 0; max-width: 520px; font-size: clamp(15px, 1.3vw, 18px); line-height: 1.55; color: rgba(255,255,255,.85); animation: x5-rise .9s var(--ease) .3s backwards; }
+.x5-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; animation: x5-rise .9s var(--ease) .4s backwards; }
+.v5 .x5 .v5-btn--line { box-shadow: inset 0 0 0 1px rgba(255,255,255,.55); }
+
+.x5-film { position: absolute; z-index: 3; right: clamp(20px, 4vw, 56px); bottom: clamp(24px, 5vw, 56px); display: inline-flex; align-items: center; gap: 14px; color: #fff; font-size: 13px; font-weight: 600; letter-spacing: .04em; }
+.x5-film-ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.6); backdrop-filter: blur(6px); background: rgba(255,255,255,.08); transition: background .25s, transform .4s var(--ease); }
+.x5-film-ic svg { margin-left: 2px; }
+.x5-film:hover .x5-film-ic { background: rgba(255,255,255,.2); transform: scale(1.06); }
+
+.x5-dialog { width: auto; max-width: 92vw; padding: 0; border: 0; background: #000; overflow: visible; }
+.x5-dialog::backdrop { background: rgba(8, 12, 24, .88); }
+/* Filmul își păstrează forma (cel actual e vertical): încape în ecran pe ambele axe */
+.x5-dialog video { display: block; width: auto; height: auto; max-width: 92vw; max-height: calc(100svh - 120px); background: #000; }
+.x5-dialog-close { position: absolute; right: 0; top: -52px; display: grid; place-items: center; width: 44px; height: 44px; color: #fff; }
+
+.x5-band { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border-bottom: 1px solid var(--line); }
+.x5-datum { padding: 28px 24px 30px; border-left: 1px solid var(--line); }
+.x5-datum:first-child { border-left: 0; padding-left: 0; }
+.x5-datum dt { font-size: 12px; line-height: 1.45; color: var(--ink-2); min-height: 2.9em; }
+.x5-datum dd { margin: 10px 0 0; font-size: clamp(22px, 2.2vw, 30px); font-weight: 400; letter-spacing: -.015em; color: var(--navy); font-variant-numeric: tabular-nums; }
+.x5-datum dd b { font-weight: 500; }
+.x5-datum dd span { font-size: .5em; letter-spacing: 0; color: var(--ink-2); font-weight: 500; white-space: nowrap; }
+
+@keyframes x5-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes x5-settle { from { transform: scale(1.06); } to { transform: none; } }
+
+@media (max-width: 1023px) {
+  .x5 { padding-top: 0; }
+  .x5 > .h5-wrap { padding: 0; }
+  .x5-stage { height: calc(100svh - var(--h) - 40px); min-height: 520px; max-height: 760px; }
+  .x5-copy { bottom: 108px; }
+  .x5-film { left: clamp(20px, 4vw, 56px); right: auto; bottom: 32px; }
+  .x5-film-ic { width: 48px; height: 48px; }
+  .x5-band { grid-template-columns: repeat(2, 1fr); padding: 0 var(--gut); }
+  .x5-datum { padding: 22px 16px 24px; }
+  .x5-datum:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .x5-datum:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+
+@media (max-width: 640px) {
+  .x5-actions { flex-direction: column; align-items: stretch; }
+  .x5-copy { bottom: 96px; }
+  .x5-stage { min-height: 600px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .x5 * { animation: none !important; }
+}
