@@ -57,6 +57,9 @@ export async function loadCollection(ctx, labels, visitHref, t) {
     intro: u.intro ?? '',
     price: u.price_from ? formatMoney(u.price_from, 'EUR', ctx.lang) : null,
     vat: u.vat_excluded ? (labels.tva ?? '+ TVA') : '',
+    // Etajele tipului (0 = parter), pentru modelul 3D din colecție, și eticheta lor
+    floors: u.floor_min != null ? [u.floor_min, u.floor_max ?? u.floor_min] : null,
+    floorsLabel: u.floor_min != null ? `${t.floor} ${u.floor_min === (u.floor_max ?? u.floor_min) ? u.floor_min : `${u.floor_min} – ${u.floor_max}`}` : '',
     specs: [
       {label: labels.suprafata ?? 'Suprafață', value: r(u.area_min, u.area_max, 'm²')},
       {label: labels.terasa ?? 'Terasă', value: r(u.terrace_min, u.terrace_max, 'm²')},

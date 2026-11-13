@@ -1,15 +1,16 @@
 'use client';
 // Colecția de apartamente v5: un selector de tipologii, nu o listă de unități. Pe desktop, fotografia mare din stânga
 // urmează tipul ales în dreapta (click; fără hover, ca rândurile să nu se miște sub cursor): fotografia nouă intră
-// ca o cortină peste cea veche; tipul ales se deschide cu descrierea, datele și acțiunile.
+// ca o cortină peste cea veche, iar modelul 3D al clădirii (FloorModel) aprinde etajele pe care se află tipul;
+// tipul ales se deschide cu descrierea, datele și acțiunile.
 // Pe mobil, fiecare tip e un card cu fotografia lui, toate deschise.
 import {useState} from 'react';
 import {Icon} from '../../../site/ui/Icons.jsx';
-import {Words} from './parts';
+import FloorModel from './FloorModel';
 
 const num = i => String(i + 1).padStart(2, '0');
 
-export default function Collection({data, t: tx}) {
+export default function Collection({data, building, t: tx}) {
   // on: tipul ales; prev: cel dinainte, care rămâne dedesubt cât intră fotografia nouă
   const [{on: active, prev}, setSel] = useState({on: 0, prev: null});
   const pick = i => setSel(s => i === s.on ? s : {on: i, prev: s.on});
@@ -19,28 +20,30 @@ export default function Collection({data, t: tx}) {
   return (
     <section className="c5" id={data.anchor} aria-labelledby="c5-title">
       <div className="h5-wrap">
-        <header className="c5-head">
+        <header className="c5-head" data-rv>
           <div>
-            <p className="v5-eyebrow" data-rv>{data.eyebrow}</p>
-            <h2 className="c5-title" id="c5-title" data-rv="words"><Words text={data.heading}/></h2>
+            <p className="v5-eyebrow">{data.eyebrow}</p>
+            <h2 className="c5-title" id="c5-title">{data.heading}</h2>
           </div>
-          {data.text && <p className="c5-lead" data-rv style={{'--d': '200ms'}}>{data.text}</p>}
+          {data.text && <p className="c5-lead">{data.text}</p>}
         </header>
 
         <div className="c5-grid">
-          <div className="c5-stage" aria-hidden="true" data-rv="clip">
+          <div className="c5-stage" aria-hidden="true" data-rv>
             {items.map((t, i) => t.image && (
               <img key={t.id} src={t.image.src} srcSet={t.image.srcSet} sizes="(max-width: 1023px) 100vw, 58vw" alt="" loading="lazy" decoding="async"
                 data-on={i === active || undefined} data-prev={i === prev || undefined}/>
             ))}
             <span className="c5-count"><b>{num(active)}</b> / {num(items.length - 1)}</span>
+            {/* Modelul clădirii, cu etajele tipului ales aprinse */}
+            <FloorModel building={building} floors={items[active].floors} label={items[active].floorsLabel}/>
           </div>
 
-          <ol className="c5-list">
+          <ol className="c5-list" data-rv>
             {items.map((t, i) => {
               const on = i === active;
               return (
-                <li key={t.id} className="c5-item" data-on={on || undefined} data-rv style={{'--d': `${i * 90}ms`}}>
+                <li key={t.id} className="c5-item" data-on={on || undefined}>
                   <button type="button" className="c5-row" aria-expanded={on} aria-controls={`c5-b${t.id}`} onClick={() => pick(i)}>
                     <span className="c5-num">{num(i)}</span>
                     <span className="c5-name">{t.short}</span>

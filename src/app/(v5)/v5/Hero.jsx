@@ -35,9 +35,9 @@ export default function Hero({hero, t}) {
 
       {hero.band.length > 0 && (
         <div className="h5-wrap">
-          <dl className="x5-band">
-            {hero.band.map((d, i) => (
-              <div key={d.label} className="x5-datum" data-rv style={{'--d': `${i * 90}ms`}}>
+          <dl className="x5-band" data-rv>
+            {hero.band.map(d => (
+              <div key={d.label} className="x5-datum">
                 <dt>{d.label}</dt>
                 <dd><b>{d.value}</b>{d.unit && <span> {d.unit}</span>}</dd>
               </div>

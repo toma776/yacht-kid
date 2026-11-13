@@ -25,7 +25,7 @@ export default function V5({chrome, hero, building, collection, project, feature
         <Hero hero={hero} t={t}/>
         <Project data={project} building={building} t={t}/>
         <Features data={features}/>
-        <Collection data={collection} t={t}/>
+        <Collection data={collection} building={building} t={t}/>
         <Awards data={awards} t={t}/>
         <Location data={location} lang={chrome.lang} maps={chrome.firma?.maps} t={{...t, openMaps: chrome.labels['deschide-maps'] ?? t.openMaps}}/>
         <Viewing data={viewing}/>
