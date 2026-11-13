@@ -14,7 +14,7 @@ function Langs({chrome}) {
   );
 }
 
-function Panel({item, id, open, onClose}) {
+function Panel({item, id, open, onClose, t}) {
   const units = item.mega === 'locuinte';
   return (
     <div className="h5-panel" id={id} data-open={open || undefined} inert={!open}>
@@ -22,7 +22,7 @@ function Panel({item, id, open, onClose}) {
         <div className="h5-panel-intro">
           <p className="v5-eyebrow">{item.eyebrow}</p>
           <p className="h5-panel-title">{item.title}</p>
-          {item.more?.href && <a className="h5-more" href={item.more.href} onClick={onClose}>{units ? 'Toate apartamentele' : 'Despre proiect'} <Icon id="arrow" size={16}/></a>}
+          {item.more?.href && <a className="h5-more" href={item.more.href} onClick={onClose}>{units ? t.allApartments : t.aboutProject} <Icon id="arrow" size={16}/></a>}
         </div>
         <ul className={`h5-cards${units ? ' h5-cards--units' : ''}`}>
           {item.children.map((c, i) => (
@@ -45,7 +45,7 @@ export default function Header({chrome}) {
   const L = chrome.labels, f = chrome.firma;
   const items = chrome.header.filter(i => !i.cta);
   const visit = items.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref;
-  const visitLabel = L['programeaza-vizionare'] ?? 'Programează o vizionare';
+  const visitLabel = L['programeaza-vizionare'] ?? chrome.t.visit;
   const [open, setOpen] = useState(null);       // panoul deschis pe desktop (index)
   const [menu, setMenu] = useState(false);      // meniul pe mobil
   const [group, setGroup] = useState(0);        // grupul desfăcut în meniul pe mobil
@@ -97,7 +97,7 @@ export default function Header({chrome}) {
         </div>
       </div>
 
-      {items.map((it, i) => it.mega && <Panel key={i} item={it} id={`h5-p${i}`} open={open === i} onClose={close}/>)}
+      {items.map((it, i) => it.mega && <Panel key={i} item={it} id={`h5-p${i}`} open={open === i} onClose={close} t={chrome.t}/>)}
       <div className="h5-scrim" data-open={open !== null || undefined} onClick={() => setOpen(null)} aria-hidden="true"/>
 
       <div className="h5-mobile" id="h5-mobile" data-open={menu || undefined} inert={!menu} role="dialog" aria-modal="true" aria-label={L.meniu ?? 'Meniu'}>

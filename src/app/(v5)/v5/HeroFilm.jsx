@@ -4,7 +4,7 @@
 import {useEffect, useRef} from 'react';
 import {Icon} from '../../../site/ui/Icons.jsx';
 
-export default function HeroFilm({src, poster}) {
+export default function HeroFilm({src, poster, t}) {
   const dlg = useRef(null), vid = useRef(null);
 
   useEffect(() => {
@@ -19,10 +19,10 @@ export default function HeroFilm({src, poster}) {
     <>
       <button type="button" className="x5-film" onClick={open}>
         <span className="x5-film-ic"><Icon id="play" size={16}/></span>
-        <span>Vezi filmul</span>
+        <span>{t.watchFilm}</span>
       </button>
-      <dialog ref={dlg} className="x5-dialog" aria-label="Filmul YACHT KID" onClose={() => vid.current?.pause()} onClick={e => { if (e.target === dlg.current) close(); }}>
-        <button type="button" className="x5-dialog-close" onClick={close} aria-label="Închide"><Icon id="close" size={24}/></button>
+      <dialog ref={dlg} className="x5-dialog" aria-label={t.filmLabel} onClose={() => vid.current?.pause()} onClick={e => { if (e.target === dlg.current) close(); }}>
+        <button type="button" className="x5-dialog-close" onClick={close} aria-label={t.close}><Icon id="close" size={24}/></button>
         <video ref={vid} controls playsInline preload="none" poster={poster}><source src={src} type="video/mp4"/></video>
       </dialog>
     </>

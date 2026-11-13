@@ -15,7 +15,7 @@ export default function Footer({chrome}) {
           <p className="f5-tagline">{L['subsol-tagline']}</p>
           <div className="f5-actions">
             <a className="v5-btn v5-btn--light" href={chrome.contactHref}>{L['solicita-oferta'] ?? 'Solicită ofertă'} <Icon id="arrow" size={16}/></a>
-            <a className="v5-btn v5-btn--line" href={visit}>{L['programeaza-vizionare'] ?? 'Programează o vizionare'} <Icon id="calendar" size={16}/></a>
+            <a className="v5-btn v5-btn--line" href={visit}>{L['programeaza-vizionare'] ?? chrome.t.visit} <Icon id="calendar" size={16}/></a>
           </div>
         </div>
 
@@ -34,7 +34,7 @@ export default function Footer({chrome}) {
           {f && (
             <div className="f5-col">
               <h2 className="f5-h">{L['birou-vanzari'] ?? 'Birou de vânzări'}</h2>
-              <address className="f5-address">{f.street}<br/>{f.city} {f.postal_code}</address>
+              <address className="f5-address">{f.street}<br/>{chrome.t.city ?? f.city} {f.postal_code}</address>
               <a className="f5-maps" href={f.maps} target="_blank" rel="noopener"><Icon id="pin" size={16}/>{L['deschide-maps'] ?? 'Deschide în Maps'}</a>
               <ul className="f5-social" aria-label={L['retele-sociale'] ?? 'Rețele sociale'}>
                 {(f.social ?? []).map(x => { const id = SOCIAL[x.label.toLowerCase()]; return id && <li key={x.url}><a href={x.url} aria-label={x.label}><Icon id={id} size={16}/></a></li>; })}

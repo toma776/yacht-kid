@@ -1,6 +1,6 @@
 // Datele homepage-ului v5, din Brain: aceleași înregistrări ca site-ul, puse în forma de care au nevoie secțiunile v5.
-import {formatNumber, formatMoney} from '../../../registry/langs.mjs';
-import {fillTokens, tokenValues} from '../../../site/rich.mjs';
+import {formatNumber, formatMoney, formatRange} from '../../../registry/langs.mjs';
+import {fillTokens, tokenValues, rich} from '../../../site/rich.mjs';
 import {buttons, mediaVideo, strip} from '../../../site/ui/parts.jsx';
 
 const UNIT = {m2: 'm²', procent: '%'};
@@ -36,5 +36,39 @@ export async function loadHero(ctx, labels) {
     image: s.image ? {src: ctx.media(s.image), srcSet: ctx.srcset(s.image)} : null,
     video: video && {bg: mediaVideo(video, '720p'), full: mediaVideo(video, '1080p'), start: s.video_start ?? 0},
     band
+  };
+}
+
+// Colecția de apartamente: secțiunea „alte-locuinte” a homepage-ului (titlul, textul, ancora) și tipurile de locuințe
+// publicate, fără spațiile comerciale, de la cel mai accesibil la cel mai mare
+export async function loadCollection(ctx, labels, visitHref, t) {
+  const values = await tokenValues(ctx);
+  const [s] = await ctx.query('sectiuni', {scope: 'v5:colectie', where: "e.kind = 'alte-locuinte'", order: 'e.id', limit: 1});
+  const types = await ctx.query('locuinte', {scope: 'v5:colectie', where: "e.kind != 'comercial'", order: 'e.price_from'});
+  const r = (a, b, u = '') => (a ?? b) != null ? formatRange(a, b, ctx.lang, u) : null;
+  const items = await Promise.all(types.map(async u => ({
+    id: u.id,
+    name: u.name,
+    short: u.rooms ? t.rooms(u.rooms) : (u.kind === 'duplex' ? t.duplex : u.name),
+    viewLabel: t.viewType(u.name),
+    href: await ctx.href('locuinte', u.id),
+    image: u.hero_image ? {src: ctx.media(u.hero_image), srcSet: ctx.srcset(u.hero_image)} : null,
+    intro: u.intro ?? '',
+    price: u.price_from ? formatMoney(u.price_from, 'EUR', ctx.lang) : null,
+    vat: u.vat_excluded ? (labels.tva ?? '+ TVA') : '',
+    specs: [
+      {label: labels.suprafata ?? 'Suprafață', value: r(u.area_min, u.area_max, 'm²')},
+      {label: labels.terasa ?? 'Terasă', value: r(u.terrace_min, u.terrace_max, 'm²')},
+      {label: t.baths, value: r(u.baths_min, u.baths_max)},
+      {label: t.floor, value: u.floor_min != null ? (u.floor_min === u.floor_max ? `${u.floor_min}` : `${u.floor_min} – ${u.floor_max}`) : null}
+    ].filter(x => x.value)
+  })));
+  return {
+    anchor: s?.anchor || 'apartamente',
+    eyebrow: s?.eyebrow ? fillTokens(s.eyebrow, values) : t.collectionEyebrow,
+    heading: s?.heading ? fillTokens(s.heading, values) : t.collectionHeading,
+    text: s?.text ? strip(await rich(ctx, s.text, values)) : '',
+    visit: visitHref,
+    items: items.filter(i => i.href)
   };
 }

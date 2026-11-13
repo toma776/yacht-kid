@@ -1,15 +1,6 @@
-import './v5/v5-chrome.css';
-import './v5/v5-hero.css';
-import './v5/v5.css';
+import Root from './v5/Root';
 
-// Rădăcină separată pentru /v5/: homepage pornit de la zero. Nu moștenește stilurile site-ului sau ale v3/v4.
+// Rădăcina pentru /v5/ (RO). Varianta EN, /en/v5/, are rădăcina ei în (v5-en), cu același Root.
 export default function Layout({children}) {
-  return (
-    <html lang="ro">
-      <head>
-        <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossOrigin=""/>
-      </head>
-      <body className="v5">{children}</body>
-    </html>
-  );
+  return <Root lang="ro">{children}</Root>;
 }

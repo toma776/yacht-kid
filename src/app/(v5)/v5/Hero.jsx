@@ -3,7 +3,7 @@
 import {Icon} from '../../../site/ui/Icons.jsx';
 import HeroFilm from './HeroFilm';
 
-export default function Hero({hero}) {
+export default function Hero({hero, t}) {
   if (!hero) return null;
   const {image, video} = hero;
   return (
@@ -26,7 +26,7 @@ export default function Hero({hero}) {
               {hero.secondary && <a className="v5-btn v5-btn--line" href={hero.secondary.href}>{hero.secondary.label} <Icon id="calendar" size={16}/></a>}
             </div>
           </div>
-          {video && <HeroFilm src={video.full.src} poster={video.full.poster ?? image?.src}/>}
+          {video && <HeroFilm src={video.full.src} poster={video.full.poster ?? image?.src} t={t}/>}
         </div>
 
         {hero.band.length > 0 && (
