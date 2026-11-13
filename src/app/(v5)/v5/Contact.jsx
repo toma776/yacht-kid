@@ -4,6 +4,7 @@
 // solicitarea nu a plecat și arată canalele directe. Datele completate rămân în formular.
 import {useRef, useState} from 'react';
 import {Icon} from '../../../site/ui/Icons.jsx';
+import {Words} from './parts';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -109,15 +110,15 @@ export default function Contact({data, firma, labels, t}) {
   return (
     <section className="k5" id={data.anchor} aria-labelledby="k5-title">
       <div className="h5-wrap k5-grid">
-        <div className="k5-copy">
+        <div className="k5-copy" data-rv>
           <p className="v5-eyebrow">{data.eyebrow}</p>
-          <h2 className="k5-title" id="k5-title">{data.heading}</h2>
+          <h2 className="k5-title" id="k5-title" data-rv="words"><Words text={data.heading}/></h2>
           {data.lead && <p className="k5-lead">{data.lead}</p>}
           {channels}
         </div>
 
         {form && (
-          <form ref={formRef} className="k5-form" noValidate onSubmit={onSubmit} aria-labelledby="k5-form-title">
+          <form ref={formRef} className="k5-form" data-rv style={{'--d': '150ms'}} noValidate onSubmit={onSubmit} aria-labelledby="k5-form-title">
             <div className="k5-form-head">
               <h3 className="k5-form-title" id="k5-form-title">{form.title}</h3>
               {form.intro && <p>{form.intro}</p>}

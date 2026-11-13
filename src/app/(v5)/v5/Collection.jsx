@@ -1,15 +1,18 @@
 'use client';
 // Colecția de apartamente v5: un selector de tipologii, nu o listă de unități. Pe desktop, fotografia mare din stânga
-// urmează tipul ales în dreapta (click; fără hover, ca rândurile să nu se miște sub cursor); tipul ales se deschide
-// cu descrierea, datele și acțiunile.
+// urmează tipul ales în dreapta (click; fără hover, ca rândurile să nu se miște sub cursor): fotografia nouă intră
+// ca o cortină peste cea veche; tipul ales se deschide cu descrierea, datele și acțiunile.
 // Pe mobil, fiecare tip e un card cu fotografia lui, toate deschise.
 import {useState} from 'react';
 import {Icon} from '../../../site/ui/Icons.jsx';
+import {Words} from './parts';
 
 const num = i => String(i + 1).padStart(2, '0');
 
 export default function Collection({data, t: tx}) {
-  const [active, setActive] = useState(0);
+  // on: tipul ales; prev: cel dinainte, care rămâne dedesubt cât intră fotografia nouă
+  const [{on: active, prev}, setSel] = useState({on: 0, prev: null});
+  const pick = i => setSel(s => i === s.on ? s : {on: i, prev: s.on});
   if (!data?.items.length) return null;
   const {items} = data;
 
@@ -18,16 +21,17 @@ export default function Collection({data, t: tx}) {
       <div className="h5-wrap">
         <header className="c5-head">
           <div>
-            <p className="v5-eyebrow">{data.eyebrow}</p>
-            <h2 className="c5-title" id="c5-title">{data.heading}</h2>
+            <p className="v5-eyebrow" data-rv>{data.eyebrow}</p>
+            <h2 className="c5-title" id="c5-title" data-rv="words"><Words text={data.heading}/></h2>
           </div>
-          {data.text && <p className="c5-lead">{data.text}</p>}
+          {data.text && <p className="c5-lead" data-rv style={{'--d': '200ms'}}>{data.text}</p>}
         </header>
 
         <div className="c5-grid">
-          <div className="c5-stage" aria-hidden="true">
+          <div className="c5-stage" aria-hidden="true" data-rv="clip">
             {items.map((t, i) => t.image && (
-              <img key={t.id} src={t.image.src} srcSet={t.image.srcSet} sizes="(max-width: 1023px) 100vw, 58vw" alt="" loading="lazy" decoding="async" data-on={i === active || undefined}/>
+              <img key={t.id} src={t.image.src} srcSet={t.image.srcSet} sizes="(max-width: 1023px) 100vw, 58vw" alt="" loading="lazy" decoding="async"
+                data-on={i === active || undefined} data-prev={i === prev || undefined}/>
             ))}
             <span className="c5-count"><b>{num(active)}</b> / {num(items.length - 1)}</span>
           </div>
@@ -36,8 +40,8 @@ export default function Collection({data, t: tx}) {
             {items.map((t, i) => {
               const on = i === active;
               return (
-                <li key={t.id} className="c5-item" data-on={on || undefined}>
-                  <button type="button" className="c5-row" aria-expanded={on} aria-controls={`c5-b${t.id}`} onClick={() => setActive(i)}>
+                <li key={t.id} className="c5-item" data-on={on || undefined} data-rv style={{'--d': `${i * 90}ms`}}>
+                  <button type="button" className="c5-row" aria-expanded={on} aria-controls={`c5-b${t.id}`} onClick={() => pick(i)}>
                     <span className="c5-num">{num(i)}</span>
                     <span className="c5-name">{t.short}</span>
                     {t.price && <span className="c5-price"><small>{tx.from}</small> {t.price}</span>}

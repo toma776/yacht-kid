@@ -1,6 +1,8 @@
-// Premiile v5: sus, numărul mare de premii lângă titlu și fotografia arhitecturii; dedesubt, câte o coloană pe premiu
-// (logo-ul competiției ca mască navy, anul, competiția, distincția), despărțite de linii fine. Pe mobil, rânduri.
+// Premiile v5: sus, numărul mare de premii lângă titlu și fotografia arhitecturii (se dezvelește, alunecă în cadru);
+// dedesubt, câte o coloană pe premiu (logo-ul competiției ca mască navy, anul, competiția, distincția), despărțite de
+// linii fine, apărând pe rând. Pe mobil, rânduri.
 import {Icon} from '../../../site/ui/Icons.jsx';
+import {Words} from './parts';
 
 export default function Awards({data, t}) {
   if (!data?.items.length) return null;
@@ -9,21 +11,21 @@ export default function Awards({data, t}) {
       <div className="h5-wrap">
         <div className="w5-head">
           <div className="w5-copy">
-            <p className="v5-eyebrow">{data.eyebrow}</p>
+            <p className="v5-eyebrow" data-rv>{data.eyebrow}</p>
             <div className="w5-titlerow">
-              <span className="w5-count" aria-hidden="true">{data.count}</span>
-              <h2 className="w5-title" id="w5-title">{data.heading}</h2>
+              <span className="w5-count" aria-hidden="true" data-rv>{data.count}</span>
+              <h2 className="w5-title" id="w5-title" data-rv="words" style={{'--d': '150ms'}}><Words text={data.heading}/></h2>
             </div>
           </div>
           {data.image && (
-            <figure className="w5-fig">
-              <img src={data.image.src} srcSet={data.image.srcSet} sizes="(max-width: 1023px) 100vw, 40vw" alt="" loading="lazy" decoding="async"/>
+            <figure className="w5-fig" data-rv="clip">
+              <img src={data.image.src} srcSet={data.image.srcSet} sizes="(max-width: 1023px) 100vw, 40vw" alt="" loading="lazy" decoding="async" data-px="22"/>
             </figure>
           )}
         </div>
 
         <ol className="w5-list">
-          {data.items.map(a => {
+          {data.items.map((a, i) => {
             const body = (
               <>
                 <span className="w5-logo" role="img" aria-label={a.competition} style={{'--logo': `url('${a.logo}')`}}/>
@@ -34,7 +36,7 @@ export default function Awards({data, t}) {
               </>
             );
             return (
-              <li key={a.id} className="w5-item">
+              <li key={a.id} className="w5-item" data-rv style={{'--d': `${i * 90}ms`}}>
                 {a.href
                   ? <a className="w5-card" href={a.href} {...(a.external ? {target: '_blank', rel: 'noopener'} : {})}>{body}</a>
                   : <div className="w5-card">{body}</div>}

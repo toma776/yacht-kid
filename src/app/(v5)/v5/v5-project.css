@@ -1,6 +1,7 @@
 /* YACHT KID · v5 · proiectul: titlul și citatul, capitolele alternate, paginile proiectului */
 
-.p5 { padding: clamp(72px, 9vw, 128px) 0; background: var(--paper-2); scroll-margin-top: var(--h); }
+.p5 { background: var(--paper-2); }
+.p5-body { padding-top: clamp(72px, 9vw, 128px); padding-bottom: clamp(72px, 9vw, 128px); }
 .p5-head { max-width: 980px; margin-bottom: clamp(48px, 7vw, 96px); }
 .p5-title { margin: 14px 0 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.1; font-weight: 400; letter-spacing: -.02em; text-wrap: balance; }
 .p5-quote { margin: clamp(28px, 4vw, 44px) 0 0; padding-left: 24px; border-left: 2px solid var(--navy); max-width: 720px; }
@@ -10,9 +11,9 @@
 .p5-ch { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 88px); align-items: center; }
 .p5-ch:nth-child(even) .p5-fig { order: 2; }
 
-.p5-fig { position: relative; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--line); }
-.p5-fig img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
-.p5-ch:hover .p5-fig img { transform: scale(1.03); }
+.p5-fig { position: relative; margin: 0; }
+.p5-frame { aspect-ratio: 4 / 3; overflow: hidden; background: var(--line); }
+.p5-frame img { width: 100%; height: 100%; object-fit: cover; }
 .p5-stat { position: absolute; left: 0; bottom: 0; max-width: min(78%, 340px); padding: 18px 22px 20px; background: var(--paper); display: grid; gap: 4px; }
 .p5-stat b { font-size: clamp(24px, 2.4vw, 32px); font-weight: 500; letter-spacing: -.015em; color: var(--navy); font-variant-numeric: tabular-nums; line-height: 1.1; }
 .p5-stat span { font-size: 12.5px; line-height: 1.45; color: var(--ink-2); }
@@ -44,7 +45,5 @@
 
 @media (max-width: 640px) {
   .p5-stat { position: static; max-width: none; }
-  .p5-fig { aspect-ratio: auto; background: none; }
-  .p5-fig img { aspect-ratio: 4 / 3; }
   .p5-text .v5-btn { width: 100%; }
 }

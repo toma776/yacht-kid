@@ -41,11 +41,17 @@ body.v5 { font-family: 'Montserrat', system-ui, sans-serif; background: var(--pa
 .h5-wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gut); }
 
 /* ── Antet ─────────────────────────────────────────── */
-.h5 { position: sticky; top: 0; z-index: 50; background: var(--paper); }
+.h5 { position: fixed; left: 0; right: 0; top: 0; z-index: 50; background: var(--paper); transition: background .35s var(--ease), transform .5s var(--ease); }
+.h5[data-hidden] { transform: translateY(-101%); }
+/* Sus, peste hero: transparent, cu o umbră fină deasupra filmului, text și logo albe */
+.h5[data-top] { background: transparent; }
+.h5[data-top]::before { content: ''; position: absolute; inset: 0 0 -70px; z-index: -1; background: linear-gradient(to bottom, rgba(12, 20, 42, .6), rgba(12, 20, 42, 0)); pointer-events: none; }
 .h5::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); transition: opacity .2s; opacity: 0; }
 .h5[data-raised]::after { opacity: 1; }
-.h5-bar { position: relative; z-index: 2; height: var(--h); display: flex; align-items: center; gap: 32px; background: var(--paper); }
+.h5-bar { position: relative; z-index: 2; height: var(--h); display: flex; align-items: center; gap: 32px; }
 .h5-logo img { height: 46px; width: auto; }
+.h5 .h5-logo-light, .h5[data-top] .h5-logo-dark { display: none; }
+.h5[data-top] .h5-logo-light { display: block; }
 
 .h5-nav { flex: 1; }
 .h5-nav ul { display: flex; gap: 4px; justify-content: center; }
@@ -62,6 +68,12 @@ body.v5 { font-family: 'Montserrat', system-ui, sans-serif; background: var(--pa
 .h5-phone { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; white-space: nowrap; }
 .h5-phone svg { color: var(--navy); }
 .h5-cta { height: 42px; }
+.h5[data-top] .h5-nav a, .h5[data-top] .h5-nav button, .h5[data-top] .h5-phone, .h5[data-top] .h5-langs a[aria-current] { color: #fff; }
+.h5[data-top] .h5-langs a { color: rgba(255,255,255,.6); }
+.h5[data-top] .h5-nav button svg, .h5[data-top] .h5-phone svg { color: rgba(255,255,255,.85); }
+.h5[data-top] .h5-burger > span:not(.v5-sr) { background: #fff; }
+.v5 .h5[data-top] .h5-cta { background: #fff; color: var(--navy); }
+.v5 .h5[data-top] .h5-cta:hover { background: #E8ECF4; }
 
 .h5-burger { display: none; width: 44px; height: 44px; position: relative; }
 .h5-burger > span:not(.v5-sr) { position: absolute; left: 11px; right: 11px; height: 1.5px; background: var(--ink); transition: transform .3s var(--ease); }
@@ -97,7 +109,8 @@ body.v5 { font-family: 'Montserrat', system-ui, sans-serif; background: var(--pa
 .h5-mobile { display: none; }
 
 /* ── Subsol ────────────────────────────────────────── */
-.f5 { background: var(--navy-d); color: rgba(255,255,255,.72); font-size: 14px; }
+.f5 { position: relative; background: var(--navy-d); color: rgba(255,255,255,.72); font-size: 14px; }
+.f5-waves { padding-top: 34px; margin-bottom: -22px; color: rgba(255,255,255,.22); }
 .f5 a { transition: color .2s; }
 .f5 a:hover { color: #fff; }
 .f5-top { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 40px; padding: 64px 0 48px; border-bottom: 1px solid rgba(255,255,255,.12); }

@@ -1,0 +1,72 @@
+/* YACHT KID · v5 · mișcarea: apariții, titluri pe cuvinte, parallax, valurile, scena 3D.
+   Totul e condiționat de html.v5-motion, pus de Motion.jsx după ce pagina a pornit (nu și la „mișcare redusă”):
+   fără clasă (fără script, mișcare redusă), conținutul e pur și simplu la locul lui. */
+
+/* ── Apariții la intrarea în ecran ─────────────────── */
+.v5-motion [data-rv] { opacity: 0; transform: translateY(28px); transition: opacity .9s var(--ease) var(--d, 0s), transform 1.1s var(--ease) var(--d, 0s); }
+.v5-motion [data-rv][data-in] { opacity: 1; transform: none; }
+
+/* Cortina: fotografia se dezvelește de jos în sus */
+.v5-motion [data-rv="clip"] { opacity: 1; transform: none; clip-path: inset(100% 0 0 0); transition: clip-path 1.3s var(--ease) var(--d, 0s); }
+.v5-motion [data-rv="clip"][data-in] { clip-path: inset(0 0 0 0); }
+
+/* Titlurile, pe cuvinte: fiecare urcă din masca lui */
+.rv-w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .14em; margin-bottom: -.14em; }
+.rv-w > span { display: inline-block; }
+.v5-motion [data-rv="words"] { opacity: 1; transform: none; }
+.v5-motion [data-rv="words"] .rv-w > span { transform: translateY(112%); transition: transform 1s var(--ease) calc(var(--d, 0s) + var(--i) * 45ms); }
+.v5-motion [data-rv="words"][data-in] .rv-w > span { transform: none; }
+
+/* Parallax: fotografia e puțin mai mare decât cadrul și alunecă în el (--py vine din Motion.jsx) */
+.v5-motion [data-px] { transform: translate3d(0, var(--py, 0px), 0) scale(1.16); will-change: transform; }
+
+/* ── Valurile din logo ─────────────────────────────── */
+.wv { overflow: hidden; line-height: 0; pointer-events: none; }
+.wv svg { display: block; max-width: none; }
+.v5-motion .wv-1 { animation: wv 9s linear infinite; }
+.v5-motion .wv-2 { animation: wv 13s linear infinite reverse; }
+.v5-motion .wv-3 { animation: wv 17s linear infinite; }
+@keyframes wv { to { transform: translateX(-120px); } }
+
+/* ── Scena 3D (ProjectScene.jsx) ───────────────────── */
+.s5 { position: relative; background: var(--navy-d); color: #fff; }
+.s5-pin { position: relative; min-height: 100svh; display: grid; align-items: center; overflow: hidden; }
+.s5-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.s5-copy { position: relative; z-index: 1; padding-top: calc(var(--h) + 24px); padding-bottom: 96px; }
+.s5-slides { display: grid; gap: 48px; max-width: min(40%, 520px); }
+.s5-eyebrow { color: rgba(255,255,255,.55); }
+.s5-title { margin: 16px 0 0; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.1; font-weight: 400; letter-spacing: -.02em; }
+.s5-quote { margin: 0; padding-left: 26px; border-left: 2px solid rgba(255,255,255,.5); }
+.s5-quote p { margin: 0; font-size: clamp(18px, 1.9vw, 26px); line-height: 1.5; font-weight: 300; color: rgba(255,255,255,.9); }
+.s5-stats { display: grid; gap: 0; border-top: 1px solid rgba(255,255,255,.18); }
+.s5-stats li { display: grid; gap: 4px; padding: 20px 0 22px; border-bottom: 1px solid rgba(255,255,255,.18); }
+.s5-stats b { font-size: clamp(28px, 3vw, 42px); font-weight: 400; letter-spacing: -.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.s5-stats span { font-size: 14px; color: rgba(255,255,255,.66); }
+.s5-pips { display: none; }
+.s5-waves { position: absolute; left: 0; right: 0; bottom: 28px; color: rgba(255,255,255,.2); }
+
+/* Cu mișcare: secțiunea e înaltă, scena rămâne pe ecran, iar cele trei texte se schimbă pe loc */
+.v5-motion .s5 { height: 340vh; }
+.v5-motion .s5-pin { position: sticky; top: 0; height: 100svh; min-height: 0; }
+.v5-motion .s5-slides { gap: 0; }
+.v5-motion .s5-slide { grid-area: 1 / 1; align-self: center; opacity: 0; transform: translateY(32px); pointer-events: none; transition: opacity .55s var(--ease), transform .8s var(--ease); }
+.v5-motion .s5[data-step="0"] .s5-slide[data-i="0"],
+.v5-motion .s5[data-step="1"] .s5-slide[data-i="1"],
+.v5-motion .s5[data-step="2"] .s5-slide[data-i="2"] { opacity: 1; transform: none; pointer-events: auto; transition-delay: .15s; }
+.v5-motion .s5-pips { display: flex; gap: 8px; margin-top: 40px; }
+.s5-pips span { width: 36px; height: 2px; background: rgba(255,255,255,.22); transition: background .4s; }
+.s5[data-step="0"] .s5-pips span:nth-child(1), .s5[data-step="1"] .s5-pips span:nth-child(-n+2), .s5[data-step="2"] .s5-pips span { background: #fff; }
+
+@media (max-width: 1023px) {
+  .s5-pin { align-items: end; }
+  .s5-copy { padding-top: 56svh; padding-bottom: 88px; }
+  .s5-slides { max-width: none; }
+  .v5-motion .s5-copy { padding-top: 0; }
+  .v5-motion .s5-slide { align-self: end; }
+  .v5-motion .s5-pips { margin-top: 24px; }
+  .v5-motion .s5 { height: 300vh; }
+  .v5-motion [data-px] { transform: translate3d(0, calc(var(--py, 0px) * .6), 0) scale(1.12); }
+}
+
+/* Linkurile din pagină (Vezi apartamentele, Solicită ofertă) derulează lin până la secțiunea lor */
+html.v5-motion { scroll-behavior: smooth; }

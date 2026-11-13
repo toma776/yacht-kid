@@ -9,9 +9,13 @@
 
 /* Fotografia mare, care urmează tipul ales */
 .c5-stage { position: sticky; top: calc(var(--h) + 24px); aspect-ratio: 4 / 3.4; overflow: hidden; background: var(--paper-2); }
-.c5-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity .6s var(--ease), transform 1.2s var(--ease); }
-.c5-stage img[data-on] { opacity: 1; transform: none; }
-.c5-count { position: absolute; left: 20px; bottom: 18px; padding: 6px 12px; background: rgba(255,255,255,.92); font-size: 12px; font-weight: 500; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+/* Fotografia tipului ales intră ca o cortină, de la dreapta, peste cea dinainte (care rămâne dedesubt) */
+.c5-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; z-index: 0; }
+.c5-stage img[data-prev] { opacity: 1; z-index: 1; }
+.c5-stage img[data-on] { opacity: 1; z-index: 2; animation: c5-wipe 1s var(--ease); }
+@keyframes c5-wipe { from { clip-path: inset(0 0 0 100%); transform: scale(1.1); } to { clip-path: inset(0 0 0 0); transform: none; } }
+@media (prefers-reduced-motion: reduce) { .c5-stage img[data-on] { animation: none; } }
+.c5-count { position: absolute; z-index: 3; left: 20px; bottom: 18px; padding: 6px 12px; background: rgba(255,255,255,.92); font-size: 12px; font-weight: 500; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .c5-count b { color: var(--ink); font-weight: 600; }
 
 /* Lista tipurilor */

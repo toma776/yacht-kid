@@ -1,5 +1,6 @@
 'use client';
-// Antetul v5: bară albă, fixă sus. Pe desktop, „Apartamente” și „Proiectul” deschid un panou pe toată lățimea
+// Antetul v5: fix sus. Peste hero e transparent, cu text alb; după prima derulare devine bară albă. La derulare în jos
+// se retrage (scena rămâne curată) și revine la prima mișcare în sus. Pe desktop, „Apartamente” și „Proiectul” deschid un panou pe toată lățimea
 // (fotografii, suprafețe, prețuri); pe mobil, un meniu pe tot ecranul, cu grupurile desfăcute pe rând.
 import {useEffect, useRef, useState} from 'react';
 import {Icon} from '../../../site/ui/Icons.jsx';
@@ -50,10 +51,16 @@ export default function Header({chrome}) {
   const [menu, setMenu] = useState(false);      // meniul pe mobil
   const [group, setGroup] = useState(0);        // grupul desfăcut în meniul pe mobil
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);  // la derulare în jos antetul se retrage; revine la prima mișcare în sus
   const ref = useRef(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 8);
+      if (Math.abs(y - lastY) > 6) { setHidden(y > lastY && y > 480); lastY = y; }
+    };
     const onKey = e => { if (e.key === 'Escape') { setOpen(null); setMenu(false); } };
     const onDown = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(null); };
     onScroll();
@@ -71,10 +78,13 @@ export default function Header({chrome}) {
   const close = () => { setOpen(null); setMenu(false); };
 
   return (
-    <header ref={ref} className="h5" data-raised={scrolled || open !== null || undefined}>
+    <header ref={ref} className="h5" data-raised={scrolled || open !== null || undefined}
+      data-top={(!scrolled && open === null && !menu) || undefined} data-hidden={(hidden && open === null && !menu) || undefined}>
       <div className="h5-wrap h5-bar">
         <a className="h5-logo" href={chrome.home} aria-label={`YACHT KID, ${L['pagina-principala'] ?? 'pagina principală'}`}>
-          <img src="/media/2/" alt="" width="275" height="168"/>
+          {/* Sus, peste film: logo-ul alb; pe antetul alb: cel navy */}
+          <img className="h5-logo-dark" src="/media/2/" alt="" width="275" height="168"/>
+          <img className="h5-logo-light" src="/media/1/" alt="" width="275" height="168"/>
         </a>
         <nav className="h5-nav" aria-label={L['meniul-principal'] ?? 'Meniul principal'}>
           <ul>

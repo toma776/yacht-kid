@@ -1,6 +1,7 @@
 // Subsolul v5: navy, pe trei niveluri. Sus: marca, o frază și acțiunile; la mijloc: contactul, biroul de vânzări
 // și meniul „subsol” din Brain; jos: datele firmei, ANPC/SOL și „sus”.
 import {Icon} from '../../../site/ui/Icons.jsx';
+import {Waves} from './parts';
 
 const SOCIAL = {facebook: 'facebook', instagram: 'instagram', linkedin: 'linkedin'};
 
@@ -9,6 +10,7 @@ export default function Footer({chrome}) {
   const visit = chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref;
   return (
     <footer className="f5">
+      <Waves className="f5-waves"/>
       <div className="h5-wrap">
         <div className="f5-top">
           <img className="f5-logo" src="/media/1/" alt="YACHT KID" width="275" height="168" loading="lazy"/>
