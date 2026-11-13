@@ -1,0 +1,50 @@
+/* YACHT KID · v5 · proiectul: titlul și citatul, capitolele alternate, paginile proiectului */
+
+.p5 { padding: clamp(72px, 9vw, 128px) 0; background: var(--paper-2); scroll-margin-top: var(--h); }
+.p5-head { max-width: 980px; margin-bottom: clamp(48px, 7vw, 96px); }
+.p5-title { margin: 14px 0 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.1; font-weight: 400; letter-spacing: -.02em; text-wrap: balance; }
+.p5-quote { margin: clamp(28px, 4vw, 44px) 0 0; padding-left: 24px; border-left: 2px solid var(--navy); max-width: 720px; }
+.p5-quote p { margin: 0; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.6; color: var(--ink-2); font-style: italic; }
+
+.p5-chapters { margin: 0; padding: 0; list-style: none; display: grid; gap: clamp(56px, 8vw, 120px); }
+.p5-ch { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 88px); align-items: center; }
+.p5-ch:nth-child(even) .p5-fig { order: 2; }
+
+.p5-fig { position: relative; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--line); }
+.p5-fig img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.p5-ch:hover .p5-fig img { transform: scale(1.03); }
+.p5-stat { position: absolute; left: 0; bottom: 0; max-width: min(78%, 340px); padding: 18px 22px 20px; background: var(--paper); display: grid; gap: 4px; }
+.p5-stat b { font-size: clamp(24px, 2.4vw, 32px); font-weight: 500; letter-spacing: -.015em; color: var(--navy); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.p5-stat span { font-size: 12.5px; line-height: 1.45; color: var(--ink-2); }
+
+.p5-text { max-width: 520px; }
+.p5-num { display: block; font-size: 12px; font-weight: 600; letter-spacing: .1em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.p5-ch-title { margin: 14px 0 18px; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; font-weight: 400; letter-spacing: -.015em; }
+.p5-text p { margin: 0 0 16px; font-size: 15px; line-height: 1.75; color: var(--ink-2); }
+.p5-text .v5-btn { margin-top: 12px; }
+
+/* Paginile proiectului */
+.p5-pages { margin-top: clamp(64px, 8vw, 112px); }
+.p5-pages ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.p5-page { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: start; height: 100%; padding: 28px 28px 30px; background: var(--paper); transition: background .25s; }
+.p5-page:hover { background: #fff; }
+.p5-page-ic { color: var(--navy); }
+.p5-page-ic svg { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.p5-page-text b { display: block; font-size: 17px; font-weight: 600; }
+.p5-page-text small { display: block; margin-top: 6px; font-size: 13px; line-height: 1.55; color: var(--ink-2); }
+.p5-page-go { margin-top: 3px; color: var(--muted); transition: transform .25s var(--ease), color .25s; }
+.p5-page:hover .p5-page-go { transform: translateX(4px); color: var(--navy); }
+
+@media (max-width: 1023px) {
+  .p5-ch { grid-template-columns: 1fr; gap: 28px; }
+  .p5-ch:nth-child(even) .p5-fig { order: 0; }
+  .p5-text { max-width: none; }
+  .p5-pages ul { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .p5-stat { position: static; max-width: none; }
+  .p5-fig { aspect-ratio: auto; background: none; }
+  .p5-fig img { aspect-ratio: 4 / 3; }
+  .p5-text .v5-btn { width: 100%; }
+}

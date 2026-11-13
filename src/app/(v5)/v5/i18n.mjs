@@ -19,6 +19,7 @@ export const T = {
     collectionEyebrow: 'Apartamente',
     collectionHeading: 'Colecția de Apartamente',
     city: null,
+    projectPages: 'Paginile proiectului',
     placeholder: 'Următoarele secțiuni vin aici.'
   },
   en: {
@@ -40,6 +41,7 @@ export const T = {
     collectionEyebrow: 'Apartments',
     collectionHeading: 'The Apartment Collection',
     city: 'Bucharest',
+    projectPages: 'Project pages',
     placeholder: 'The next sections go here.'
   }
 };

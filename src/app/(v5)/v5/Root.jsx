@@ -2,6 +2,7 @@
 import './v5-chrome.css';
 import './v5-hero.css';
 import './v5-collection.css';
+import './v5-project.css';
 import './v5.css';
 
 export default function Root({lang, children}) {

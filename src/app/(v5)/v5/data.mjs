@@ -72,3 +72,37 @@ export async function loadCollection(ctx, labels, visitHref, t) {
     items: items.filter(i => i.href)
   };
 }
+
+// Proiectul (secțiunea „despre” a homepage-ului): citatul, apoi capitolele (titlu, paragraf, fotografie cu legendă).
+// Legenda „{parc} — parc cu deschidere directă” se împarte în cifră și text; sub capitole, paginile proiectului
+// (din placa „Proiectul” a meniului): Tehnologie, Comunitate, Spații comerciale.
+export async function loadProject(ctx, chrome) {
+  const values = await tokenValues(ctx);
+  const [s] = await ctx.query('sectiuni', {scope: 'v5:proiect', where: "e.anchor = 'despre' AND e.kind = 'text'", order: 'e.id', limit: 1});
+  if (!s) return null;
+  const html = fillTokens(s.text ?? '', values);
+  const quote = strip(html.match(/<blockquote>([\s\S]*?)<\/blockquote>/)?.[1] ?? '');
+  const chapters = [...html.matchAll(/<h3>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3>|$)/g)].map(([, title, body]) => {
+    const block = body.match(/<figure>[\s\S]*?<\/figure>/)?.[0] ?? '';
+    const fig = block.match(/data-media="(\d+)"[^>]*?alt="([^"]*)"/);
+    const caption = strip(block.match(/<figcaption>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+    const [value, label] = caption.split(/\s+—\s+/);
+    return {
+      title: strip(title),
+      text: (body.replace(/<figure>[\s\S]*?<\/figure>/g, '').match(/<p>[\s\S]*?<\/p>/g) ?? []).map(strip).filter(Boolean),
+      image: fig ? {src: ctx.media(+fig[1]), srcSet: ctx.srcset(+fig[1]), alt: fig[2]} : null,
+      stat: label ? {value, label} : value ? {value: '', label: value} : null
+    };
+  });
+  const [b1] = await buttons(ctx, s, values);
+  const topics = chrome.header.find(i => i.mega === 'proiect');
+  return {
+    anchor: s.anchor,
+    eyebrow: fillTokens(s.eyebrow ?? '', values),
+    heading: fillTokens(s.heading ?? '', values),
+    quote,
+    chapters,
+    cta: b1?.href ? b1 : null,
+    pages: (topics?.children ?? []).map(c => ({href: c.href, label: c.label, desc: c.desc, icon: c.icon, image: c.image}))
+  };
+}

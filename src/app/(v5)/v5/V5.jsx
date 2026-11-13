@@ -5,8 +5,9 @@ import Header from './Header';
 import Footer from './Footer';
 import Hero from './Hero';
 import Collection from './Collection';
+import Project from './Project';
 
-export default function V5({chrome, hero, collection}) {
+export default function V5({chrome, hero, collection, project}) {
   const t = chrome.t;
   return (
     <>
@@ -16,6 +17,7 @@ export default function V5({chrome, hero, collection}) {
       <main id="continut" className="v5-main">
         <Hero hero={hero} t={t}/>
         <Collection data={collection} t={t}/>
+        <Project data={project} t={t}/>
         <section className="v5-placeholder">
           <p className="v5-eyebrow">Homepage v5</p>
           <p className="v5-placeholder-title">{t.placeholder}</p>

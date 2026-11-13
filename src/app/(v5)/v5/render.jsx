@@ -3,7 +3,7 @@
 import {getDb} from '../../../core/db.mjs';
 import {createContext} from '../../../site/context.mjs';
 import {loadChrome} from '../../../site/chrome.mjs';
-import {loadHero, loadCollection} from './data.mjs';
+import {loadHero, loadCollection, loadProject} from './data.mjs';
 import {T, plain} from './i18n.mjs';
 import V5 from './V5';
 
@@ -22,6 +22,8 @@ export async function renderV5(lang) {
   chrome.home = PATHS[lang];
   chrome.t = plain(T[lang]);
   const visit = chrome.header.find(i => i.mega === 'locuinte')?.aside?.cta?.href ?? chrome.contactHref;
-  const [hero, collection] = await Promise.all([loadHero(ctx, chrome.labels), loadCollection(ctx, chrome.labels, visit, T[lang])]);
-  return <V5 chrome={chrome} hero={hero} collection={collection}/>;
+  const [hero, collection, project] = await Promise.all([
+    loadHero(ctx, chrome.labels), loadCollection(ctx, chrome.labels, visit, T[lang]), loadProject(ctx, chrome)
+  ]);
+  return <V5 chrome={chrome} hero={hero} collection={collection} project={project}/>;
 }
