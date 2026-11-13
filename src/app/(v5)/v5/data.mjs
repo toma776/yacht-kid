@@ -106,3 +106,26 @@ export async function loadProject(ctx, chrome) {
     pages: (topics?.children ?? []).map(c => ({href: c.href, label: c.label, desc: c.desc, icon: c.icon, image: c.image}))
   };
 }
+
+// Pictograma unui avantaj, după cuvintele din titlu, pe ambele limbi (desenele sunt în sprite-ul site-ului)
+const FEATURE_ICONS = [[/piscin|pool/i, 'pool'], [/promenad/i, 'promenade'], [/aerisit|airy/i, 'air'], [/paz[aă]|cctv|security/i, 'shield'],
+  [/fa[țt]ad|facade/i, 'facade'], [/comercial|commercial/i, 'shop'], [/energie|energy/i, 'energy'], [/loca[țt]i|location/i, 'location']];
+
+// Avantajele: secțiunea „avantaje” a homepage-ului (titlul, fotografia) și beneficiile legate de ea, în ordinea din Brain
+export async function loadFeatures(ctx) {
+  const values = await tokenValues(ctx);
+  const [s] = await ctx.query('sectiuni', {scope: 'v5:avantaje', where: "e.anchor = 'avantaje' AND e.kind = 'avantaje'", order: 'e.id', limit: 1});
+  if (!s) return null;
+  const items = (await ctx.links('sectiuni.features', s.id)).map(f => {
+    const title = fillTokens(f.title ?? '', values);
+    return {id: f.id, title, text: fillTokens(f.text ?? '', values), icon: FEATURE_ICONS.find(([rx]) => rx.test(title))?.[1] ?? 'leaf'};
+  });
+  return {
+    anchor: s.anchor,
+    eyebrow: fillTokens(s.eyebrow ?? '', values),
+    heading: fillTokens(s.heading ?? '', values),
+    text: s.text ? strip(await rich(ctx, s.text, values)) : '',
+    image: s.image ? {src: ctx.media(s.image), srcSet: ctx.srcset(s.image)} : null,
+    items
+  };
+}
