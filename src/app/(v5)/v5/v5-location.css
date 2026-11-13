@@ -1,0 +1,39 @@
+/* YACHT KID · v5 · locația: bandă navy, harta 3D pe toată lățimea, adresa și acțiunile.
+   Harta e componenta site-ului (site/ui/LocationMap.jsx + site/styles/map.css); aici primește tokenurile de care are
+   nevoie (doar în secțiune) și forma v5: colțuri drepte, fără umbră, lista reperelor pe fundal închis. */
+
+.l5 {
+  --coral: #e8895c; --coral-light: #f9ab86; --coral-ink: #a9532c; --porcelain: #f1f1f0; --ink-3: #5f6c94;
+  --line-light: rgba(255,255,255,.18); --font: 'Montserrat', system-ui, sans-serif; --t: 220ms;
+  padding: clamp(72px, 9vw, 128px) 0; background: var(--navy); color: #fff; scroll-margin-top: var(--h);
+}
+.l5-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 32px 64px; align-items: end; margin-bottom: clamp(36px, 5vw, 56px); }
+.l5-eyebrow { color: rgba(255,255,255,.55); }
+.l5-title { margin: 14px 0 0; font-size: clamp(30px, 4vw, 54px); line-height: 1.1; font-weight: 400; letter-spacing: -.02em; text-wrap: balance; }
+.l5-copy p { margin: 0 0 14px; font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.74); }
+.l5-copy p:last-child { margin-bottom: 0; }
+
+/* Harta: mai lată decât la site, colțuri drepte */
+.l5 .location-visual { gap: 18px; }
+.l5 .location-visual .location-map { position: relative; margin: 0; aspect-ratio: 16 / 8; border: 0; border-radius: 0; overflow: hidden; box-shadow: none; }
+.l5 .location-map .map-fallback { border-radius: 0; }
+.l5 .poi-list button { border-radius: 0; }
+.l5-static { margin: 0; aspect-ratio: 16 / 8; overflow: hidden; }
+.l5-static img { width: 100%; height: 100%; object-fit: cover; }
+
+.l5-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; margin-top: clamp(32px, 4vw, 48px); padding-top: 28px; border-top: 1px solid rgba(255,255,255,.16); }
+.l5-address { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500; }
+.l5-address svg { color: var(--coral-light); flex: none; }
+.l5-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
+.l5-link { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.4); padding-bottom: 2px; }
+
+@media (max-width: 1023px) {
+  .l5-head { grid-template-columns: 1fr; align-items: start; }
+  .l5 .location-visual .location-map, .l5-static { aspect-ratio: 4 / 3.6; }
+  .l5 > .h5-wrap > .l5-map { margin: 0 calc(var(--gut) * -1); }
+  .l5 .poi-list { padding: 0 var(--gut); }
+}
+
+@media (max-width: 640px) {
+  .l5-actions, .l5-actions .v5-btn { width: 100%; }
+}

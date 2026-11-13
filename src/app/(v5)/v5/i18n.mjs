@@ -22,6 +22,7 @@ export const T = {
     projectPages: 'Paginile proiectului',
     readMore: 'Citește despre premiu',
     officialPage: 'Pagina competiției',
+    openMaps: 'Deschide în Google Maps',
     placeholder: 'Următoarele secțiuni vin aici.'
   },
   en: {
@@ -46,6 +47,7 @@ export const T = {
     projectPages: 'Project pages',
     readMore: 'Read about the award',
     officialPage: 'Competition page',
+    openMaps: 'Open in Google Maps',
     placeholder: 'The next sections go here.'
   }
 };

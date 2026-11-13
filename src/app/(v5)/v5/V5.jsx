@@ -8,8 +8,9 @@ import Collection from './Collection';
 import Project from './Project';
 import Features from './Features';
 import Awards from './Awards';
+import Location from './Location';
 
-export default function V5({chrome, hero, collection, project, features, awards}) {
+export default function V5({chrome, hero, collection, project, features, awards, location}) {
   const t = chrome.t;
   return (
     <>
@@ -22,6 +23,7 @@ export default function V5({chrome, hero, collection, project, features, awards}
         <Project data={project} t={t}/>
         <Features data={features}/>
         <Awards data={awards} t={t}/>
+        <Location data={location} lang={chrome.lang} maps={chrome.firma?.maps} t={{...t, openMaps: chrome.labels['deschide-maps'] ?? t.openMaps}}/>
         <section className="v5-placeholder">
           <p className="v5-eyebrow">Homepage v5</p>
           <p className="v5-placeholder-title">{t.placeholder}</p>

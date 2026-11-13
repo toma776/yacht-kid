@@ -2,6 +2,7 @@
 import {formatNumber, formatMoney, formatRange} from '../../../registry/langs.mjs';
 import {fillTokens, tokenValues, rich} from '../../../site/rich.mjs';
 import {buttons, mediaVideo, strip} from '../../../site/ui/parts.jsx';
+import {mapData} from '../../../site/ui/Sections.jsx';
 
 const UNIT = {m2: 'm²', procent: '%'};
 
@@ -154,5 +155,30 @@ export async function loadAwards(ctx) {
     count: values.nr_premii ?? String(items.length),
     image: s.image ? {src: ctx.media(s.image), srcSet: ctx.srcset(s.image)} : null,
     items
+  };
+}
+
+// Locația: secțiunea „locatie” a homepage-ului (titlul, paragrafele, adresa din {adresa}, butonul) și harta 3D a site-ului
+// (proiectul din Date firmă, reperele din Brain, cu timpii pe jos și cu mașina). Harta desenată din text (alta pe fiecare
+// limbă) rămâne imaginea de rezervă, cât se încarcă harta sau fără WebGL.
+export async function loadLocation(ctx) {
+  const values = await tokenValues(ctx);
+  const [s] = await ctx.query('sectiuni', {scope: 'v5:locatie', where: "e.anchor = 'locatie' AND e.kind = 'text'", order: 'e.id', limit: 1});
+  if (!s) return null;
+  const html = fillTokens(s.text ?? '', values);
+  const fig = html.match(/<figure>[\s\S]*?data-media="(\d+)"[^>]*?alt="([^"]*)"/);
+  const paras = (html.replace(/<figure>[\s\S]*?<\/figure>/g, '').match(/<p>[\s\S]*?<\/p>/g) ?? []).map(strip)
+    .filter(p => p && p !== values.adresa);
+  const [b1] = await buttons(ctx, s, values);
+  const map = s.show_map ? await mapData(ctx, s) : null;
+  return {
+    anchor: s.anchor,
+    eyebrow: fillTokens(s.eyebrow ?? '', values),
+    heading: fillTokens(s.heading ?? '', values),
+    paras,
+    address: values.adresa ?? '',
+    cta: b1?.href ? b1 : null,
+    map,
+    fallback: fig ? {src: ctx.media(+fig[1]), alt: fig[2].replace(/&amp;/g, '&')} : s.image ? {src: ctx.media(s.image), alt: ''} : null
   };
 }
