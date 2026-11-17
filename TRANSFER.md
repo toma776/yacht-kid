@@ -1,53 +1,41 @@
 # Transferul site-ului YACHT KID
 
-Ghid pentru predarea proiectului către client: repo-ul GitHub, proiectul Vercel, baza de date (Neon) și imaginile (Vercel Blob).
-Baza și imaginile **nu** trec singure odată cu proiectul. Clientul își creează în contul lui o bază Neon și un spațiu Blob,
-iar scriptul `scripts/transfer-client.mjs` copiază în ele datele și imaginile.
+Codul stă pe GitHub în `getDAVID-ro/yacht-kid-brain` (privat). Pe Vercel, proiectul are nevoie de o bază **Neon** și de un
+**Blob** al vostru. Până la transfer, imaginile stau în repo (`public/m`, ~128 MB, WebP) și baza stă tot în repo, ca
+o copie (`data/brain-export.json.gz`). Cu pașii de mai jos ajung în Neon-ul și Blob-ul vostru.
 
-## Ce face agenția, înainte
+## 1. Baza de date (Neon)
 
-1. Transferă repo-ul GitHub `toma776/yacht-kid` către contul sau organizația clientului (GitHub → Settings → Transfer).
-2. Transferă proiectul Vercel `yacht-kid` în echipa Vercel a clientului (Vercel → Project → Settings → Transfer Project).
-3. Trimite clientului **pe un canal privat**, nu în repo, adresa bazei agenției, valabilă doar pentru transfer:
-   `SOURCE_DATABASE_URL=postgresql://…` (din Vercel → Storage → baza Neon a agenției → `.env.local` → `DATABASE_URL`).
-4. După ce clientul confirmă că site-ul merge din contul lui, agenția șterge baza Neon, spațiul Blob, contul Cloudinary
-   și integrarea Turso din contul ei.
+1. În proiectul de pe Vercel: Storage → Create → **Neon**, plan Free, regiunea Frankfurt, legată de proiect
+   (Production, Preview și Development bifate).
+2. Cu Node 24 sau mai nou: `git clone https://github.com/getDAVID-ro/yacht-kid-brain.git`, apoi `cd yacht-kid-brain`,
+   apoi `npm install`, apoi `npx vercel link` (alegeți proiectul), apoi `npx vercel env pull .env.local`.
+3. `npm run db:seed` copiază baza din repo în Neon-ul vostru, într-o singură tranzacție. La final afișează câte rânduri
+   a scris.
 
-## Ce face clientul: comanda pentru Claude
+## 2. Mutarea imaginilor în Blob-ul vostru
 
-Clientul deschide proiectul (clona repo-ului transferat) în Claude Code și trimite mesajul de mai jos, cu
-`SOURCE_DATABASE_URL` primit de la agenție. Claude are nevoie de conectorul Vercel (MCP) activ în sesiune.
+1. În proiectul de pe Vercel: Storage → Create → **Blob**, public, Frankfurt, legat de proiect (cu Development bifat).
+   Dacă proiectul are deja variabila `BLOB_READ_WRITE_TOKEN`, ștergeți-o întâi: e de la depozitul agenției.
+2. `npx vercel env pull .env.local` (ca să aducă tokenul nou), apoi `npm run blob:copy`. Copierea durează câteva minute
+   și la final confirmă fiecare fișier.
+3. În Settings → Environment Variables ștergeți `MEDIA_IN_REPO`, apoi faceți **Redeploy**.
+4. Rulați încă o dată `npm run blob:copy`, ca să prindă ce s-a adăugat între timp.
 
-```text
-Pregătește site-ul YACHT KID în contul meu, după TRANSFER.md din acest repo:
-1. În proiectul Vercel „yacht-kid” din echipa mea, creează un spațiu Vercel Blob public (regiunea fra1) conectat la proiect, prin conectorul Vercel.
-2. Spune-mi exact unde să dau click ca să adaug o bază Neon (Free) conectată la același proiect, apoi așteaptă confirmarea mea.
-3. Scrie .env.transfer.local cu DATABASE_URL și BLOB_READ_WRITE_TOKEN din proiectul meu și cu SOURCE_DATABASE_URL de mai jos. Nu afișa valorile.
-4. Rulează: npm install, apoi node --env-file=.env.transfer.local scripts/transfer-client.mjs
-5. Pune MEDIA_BLOB_URL (afișat de script) în variabilele proiectului Vercel, pentru Production și Preview.
-6. Scoate variabilele rămase de la agenție: TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, MEDIA_BASE_URL și orice BLOB_READ_WRITE_TOKEN care nu aparține spațiului Blob creat la pasul 1.
-7. Fă redeploy pe producție și verifică pagina principală, o pagină de apartament, /blog/ și /manage/: imaginile să vină din Blob-ul meu, iar datele din Neon.
-SOURCE_DATABASE_URL=<adresa primită de la agenție>
-```
+**Verificare:** `https://<proiect>.vercel.app/api/stare` trebuie să arate `"blob":"BLOB_READ_WRITE_TOKEN"` și
+`"neon":true`.
 
-## Ce se întâmplă, pe scurt
+## 3. Curățenia, după ce site-ul merge din contul vostru
 
-| Pas | Unde | Rezultat |
-| --- | --- | --- |
-| Blob | Vercel → Storage, creat de Claude prin conector | `BLOB_READ_WRITE_TOKEN` pe proiect |
-| Neon | Vercel → Storage → Create Database → Neon, de mână (acceptă termenii) | `DATABASE_URL` pe proiect |
-| Date | `transfer-client.mjs` | baza agenției copiată integral în Neon-ul clientului |
-| Imagini | `transfer-client.mjs` | `public/m/*` urcate în Blob, la aceleași nume |
-| Site | variabila `MEDIA_BLOB_URL` + redeploy | `/media/<id>/` trimite la Blob-ul clientului |
+- Ștergeți variabilele rămase de la agenție, dacă există: `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `MEDIA_BASE_URL`.
+- **Securitate:** `MANAGE_PUBLIC=1` deschide /manage fără autentificare pe Vercel. Ștergeți-o (și Redeploy) înainte
+  de lansarea pe domeniul real.
+- Agenția își șterge apoi baza, Blob-ul și integrarea Turso din contul ei.
 
-Scriptul se poate relua fără grijă: imaginile deja urcate sunt sărite, iar baza e rescrisă integral (copia pornește
-mereu din baza agenției, deci se rulează **înainte** ca clientul să editeze ceva în /manage).
+## Lucrul de zi cu zi
 
-## După transfer
-
-- Imaginile rămân și în repo, în `public/m/` (~128 MB), ca sursă pentru `transfer-client.mjs`. Odată ce site-ul
-  merge din Blob, folderul se poate scoate din repo; imaginile noi se urcă din /manage.
-- Lucrul local: `npm run dev` pornește baza locală (PGlite, în `data/pg`) și site-ul. `npm run db:pull` aduce baza
-  de pe Neon local, `npm run db:push` o trimite înapoi (cere `.env.neon.local` cu `DATABASE_URL`).
-- **Securitate:** variabila `MANAGE_PUBLIC=1` deschide /manage fără autentificare pe Vercel. Clientul o șterge (și
-  face redeploy) înainte de lansarea pe domeniul real.
+- `npm run dev` pornește baza locală (Postgres încorporat, în `data/pg`) și site-ul pe http://localhost:3000.
+- `npm run db:pull` aduce baza de pe Neon local; `npm run db:push` o trimite înapoi (refuză dacă pe Neon sunt
+  testimoniale trimise de pe site care lipsesc local).
+- Imaginile noi intră în `public/m` cu `npm run media:repo` (din originalele din `reference/snapshot/media`); după
+  mutarea în Blob, se urcă și acolo cu `npm run blob:copy`.

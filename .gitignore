@@ -2,7 +2,9 @@
 /docs/standard-brain-manage.md
 node_modules/
 .next/
-/data/
+/data/*
+# Copia bazei (npm run db:export) intră în repo-ul privat: din ea își încarcă clientul Neon-ul (npm run db:seed)
+!/data/brain-export.json.gz
 .env*.local
 .vercel
 next-env.d.ts

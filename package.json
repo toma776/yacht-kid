@@ -15,7 +15,7 @@
     "analyze": "node scripts/analyze.mjs",
     "schema": "node scripts/schema.mjs",
     "test": "node --test --disable-warning=ExperimentalWarning",
-    "db:push": "node --env-file=.env.neon.local scripts/pg-copy.mjs --from local --to neon",
+    "db:push": "node scripts/pg-copy.mjs --from local --to neon",
     "media:cloudinary": "node --env-file=.env.cloudinary.local scripts/media-to-cloudinary.mjs",
     "media:r2": "node --env-file=.env.r2.local scripts/media-to-r2.mjs",
     "mirror": "node scripts/mirror.mjs",
@@ -24,9 +24,12 @@
     "harta": "node scripts/harta-locatie.mjs && node scripts/harta-brain.mjs",
     "harta:brain": "node scripts/harta-brain.mjs",
     "db": "node scripts/db-local.mjs",
-    "db:pull": "node --env-file=.env.neon.local scripts/pg-copy.mjs --from neon --to local",
+    "db:pull": "node scripts/pg-copy.mjs --from neon --to local",
     "db:from-sqlite": "node scripts/pg-copy.mjs --from sqlite --to local",
-    "media:repo": "node scripts/media-to-repo.mjs"
+    "media:repo": "node scripts/media-to-repo.mjs",
+    "db:export": "node scripts/pg-copy.mjs --from local --to file",
+    "db:seed": "node scripts/pg-copy.mjs --from file --to neon",
+    "blob:copy": "node scripts/blob-copy.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.16",
