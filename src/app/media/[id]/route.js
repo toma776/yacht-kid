@@ -1,35 +1,39 @@
 // Fișierele media, după ID (§3.9: ID-ul rămâne la înlocuire, ?v= schimbă adresa).
-// Local, fișierele vin din snapshot. Pe Vercel stau într-un spațiu de stocare public (Cloudinary, urcate de
-// scripts/media-to-cloudinary.mjs; înainte Vercel Blob), sub `media/<filename>`: ruta redirecționează la MEDIA_BASE_URL + cheie.
-import {readFile} from 'node:fs/promises';
+// Imaginile stau comprimate în repo, în public/m/ (scripts/media-to-repo.mjs): <id>.webp, iar pentru hero-uri și coperte și
+// lățimile <id>-<w>.webp cerute prin ?w= (srcset-ul din context.mjs). După transfer, aceleași fișiere stau în Vercel Blob-ul
+// clientului (scripts/transfer-client.mjs), iar MEDIA_BLOB_URL e adresa lui publică: ruta redirecționează acolo.
+// Local, un fișier care nu e încă în public/m (urcat între timp în /manage) vine direct din snapshot.
+import {readFile, stat} from 'node:fs/promises';
 import {join} from 'node:path';
 import {getDb, one} from '../../../core/db.mjs';
+import VARIANTS from '../../../site/media-variants.json';
 
 const SNAPSHOT = join(process.cwd(), 'reference', 'snapshot', 'media');
-// Lățimile cerute prin ?w= (srcset-ul din context.mjs, ctx.srcset); orice altă valoare se ignoră, ca să nu se creeze variante la cerere
+const PUBLIC = join(process.cwd(), 'public', 'm');
+// Lățimile pregătite (aceleași ca în ctx.srcset); orice altă valoare primește fișierul întreg
 const WIDTHS = [480, 828, 1200, 1920];
+const WIDE = new Set(VARIANTS);
+const RASTER = /^image\/(jpeg|png|webp|gif|avif)$/;
 
 export async function GET(request, {params}) {
   const {id} = await params;
   const db = await getDb();
-  const m = await one(db, 'SELECT filename, mime FROM media WHERE id = ?', [+id]);
-  if (!m) return new Response('Not found', {status: 404});
-  if (process.env.VERCEL) {
-    const base = process.env.MEDIA_BASE_URL;
-    if (!base || m.mime.startsWith('video/')) return new Response('Not found', {status: 404});
-    // Cloudinary optimizează la livrare: formatul cel mai mic pe care îl acceptă browserul (AVIF/WebP), calitate
-    // automată și, cu ?w=, lățimea cerută (fără mărire peste original). SVG-urile rămân cum sunt.
-    const w = +new URL(request.url).searchParams.get('w');
-    const t = m.mime === 'image/svg+xml' ? '' : `/f_auto,q_auto${WIDTHS.includes(w) ? `,w_${w},c_limit` : ''}`;
-    const to = `${base}${t}/media/${m.filename.split('/').map(encodeURIComponent).join('/')}`;
-    // Browserul ține redirecționarea 5 minute, CDN-ul Vercel o zi (se golește la fiecare deploy): când se schimbă
-    // stocarea (MEDIA_BASE_URL), vizitatorii nu rămân o zi întreagă cu adresa veche
-    return new Response(null, {status: 308, headers: {location: to, 'cache-control': 'public, max-age=300, s-maxage=86400'}});
+  const m = await one(db, 'SELECT id, filename, mime FROM media WHERE id = ?', [+id]);
+  if (!m || m.mime.startsWith('video/')) return new Response('Not found', {status: 404});
+  const w = +new URL(request.url).searchParams.get('w');
+  const raster = RASTER.test(m.mime);
+  const file = raster ? (WIDTHS.includes(w) && WIDE.has(m.id) ? `${m.id}-${w}.webp` : `${m.id}.webp`) : `${m.id}.${m.filename.split('.').pop().toLowerCase()}`;
+  const blob = process.env.MEDIA_BLOB_URL;
+  if (!blob && !process.env.VERCEL && !await stat(join(PUBLIC, file)).catch(() => null)) {
+    try {
+      const body = await readFile(join(SNAPSHOT, m.filename));
+      return new Response(body, {headers: {'content-type': m.mime, 'cache-control': 'no-store'}});
+    } catch {
+      return new Response('Not found', {status: 404});
+    }
   }
-  try {
-    const body = await readFile(join(SNAPSHOT, m.filename));
-    return new Response(body, {headers: {'content-type': m.mime, 'cache-control': 'public, max-age=31536000, immutable'}});
-  } catch {
-    return new Response('Not found', {status: 404});
-  }
+  // Browserul ține redirecționarea 5 minute, CDN-ul Vercel o zi (se golește la fiecare deploy): când se schimbă locul
+  // fișierelor (repo → Blob), vizitatorii nu rămân o zi întreagă cu adresa veche
+  const to = blob ? `${blob.replace(/\/$/, '')}/m/${file}` : new URL(`/m/${file}`, request.url).toString();
+  return new Response(null, {status: 308, headers: {location: to, 'cache-control': 'public, max-age=300, s-maxage=86400'}});
 }
