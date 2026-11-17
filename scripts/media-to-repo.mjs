@@ -17,7 +17,7 @@ export const WIDTHS = [480, 828, 1200, 1920];
 const MAX = 2560, QUALITY = 78;
 const exists = p => stat(p).then(() => true, () => false);
 
-const db = openDb({url: `file:${join(process.cwd(), 'data', 'brain.db')}`});
+const db = openDb();
 const media = await all(db, `SELECT id, filename, mime FROM media WHERE mime NOT LIKE 'video/%' ORDER BY id`);
 // Imaginile cu srcset: hero-urile secțiunilor, copertele tipurilor de locuințe, ale articolelor și ale afacerilor
 const wide = new Set((await all(db, `

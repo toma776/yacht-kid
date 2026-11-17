@@ -3,8 +3,9 @@
   "configurations": [
     {
       "name": "yacht-kid",
-      "runtimeExecutable": "npx",
+      "runtimeExecutable": "node",
       "runtimeArgs": [
+        "scripts/db-local.mjs",
         "next",
         "dev",
         "--webpack",

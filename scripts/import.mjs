@@ -1,4 +1,4 @@
-// Importul din snapshot în Brain (§1.3, etapa 3). Local scrie în data/brain.db; cu TURSO_DATABASE_URL scrie în Turso.
+// Importul din snapshot în Brain (§1.3, etapa 3). Local scrie în Postgres-ul local (npm run db); cu DATABASE_URL scrie în Neon.
 //   node scripts/import.mjs [--overwrite-edits]
 // Raportul complet ajunge în reference/analysis/import-report.json.
 import {writeFile} from 'node:fs/promises';

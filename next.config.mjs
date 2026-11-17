@@ -2,8 +2,8 @@
 export default {
   // Adresele vechi au bară la final; o adresă fără bară primește 301 (§3.8)
   trailingSlash: true,
-  // Clientul libSQL are o parte nativă pentru fișierul local; rămâne în afara pachetului
-  serverExternalPackages: ['@libsql/client', 'libsql'],
+  // Driverele Postgres (pg local, Neon pe Vercel) și PGlite (WASM, doar local) rămân în afara pachetului
+  serverExternalPackages: ['pg', '@neondatabase/serverless', '@electric-sql/pglite'],
   // Ruta de cron face primul import pe Vercel, deci are nevoie de snapshot (fără fișierele media) și de rapoartele analizei
   outputFileTracingIncludes: {
     '/api/manage/cron/tick': [

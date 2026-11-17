@@ -86,9 +86,9 @@ async function inTx(db, fn) {
   const tx = await db.transaction('write');
   try { const r = await fn(tx); await tx.commit(); return r; } catch (e) {
     await tx.rollback();
-    if (/UNIQUE constraint failed: .*slug/.test(e.message)) throw new StoreError('Adresa (slug) e deja folosită în această limbă.', {status: 409, errors: [{field: 'slug', message: 'Slug deja folosit'}]});
-    if (/UNIQUE constraint failed/.test(e.message)) throw new StoreError('Valoarea trebuie să fie unică și există deja.', {status: 409});
-    if (/FOREIGN KEY constraint failed/.test(e.message)) throw new StoreError('Înregistrarea e folosită de altele și nu poate fi ștearsă sau schimbată așa.', {status: 409});
+    if (/UNIQUE constraint failed: .*slug|duplicate key value violates unique constraint "ux_\w+_slug"/.test(e.message)) throw new StoreError('Adresa (slug) e deja folosită în această limbă.', {status: 409, errors: [{field: 'slug', message: 'Slug deja folosit'}]});
+    if (/UNIQUE constraint failed|duplicate key value violates unique constraint/.test(e.message)) throw new StoreError('Valoarea trebuie să fie unică și există deja.', {status: 409});
+    if (/FOREIGN KEY constraint failed|violates foreign key constraint/.test(e.message)) throw new StoreError('Înregistrarea e folosită de altele și nu poate fi ștearsă sau schimbată așa.', {status: 409});
     throw e;
   }
 }

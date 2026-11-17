@@ -1,57 +1,58 @@
-// Registrul, schema generată din el și regulile bilingve. Rulează pe node:sqlite, fără dependențe.
+// Registrul, schema generată din el și regulile bilingve. Baza: Postgres în memorie (PGlite), ca în producție.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {DatabaseSync} from 'node:sqlite';
 import {ENTITIES} from '../src/registry/entities.mjs';
 import {ASSUMPTIONS} from '../src/registry/assumptions.mjs';
 import {formatMoney, formatNumber, formatRange} from '../src/registry/langs.mjs';
 import {checkRegistry, publicPaths, inverseRelations, RELATION_TYPES, TOKENS, assumptionsUsed, entity, field, titleOf, LINK_REF} from '../src/registry/derive.mjs';
-import {migrate, missingColumns, schemaSql} from '../src/core/schema.mjs';
+import {missingColumns, schemaSql} from '../src/core/schema.mjs';
+import {memoryDb, prepare, one, all} from '../src/core/db.mjs';
 
 const now = new Date().toISOString();
-const freshDb = () => { const db = new DatabaseSync(':memory:'); migrate(db); return db; };
-const insert = (db, table, row) => {
+const freshDb = async () => prepare(await memoryDb());
+const insert = async (db, table, row) => {
   const keys = Object.keys(row);
-  return db.prepare(`INSERT INTO "${table}" (${keys.map(k => `"${k}"`).join(', ')}) VALUES (${keys.map(() => '?').join(', ')})`).run(...Object.values(row)).lastInsertRowid;
+  return (await db.execute({sql: `INSERT INTO "${table}" (${keys.map(k => `"${k}"`).join(', ')}) VALUES (${keys.map(() => '?').join(', ')})`, args: Object.values(row)})).lastInsertRowid;
 };
+const columns = async (db, t) => (await all(db, `PRAGMA table_info("${t}")`)).map(c => c.name);
 
 test('registrul e valid', () => {
   assert.deepEqual(checkRegistry(), []);
 });
 
-test('schema rulează pe SQLite, de două ori, fără coloane lipsă', () => {
-  const db = freshDb();
-  migrate(db);
-  assert.deepEqual(missingColumns(db), []);
-  for (const e of ENTITIES) assert.ok(db.prepare(`PRAGMA table_info("${e.table}")`).all().length, e.table);
+test('schema rulează pe Postgres, de două ori, fără coloane lipsă', async () => {
+  const db = await freshDb();
+  await prepare(db);
+  assert.deepEqual(await missingColumns(db), []);
+  for (const e of ENTITIES) assert.ok((await columns(db, e.table)).length, e.table);
 });
 
 test('db/schema.sql e la zi cu registrul', () => {
   assert.equal(readFileSync(new URL('../db/schema.sql', import.meta.url), 'utf8'), schemaSql(), 'rulează npm run schema');
 });
 
-test('migrarea adaugă o coloană nouă declarată în registru', () => {
-  const db = freshDb();
-  db.exec('ALTER TABLE businesses DROP COLUMN website');
-  assert.deepEqual(missingColumns(db), ['ALTER TABLE "businesses" ADD COLUMN "website" TEXT']);
-  migrate(db);
-  assert.deepEqual(missingColumns(db), []);
+test('migrarea adaugă o coloană nouă declarată în registru', async () => {
+  const db = await freshDb();
+  await db.execute('ALTER TABLE businesses DROP COLUMN website');
+  assert.deepEqual(await missingColumns(db), ['ALTER TABLE "businesses" ADD COLUMN IF NOT EXISTS "website" TEXT']);
+  await prepare(db);
+  assert.deepEqual(await missingColumns(db), []);
 });
 
-test('bilingv: aceeași entitate, două traduceri, slug unic pe limbă', () => {
-  const db = freshDb();
-  const id = insert(db, 'unit_types', {kind: 'apartament', rooms: 2, area_min: 61.9, area_max: 66.24, price_from: 210000, created_at: now, updated_at: now});
-  insert(db, 'unit_types_translations', {entity_id: id, lang: 'ro', name: 'Apartamente 2 camere', slug: 'apartamente-2-camere', legacy_id: 42, updated_at: now});
-  insert(db, 'unit_types_translations', {entity_id: id, lang: 'en', name: '1-Bedroom Apartment', slug: '1-bedroom-apartment', legacy_id: 473, updated_at: now});
+test('bilingv: aceeași entitate, două traduceri, slug unic pe limbă', async () => {
+  const db = await freshDb();
+  const id = await insert(db, 'unit_types', {kind: 'apartament', rooms: 2, area_min: 61.9, area_max: 66.24, price_from: 210000, created_at: now, updated_at: now});
+  await insert(db, 'unit_types_translations', {entity_id: id, lang: 'ro', name: 'Apartamente 2 camere', slug: 'apartamente-2-camere', legacy_id: 42, updated_at: now});
+  await insert(db, 'unit_types_translations', {entity_id: id, lang: 'en', name: '1-Bedroom Apartment', slug: '1-bedroom-apartment', legacy_id: 473, updated_at: now});
   // Același slug e permis în altă limbă, dar nu în aceeași
-  const id2 = insert(db, 'unit_types', {kind: 'apartament', rooms: 3, area_min: 87.6, price_from: 390000, created_at: now, updated_at: now});
-  insert(db, 'unit_types_translations', {entity_id: id2, lang: 'en', name: 'X', slug: 'apartamente-2-camere', updated_at: now});
-  assert.throws(() => insert(db, 'unit_types_translations', {entity_id: id2, lang: 'ro', name: 'Y', slug: 'apartamente-2-camere', updated_at: now}), /UNIQUE/);
-  assert.throws(() => insert(db, 'unit_types_translations', {entity_id: id, lang: 'de', name: 'Z', updated_at: now}), /CHECK/);
+  const id2 = await insert(db, 'unit_types', {kind: 'apartament', rooms: 3, area_min: 87.6, price_from: 390000, created_at: now, updated_at: now});
+  await insert(db, 'unit_types_translations', {entity_id: id2, lang: 'en', name: 'X', slug: 'apartamente-2-camere', updated_at: now});
+  await assert.rejects(() => insert(db, 'unit_types_translations', {entity_id: id2, lang: 'ro', name: 'Y', slug: 'apartamente-2-camere', updated_at: now}), /unique constraint/);
+  await assert.rejects(() => insert(db, 'unit_types_translations', {entity_id: id, lang: 'de', name: 'Z', updated_at: now}), /check constraint/);
   // Prețul există o singură dată, pe entitate
-  assert.equal(db.prepare('SELECT price_from FROM unit_types WHERE id = ?').get(id).price_from, 210000);
-  assert.ok(!db.prepare('PRAGMA table_info(unit_types_translations)').all().some(c => c.name === 'price_from'));
+  assert.equal((await one(db, 'SELECT price_from FROM unit_types WHERE id = ?', [id])).price_from, 210000);
+  assert.ok(!(await columns(db, 'unit_types_translations')).includes('price_from'));
 });
 
 test('adresele pe limbă păstrează adresele vechi; fără traducere nu există pagină', () => {
@@ -100,17 +101,17 @@ test('relațiile: declarate o dată, inversele se calculează', () => {
   assert.ok(!only({roles: ['furnizor']}));
 });
 
-test('cheile străine: categoria obligatorie blochează ștergerea, galeria se scoate în cascadă', () => {
-  const db = freshDb();
-  const cat = insert(db, 'categories', {created_at: now, updated_at: now});
-  insert(db, 'posts', {category_id: cat, created_at: now, updated_at: now});
-  assert.throws(() => db.prepare('DELETE FROM categories WHERE id = ?').run(cat), /FOREIGN KEY/);
-  const unit = insert(db, 'unit_types', {kind: 'duplex', created_at: now, updated_at: now});
-  const img = insert(db, 'media', {filename: 'a.webp', sha1: 'x', mime: 'image/webp', created_at: now, updated_at: now});
-  insert(db, 'rel_unit_types_gallery', {src_id: unit, dst_id: img, status: 'confirmed'});
-  db.prepare('DELETE FROM unit_types WHERE id = ?').run(unit);
-  assert.equal(db.prepare('SELECT count(*) n FROM rel_unit_types_gallery').get().n, 0);
-  assert.throws(() => insert(db, 'rel_unit_types_gallery', {src_id: 999, dst_id: img}), /FOREIGN KEY/);
+test('cheile străine: categoria obligatorie blochează ștergerea, galeria se scoate în cascadă', async () => {
+  const db = await freshDb();
+  const cat = await insert(db, 'categories', {created_at: now, updated_at: now});
+  await insert(db, 'posts', {category_id: cat, created_at: now, updated_at: now});
+  await assert.rejects(() => db.execute({sql: 'DELETE FROM categories WHERE id = ?', args: [cat]}), /foreign key constraint/);
+  const unit = await insert(db, 'unit_types', {kind: 'duplex', created_at: now, updated_at: now});
+  const img = await insert(db, 'media', {filename: 'a.webp', sha1: 'x', mime: 'image/webp', created_at: now, updated_at: now});
+  await insert(db, 'rel_unit_types_gallery', {src_id: unit, dst_id: img, status: 'confirmed'});
+  await db.execute({sql: 'DELETE FROM unit_types WHERE id = ?', args: [unit]});
+  assert.equal((await one(db, 'SELECT count(*) n FROM rel_unit_types_gallery')).n, 0);
+  await assert.rejects(() => insert(db, 'rel_unit_types_gallery', {src_id: 999, dst_id: img}), /foreign key constraint/);
 });
 
 test('jetoanele: fiecare are o singură sursă, formatată după limbă', () => {
@@ -150,12 +151,12 @@ test('fiecare tip din documentul de entități există în registru', () => {
   for (const k of declared) assert.ok(entity(k), `${k} e în docs/01-entitati.md, dar nu în registru`);
 });
 
-test('migrarea pe o bază veche: o coloană nouă cu index se adaugă înainte de index', () => {
-  const db = new DatabaseSync(':memory:');
-  migrate(db);
+test('migrarea pe o bază veche: o coloană nouă cu index se adaugă înainte de index', async () => {
+  const db = await freshDb();
   // Baza „de ieri”: fără logo-ul premiilor (coloană nouă în registru, cu index)
-  db.exec('DROP INDEX "ix_awards_logo_id"; ALTER TABLE awards DROP COLUMN logo_id');
-  assert.doesNotThrow(() => migrate(db));
-  assert.ok(db.prepare('PRAGMA table_info(awards)').all().some(c => c.name === 'logo_id'));
-  assert.ok(db.prepare(`SELECT 1 FROM sqlite_master WHERE name = 'ix_awards_logo_id'`).get());
+  await db.execute('DROP INDEX "ix_awards_logo_id"');
+  await db.execute('ALTER TABLE awards DROP COLUMN logo_id');
+  await assert.doesNotReject(() => prepare(db));
+  assert.ok((await columns(db, 'awards')).includes('logo_id'));
+  assert.ok(await one(db, `SELECT 1 FROM pg_indexes WHERE indexname = 'ix_awards_logo_id'`));
 });

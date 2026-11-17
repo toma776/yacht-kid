@@ -10,7 +10,7 @@ const MIME = {'.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', 
 
 export async function mediaFiles(root = process.cwd()) {
   const snapshot = join(root, 'reference', 'snapshot', 'media'), brand = join(root, 'public', 'brand');
-  const db = openDb({url: `file:${join(root, 'data', 'brain.db')}`});
+  const db = openDb();
   const media = (await all(db, `SELECT filename, mime FROM media WHERE mime NOT LIKE 'video/%' ORDER BY id`))
     .map(m => ({src: join(snapshot, m.filename), key: `media/${m.filename}`, mime: m.mime}));
   db.close();

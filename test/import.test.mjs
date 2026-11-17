@@ -3,8 +3,7 @@
 import {test, before} from 'node:test';
 import assert from 'node:assert/strict';
 import {join} from 'node:path';
-import {createClient} from '@libsql/client';
-import {prepare, all, one} from '../src/core/db.mjs';
+import {prepare, all, one, memoryDb} from '../src/core/db.mjs';
 import {runImport, ImportRefused} from '../src/import/run.mjs';
 import {ENTITIES} from '../src/registry/entities.mjs';
 import {RELATION_TYPES} from '../src/registry/derive.mjs';
@@ -13,7 +12,7 @@ import {resolvePath} from '../src/site/resolve.mjs';
 import {tokenValues, rich} from '../src/site/rich.mjs';
 
 const dir = join(process.cwd(), 'reference');
-const fresh = async () => prepare(createClient({url: ':memory:'}));
+const fresh = async () => prepare(await memoryDb());
 const keys = async db => all(db, 'SELECT entity, natural_key, entity_id FROM import_keys ORDER BY entity, natural_key');
 const counts = async db => Object.fromEntries(await Promise.all(ENTITIES.map(async e => [e.key, (await one(db, `SELECT count(*) n FROM "${e.table}"`)).n])));
 

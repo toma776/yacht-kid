@@ -2,15 +2,14 @@
 import {test, before} from 'node:test';
 import assert from 'node:assert/strict';
 import {join} from 'node:path';
-import {createClient} from '@libsql/client';
-import {prepare, one, all} from '../src/core/db.mjs';
+import {prepare, one, all, memoryDb} from '../src/core/db.mjs';
 import {runImport} from '../src/import/run.mjs';
 import {saveEntity, createEntity, decideLinks, StoreError} from '../src/core/store.mjs';
 import {trFingerprint} from '../src/core/fingerprint.mjs';
 
 let db, duplex;
 before(async () => {
-  db = await prepare(createClient({url: ':memory:'}));
+  db = await prepare(await memoryDb());
   await runImport(db, {dir: join(process.cwd(), 'reference')});
   duplex = (await one(db, `SELECT id FROM unit_types WHERE kind = 'duplex'`)).id;
 });

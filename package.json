@@ -6,7 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/db-local.mjs next dev",
     "build": "next build",
     "start": "next start",
     "import": "node scripts/import.mjs",
@@ -15,21 +15,27 @@
     "analyze": "node scripts/analyze.mjs",
     "schema": "node scripts/schema.mjs",
     "test": "node --test --disable-warning=ExperimentalWarning",
-    "import:turso": "node --env-file=.env.local scripts/import.mjs",
-    "db:push": "node --env-file=.env.turso.local scripts/turso-push.mjs --push",
-    "db:backup": "node --env-file=.env.turso.local scripts/turso-push.mjs --backup",
+    "db:push": "node --env-file=.env.neon.local scripts/pg-copy.mjs --from local --to neon",
     "media:cloudinary": "node --env-file=.env.cloudinary.local scripts/media-to-cloudinary.mjs",
     "media:r2": "node --env-file=.env.r2.local scripts/media-to-r2.mjs",
     "mirror": "node scripts/mirror.mjs",
     "mirror:serve": "node scripts/mirror-serve.mjs",
     "video": "node scripts/video.mjs",
     "harta": "node scripts/harta-locatie.mjs && node scripts/harta-brain.mjs",
-    "harta:brain": "node scripts/harta-brain.mjs"
+    "harta:brain": "node scripts/harta-brain.mjs",
+    "db": "node scripts/db-local.mjs",
+    "db:pull": "node --env-file=.env.neon.local scripts/pg-copy.mjs --from neon --to local",
+    "db:from-sqlite": "node scripts/pg-copy.mjs --from sqlite --to local",
+    "media:repo": "node scripts/media-to-repo.mjs"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.5.16",
+    "@electric-sql/pglite-socket": "^0.2.19",
     "@libsql/client": "0.18.0",
+    "@neondatabase/serverless": "^1.2.1",
     "maplibre-gl": "4.7.1",
     "next": "16.4.1",
+    "pg": "^8.23.1",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
